@@ -20,7 +20,7 @@
                                                     <div class="form-group">
                                                         <label for="username">Start Date<span class="text-danger">*</span></label>
                                                         <div class="input-group">                                  
-                                <input type="date" name="license_startdate" class="form-control"/ required="required" value="{{old('license_startdate',$organizations_data->license_startdate??'')}}">
+                                <input type="date" name="license_startdate" class="form-control"/ required="required" value="{{old('license_startdate',$organizations_data->license_startdate??Carbon\Carbon::now()->format('Y-m-d'))}}">
                                 <!-- <input type="date" name="license_startdate" id="default-date" class="datepicker-here form-control" placeholder="dd/mm/yyyy" aria-describedby="basic-addon2"/> --><!-- 
                                   <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2"><i class="feather icon-calendar"></i></span> -->
@@ -45,7 +45,7 @@
                                                         
                                                         <select class="form-control" name="license_period_year" id="formControlSelect3" required="required">
                                                             <option value="">Years</option>
-                                                            <option value="1" @if($organizations_data->license_period_year??'' == '1') selected @else @endif>1</option>
+                                                            <option value="1" @if($organizations_data->license_period_year??'1' == '1') selected @else @endif>1</option>
                                                             <option value="2" @if($organizations_data->license_period_year??'' == '2') selected @else @endif>2</option>
                                                             <option value="3" @if($organizations_data->license_period_year??'' == '3') selected @else @endif>3</option>
                                                             <option value="4" @if($organizations_data->license_period_year??'' == '4') selected @else @endif>4</option>
@@ -59,7 +59,7 @@
                                                         
                                                         <select class="form-control" name="license_period_month" id="formControlSelect4" required="required">
                                                             <option value="" >Months</option>
-                                                            <option value="0" @if($organizations_data->license_period_month??'' == '0') selected @else @endif>00</option>
+                                                            <option value="0" @if($organizations_data->license_period_month??'0' == '0') selected @else @endif>00</option>
                                                             <option value="1" @if($organizations_data->license_period_month??'' == '1') selected @else @endif>01</option>
                                                             <option value="2" @if($organizations_data->license_period_month??'' == '2') selected @else @endif>02</option>
                                                             <option value="3" @if($organizations_data->license_period_month??'' == '3') selected @else @endif>03</option>

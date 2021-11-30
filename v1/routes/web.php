@@ -28,6 +28,18 @@ Route::get('profile/',[AdminController::class,'profile']);
 Route::post('profile/update',[AdminController::class,'update_profile']);
 /* Dashbaord */
 Route::get('dashboard', [AdminController::class,'dashboard_lists']);
+
+
+
+Route::group( ['prefix' => 'admin','middleware' => 'admin'],function(){
+	
+	
+	
+	
+	
+});
+
+
 Route::get('organizations', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
 Route::get('organizations/add-basicinfo', [OrganizationsController::class,'add_basicinfo']);
 Route::post('organizations/store', [OrganizationsController::class,'store_basicinfo']);
@@ -67,9 +79,9 @@ Route::get('theme_options/delete/{id}',[ThemeoptionsController::class,'delete_th
 
 /*admin- Users */
 
-Route::get('users', [UsermanagementController::class,'index']);
-Route::get('user/create', [UsermanagementController::class,'create_user']);
-Route::post('user/store', [UsermanagementController::class, 'store_user']);
-Route::get('user/edit/{id}',[UsermanagementController::class,'edit_user']);
-Route::post('user/update',[UsermanagementController::class,'update_user']);
-Route::get('user/delete/{id}',[UsermanagementController::class,'delete_user']);
+Route::get('organizations/users', [UsermanagementController::class,'index']);
+Route::get('organizations/user/create', [UsermanagementController::class,'create_user']);
+Route::post('organizations/user/store', [UsermanagementController::class, 'store_user']);
+Route::get('organizations/user/edit/{id}',[UsermanagementController::class,'edit_user']);
+Route::post('organizations/user/update',[UsermanagementController::class,'update_user']);
+Route::get('organizations/user/delete/{id}',[UsermanagementController::class,'delete_user']);

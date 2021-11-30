@@ -4,10 +4,10 @@
 
     <div class="paddingleftright pt-2 pb-5" >
            
-        @include('admin.alerts')
+@include('admin.alerts')
 @include('admin.errors')
-         
-          @if(isset($users_data->id))
+
+@if(isset($users_data->id))
 
           
 <form id="crudTable" action="{{url('admin/profile/update')}} " method="POST"  enctype="multipart/form-data">

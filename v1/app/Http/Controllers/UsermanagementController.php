@@ -21,8 +21,8 @@ class UsermanagementController extends Controller
     {	
         
             $users_data=User::select('users.*','user_types.name as ut_name')
-            ->leftjoin('user_types','user_types.id','=','users.role')
-            ->whereIn('users.role',['1','2','3'])       
+            ->leftjoin('user_types','user_types.id','=','users.role')       
+            ->whereNotIn('users.role',[1])       
             ->get();       
 
 //dd($users_data);
