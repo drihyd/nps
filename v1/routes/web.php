@@ -27,13 +27,14 @@ Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');
 Route::get('profile/',[AdminController::class,'profile']);
 Route::post('profile/update',[AdminController::class,'update_profile']);
 /* Dashbaord */
-Route::get('dashboard', [AdminController::class,'dashboard_lists']);
 
 
 
-Route::group( ['prefix' => 'admin','middleware' => 'admin'],function(){
+
+Route::group( ['prefix' => 'manager','middleware' => 'ismanager'],function(){
 	
 	
+	Route::get('dashboard', [AdminController::class,'dashboard_lists']);
 	
 	
 	

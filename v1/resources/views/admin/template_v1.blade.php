@@ -89,16 +89,37 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <!-- End Infobar Setting Sidebar -->
     <!-- Start Containerbar -->
     <div id="containerbar">
-        <!-- Start Leftbar -->
-        @include('admin.common_pages.sidebar')
-        <!-- End Leftbar -->
-        <!-- Start Rightbar -->
-        <div class="rightbar">
-            <!-- Start Topbar Mobile -->
-            @include('admin.common_pages.top-nav')
-            <!-- End Topbar -->
-            <!-- Start Breadcrumbbar -->                    
-            @include('admin.common_pages.breadcrump')
+		
+	
+
+<div class="rightbar">
+
+@php
+
+dd(Auth::user());
+@endphp
+
+<!-- Start Breadcrumbbar -->   
+@if(Auth::user()->role==1)
+	
+@include('admin.common_pages.sidebar')
+@include('admin.common_pages.top-nav')
+@include('admin.common_pages.breadcrump')
+
+@elseif(Auth::user()->role==2)
+
+@include('admin.common_pages.sidebar')
+@include('admin.common_pages.top-nav')
+@include('admin.common_pages.breadcrump_manager')
+
+@elseif(Auth::user()->role==3)
+
+@elseif(Auth::user()->role==4)
+
+@else
+
+@endif
+			
             <!-- End Breadcrumbbar -->
             <!-- Start Contentbar -->    
             <div class="contentbar">                
@@ -117,9 +138,8 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <!-- End Containerbar -->
     <!-- Start js --> 
    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>   
-
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
     <!-- <script src="{{URL::to('assets/js/jquery.min.js')}}"></script> -->
     <script src="{{URL::to('assets/js/popper.min.js')}}"></script>
     <script src="{{URL::to('assets/js/bootstrap.min.js')}}"></script>

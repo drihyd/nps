@@ -25,45 +25,66 @@ class AdminController extends Controller
     
     public function auth_login(Request $request)
     {
-        
-         $user  = auth()->user();       
-        if ($user && $user->is_admin==1) {           
-            return redirect('dashboard')->with('success', 'Successfully logged in.');
+   	    $user  = auth()->user();       
+        if ($user && $user->role==1) {           
+            return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
+
         }
-        
+        else if ($user && $user->role==2) {         
+            return redirect('manager/dashboard')->with('success', 'Successfully logged in.');
+        }
+        else if ($user && $user->role==3) {         
+            return redirect('content/dashboard')->with('success', 'Successfully logged in.');
+        }
+          else if ($user && $user->role==4) {         
+            return redirect('general/dashboard')->with('success', 'Successfully logged in.');
+        }
         else{
-           $pageTitle="CMS Login"; 
+           
+           $pageTitle="Login"; 
             return view('admin.auth.login', compact('pageTitle'));
         }    
+	   
+   
     }
 
     public function Loginsubmit(Request $request)
     {
     
-    
-        $credentials = $request->only('email', 'password');     
-        
+   
+   
+   
+   	$credentials = $request->only('email', 'password');		
+		
         if (Auth::attempt($credentials)) {  
-            $user  = auth()->user();
-       switch(Auth::user()->role){
-            case '1':
-            return redirect('dashboard')->with('success', 'Successfully logged in.');
-                break;
-                case '2':
-                return redirect('dashboard')->with('success', 'Successfully logged in.');
-                break;
-            default:
-            Auth::logout();
-            Session::flush();
-            return redirect('./')->with('error', 'You have not admin access.'); 
-        }           
+        	$user  = auth()->user();
+				switch(Auth::user()->role){
+				case '1':
+				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
+				break;
+				case '2':
+				return redirect('manager/dashboard')->with('success', 'Successfully logged in.');
+				break;
+				case '3':
+				return redirect('content/dashboard')->with('success', 'Successfully logged in.');
+				break;
+				case '4':
+				return redirect('general/dashboard')->with('success', 'Successfully logged in.');
+				break;
+				default:
+				Auth::logout();
+				Session::flush();
+				return redirect('/')->with('error', 'You have not admin access.'); 
+				}			
 
 
-        
+		
         }
         else{
-            return redirect('./')->with('error', 'Failed to logged in.');
-        }
+	        return redirect('/')->with('error', 'Failed to logged in.');
+	    }
+   
+
     }
     public function logout()
     {
