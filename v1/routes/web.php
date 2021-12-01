@@ -63,6 +63,9 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('departments/edit/{id}',[DepartmentsController::class,'edit_departments']);
 	Route::post('departments/update',[DepartmentsController::class,'update_departments']);
 	Route::get('departments/delete/{id}',[DepartmentsController::class,'delete_departments']);
+
+	Route::get('users',[UsermanagementController::class,'department_users_list']);
+	Route::get('user/create', [UsermanagementController::class,'department_create_user']);
 });
 
 

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 Use Exception;
 use Illuminate\Support\Facades\Crypt;
+use Config;
 
 class UsermanagementController extends Controller
 {
@@ -219,5 +220,27 @@ class UsermanagementController extends Controller
             $data=DB::table('users')->where('id',$user_id)->delete();   
             return redirect()->back()->with('success','Success! Details are deleted successfully');   
          
+    }
+
+
+    public function department_users_list()
+    {   
+        
+            $users_data=User::select('users.*','user_types.name as ut_name')
+            ->leftjoin('user_types','user_types.id','=','users.role')       
+            ->whereNotIn('users.role',[1,2])       
+            ->get(); 
+            $addlink=url(Config::get('constants.admin').'/user/create'); 
+            $pageTitle="Users";          
+            return view('admin.department_users.users_list', compact('pageTitle','users_data','addlink'));
+        
+    }
+    public function department_create_user()
+    {
+        
+        $pageTitle="Add User";
+        $user_type_data=DB::table('user_types')->whereNotIn('user_types.id',[1,2])->get();
+        return view('admin.department_users.add_user',compact('pageTitle','user_type_data')); 
+            
     }
 }
