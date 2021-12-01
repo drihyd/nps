@@ -37,8 +37,8 @@ Route::get('logout', [NetPromoterScore::class,'logout'])->name('user.logout');
 Route::any('/administrator',[LoginController::class, 'auth_login']);
 Route::post('adminlogin-verification',[LoginController::class, 'Loginsubmit'])->name('adminlogin.verification');
 Route::get('administrator/logout', [LoginController::class,'logout'])->name('admin.logout');
-Route::get('profile/',[LoginController::class,'profile']);
-Route::post('profile/update',[LoginController::class,'update_profile']);
+Route::get('administrator/profile/',[LoginController::class,'profile']);
+Route::post('administrator/profile/update',[LoginController::class,'update_profile']);
 
 /* Dashbaord */
 
@@ -66,8 +66,13 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::post('departments/update',[DepartmentsController::class,'update_departments']);
 	Route::get('departments/delete/{id}',[DepartmentsController::class,'delete_departments']);
 
+	// users
 	Route::get('users',[UsermanagementController::class,'department_users_list']);
 	Route::get('user/create', [UsermanagementController::class,'department_create_user']);
+	// Route::post('organizations/user/store', [UsermanagementController::class, 'store_user']);
+	// Route::get('organizations/user/edit/{id}',[UsermanagementController::class,'edit_user']);
+	// Route::post('organizations/user/update',[UsermanagementController::class,'update_user']);
+	// Route::get('organizations/user/delete/{id}',[UsermanagementController::class,'delete_user']);
 });
 
 
@@ -129,12 +134,12 @@ Route::get('theme_options/delete/{id}',[ThemeoptionsController::class,'delete_th
 
 /*admin- Users */
 
-Route::get('organizations/users', [UsermanagementController::class,'index']);
-Route::get('organizations/user/create', [UsermanagementController::class,'create_user']);
-Route::post('organizations/user/store', [UsermanagementController::class, 'store_user']);
-Route::get('organizations/user/edit/{id}',[UsermanagementController::class,'edit_user']);
-Route::post('organizations/user/update',[UsermanagementController::class,'update_user']);
-Route::get('organizations/user/delete/{id}',[UsermanagementController::class,'delete_user']);
+Route::get('admin-users', [UsermanagementController::class,'index']);
+Route::get('admin-user/create', [UsermanagementController::class,'create_user']);
+Route::post('admin-user/store', [UsermanagementController::class, 'store_user']);
+Route::get('admin-user/edit/{id}',[UsermanagementController::class,'edit_user']);
+Route::post('admin-user/update',[UsermanagementController::class,'update_user']);
+Route::get('admin-user/delete/{id}',[UsermanagementController::class,'delete_user']);
 
 
 

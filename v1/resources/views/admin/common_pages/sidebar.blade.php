@@ -3,8 +3,8 @@
             <div class="sidebar">
                 <!-- Start Logobar -->
                 <div class="logobar">
-                    <a href="{{url('/')}}" class="logo logo-large"><img src="{{URL::to('assets/uploads/'.$theme_options_data->header_logo??'')}}" class="img-fluid" alt="logo"></a>
-                    <a href="{{url('/')}}" class="logo logo-small"><img src="{{URL::to('assets/uploads/'.$theme_options_data->favicon??'')}}" class="img-fluid" alt="logo"></a>
+                    <a href="#" class="logo logo-large"><img src="{{URL::to('assets/uploads/'.$theme_options_data->header_logo??'')}}" class="img-fluid" alt="logo"></a>
+                    <a href="#" class="logo logo-small"><img src="{{URL::to('assets/uploads/'.$theme_options_data->favicon??'')}}" class="img-fluid" alt="logo"></a>
                 </div>
                 <!-- End Logobar -->
                 <!-- Start Navigationbar -->
@@ -26,21 +26,10 @@
                                 <li class="{{ (request()->is(Config::get('constants.superadmin').'/organizations')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/organizations')}}">View all</a></li>
                                 <li class="{{ (request()->is(Config::get('constants.superadmin').'/organizations/add-basicinfo')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/organizations/add-basicinfo')}}">Add New</a></li>
 								
-                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/organizations/users')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/organizations/users')}}">Users</a></li> 
+                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/admin-users')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/admin-users')}}">Admin Users</a></li> 
                             </ul>
                         </li>
-                        @elseif(Auth::check() &&  auth()->user()->role == 2)
-
-                        <li>
-                            <a href="javaScript:void();">
-                              <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Departments</span><i class="feather icon-chevron-right pull-right"></i>
-                            </a>
-                            <ul class="vertical-submenu">
-                                <li class="{{ (request()->is('departments')) ? 'active' : '' }}"><a href="{{url('organizations')}}">View all</a></li>
-                                
-                            </ul>
-                        </li>
-                        @else
+                       
 
                         @endif
 

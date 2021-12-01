@@ -13,15 +13,16 @@
                   @if(isset($users_data->id))
 
           
-<form id="crudTable" action="{{url('user/update')}} " method="POST"  enctype="multipart/form-data">
+<form id="crudTable" action="{{url(Config::get('constants.admin').'/user/update')}} " method="POST"  enctype="multipart/form-data">
 <input type="hidden" name="id" value="{{$users_data->id}}">
 @else
-<form id="crudTable" action="{{url('user/store')}}" method="POST"  enctype="multipart/form-data">
+<form id="crudTable" action="{{url(Config::get('constants.admin').'/user/store')}}" method="POST"  enctype="multipart/form-data">
 @endif  
       @csrf
       <div class="row">
         <div class="col-md-5">
           <div class="form-group">
+            <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
             <label><b>Role</b><span style="color: red;">*</span></label>
             <select class="form-control" name="role" id="role" required="required">
               <option value="">-- Select --</option>
@@ -47,7 +48,7 @@
           
       
       <button type="submit" class="btn btn-brand btn-sm">Save</button>
-      <a href="{{url('admin/users')}}" class="btn btn-danger btn-sm">Back</a>
+      <a href="{{url(Config::get('constants.admin').'/users')}}" class="btn btn-danger btn-sm">Back</a>
 
         </div>
         <div class="col-md-5">

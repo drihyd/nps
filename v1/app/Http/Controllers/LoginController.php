@@ -27,13 +27,7 @@ class LoginController extends Controller
         else if ($user && $user->role==2) {         
             return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
         }
-        else if ($user && $user->role==3) {         
-            return redirect('content/dashboard')->with('success', 'Successfully logged in.');
-        }
-
-         else if ($user && $user->role==4) {         
-            return redirect('general/dashboard')->with('success', 'Successfully logged in.');
-        }
+        
         else{
            
            $pageTitle="Login"; 
@@ -60,12 +54,7 @@ class LoginController extends Controller
 				case '2':
 				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
 				break;
-				case '3':
-				return redirect('hod/dashboard')->with('success', 'Successfully logged in.');
-				break;
-				case '4':
-				return redirect('general/dashboard')->with('success', 'Successfully logged in.');
-				break;
+				
 				default:
 				Auth::logout();
 				Session::flush();
@@ -97,8 +86,7 @@ class LoginController extends Controller
     public function update_profile(Request $request)
     {
         $request->validate([
-            'firstname' => 'required|min:1|max:100',        
-         'lastname' => 'required|min:1|max:100',        
+         'firstname' => 'required|min:1|max:100',    
          'email' => 'required|email', 
          'phone' => 'required',
          'password' => 'sometimes|nullable',
@@ -135,14 +123,11 @@ class LoginController extends Controller
             ->update(
             [
                 "firstname"=>$request->firstname,
-                "lastname"=>$request->lastname,
                 "email"=>$request->email,
                 "phone"=>$request->phone??'',
             ]
             );   
-                return redirect('profile')->with('success', "Success! Details are updated successfully");
-
-            
+            return redirect('administrator/profile')->with('success', "Success! Details are updated successfully");
         
             }
 }

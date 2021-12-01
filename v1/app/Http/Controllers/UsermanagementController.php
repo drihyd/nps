@@ -25,13 +25,10 @@ class UsermanagementController extends Controller
             $users_data=User::select('users.*','user_types.name as ut_name')
             ->leftjoin('user_types','user_types.id','=','users.role')       
             ->whereNotIn('users.role',[1])       
-            ->get();       
-
-//dd($users_data);
-			
-            $addlink=url('user/create'); 
+            ->get();   
+            // $addlink=url(Config::get('constants.superadmin').'/admin-user/create'); 
             $pageTitle="Users";          
-            return view('admin.users.users_list', compact('pageTitle','users_data','addlink'));
+            return view('admin.users.users_list', compact('pageTitle','users_data'));
         
     }
     public function create_user()
@@ -63,20 +60,11 @@ class UsermanagementController extends Controller
             if($isexistemail->count()==0){
             $decrypt_password=Str::random(8);
 
-        
-
-    // if ($request->hasFile('profile')) {      
-    //     $profile_filename=uniqid().'_'.time().'.'.$request->profile->extension();
-    //     $request->profile->move(('assets/uploads'),$profile_filename); 
-    //     }
-    //     else{
-    //         $profile_filename="";
-    //     }
-
-    
+   
 
         User::insert([
             [
+                "organization_id"=>$request->id,
                 "firstname"=>$request->firstname,
                 "lastname"=>$request->lastname,
                 "role"=>$request->role,
@@ -93,11 +81,13 @@ class UsermanagementController extends Controller
                 'ip' =>request()->ip()??0,
             ]  
         ]); 
-        return redirect('admin/users')->with('success', "Success! Details are added successfully");
-    
 
+        return redirect(Config::get('constants.superadmin').'/admin-users')->with('success', "Success! Details are added successfully");
+    }else{
 
-        
+         return redirect()->back()->with('error', 'User already exist an account.');  
+     }
+
 	}
 	public function edit_user($id){
 
@@ -113,7 +103,7 @@ class UsermanagementController extends Controller
     public function update_user(Request $request)
     {
 		$request->validate([
-			'firstname' => 'required|min:1|max:100',        
+		 'firstname' => 'required|min:1|max:100',        
          'lastname' => 'required|min:1|max:100',        
          'email' => 'required|email',        
          'role' => 'required',
@@ -176,7 +166,7 @@ class UsermanagementController extends Controller
     public function update_profile(Request $request)
     {
         $request->validate([
-            'firstname' => 'required|min:1|max:100',        
+         'firstname' => 'required|min:1|max:100',        
          'lastname' => 'required|min:1|max:100',        
          'email' => 'required|email', 
          'phone' => 'required',
@@ -223,9 +213,9 @@ class UsermanagementController extends Controller
             }
     public function delete_user($id)
     {
-            $user_id=Crypt::decryptString($id);    
-            $data=DB::table('users')->where('id',$user_id)->delete();   
-            return redirect()->back()->with('success','Success! Details are deleted successfully');   
+        $user_id=Crypt::decryptString($id);    
+        $data=DB::table('users')->where('id',$user_id)->delete();   
+        return redirect()->back()->with('success','Success! Details are deleted successfully');   
          
     }
 
