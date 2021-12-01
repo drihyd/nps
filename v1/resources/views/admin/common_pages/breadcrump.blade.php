@@ -4,7 +4,7 @@
 <h4 class="page-title">SuperAdmin - Dashboard</h4>
 <div class="breadcrumb-list">
 <ol class="breadcrumb">
-<li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Home</a></li>
+<li class="breadcrumb-item"><a href="{{url('superadmin/dashboard')}}">Home</a></li>
 <li class="breadcrumb-item" active aria-current="page"><a href="#">{{$pageTitle??''}}</a></li>
 </ol>
 </div>

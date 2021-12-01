@@ -180,6 +180,23 @@ $(document).ready(function() {
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
            if($.trim(value) == '') return 'This field is required';
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
         },
         success:function(value){
                 if(value.statsCode==200)
@@ -199,7 +216,23 @@ $(document).ready(function() {
         title: 'Enter Short Name',
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
         },
         success:function(value){
                 if(value.statsCode==200)
@@ -298,7 +331,23 @@ $(document).ready(function() {
         title: 'Enter City',
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
         },
         success:function(value){
                 if(value.statsCode==200)
@@ -468,7 +517,23 @@ $(document).ready(function() {
         title: 'Enter GST',
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
         },
         success:function(value){
                 if(value.statsCode==200)
@@ -530,7 +595,23 @@ $(document).ready(function() {
         title: 'Enter GST',
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
         },
         success:function(value){
                 if(value.statsCode==200)
@@ -546,13 +627,29 @@ $(document).ready(function() {
     $('#xeditable-admin_email').editable({
 
 
-        type: 'text',
+        type: 'email',
         url: '{{route("update_admin_email")}}',
         pk: organization_id, 
         title: 'Enter Email',
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
         },
         success:function(value){
                 if(value.statsCode==200)

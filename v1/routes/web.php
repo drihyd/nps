@@ -21,28 +21,31 @@ use App\Http\Controllers\UsermanagementController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::any('/',[AdminController::class, 'auth_login']);
+Route::any('/administrator',[AdminController::class, 'auth_login']);
 Route::post('adminlogin-verification',[AdminController::class, 'Loginsubmit'])->name('adminlogin.verification');
 Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');
 Route::get('profile/',[AdminController::class,'profile']);
 Route::post('profile/update',[AdminController::class,'update_profile']);
 /* Dashbaord */
-Route::get('dashboard', [AdminController::class,'dashboard_lists']);
 
 
 
-Route::group( ['prefix' => 'manager','middleware' => 'ismanager'],function(){
-	
-	
+
+Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
+
 	Route::get('dashboard', [AdminController::class,'dashboard_lists']);
+
 	Route::get('departments', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
-	
-	
-	
 });
 
 
-Route::get('organizations', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
+Route::group( ['prefix' => 'superadmin','middleware' => 'issuperadmin'],function(){
+
+	Route::get('dashboard', [AdminController::class,'dashboard_lists']);
+	Route::get('organizations', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
+
+	
+
 Route::get('organizations/add-basicinfo', [OrganizationsController::class,'add_basicinfo']);
 Route::post('organizations/store', [OrganizationsController::class,'store_basicinfo']);
 Route::get('organizations/add-address/{id}', [OrganizationsController::class,'add_address']);
@@ -100,3 +103,19 @@ Route::post('organizations/user/store', [UsermanagementController::class, 'store
 Route::get('organizations/user/edit/{id}',[UsermanagementController::class,'edit_user']);
 Route::post('organizations/user/update',[UsermanagementController::class,'update_user']);
 Route::get('organizations/user/delete/{id}',[UsermanagementController::class,'delete_user']);
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
