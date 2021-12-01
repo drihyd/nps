@@ -29,6 +29,8 @@ use App\Http\Controllers\DepartmentsController;
 
 Route::any('/net_promoter_score',[NetPromoterScore::class, 'nps_login']);
 Route::any('/',[NetPromoterScore::class, 'nps_login']);
+Route::post('login-verification',[NetPromoterScore::class, 'Loginsubmit'])->name('login.verification');
+Route::get('logout', [NetPromoterScore::class,'logout'])->name('user.logout');
 
 
 

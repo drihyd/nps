@@ -8,13 +8,66 @@ use Carbon\Carbon;
 Use Exception;
 use Validator;
 use Auth;
+use Session;
 class NetPromoterScore extends Controller
 {
 
     public function nps_login()
     {
-		$page=false;
-        return view('frontend.survey.first_question',compact('page'));
+        $pageTitle="Login"; 
+        $page=false;
+		$user  = auth()->user();       
+        if ($user && $user->role==3) {           
+            return redirect('survey/first')->with('success', 'Successfully logged in.');
+
+        }
+        else if ($user && $user->role==4) {         
+            return redirect('survey/first')->with('success', 'Successfully logged in.');
+        }
+        
+        else{
+           
+           return view('frontend.survey.login',compact('pageTitle','page'));
+        } 
+    }
+    public function Loginsubmit(Request $request)
+    {
+    
+   
+   
+   
+   	$credentials = $request->only('email', 'password');		
+		
+        if (Auth::attempt($credentials)) {  
+        	$user  = auth()->user();
+				switch(Auth::user()->role){
+				case '3':
+				return redirect('survey/first')->with('success', 'Successfully logged in.');
+				break;
+				case '4':
+				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
+				break;
+				
+				default:
+				Auth::logout();
+				Session::flush();
+				return redirect('/')->with('error', 'You have not admin access.'); 
+				}			
+
+
+		
+        }
+        else{
+	        return redirect('/')->with('error', 'Failed to logged in.');
+	    }
+   
+
+    }
+    public function logout()
+    {
+        Auth::logout();
+        Session::flush();
+        return redirect('/')->with('error', 'You have been successfully logged out!'); 
     }
 	
 	  public function first_question()
