@@ -10,7 +10,7 @@
                
             </div>
             <div class="card-body">
-				<small><b>Company name</b></small>&ensp;
+				<p>Company name</p>
                 <form action="" method="post">
                     <input type="hidden" name="id" value="{{$organizations_data->id}}">
   {{csrf_field()}}
