@@ -67,11 +67,14 @@ Route::post('organizations/update_address_1', [OrganizationsController::class,'u
 Route::post('organizations/update_address_2', [OrganizationsController::class,'update_address_2'])->name('update_address_2');
 Route::post('organizations/update_pincode', [OrganizationsController::class,'update_pincode'])->name('update_pincode');
 Route::post('organizations/update_city', [OrganizationsController::class,'update_city'])->name('update_city');
+Route::post('organizations/update_country', [OrganizationsController::class,'update_country'])->name('update_country');
+
 Route::post('organizations/update_gst_details', [OrganizationsController::class,'update_gst'])->name('update_gst_details');
 Route::post('organizations/update_billing_address1', [OrganizationsController::class,'update_billing_address1'])->name('update_billing_address1');
 Route::post('organizations/update_billing_address2', [OrganizationsController::class,'update_billing_address2'])->name('update_billing_address2');
 Route::post('organizations/update_billing_pincode', [OrganizationsController::class,'update_billing_pincode'])->name('update_billing_pincode');
 Route::post('organizations/update_billing_city', [OrganizationsController::class,'update_billing_city'])->name('update_billing_city');
+Route::post('organizations/update_billing_country', [OrganizationsController::class,'update_billing_country'])->name('update_billing_country');
 Route::post('organizations/update_admin_name', [OrganizationsController::class,'update_admin_name'])->name('update_admin_name');
 Route::post('organizations/update_admin_email', [OrganizationsController::class,'update_admin_email'])->name('update_admin_email');
 Route::post('organizations/update_admin_mobile', [OrganizationsController::class,'update_admin_mobile'])->name('update_admin_mobile');

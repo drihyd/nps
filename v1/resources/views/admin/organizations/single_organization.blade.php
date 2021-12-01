@@ -44,14 +44,13 @@
 				<b>Address line - 2</b>&ensp;
 				<a href="#" id="xeditable-address2" data-pk="{{ $organizations_data->id }}">{{$organizations_data->address_2??''}}</a>
 				<br><br>
-				<b>Pincode</b>&ensp;
+				<small><b>Pincode</b></small>&ensp;
 				<a href="#" id="xeditable-pincode" data-pk="{{ $organizations_data->id }}">{{$organizations_data->pincode??''}}</a>&ensp;&ensp;&ensp;
-            </form>
-				<b>City</b>&ensp;
+                <small><b>City</b></small>&ensp;
 				<a href="#" id="xeditable-city" data-pk="{{ $organizations_data->id }}">{{$organizations_data->city??''}}</a>
-				&ensp;&ensp;&ensp;
-				<!-- <b>Country</b>&ensp;
-				<a href="#" id="xeditable-country" class="editable editable-click" style="color: #777777;">not selected</a> -->
+                &ensp;&ensp;&ensp;
+                <small><b>Country</b></small>&ensp;
+				<a href="#" id="xeditable-country" class="editable editable-click" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->country}}">@if($organizations_data->country == 'india')India @else Not selected @endif</a>
             </div>
         </div>
     </div>  
@@ -81,8 +80,8 @@
                 <small><b>City</b></small>&ensp;
                 <a href="#" id="xeditable-billing_city" data-pk="{{ $organizations_data->id }}">{{$organizations_data->billing_city??''}}</a>
                 &ensp;&ensp;&ensp;
-                <!-- <small><b>Country</b></small>&ensp;
-                <a href="#" id="xeditable-country" class="editable editable-click" style="color: #777777;">not selected</a> -->
+                <small><b>Country</b></small>&ensp;
+                <a href="#" id="xeditable-billing_country" class="editable editable-click" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->billing_country}}">@if($organizations_data->billing_country == 'india')India @else Not selected @endif</a>
             </div>
         </div>
     </div>   
@@ -308,6 +307,45 @@ $(document).ready(function() {
 
     // country
 
+
+
+    $('#xeditable-country').editable({
+        prepend: 'not selected',
+        type: 'select',
+        url: '{{route("update_country")}}',
+        pk: organization_id,
+
+        value: ['{{$organizations_data->country??''}}'],
+        source: [
+            {value: 'india', text: 'India'},
+            
+        ],
+        inputclass: 'form-control form-control-sm',
+
+        validate: function(value) {
+           if($.trim(value) == '') return 'This field is required';
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {  
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+        // display: function(value, sourceData) {
+        //      var colors = {"": "#777777", 1: "#2bcd72", 2: "#4c7cf3"},
+        //          elem = $.grep(sourceData, function(o){return o.value == value;});
+                 
+        //      if(elem.length) {    
+        //          $(this).text(elem[0].text).css("color", colors[value]); 
+        //      } else {
+        //          $(this).empty(); 
+        //      }
+        // }   
+    });
+
     $('#xeditable-gst').editable({
 
 
@@ -435,7 +473,48 @@ $(document).ready(function() {
                     toastr.error(value.error);
                 }
            }
-    });$('#xeditable-admin_name').editable({
+    });
+
+
+
+    $('#xeditable-billing_country').editable({
+        prepend: 'not selected',
+        type: 'select',
+        url: '{{route("update_billing_country")}}',
+        pk: organization_id,
+
+        value: ['{{$organizations_data->billing_country??''}}'],
+        source: [
+            {value: 'india', text: 'India'},
+            
+        ],
+        inputclass: 'form-control form-control-sm',
+
+        validate: function(value) {
+           if($.trim(value) == '') return 'This field is required';
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {  
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+        // display: function(value, sourceData) {
+        //      var colors = {"": "#777777", 1: "#2bcd72", 2: "#4c7cf3"},
+        //          elem = $.grep(sourceData, function(o){return o.value == value;});
+                 
+        //      if(elem.length) {    
+        //          $(this).text(elem[0].text).css("color", colors[value]); 
+        //      } else {
+        //          $(this).empty(); 
+        //      }
+        // }   
+    });
+
+    $('#xeditable-admin_name').editable({
 
 
         type: 'text',
@@ -556,36 +635,7 @@ $(document).ready(function() {
            if($.trim(value) == '') return 'This field is required';
         }
     });
-    $('#xeditable-country').editable({
-        prepend: 'not selected',
-        type: 'select',
-        pk: 1,
-        value: '1',
-        title: 'India',
-        source: [
-            {value: 1, text: 'India'},
-            {value: 2, text: 'Afghanistan'},
-            {value: 3, text: 'Angola'},
-            {value: 4, text: 'Africa'},
-            {value: 5, text: 'Algeria'},
-            {value: 6, text: 'Italy'},
-            {value: 7, text: 'United States'},
-            {value: 8, text: 'United Kingdom'},
-            {value: 9, text: 'Uzbekistan'},
-            
-        ],
-        inputclass: 'form-control form-control-sm',
-        display: function(value, sourceData) {
-             var colors = {"": "#777777", 1: "#2bcd72", 2: "#4c7cf3"},
-                 elem = $.grep(sourceData, function(o){return o.value == value;});
-                 
-             if(elem.length) {    
-                 $(this).text(elem[0].text).css("color", colors[value]); 
-             } else {
-                 $(this).empty(); 
-             }
-        }   
-    });
+    
     $('#xeditable-status').editable({
           type: 'select',
           pk: 1,

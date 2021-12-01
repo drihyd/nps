@@ -420,6 +420,18 @@ public function update_entitytype(Request $request)
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated City']);
         }
     }
+    public function update_country(Request $request)
+    {
+        if($request->ajax()){
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'country' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Country']);
+        }
+    }
 public function update_gst(Request $request)
     {
         if($request->ajax()){
@@ -458,7 +470,8 @@ public function update_gst(Request $request)
             );
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing Address 2']);
         }
-    }public function update_billing_pincode(Request $request)
+    }
+    public function update_billing_pincode(Request $request)
     {
         if($request->ajax()){
 
@@ -470,7 +483,8 @@ public function update_gst(Request $request)
             );
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing Pincode']);
         }
-    }public function update_billing_city(Request $request)
+    }
+    public function update_billing_city(Request $request)
     {
         if($request->ajax()){
 
@@ -482,7 +496,21 @@ public function update_gst(Request $request)
             );
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing City']);
         }
-    }public function update_admin_name(Request $request)
+    }
+    public function update_billing_country(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'billing_country' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing City']);
+        }
+    }
+    public function update_admin_name(Request $request)
     {
         if($request->ajax()){
 
