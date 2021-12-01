@@ -58,32 +58,39 @@ class UsermanagementController extends Controller
          // 'password' => $this->passwordRules(),        
         ]);
 
+
+        $isexistemail = User::select('id')->where('email',$request->admin_email)->get();
+            if($isexistemail->count()==0){
+            $decrypt_password=Str::random(8);
+
         
 
-    if ($request->hasFile('profile')) {      
-        $profile_filename=uniqid().'_'.time().'.'.$request->profile->extension();
-        $request->profile->move(('assets/uploads'),$profile_filename); 
-        }
-        else{
-            $profile_filename="";
-        }
+    // if ($request->hasFile('profile')) {      
+    //     $profile_filename=uniqid().'_'.time().'.'.$request->profile->extension();
+    //     $request->profile->move(('assets/uploads'),$profile_filename); 
+    //     }
+    //     else{
+    //         $profile_filename="";
+    //     }
 
-    if ($request->password) {
-        $password = Hash::make($request->password);
-    }else{
-        $password ="";
-    }
+    
 
-        DB::table('users')->insert([
+        User::insert([
             [
                 "firstname"=>$request->firstname,
                 "lastname"=>$request->lastname,
                 "role"=>$request->role,
                 "email"=>$request->email,
-                "password"=>$password,
+                "password"=> Hash::make($decrypt_password),
+                "decrypt_password"=>$decrypt_password,
                 "phone"=>$request->phone??'',
-                "profile"=>$profile_filename,
-                "is_active_status"=>$request->is_active_status??'',
+                "role"=>'2',
+                'created_at' =>Carbon\Carbon::now(),    
+                'updated_at' =>Carbon\Carbon::now(), 
+                'email_verified_at' =>Carbon\Carbon::now(), 
+                'is_email_verified' =>1, 
+                'is_active_status' =>1, 
+                'ip' =>request()->ip()??0,
             ]  
         ]); 
         return redirect('admin/users')->with('success', "Success! Details are added successfully");

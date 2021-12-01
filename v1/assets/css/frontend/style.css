@@ -1725,6 +1725,20 @@ min-width: 33px;
   background-color: #DE0000;
 }
 
+.parsley-required{
+  text-align: left;
+  color: red;
+  list-style-type: none;
+}
+.parsley-type{
+  text-align: left;
+  color: red;
+  list-style-type: none;
+}
+.parsley-errors-list{
+  padding-left: 0 !important;
+}
+
 
 
 /*---------------------------------------------------- *//*# sourceMappingURL=style.css.map */
