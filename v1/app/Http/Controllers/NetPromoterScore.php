@@ -22,6 +22,19 @@ class NetPromoterScore extends Controller
 		$page=false;
         return view('frontend.survey.first_question',compact('page'));
     }
+	
+	public function second_question()
+    {
+		$page=false;
+        return view('frontend.survey.second_question',compact('page'));
+    }	
+	public function surveyone_post(Request $request)
+    {
+		
+		dd($request);
+		$page=false;
+        return view('frontend.survey.second_question',compact('page'));
+    }
     
     
 }

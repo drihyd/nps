@@ -44,6 +44,8 @@ Route::post('profile/update',[LoginController::class,'update_profile']);
 Route::group( ['prefix' => 'survey'],function(){
 
 	Route::get('first', [NetPromoterScore::class,'first_question']);
+	Route::get('second', [NetPromoterScore::class,'second_question']);
+	Route::get('surveyonepost', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post');
 
 	
 });
