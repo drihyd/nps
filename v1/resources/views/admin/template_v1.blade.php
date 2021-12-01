@@ -166,6 +166,8 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <script src="{{URL::to('assets/js/vertical-menu.js')}}"></script>
     <!-- Switchery js -->
     <script src="{{URL::to('assets/plugins/switchery/switchery.min.js')}}"></script>
+    
+    <script src="{{URL::to('assets/js/custom/custom-switchery.js')}}"></script>
     <!-- Apex js -->
     <script src="{{URL::to('assets/plugins/apexcharts/apexcharts.min.js')}}"></script>
     <script src="{{URL::to('assets/plugins/apexcharts/irregular-data-series.js')}}"></script>    
