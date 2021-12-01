@@ -11,8 +11,8 @@
                 <div class="navigationbar">
                     <ul class="vertical-menu">
 					
-                        <li class="{{ (request()->is('dashboard')) ? 'active' : '' }}">
-                            <a href="{{url('dashboard')}}">
+                        <li class="{{ (request()->is(Config::get('constants.superadmin').'/dashboard')) ? 'active' : '' }}">
+                            <a href="{{url(Config::get('constants.superadmin').'/dashboard')}}">
                                 <img src="{{URL::to('assets/images/svg-icon/dashboard.svg')}}" class="img-fluid" alt="widgets"><span>Dashboard</span><!--<span class="badge badge-success pull-right">New</span>-->
                             </a>
                         </li> 
@@ -23,10 +23,10 @@
                               <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Organizations</span><i class="feather icon-chevron-right pull-right"></i>
                             </a>
                             <ul class="vertical-submenu">
-                                <li class="{{ (request()->is('organizations')) ? 'active' : '' }}"><a href="{{url('organizations')}}">View all</a></li>
-                                <li class="{{ (request()->is('organizations/add-basicinfo')) ? 'active' : '' }}"><a href="{{url('organizations/add-basicinfo')}}">Add New</a></li>
+                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/organizations')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/organizations')}}">View all</a></li>
+                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/organizations/add-basicinfo')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/organizations/add-basicinfo')}}">Add New</a></li>
 								
-                                <li class="{{ (request()->is('organizations/users')) ? 'active' : '' }}"><a href="{{url('organizations/users')}}">Users</a></li> 
+                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/organizations/users')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/organizations/users')}}">Users</a></li> 
                             </ul>
                         </li>
                         @elseif(Auth::check() &&  auth()->user()->role == 2)

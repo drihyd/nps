@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ThemeoptionsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsermanagementController;
@@ -21,11 +21,11 @@ use App\Http\Controllers\UsermanagementController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::any('/administrator',[AdminController::class, 'auth_login']);
-Route::post('adminlogin-verification',[AdminController::class, 'Loginsubmit'])->name('adminlogin.verification');
-Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');
-Route::get('profile/',[AdminController::class,'profile']);
-Route::post('profile/update',[AdminController::class,'update_profile']);
+Route::any('/administrator',[LoginController::class, 'auth_login']);
+Route::post('adminlogin-verification',[LoginController::class, 'Loginsubmit'])->name('adminlogin.verification');
+Route::get('administrator/logout', [LoginController::class,'logout'])->name('admin.logout');
+Route::get('profile/',[LoginController::class,'profile']);
+Route::post('profile/update',[LoginController::class,'update_profile']);
 /* Dashbaord */
 
 
@@ -33,7 +33,7 @@ Route::post('profile/update',[AdminController::class,'update_profile']);
 
 Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
-	Route::get('dashboard', [AdminController::class,'dashboard_lists']);
+	Route::get('dashboard', [LoginController::class,'dashboard_lists']);
 
 	Route::get('departments', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
 });
@@ -41,7 +41,7 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 Route::group( ['prefix' => 'superadmin','middleware' => 'issuperadmin'],function(){
 
-	Route::get('dashboard', [AdminController::class,'dashboard_lists']);
+	Route::get('dashboard', [LoginController::class,'dashboard_lists']);
 	Route::get('organizations', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
 
 	
