@@ -4,7 +4,7 @@
 <h4 class="page-title">{{Str::title(Auth::user()->firstname??'')}} {{Str::title(Auth::user()->lastname??'')}} - Dashboard</h4>
 <div class="breadcrumb-list">
 <ol class="breadcrumb">
-<li class="breadcrumb-item"><a href="{{url('/manager/dashboard')}}">Home</a></li>
+<li class="breadcrumb-item"><a href="{{url(Config::get('constants.admin').'/dashboard')}}">Home</a></li>
 <li class="breadcrumb-item" active aria-current="page"><a href="#">{{$pageTitle??''}}</a></li>
 </ol>
 </div>

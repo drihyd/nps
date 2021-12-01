@@ -10,6 +10,7 @@ use App\Http\Controllers\ThemeoptionsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsermanagementController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +57,12 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 	Route::get('dashboard', [DashboardController::class,'dashboard_lists']);
 
-	Route::get('departments', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
+	Route::get('departments', [DepartmentsController::class,'departments_list']);
+	Route::get('departments/create', [DepartmentsController::class,'create_departments']);
+	Route::post('departments/store', [DepartmentsController::class, 'store_departments']);
+	Route::get('departments/edit/{id}',[DepartmentsController::class,'edit_departments']);
+	Route::post('departments/update',[DepartmentsController::class,'update_departments']);
+	Route::get('departments/delete/{id}',[DepartmentsController::class,'delete_departments']);
 });
 
 
