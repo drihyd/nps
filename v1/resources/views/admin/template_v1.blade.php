@@ -7,9 +7,9 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="Orbiter is a bootstrap minimal & clean admin template">
-    <meta name="keywords" content="admin, admin panel, admin template, admin dashboard, responsive, bootstrap 4, ui kits, ecommerce, web app, crm, cms, html, sass support, scss">
-    <meta name="author" content="Themesbox">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
       <title>{{env('APP_NAME')}} - @yield('title')</title>
       <!-- Fevicon -->
