@@ -2,8 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NetPromoterScore;
+
 use App\Http\Controllers\ThemeoptionsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsermanagementController;
@@ -32,6 +34,7 @@ Route::post('adminlogin-verification',[AdminController::class, 'Loginsubmit'])->
 Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');
 Route::get('profile/',[AdminController::class,'profile']);
 Route::post('profile/update',[AdminController::class,'update_profile']);
+
 /* Dashbaord */
 
 
@@ -39,7 +42,7 @@ Route::post('profile/update',[AdminController::class,'update_profile']);
 
 Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
-	Route::get('dashboard', [AdminController::class,'dashboard_lists']);
+	Route::get('dashboard', [LoginController::class,'dashboard_lists']);
 
 	Route::get('departments', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
 });
@@ -47,7 +50,7 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 Route::group( ['prefix' => 'superadmin','middleware' => 'issuperadmin'],function(){
 
-	Route::get('dashboard', [AdminController::class,'dashboard_lists']);
+	Route::get('dashboard', [LoginController::class,'dashboard_lists']);
 	Route::get('organizations', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
 
 	

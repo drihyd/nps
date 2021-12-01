@@ -14,7 +14,7 @@ use Validator;
 use Auth;
 use Session;
 
-class AdminController extends Controller
+class LoginController extends Controller
 {
 
 
@@ -63,7 +63,7 @@ class AdminController extends Controller
         	$user  = auth()->user();
 				switch(Auth::user()->role){
 				case '1':
-				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
+				return redirect('superadmin/dashboard')->with('success', 'Successfully logged in.');
 				break;
 				case '2':
 				return redirect('manager/dashboard')->with('success', 'Successfully logged in.');
@@ -77,14 +77,14 @@ class AdminController extends Controller
 				default:
 				Auth::logout();
 				Session::flush();
-				return redirect('/')->with('error', 'You have not admin access.'); 
+				return redirect('/administrator')->with('error', 'You have not admin access.'); 
 				}			
 
 
 		
         }
         else{
-	        return redirect('/')->with('error', 'Failed to logged in.');
+	        return redirect('/administrator')->with('error', 'Failed to logged in.');
 	    }
    
 
