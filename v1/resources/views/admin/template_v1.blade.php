@@ -89,26 +89,46 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <!-- End Infobar Setting Sidebar -->
     <!-- Start Containerbar -->
     <div id="containerbar">
-		
 	
+	
+	
+	<!-- Start Breadcrumbbar -->   
+@if(Auth::user()->role==1)
+	
+@include('admin.common_pages.sidebar')
 
+@elseif(Auth::user()->role==2)
+
+@include('admin.common_pages.sidebar')
+
+@elseif(Auth::user()->role==3)
+
+@elseif(Auth::user()->role==4)
+
+@else
+
+@endif
+
+<!-- Start Leftbar -->
+
+<!-- End Leftbar -->
+<!-- Start Rightbar -->
 <div class="rightbar">
+<!-- Start Topbar Mobile -->
 
-@php
 
-dd(Auth::user());
-@endphp
+
 
 <!-- Start Breadcrumbbar -->   
 @if(Auth::user()->role==1)
 	
-@include('admin.common_pages.sidebar')
+
 @include('admin.common_pages.top-nav')
 @include('admin.common_pages.breadcrump')
 
 @elseif(Auth::user()->role==2)
 
-@include('admin.common_pages.sidebar')
+
 @include('admin.common_pages.top-nav')
 @include('admin.common_pages.breadcrump_manager')
 
@@ -119,6 +139,8 @@ dd(Auth::user());
 @else
 
 @endif
+
+			
 			
             <!-- End Breadcrumbbar -->
             <!-- Start Contentbar -->    
