@@ -61,10 +61,12 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
  <div class="body_wrapper frm-vh-md-100">
 
 <div class="formify_body formify_signup_fullwidth formify_signup_fullwidth_two d-flex">
-<div class="formify_left_fullwidth formify_left_top_logo frm-vh-md-100 d-flex align-items-center justify-content-center"
-data-bg-color="#FFEFF9">
-<a href="index.html" class="top_logo"><img src="{{URL::to('assets/img/frontend/logo.png')}}" alt=""></a>
+<div class="formify_left_fullwidth formify_left_top_logo frm-vh-md-100 d-flex align-items-center justify-content-center" data-bg-color="#FFEFF9">
 
+@if(Auth::check())
+<a href="index.html" class="top_logo"><img src="{{URL::to('assets/img/frontend/logo.png')}}" alt=""></a>
+@else	
+@endif
 <img class="img-fluid" src="{{URL::to('assets/img/frontend/personal_img.png')}}" alt="">
 </div>
  
