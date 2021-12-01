@@ -15,7 +15,7 @@
 <form method="POST" class="Addnewblog" action="{{ url(Config::get('constants.superadmin').'/theme_options/update') }}" enctype="multipart/form-data">
 <input type="hidden" name="id" value="{{$theme_options_data->id}}">
 @else
-<form method="POST" class="Addnewblog" action="{{ url('theme_options/store') }}" enctype="multipart/form-data">
+<form method="POST" class="Addnewblog" action="{{ url(Config::get('constants.superadmin').'/theme_options/store') }}" enctype="multipart/form-data">
 @endif
       @csrf
       <div class="row">
