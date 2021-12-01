@@ -93,16 +93,11 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 	
 	
 	<!-- Start Breadcrumbbar -->   
-@if(Auth::user()->role==1)
-	
+@if(Auth::user()->role==1)	
 @include('admin.common_pages.sidebar')
-
 @elseif(Auth::user()->role==2)
-
-@include('admin.common_pages.sidebar')
-
+@include('admin.common_pages.manager_sidebar')
 @elseif(Auth::user()->role==3)
-
 @elseif(Auth::user()->role==4)
 
 @else
