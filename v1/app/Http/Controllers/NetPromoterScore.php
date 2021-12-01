@@ -11,10 +11,16 @@ use Auth;
 class NetPromoterScore extends Controller
 {
 
-
     public function nps_login()
     {
-        echo "Login";
+		$page=false;
+        return view('frontend.survey.first_question',compact('page'));
+    }
+	
+	  public function first_question()
+    {
+		$page=false;
+        return view('frontend.survey.first_question',compact('page'));
     }
     
     

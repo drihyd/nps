@@ -30,6 +30,7 @@ Route::any('/net_promoter_score',[NetPromoterScore::class, 'nps_login']);
 Route::any('/',[NetPromoterScore::class, 'nps_login']);
 
 
+
 Route::any('/administrator',[AdminController::class, 'auth_login']);
 Route::post('adminlogin-verification',[AdminController::class, 'Loginsubmit'])->name('adminlogin.verification');
 Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');
@@ -38,6 +39,14 @@ Route::post('profile/update',[AdminController::class,'update_profile']);
 
 /* Dashbaord */
 
+
+
+Route::group( ['prefix' => 'survey'],function(){
+
+	Route::get('first', [NetPromoterScore::class,'first_question']);
+
+	
+});
 
 
 
