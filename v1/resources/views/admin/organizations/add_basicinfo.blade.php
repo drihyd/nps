@@ -1,5 +1,5 @@
 @extends('admin.template_v1')
-@section('title', 'Dashboard')
+@section('title', 'Basic Info')
 @section('content')
 <div class="row">
     <!-- End col -->
@@ -14,7 +14,7 @@
                         <form  action="{{url('organizations/store')}}" method="post" data-parsley-validate>
                         	@csrf
                             <div>
-                                <h3>Basic Info</h3>
+                                <h3>@yield('title')</h3>
                                 <section>
                                     <!-- <h4 class="font-22 mb-3">Basic info</h4> -->
                                     <div class="form-group">

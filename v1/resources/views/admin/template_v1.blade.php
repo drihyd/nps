@@ -11,7 +11,7 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <meta name="keywords" content="admin, admin panel, admin template, admin dashboard, responsive, bootstrap 4, ui kits, ecommerce, web app, crm, cms, html, sass support, scss">
     <meta name="author" content="Themesbox">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-      <title>{{env('APP_NAME')}} - {{$pageTitle??""}}</title>
+      <title>{{env('APP_NAME')}} - @yield('title')</title>
       <!-- Fevicon -->
     <link rel="shortcut icon" href="{{URL::to('assets/uploads/'.$theme_options_data->favicon??'')}}">
     <!-- Start css -->
