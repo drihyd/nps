@@ -16,15 +16,7 @@ use Session;
 
 class LoginController extends Controller
 {
-
-
-    public function dashboard_lists()
-    {
-        $pageTitle = 'Dashboard';
-        return view('admin.dashboard.show',compact('pageTitle'));
-    }
-    
-    
+        
     public function auth_login(Request $request)
     {
    	    $user  = auth()->user();       
