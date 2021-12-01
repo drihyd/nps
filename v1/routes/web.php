@@ -27,7 +27,7 @@ Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');
 Route::get('profile/',[AdminController::class,'profile']);
 Route::post('profile/update',[AdminController::class,'update_profile']);
 /* Dashbaord */
-
+Route::get('dashboard', [AdminController::class,'dashboard_lists']);
 
 
 
