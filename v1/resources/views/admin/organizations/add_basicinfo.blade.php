@@ -11,7 +11,7 @@
             <div class="card-body">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 col-xl-6">
-                        <form  action="{{url('organizations/store')}}" method="post" data-parsley-validate>
+                        <form  action="{{url(Config::get('constants.superadmin').'/organizations/store')}}" method="post" data-parsley-validate>
                         	@csrf
                             <div>
                                 <h3>@yield('title')</h3>

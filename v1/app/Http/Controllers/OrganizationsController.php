@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Mail;
 use Carbon;
+use Config;
 
 class OrganizationsController extends Controller
 {
@@ -45,7 +46,7 @@ class OrganizationsController extends Controller
                     })
                     ->addColumn('action', function($row){
      
-                           $btn = '<a href="'.url("organizations/edit/".Crypt::encryptString($row->id)).'"><i class="fa fa-edit"></i></a>&ensp;<a href="javascript:void(0);" data-id='.$row->id.' class="nddelete delete" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash"></i></a>';
+                           $btn = '<a href="'.url(Config::get('constants.superadmin')."/organizations/edit/".Crypt::encryptString($row->id)).'"><i class="fa fa-edit"></i></a>&ensp;<a href="javascript:void(0);" data-id='.$row->id.' class="nddelete delete" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash"></i></a>';
     
                             return $btn;
                     })
@@ -81,7 +82,7 @@ class OrganizationsController extends Controller
 ));
 
 
-        return redirect('organizations/add-address/'.Crypt::encryptString($id))->with('success', "Success! Details are added successfully"); 
+        return redirect(Config::get('constants.superadmin').'/organizations/add-address/'.Crypt::encryptString($id))->with('success', "Success! Details are added successfully"); 
     }
     public function add_address($id)
     {
@@ -111,7 +112,7 @@ class OrganizationsController extends Controller
                 "country"=>$request->country??'',
             ]
             ); 
-        return redirect('organizations/add-gst-details/'.Crypt::encryptString($request->id))->with('success', "Success! Address Details are updated successfully"); 
+        return redirect(Config::get('constants.superadmin').'/organizations/add-gst-details/'.Crypt::encryptString($request->id))->with('success', "Success! Address Details are updated successfully"); 
     }
     public function add_gst_details($id)
     {
@@ -143,7 +144,7 @@ class OrganizationsController extends Controller
                 "gst_no"=>$request->gst_no??'',
             ]
             ); 
-        return redirect('organizations/add-admin-details/'.Crypt::encryptString($request->id))->with('success', "Success! GST & Billing Details are updated successfully"); 
+        return redirect(Config::get('constants.superadmin').'/organizations/add-admin-details/'.Crypt::encryptString($request->id))->with('success', "Success! GST & Billing Details are updated successfully"); 
     }
     public function add_admin_details($id)
     {
@@ -219,7 +220,7 @@ class OrganizationsController extends Controller
 
 
 
-        return redirect('organizations/add-license-details/'.Crypt::encryptString($request->id))->with('success', "Success! Address Details are updated successfully"); 
+        return redirect(Config::get('constants.superadmin').'/organizations/add-license-details/'.Crypt::encryptString($request->id))->with('success', "Success! Address Details are updated successfully"); 
     }
     public function add_license_details($id)
     {
@@ -249,7 +250,7 @@ class OrganizationsController extends Controller
 
 
 
-        return redirect('organizations')->with('success', "Organization Details are saved successfully"); 
+        return redirect(Config::get('constants.superadmin').'/organizations')->with('success', "Organization Details are saved successfully"); 
     }
 
     public function get_permanent_address(Request $request)

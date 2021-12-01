@@ -11,7 +11,7 @@
             <div class="card-body">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 col-xl-6">
-                        <form  action="{{url('organizations/update_address')}}" method="post">
+                        <form  action="{{url(Config::get('constants.superadmin').'/organizations/update_address')}}" method="post">
                         	@csrf
                             <input type="hidden" name="id" value="{{$comapany_id}}">
                             <div>

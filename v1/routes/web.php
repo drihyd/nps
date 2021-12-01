@@ -80,7 +80,7 @@ Route::any('organizations/get_permanent_address', [OrganizationsController::clas
 
 Route::get('organizations/edit/{id}', [OrganizationsController::class,'edit_organization']);
 
-Route::post('organizations/delete',[OrganizationsController::class,'delete_organization']);
+Route::post('organizations/delete',[OrganizationsController::class,'delete_organization'])->name('organizations.delete');
 
 Route::post('organizations/update_company', [OrganizationsController::class,'update_company'])->name('update_company');
 Route::post('organizations/update_shortname', [OrganizationsController::class,'update_shortname'])->name('update_shortname');
