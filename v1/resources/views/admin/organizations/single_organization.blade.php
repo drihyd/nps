@@ -124,7 +124,7 @@
                 <a href="#" id="xeditable-date" data-pk="{{ $organizations_data->id }}"></a>
                 <br>
                 <br>
-                
+
                 <b>License Period</b>&ensp;
                 <a href="#" id="xeditable-license_period_year" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->license_period_year}}">{{$organizations_data->license_period_year??''}}</a>
                 &ensp;&ensp;&ensp;
@@ -179,7 +179,6 @@ $(document).ready(function() {
         title: 'Enter Company Name',
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
            if($.trim(value) == '')             
                {
                 return 'This field is required';
