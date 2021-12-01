@@ -58,10 +58,10 @@ class LoginController extends Controller
 				return redirect('superadmin/dashboard')->with('success', 'Successfully logged in.');
 				break;
 				case '2':
-				return redirect('manager/dashboard')->with('success', 'Successfully logged in.');
+				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
 				break;
 				case '3':
-				return redirect('content/dashboard')->with('success', 'Successfully logged in.');
+				return redirect('hod/dashboard')->with('success', 'Successfully logged in.');
 				break;
 				case '4':
 				return redirect('general/dashboard')->with('success', 'Successfully logged in.');

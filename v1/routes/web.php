@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NetPromoterScore;
 
 use App\Http\Controllers\ThemeoptionsController;
@@ -31,11 +31,11 @@ Route::any('/',[NetPromoterScore::class, 'nps_login']);
 
 
 
-Route::any('/administrator',[AdminController::class, 'auth_login']);
-Route::post('adminlogin-verification',[AdminController::class, 'Loginsubmit'])->name('adminlogin.verification');
-Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');
-Route::get('profile/',[AdminController::class,'profile']);
-Route::post('profile/update',[AdminController::class,'update_profile']);
+Route::any('/administrator',[LoginController::class, 'auth_login']);
+Route::post('adminlogin-verification',[LoginController::class, 'Loginsubmit'])->name('adminlogin.verification');
+Route::get('administrator/logout', [LoginController::class,'logout'])->name('admin.logout');
+Route::get('profile/',[LoginController::class,'profile']);
+Route::post('profile/update',[LoginController::class,'update_profile']);
 
 /* Dashbaord */
 
