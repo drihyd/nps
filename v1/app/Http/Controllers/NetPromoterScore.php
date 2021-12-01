@@ -45,13 +45,13 @@ class NetPromoterScore extends Controller
 				return redirect('survey/first')->with('success', 'Successfully logged in.');
 				break;
 				case '4':
-				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
+				return redirect('survey/first')->with('success', 'Successfully logged in.');
 				break;
 				
 				default:
 				Auth::logout();
 				Session::flush();
-				return redirect('/')->with('error', 'You have not admin access.'); 
+				return redirect('/')->with('error', 'Failed to logged in.'); 
 				}			
 
 

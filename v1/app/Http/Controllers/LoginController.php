@@ -69,7 +69,7 @@ class LoginController extends Controller
 				default:
 				Auth::logout();
 				Session::flush();
-				return redirect('/administrator')->with('error', 'You have not admin access.'); 
+				return redirect('/administrator')->with('error', 'Failed to logged in.'); 
 				}			
 
 
