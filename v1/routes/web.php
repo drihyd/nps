@@ -35,6 +35,7 @@ Route::group( ['prefix' => 'manager','middleware' => 'ismanager'],function(){
 	
 	
 	Route::get('dashboard', [AdminController::class,'dashboard_lists']);
+	Route::get('departments', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
 	
 	
 	
