@@ -50,7 +50,7 @@
                               <img src="{{URL::to('assets/images/svg-icon/maps.svg')}}" class="img-fluid" alt="apps"><span>Settings</span><i class="feather icon-chevron-right pull-right"></i>
                             </a>
                             <ul class="vertical-submenu">
-                                <li class="{{ (request()->is('theme_options')) ? 'active' : '' }}"><a href="{{url('theme_options')}}">Theme Options</a></li>
+                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/theme_options')) ? 'active' : '' }}"><a href="{{url('theme_options')}}">Theme Options</a></li>
                                 <!-- <li class="{{ (request()->is('users')) ? 'active' : '' }}"><a href="{{url('users')}}">Users</a></li>  -->
                             </ul>
                         </li>
