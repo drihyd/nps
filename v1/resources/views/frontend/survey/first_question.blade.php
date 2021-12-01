@@ -18,29 +18,40 @@
 <div class="border ml-0"></div>
 </div><br>
 <div class="tab-content" id="myTabContent">
-<div class="tab-pane fade show active" id="One" role="tabpanel" aria-labelledby="One-tab">
+
 
 <h6><b>How likely are you to reccomend Omni Hospitals to your friend?</b></h6>
-<form action="{{ route('surveyone.post', [ 'id'=>1 ]) }}" class="signup_form">
+<form action="{{ route('surveyone.post', [ 'id'=>1 ]) }}" class="signup_form" method="post">
 
 @csrf
  
 <div class="box_info">
-<input type="range" list="tickmarks" name="first_questin_range">
 
-<datalist id="tickmarks">
-<option value="0" label="0"></option>
-<option value="1" label="1"></option>
-<option value="2" label="2"></option>
-<option value="3" label="3"></option>
-<option value="4" label="4"></option>
-<option value="5" label="5"></option>
-<option value="6" label="6"></option>
-<option value="7" label="7"></option>
-<option value="8" label="8"></option>
-<option value="9" label="9"></option>
-<option value="10" label="10"></option>
-</datalist>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <p class="page-header">1 is good, 10 is bad (i.e., "How much pain are you in right now?")</p>
+     
+        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-1"  value=1>1
+        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2"   value=2>2
+        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-3"  value=3>3
+        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-4"  value=4>4
+        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-5" value=5>5
+        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-6" value=6>6
+        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-7"  value=7>7
+        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-8"  value=8>8
+        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-9"  value=9>9
+        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-10" value=10>10
+        <hr/>
+
+
+ 
+  </div>
+
+
+
+
 </div>
 
 <button type="submit" class="btn thm_btn next_tab text-transform-inherit">Next</button>
@@ -64,7 +75,7 @@ aria-controls="Two" aria-selected="false"></a>
 aria-controls="Three" aria-selected="false"></a>
 </li>
 </ul>
-</div>
+
 </div>
     
    

@@ -45,7 +45,7 @@ Route::group( ['prefix' => 'survey'],function(){
 
 	Route::get('first', [NetPromoterScore::class,'first_question']);
 	Route::get('second', [NetPromoterScore::class,'second_question']);
-	Route::get('surveyonepost', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post');
+	Route::post('surveyonepost', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post');
 
 	
 });
