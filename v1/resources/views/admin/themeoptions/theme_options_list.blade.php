@@ -11,7 +11,7 @@
                 </div>
                 @if(!isset($theme_options_data->id))
 			<div class="float-right">
-			<a href="{{url('admin/theme_options/create')}}" class="btn btn-primary btn-sm ">+ Add</a>
+			<a href="{{url(Config::get('constants.superadmin').'/theme_options/create')}}" class="btn btn-primary btn-sm ">+ Add</a>
 			</div>
 			@else
  @endif

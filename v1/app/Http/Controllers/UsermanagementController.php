@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 Use Exception;
 use Illuminate\Support\Facades\Crypt;
+
 class UsermanagementController extends Controller
 {
 	// use PasswordValidationRules;
