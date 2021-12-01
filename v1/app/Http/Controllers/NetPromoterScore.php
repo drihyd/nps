@@ -84,9 +84,8 @@ class NetPromoterScore extends Controller
 	public function surveyone_post(Request $request)
     {
 		
-		if($request->first_questin_range){
-			
-			dd($request->first_questin_range);
+		if($request->first_questin_range){			
+		
 		$page=false;
 		return view('frontend.survey.second_question',compact('page'));
 
