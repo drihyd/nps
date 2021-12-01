@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 Use Exception;
 use Validator;
+use Config;
 
 class ThemeoptionsController extends Controller
 {
@@ -61,7 +62,7 @@ class ThemeoptionsController extends Controller
                 "copyright"=>$request->copyright??'',
             ]  
         ]); 
-        return redirect('theme_options')->with('success', "Success! Details are added successfully"); 
+        return redirect(Config::get('constants.superadmin').'/theme_options')->with('success', "Success! Details are added successfully"); 
     }
     public function edit_theme_options($id)    {
         
@@ -103,7 +104,7 @@ class ThemeoptionsController extends Controller
                 "copyright"=>$request->copyright??'',
             ]
             );      
-        return redirect('theme_options')->with('success', "Success! Details are updated successfully");
+        return redirect(Config::get('constants.superadmin').'/theme_options')->with('success', "Success! Details are updated successfully");
     }
     public function delete_theme_options($id)
     {
