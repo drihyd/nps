@@ -440,10 +440,110 @@ public function update_gst(Request $request)
             Organizations::where('id', $request->pk)
             ->update(
             [
-                'gst_no' =>$request->value??'',
+                'billing_address_1' =>$request->value??'',
             ]
             );
-            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated GST']);
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing Address 1']);
+        }
+    }
+    public function update_billing_address2(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'billing_address_2' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing Address 2']);
+        }
+    }public function update_billing_pincode(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'billing_pincode' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing Pincode']);
+        }
+    }public function update_billing_city(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'billing_city' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing City']);
+        }
+    }public function update_admin_name(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'admin_name' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Name']);
+        }
+    }
+    public function update_admin_email(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'admin_email' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Email']);
+        }
+    }
+    public function update_admin_mobile(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'admin_mobile' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Mobile']);
+        }
+    }
+    public function update_admin_alt_mobile(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'admin_alter_mobile' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Alternative Mobile']);
+        }
+    }public function update_license_startdate(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'license_startdate' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated License start date']);
         }
     }
 
