@@ -6,5 +6,6 @@ return [
 	'superadmin' => 'superadmin',
 	'admin' => 'admin',
 	'user' => 'user',
+	'survey' => 'survey',
 
 ];

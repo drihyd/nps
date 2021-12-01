@@ -40,7 +40,7 @@
 </datalist>
 </div>
 </form>
-<a href="index2.html"><button class="btn thm_btn next_tab text-transform-inherit">Next</button></a>
+<a href="{{URL('survey/')}}"><button class="btn thm_btn next_tab text-transform-inherit">Next</button></a>
 </div>
 
 </div>
