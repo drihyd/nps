@@ -123,6 +123,13 @@
                 <b>Licence Start Date</b>&ensp;
                 <a href="#" id="xeditable-date" data-pk="{{ $organizations_data->id }}"></a>
                 <br>
+                <br>
+                
+                <b>License Period</b>&ensp;
+                <a href="#" id="xeditable-license_period_year" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->license_period_year}}">{{$organizations_data->license_period_year??''}}</a>
+                &ensp;&ensp;&ensp;
+                <small><b>Months</b></small>&ensp;
+                <a href="#" id="xeditable-license_period_month" class="editable editable-click" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->license_period_month}}">{{$organizations_data->license_period_month??''}}</a>
             </div>
         </div>
     </div>  
@@ -621,20 +628,6 @@ $(document).ready(function() {
           inputclass: 'form-control form-control-sm'
      });
 
-
-
-
-    $('#xeditable-firstname').editable({
-        type: 'text',
-        pk: 1, 
-        placement: 'right',
-        placeholder: 'Required',
-        title: 'Enter your firstname',  
-        inputclass: 'form-control form-control-sm',
-        validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
-        }
-    });
     
     $('#xeditable-status').editable({
           type: 'select',
@@ -643,25 +636,82 @@ $(document).ready(function() {
           title: 'Select Status',
           inputclass: 'form-control form-control-sm'
     });
-    
-     $('#xeditable-event').editable({
-        type: 'combodate',
-        pk: 1,  
-        title: 'Setup event date and time',
-        placement: 'right',
-        format: 'YYYY-MM-DD HH:mm',    
-        viewformat: 'MMM D, YYYY, HH:mm',    
-        template: 'D MMM YYYY  HH:mm',
-        combodate: {
-            firstItem: 'name'
-        },
-        inputclass: 'form-control form-control-sm'
+
+
+    $('#xeditable-license_period_year').editable({
+        url: '{{route("update_license_period_year")}}',
+        pk: organization_id,
+        type: 'select',
+        title: 'Select options',
+        value: ['{{$organizations_data->license_period_year}}'],    
+        source: [
+              {value: '1', text: '1'},
+              {value: '2', text: '2'},
+              {value: '3', text: '3'},
+              {value: '4', text: '4'},
+              {value: '5', text: '5'},
+           ],
+
+        success:function(value){
+                if(value.statsCode==200)
+                {  
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
     });
-    $('#xeditable-comments').editable({
-        title: 'Enter comments',
-        rows: 5,
-        inputclass: 'form-control form-control-sm'
-    });     
+
+    $('#xeditable-license_period_month').editable({
+        url: '{{route("update_license_period_month")}}',
+        pk: organization_id,
+        type: 'select',
+        title: 'Select options',
+        value: ['{{$organizations_data->license_period_month}}'],    
+        source: [
+              {value: '1', text: '1'},
+              {value: '2', text: '2'},
+              {value: '3', text: '3'},
+              {value: '4', text: '4'},
+              {value: '5', text: '5'},
+              {value: '6', text: '6'},
+              {value: '7', text: '7'},
+              {value: '8', text: '8'},
+              {value: '9', text: '9'},
+              {value: '10', text: '10'},
+              {value: '11', text: '11'},
+           ],
+
+        success:function(value){
+                if(value.statsCode==200)
+                {  
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+    });
+    
+    //  $('#xeditable-event').editable({
+    //     type: 'combodate',
+    //     pk: 1,  
+    //     title: 'Setup event date and time',
+    //     placement: 'right',
+    //     format: 'YYYY-MM-DD HH:mm',    
+    //     viewformat: 'MMM D, YYYY, HH:mm',    
+    //     template: 'D MMM YYYY  HH:mm',
+    //     combodate: {
+    //         firstItem: 'name'
+    //     },
+    //     inputclass: 'form-control form-control-sm'
+    // });
+    // $('#xeditable-comments').editable({
+    //     title: 'Enter comments',
+    //     rows: 5,
+    //     inputclass: 'form-control form-control-sm'
+    // });     
     
 });
 </script>

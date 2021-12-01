@@ -561,7 +561,8 @@ public function update_gst(Request $request)
             );
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Alternative Mobile']);
         }
-    }public function update_license_startdate(Request $request)
+    }
+    public function update_license_startdate(Request $request)
     {
         if($request->ajax()){
 
@@ -572,6 +573,32 @@ public function update_gst(Request $request)
             ]
             );
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated License start date']);
+        }
+    }
+    public function update_license_period_year(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'license_period_year' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated License Period year']);
+        }
+    }
+    public function update_license_period_month(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'license_period_month' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated License Period year']);
         }
     }
 
