@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\NetPromoterScore;
 use App\Http\Controllers\ThemeoptionsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsermanagementController;
@@ -21,6 +22,11 @@ use App\Http\Controllers\UsermanagementController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+Route::any('/net_promoter_score',[NetPromoterScore::class, 'nps_login']);
+Route::any('/',[NetPromoterScore::class, 'nps_login']);
+
+
 Route::any('/administrator',[AdminController::class, 'auth_login']);
 Route::post('adminlogin-verification',[AdminController::class, 'Loginsubmit'])->name('adminlogin.verification');
 Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');

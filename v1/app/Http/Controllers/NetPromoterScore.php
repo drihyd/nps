@@ -1,0 +1,21 @@
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+Use Exception;
+use Validator;
+use Auth;
+class NetPromoterScore extends Controller
+{
+
+
+    public function nps_login()
+    {
+        echo "Login";
+    }
+    
+    
+}
