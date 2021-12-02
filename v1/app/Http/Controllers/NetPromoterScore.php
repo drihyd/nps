@@ -11,6 +11,7 @@ use Auth;
 use Session;
 use App\Models\Questions;
 use App\Models\QuestionOptions;
+use App\Models\SurveyAnswered;
 class NetPromoterScore extends Controller
 {
 
@@ -76,12 +77,12 @@ class NetPromoterScore extends Controller
     {
 		
 
-		$Questions=Questions::select()->where('sequence_order',1)->get();		 
+		$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',1)->get();		 
 		foreach ($Questions as $key => $value) {
-		$Questions[$key]->qoptions = QuestionOptions::select()
-		->where('question_id', $value->id)
+		$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
+		->where('question_id', $value->qid)
 		->get();	
-		}	
+		}		
 		$page=false;
 		return view('frontend.survey.first_question',compact('page','Questions'));
 
@@ -95,11 +96,22 @@ class NetPromoterScore extends Controller
 	public function surveyone_post(Request $request)
     {
 		
-		if($request->first_questin_range){			
-		
+		if($request->first_questin_range){		
 		$page=false;
+		
+	
+		
+        $first_questionans=SurveyAnswered::insert([
+            [
+                "organization_id"=>$request->organization_id??0,
+                "survey_id"=>$request->survey_id??0,
+                "question_id"=>$request->question_id??0,
+                "answerid"=>$request->first_questin_range??0,
+            ]  
+        ]); 
+		
+		
 		return view('frontend.survey.second_question',compact('page'));
-
 		}
 		else{
 			return redirect()->back()->with('error', 'Please select score number.');  
