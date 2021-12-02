@@ -22,7 +22,7 @@ class DashboardController extends Controller
         $all_admin_departments = Departments::where('organization_id',Auth::user()->organization_id)->get()->count();
         $all_admin_users = User::where('organization_id',Auth::user()->organization_id)->whereNotIn('role',[1,2])->get()->count();
         $all_admin_surveys = Surveys::where('organization_id',Auth::user()->organization_id)->get()->count();
-        // dd($all_admin_surveys);
+        // dd(Auth::user()->organization_id);
         return view('admin.dashboard.show',compact('pageTitle','all_organizations','all_group','all_single','all_admin_departments','all_admin_users','all_admin_surveys'));
     }
 }
