@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QuestionsOptions;
+use App\Models\QuestionOptions;
 use App\Models\Questions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
