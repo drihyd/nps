@@ -264,7 +264,7 @@ class UsermanagementController extends Controller
 
         User::insert([
             [
-                "organization_id"=>$request->id,
+                "organization_id"=>$request->organization_id,
                 "firstname"=>$request->firstname,
                 "role"=>$request->role,
                 "email"=>$request->email,
@@ -285,6 +285,17 @@ class UsermanagementController extends Controller
 
          return redirect()->back()->with('error', 'User already exist an account.');  
      }
+
+    }
+    public function department_edit_user($id){
+
+        $user_id=Crypt::decryptString($id);
+
+            $users_data=User::where("id",$user_id)->get()->first();
+            
+             $user_type_data=DB::table('user_types')->get();
+            $pageTitle="Edit User";     
+            return view('admin.users.add_user',compact('pageTitle','users_data','user_type_data'));
 
     }
 }

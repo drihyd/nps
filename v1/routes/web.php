@@ -12,6 +12,7 @@ use App\Http\Controllers\UsermanagementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\SurveysController;
+use App\Http\Controllers\QuestionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +78,13 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 
 	Route::get('surveys', [SurveysController::class,'surveys_list']);
+	Route::get('surveys/create', [SurveysController::class,'create_surveys']);
+	Route::post('surveys/store', [SurveysController::class, 'store_surveys']);
+	Route::get('surveys/edit/{id}',[SurveysController::class,'edit_surveys']);
+	Route::post('surveys/update',[SurveysController::class,'update_surveys']);
+	Route::get('surveys/delete/{id}',[SurveysController::class,'delete_surveys']);
+
+	Route::get('questions', [SurveysController::class,'surveys_list']);
 	Route::get('surveys/create', [SurveysController::class,'create_surveys']);
 	Route::post('surveys/store', [SurveysController::class, 'store_surveys']);
 	Route::get('surveys/edit/{id}',[SurveysController::class,'edit_surveys']);
