@@ -251,8 +251,6 @@ class UsermanagementController extends Controller
          'is_active_status' => 'required',
          'password' => 'sometimes|nullable',
          'phone' => 'sometimes|nullable|regex:/^[6-9]{1}[0-9]{9}/',
-         'profile' => 'mimes:jpg,jpeg,png',
-         // 'password' => $this->passwordRules(),        
         ]);
 
 
@@ -275,7 +273,7 @@ class UsermanagementController extends Controller
                 'updated_at' =>Carbon\Carbon::now(), 
                 'email_verified_at' =>Carbon\Carbon::now(), 
                 'is_email_verified' =>1, 
-                'is_active_status' =>1, 
+                'is_active_status' =>$request->is_active_status??0, 
                 'ip' =>request()->ip()??0,
             ]  
         ]); 
@@ -295,7 +293,47 @@ class UsermanagementController extends Controller
             
              $user_type_data=DB::table('user_types')->get();
             $pageTitle="Edit User";     
-            return view('admin.users.add_user',compact('pageTitle','users_data','user_type_data'));
+            return view('admin.department_users.add_user',compact('pageTitle','users_data','user_type_data'));
 
+    }
+    public function department_update_user(Request $request)
+    {
+        $request->validate([
+         'firstname' => 'required',       
+         'email' => 'required|email',        
+         'role' => 'required',
+         'phone' => 'required',
+         'is_active_status' => 'required',
+         'password' => 'sometimes|nullable',
+         'phone' => 'sometimes|nullable',
+        ]);
+        
+        User::where('id', $request->id)
+            ->update(
+            [
+                "organization_id"=>$request->organization_id,
+                "firstname"=>$request->firstname,
+                "role"=>$request->role,
+                "email"=>$request->email,
+                // "password"=> Hash::make($decrypt_password),
+                // "decrypt_password"=>$decrypt_password,
+                "phone"=>$request->phone??'',
+                'email_verified_at' =>Carbon\Carbon::now(), 
+                'is_email_verified' =>1, 
+                'is_active_status' =>$request->is_active_status??'', 
+                'ip' =>request()->ip()??0,
+            ]
+            );      
+        return redirect('admin/users')->with('success', "Success! Details are updated successfully");
+            
+        
+        
+    }
+    public function department_delete_user($id)
+    {
+        $user_id=Crypt::decryptString($id);    
+        $data=User::where('id',$user_id)->delete();   
+        return redirect()->back()->with('success','Success! Details are deleted successfully');   
+         
     }
 }

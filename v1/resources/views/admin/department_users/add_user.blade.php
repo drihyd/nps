@@ -1,5 +1,6 @@
 @extends('admin.template_v1')
 @section('content')
+@include('admin.alerts')
   <div class="row">
     <!-- Start col -->
     <div class="col-lg-12">

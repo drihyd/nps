@@ -73,9 +73,9 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('users',[UsermanagementController::class,'department_users_list']);
 	Route::get('user/create', [UsermanagementController::class,'department_create_user']);
 	Route::post('user/store', [UsermanagementController::class, 'department_store_user']);
-	// Route::get('organizations/user/edit/{id}',[UsermanagementController::class,'edit_user']);
-	// Route::post('organizations/user/update',[UsermanagementController::class,'update_user']);
-	// Route::get('organizations/user/delete/{id}',[UsermanagementController::class,'delete_user']);
+	Route::get('user/edit/{id}',[UsermanagementController::class,'department_edit_user']);
+	Route::post('user/update',[UsermanagementController::class,'department_update_user']);
+	Route::get('user/delete/{id}',[UsermanagementController::class,'department_delete_user']);
 
 
 	Route::get('surveys', [SurveysController::class,'surveys_list']);

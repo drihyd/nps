@@ -42,8 +42,8 @@
                               
                               <td>
 							  
-							  <a href="{{url('organizations/user/edit/'.Crypt::encryptString($user->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
-                                <a href="{{url('organizations/user/delete/'.Crypt::encryptString($user->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
+							  <a href="{{url(Config::get('constants.admin').'/user/edit/'.Crypt::encryptString($user->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
+                                <a href="{{url(Config::get('constants.admin').'/user/delete/'.Crypt::encryptString($user->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
 								
                               </td>
                           </tr>
