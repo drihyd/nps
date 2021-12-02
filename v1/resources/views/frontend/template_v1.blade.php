@@ -73,11 +73,12 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 <img class="img-fluid" src="{{URL::to('assets/img/frontend/personal_img.png')}}" alt="">
 </div>
  
- 
+ @if(Auth::check())
 <a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
 <img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
 </a>
-
+@else	
+@endif
  
      @yield('content')
 	 
