@@ -21,8 +21,6 @@
 </a>
 <ul class="vertical-submenu">
 <li class="{{ (request()->is(Config::get('constants.admin').'/departments')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/departments')}}">Lists</a></li>
-
-<li class="{{ (request()->is(Config::get('constants.admin').'/users')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/users')}}">Users</a></li>
 </ul>
 </li>
 <li>
@@ -32,8 +30,13 @@
 <ul class="vertical-submenu">
 <li class="{{ (request()->is(Config::get('constants.admin').'/surveys')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/surveys')}}">Lists</a></li>
 
-<li class="{{ (request()->is(Config::get('constants.admin').'/users')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/users')}}">Users</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/questions')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questions')}}">Questions</a></li>
 </ul>
+</li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/users')) ? 'active' : '' }}">
+<a href="{{url(Config::get('constants.admin').'/users')}}">
+<img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="apps"><span>Users</span><i class="feather"></i>
+</a>
 </li>
 <li>
 <a href="{{route('session.logout')}}">
