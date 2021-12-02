@@ -13,6 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\SurveysController;
 use App\Http\Controllers\QuestionsController;
+use App\Http\Controllers\QuestionsOptionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,6 +92,13 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('questions/edit/{id}',[QuestionsController::class,'edit_questions']);
 	Route::post('questions/update',[QuestionsController::class,'update_questions']);
 	Route::get('questions/delete/{id}',[QuestionsController::class,'delete_questions']);
+
+	Route::get('questions_options', [QuestionsOptionsController::class,'questions_option_list']);
+	Route::get('questions_options/create', [QuestionsOptionsController::class,'create_questions_options']);
+	Route::post('questions_options/store', [QuestionsOptionsController::class, 'store_questions_options']);
+	Route::get('questions_options/edit/{id}',[QuestionsOptionsController::class,'edit_questions_options']);
+	Route::post('questions_options/update',[QuestionsOptionsController::class,'update_questions_options']);
+	Route::get('questions_options/delete/{id}',[QuestionsOptionsController::class,'delete_questions_options']);
 
 });
 

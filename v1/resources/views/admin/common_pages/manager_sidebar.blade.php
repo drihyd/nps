@@ -31,6 +31,7 @@
 <li class="{{ (request()->is(Config::get('constants.admin').'/surveys')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/surveys')}}">Lists</a></li>
 
 <li class="{{ (request()->is(Config::get('constants.admin').'/questions')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questions')}}">Questions</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/questions_options')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questions_options')}}">Questions Options</a></li>
 </ul>
 </li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/users')) ? 'active' : '' }}">
