@@ -47,7 +47,7 @@
 
                         @endif
                         <li>
-                            <a href="{{route('admin.logout')}}">
+                            <a href="{{route('session.logout')}}">
                               <img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
                             </a>
                         </li>
