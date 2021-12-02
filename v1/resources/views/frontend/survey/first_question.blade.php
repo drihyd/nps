@@ -51,7 +51,7 @@
 
 @if($Questions->count()>0)
 
-<form action="{{ route('surveyone.post', [ 'id'=>1 ]) }}" class="signup_form" method="post">
+<form action="{{ route('surveyone.post') }}" class="signup_form" method="post">
 
 <h6><b>{{$Questions[0]->qlabel??''}}</b></h6>
 
@@ -66,10 +66,23 @@
 <div class="col-xs-12">
 <p class="page-header">{{$Questions[0]->qsublabel??''}}</p>
 <div class="survey-radio-btns-group">
-@if($Questions[0]->qinput_type=="radio")	  
+
+
+@if($Questions[0]->qinput_type=="radio")
+	
 @foreach($Questions[0]->qoptions as $key=>$value)
 <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
 @endforeach
+@elseif($Questions[0]->qinput_type=="dropdown")
+@foreach($Questions[0]->qoptions as $key=>$value)
+<input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
+@endforeach
+@elseif($Questions[0]->qinput_type=="textarea")	
+@foreach($Questions[0]->qoptions as $key=>$value)
+<label>{{$value->qpvalue}}</label>
+<textarea name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}"></textarea>
+@endforeach
+
 @else		  
 @endif	
 </div>

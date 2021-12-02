@@ -53,6 +53,7 @@
       <option value="text" {{ old('input_type',$questions_data->input_type??'') == 'text'? 'selected':''}}>Text</option>
       <option value="dropdown" {{ old('input_type',$questions_data->input_type??'') == 'dropdown'? 'selected':''}}>Dropdown</option>
       <option value="checkbox" {{ old('input_type',$questions_data->input_type??'') == 'checkbox'? 'selected':''}}>Checkbox</option>
+      <option value="textarea" {{ old('input_type',$questions_data->input_type??'') == 'textarea'? 'selected':''}}>Textarea</option>
 
 </select>
       </div>
