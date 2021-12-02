@@ -27,19 +27,46 @@
       <div class="row">
         <div class="col-md-5">
           <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
+          <div class="form-group" id="survey_id">
+        <label for="survey_id">Survey<span class="text-red"style="color: red;">*</span></label>
+        <select  class="form-control" name="survey_id" id="survey_id" required="required">
+          <option value="">-- Select --</option>
+          @foreach($surveys_data as $survey)
+            <option value="{{$survey->id}}" {{ old('survey_id',$questions_data->survey_id??'') == $survey->id ? 'selected':''}}>{{$survey->title??''}}</option>
+          @endforeach
+              
+        </select>
+      </div>
           <div class="form-group">
-            <label><b>Title</b><span style="color: red;">*</span></label>
-            <input type="text" class="form-control" name="title" value="{{old('title',$surveys_data->title??'')}}" required="required" />
+            <label><b>Label</b><span style="color: red;">*</span></label>
+            <input type="text" class="form-control" name="label" value="{{old('label',$questions_data->label??'')}}" required="required" />
           </div>
           <div class="form-group">
-        <label><b>Is Open</b><span style="color: red;">*</span></label>
+            <label><b>Sub Label</b></label>
+            <input type="text" class="form-control" name="sublabel" value="{{old('sublabel',$questions_data->sublabel??'')}}" />
+          </div>
+          <div class="form-group">
+        <label><b>Input Type</b><span style="color: red;">*</span></label>
+        <select name="input_type" class="form-control" required="required">
+      <option value="radio" {{ old('input_type',$questions_data->input_type??'') == 'radio'? 'selected':''}}>Radio</option>
+
+      <option value="text" {{ old('input_type',$questions_data->input_type??'') == 'text'? 'selected':''}}>Text</option>
+
+</select>
+      </div>
+          <div class="form-group">
+        <label><b>Is Active</b><span style="color: red;">*</span></label>
       </div>
       <div class="form-group">
-        <input type="radio" class="rdbtn"  name="isopen" value="yes" {{ old('isopen',$surveys_data->isopen??'') == 'yes'?'checked':'checked'}}/>
+        <input type="radio" class="rdbtn"  name="active" value="yes" {{ old('active',$questions_data->active??'') == 'yes'?'checked':'checked'}}/>
         <label>On</label>
-        <input type="radio" class="rdbtn" name="isopen" value="no" required="required"    {{ old('isopen',$surveys_data->isopen??'') == 'no'?'checked':''}}/>
+        <input type="radio" class="rdbtn" name="active" value="no" required="required"    {{ old('active',$questions_data->active??'') == 'no'?'checked':''}}/>
         <label>Off</label>
       </div>
+      <div class="form-group">
+            <label><b>Sort Order</b><span style="color: red;">*</span></label>
+            <input type="number" class="form-control" name="sequence_order" value="{{old('sequence_order',$questions_data->sequence_order??'')}}" required="required" />
+          </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
       <a href="{{url(Config::get('constants.admin').'/questions')}}" class="btn btn-danger btn-sm">Back</a>
 

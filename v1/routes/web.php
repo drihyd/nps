@@ -85,12 +85,12 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::post('surveys/update',[SurveysController::class,'update_surveys']);
 	Route::get('surveys/delete/{id}',[SurveysController::class,'delete_surveys']);
 
-	Route::get('questions', [SurveysController::class,'surveys_list']);
-	Route::get('surveys/create', [SurveysController::class,'create_surveys']);
-	Route::post('surveys/store', [SurveysController::class, 'store_surveys']);
-	Route::get('surveys/edit/{id}',[SurveysController::class,'edit_surveys']);
-	Route::post('surveys/update',[SurveysController::class,'update_surveys']);
-	Route::get('surveys/delete/{id}',[SurveysController::class,'delete_surveys']);
+	Route::get('questions', [QuestionsController::class,'questions_list']);
+	Route::get('questions/create', [QuestionsController::class,'create_questions']);
+	Route::post('questions/store', [QuestionsController::class, 'store_questions']);
+	Route::get('questions/edit/{id}',[QuestionsController::class,'edit_questions']);
+	Route::post('questions/update',[QuestionsController::class,'update_questions']);
+	Route::get('questions/delete/{id}',[QuestionsController::class,'delete_questions']);
 
 });
 
