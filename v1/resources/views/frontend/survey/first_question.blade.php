@@ -25,13 +25,13 @@
 	  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 	  	<div class="dropdown-item">
             <div class="profilename">
-              <h5>Incor </h5>
+              <h5>{{Str::Title(auth()->user()->firstname??'')}} </h5>
             </div>
         </div>
 	    <ul class="list-unstyled mb-0">
-	        <li class="media dropdown-item">
+	        <!-- <li class="media dropdown-item">
 	            <a href="#" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="user">My Profile</a>
-	        </li>                                                      
+	        </li>   -->                                                    
 	        <li class="media dropdown-item">
 	            <a href="{{route('session.logout')}}" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="logout">Logout</a>
 	        </li>
