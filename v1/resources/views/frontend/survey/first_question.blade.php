@@ -24,7 +24,7 @@
 
 <form action="{{ route('surveyone.post', [ 'id'=>1 ]) }}" class="signup_form" method="post">
 
-<h6><b>{{$Questions[0]->label??''}}</b></h6>
+<h6><b>{{$Questions[0]->qlabel??''}}</b></h6>
 
 
 @csrf
@@ -33,25 +33,17 @@
 
 
 <div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <p class="page-header">{{$Questions[0]->sublabel??''}}</p>
-     
-        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-1"  value=1>1
-        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2"   value=2>2
-        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-3"  value=3>3
-        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-4"  value=4>4
-        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-5" value=5>5
-        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-6" value=6>6
-        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-7"  value=7>7
-        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-8"  value=8>8
-        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-9"  value=9>9
-        <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-10" value=10>10
-        <hr/>
-
-
- 
-  </div>
+<div class="row">
+<div class="col-xs-12">
+<p class="page-header">{{$Questions[0]->qsublabel??''}}</p>
+@if($Questions[0]->qinput_type=="radio")	  
+@foreach($Questions[0]->qoptions as $key=>$value)
+<input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
+@endforeach
+@else		  
+@endif	
+<hr/> 
+</div>
 
 
 
@@ -59,6 +51,11 @@
 </div>
 
 <button type="submit" class="btn thm_btn next_tab text-transform-inherit">Next</button>
+
+
+<input type="hidden" name="organization_id" value="{{$Questions[0]->qorgid??0}}"/>
+<input type="hidden" name="question_id" value="{{$Questions[0]->qid??0}}"/>
+<input type="hidden" name="survey_id" value="{{$Questions[0]->qsurvey_id??0}}"/>
 </form>
 @else
 	<p>Questions are not mapped to this survey. Please contact to support team.</p>
