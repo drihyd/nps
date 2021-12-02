@@ -17,8 +17,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
-                        <th>Title</th>
-                        <th>Is Open</th>
+                        <th>Label</th>
+                        <th>Is Active</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -28,8 +28,8 @@
                           <tr>
                               
                               <td>{{$loop->iteration}}</td>
-                              <td>{{Str::title($question->title??'')}}</td>
-                              <td>{{$question->isopen??''}}</td>
+                              <td>{{Str::title($question->label??'')}}</td>
+                              <td>{{$question->active??''}}</td>
                               
                            
                               

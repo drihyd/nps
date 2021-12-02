@@ -25,7 +25,7 @@ class QuestionsController extends Controller
         $questions_data=Questions::get();
         $pageTitle="Questions";      
         $addlink=url(Config::get('constants.admin').'/questions/create');     
-        return view('admin.surveys.surveys_list', compact('pageTitle','questions_data','addlink'))
+        return view('admin.questions.questions_list', compact('pageTitle','questions_data','addlink'))
         ->with('i', (request()->input('page', 1) - 1) * 5);
             
         
@@ -44,53 +44,62 @@ class QuestionsController extends Controller
 
 
         $request->validate([
-            'title' => 'required', 
-            'isopen' => 'sometimes|nullable',
+            'survey_id' => 'required', 
+            'label' => 'required', 
+            'active' => 'sometimes|nullable',
             
         ]);
-        Surveys::insert([
+        Questions::insert([
             [
-                "title"=>$request->title??'',
-                "isopen"=>$request->isopen??'',
+                "survey_id"=>$request->survey_id??'',
+                "active"=>$request->active??'',
+                "label"=>$request->label??'',
+                "sublabel"=>$request->sublabel??'',
+                "input_type"=>$request->input_type??'',
                 "organization_id"=>$request->organization_id??'',
-                "admin_user_id"=>$request->admin_user_id??'',
+                "sequence_order"=>$request->sequence_order??'',
             ]  
         ]); 
-        return redirect(Config::get('constants.admin').'/surveys')->with('success', "Success! Details are added successfully"); 
+        return redirect(Config::get('constants.admin').'/questions')->with('success', "Success! Details are added successfully"); 
     }
-    public function edit_surveys($id)    {
+    public function edit_questions($id)    {
         
         $ID = Crypt::decryptString($id);
-            $surveys_data=Surveys::get()->where("id",$ID)->first();
+            $questions_data=Questions::get()->where("id",$ID)->first();
+            $surveys_data=Surveys::get();
             $pageTitle="Edit";      
-            return view('admin.surveys.add_edit_surveys',compact('surveys_data','pageTitle'));
+            return view('admin.questions.add_edit_questions',compact('surveys_data','pageTitle','questions_data'));
         
         
     }
-    public function update_surveys(Request $request)
+    public function update_questions(Request $request)
     {
         $request->validate([
-            'title' => 'required', 
-            'isopen' => 'sometimes|nullable',        
+            'survey_id' => 'required', 
+            'label' => 'required', 
+            'active' => 'sometimes|nullable',      
         ]);  
         
-        Surveys::where('id', $request->id)
+        Questions::where('id', $request->id)
             ->update(
             [
                 
                 
-                "title"=>$request->title??'',
-                "isopen"=>$request->isopen??'',
+                "survey_id"=>$request->survey_id??'',
+                "active"=>$request->active??'',
+                "label"=>$request->label??'',
+                "sublabel"=>$request->sublabel??'',
+                "input_type"=>$request->input_type??'',
                 "organization_id"=>$request->organization_id??'',
-                "admin_user_id"=>$request->admin_user_id??'',
+                "sequence_order"=>$request->sequence_order??'',
             ]
             );      
-        return redirect(Config::get('constants.admin').'/surveys')->with('success', "Success! Details are updated successfully");
+        return redirect(Config::get('constants.admin').'/questions')->with('success', "Success! Details are updated successfully");
     }
-    public function delete_surveys($id)
+    public function delete_questions($id)
     {
         $ID = Crypt::decryptString($id);
-            $data=Surveys::where('id',$ID)->delete();   
+            $data=Questions::where('id',$ID)->delete();   
          return redirect()->back()->with('success','Success! Details are deleted successfully');
         
     }
