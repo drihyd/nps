@@ -96,9 +96,12 @@ class NetPromoterScore extends Controller
 	public function surveyone_post(Request $request)
     {
 		
-		dd($request);
 		
-		if($request->first_questin_range){		
+		
+		if($request->first_questin_range){	
+
+		$nextquestion=$this->set_next_question($request->first_questin_range);
+		
 		$page=false;
 		
 	
@@ -113,7 +116,20 @@ class NetPromoterScore extends Controller
         ]); 
 		
 		
-		return view('frontend.survey.second_question',compact('page'));
+		$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$nextquestion)->get();		 
+		foreach ($Questions as $key => $value) {
+		$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
+		->where('question_id', $value->qid)
+		->get();	
+		}	
+		
+		
+
+		
+		
+		return view('frontend.survey.first_question',compact('page','Questions'));
+		
+		//return view('frontend.survey.second_question',compact('page'));
 		}
 		else{
 			return redirect()->back()->with('error', 'Please select score number.');  
@@ -124,32 +140,41 @@ class NetPromoterScore extends Controller
 	public function set_next_question($score=false) {
 	
 	switch ($score) {
-		case 'hold':
-		$next_question='btn btn-sm btn-info';
+		case '1':
+		$next_question='4';
 		break;
-		case 'placed':
-		$next_question='btn btn-sm btn-success';
+		case '2':
+		$next_question='4';
 		break;
-		case 'confirmed':
-		$next_question='btn btn-sm btn-primary';
+		case '3':
+		$next_question='4';
 		break;
-		case 'processing':
-		$next_question='btn btn-sm btn-warning';
+		case '4':
+		$next_question='4';
 		break;
-		case 'delivered':
-		$next_question='btn btn-sm btn-light';
+		case '5':
+		$next_question='4';
 		break;		 
-		case 'dispatched':
-		$next_question='btn btn-sm btn-danger';
+		case '6':
+		$next_question='4';
 		break;  
-		case 'cancelled':
-		$next_question='btn btn-dark';
+		case '7':
+		$next_question='3';
 		break;	
+		case '8':
+		$next_question='3';
+		break;
+		case '9':
+		$next_question='2';
+		break;
+		case '10':
+		$next_question='2';
+		break;
 		default:
-  $next_question='2';
+		$next_question='2';
 }
 
-return $color;
+return $next_question;
 	
 }
     
