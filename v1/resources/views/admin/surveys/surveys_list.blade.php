@@ -18,6 +18,7 @@
                     <tr>
                         <th>S.No</th>
                         <th>Title</th>
+                        <th>Description</th>
                         <th>Is Open</th>
                         <th>Actions</th>
                     </tr>
@@ -29,12 +30,9 @@
                               
                               <td>{{$loop->iteration}}</td>
                               <td>{{Str::title($survey->title??'')}}</td>
+                              <td width="50%">{{$survey->description??''}}</td>
                               <td>{{$survey->isopen??''}}</td>
-                              
-                           
-                              
                               <td>
-							  
 							  <a href="{{url(Config::get('constants.admin').'/surveys/edit/'.Crypt::encryptString($survey->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
                                 <a href="{{url(Config::get('constants.admin').'/surveys/delete/'.Crypt::encryptString($survey->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
 								

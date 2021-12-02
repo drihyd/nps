@@ -41,11 +41,8 @@
 </div>
 
 <div class="formify_box formify_box_checkbox background-white">
-<div class="formify_header">
-<h4 class="form_title"></h4>
-<p>To improve your experiences, can you please help us by answering these simple questions in the survey</p>
-<div class="border ml-0"></div>
-</div><br>
+@include('frontend.common_pages.survey_description')
+<br>
 <div class="tab-content" id="myTabContent">
 
 @if($Questions->count()>0)
