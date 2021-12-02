@@ -11,6 +11,7 @@ use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsermanagementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\SurveysController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +74,15 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	// Route::get('organizations/user/edit/{id}',[UsermanagementController::class,'edit_user']);
 	// Route::post('organizations/user/update',[UsermanagementController::class,'update_user']);
 	// Route::get('organizations/user/delete/{id}',[UsermanagementController::class,'delete_user']);
+
+
+	Route::get('surveys', [SurveysController::class,'surveys_list']);
+	Route::get('surveys/create', [SurveysController::class,'create_surveys']);
+	Route::post('surveys/store', [SurveysController::class, 'store_surveys']);
+	Route::get('surveys/edit/{id}',[SurveysController::class,'edit_surveys']);
+	Route::post('surveys/update',[SurveysController::class,'update_surveys']);
+	Route::get('surveys/delete/{id}',[SurveysController::class,'delete_surveys']);
+
 });
 
 

@@ -23,18 +23,17 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Switchery css -->
     <link href="{{URL::to('assets/plugins/switchery/switchery.min.css')}}" rel="stylesheet">
-    <!-- RWD Table css -->
-    <!-- <link href="assets/plugins/rwd-table-patterns/rwd-table.min.css" rel="stylesheet" type="text/css"> -->
-    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet"><!-- 
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- Apex css -->
     <link href="{{URL::to('assets/plugins/apexcharts/apexcharts.css')}}" rel="stylesheet">
 
     <link href="{{URL::to('assets/plugins/datepicker/datepicker.min.css')}}" rel="stylesheet" type="text/css">
     <!-- X-editable css -->
     <link href="assets/plugins/bootstrap-xeditable/css/bootstrap-editable.css" rel="stylesheet" type="text/css">
-    
-    <!-- <link href="{{URL::to('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"> -->
     <link href="{{URL::to('assets/css/icons.css')}}" rel="stylesheet" type="text/css">
     <link href="{{URL::to('assets/css/flag-icon.min.css')}}" rel="stylesheet" type="text/css">
 
@@ -103,8 +102,10 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <!-- RWD Table js -->
     <!-- <script src="{{URL::to('assets/plugins/rwd-table-patterns/rwd-table.min.js')}}"></script>     
     <script src="{{URL::to('assets/js/custom/custom-table-rwd.js')}}"></script>  -->   
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script> -->
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
      <!-- Core js -->
     <script src="{{URL::to('assets/js/core.js')}}"></script>
     <!-- Form Step js -->
