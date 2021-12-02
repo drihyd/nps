@@ -10,7 +10,7 @@ use Hash;
 use Validator;
 use Auth;
 use Illuminate\Support\Facades\Session;
-use Carbon\Carbon;
+use Carbon;
 Use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Config;
@@ -239,5 +239,52 @@ class UsermanagementController extends Controller
         $user_type_data=DB::table('user_types')->whereNotIn('user_types.id',[1,2])->get();
         return view('admin.department_users.add_user',compact('pageTitle','user_type_data')); 
             
+    }
+    public function department_store_user(Request $request)
+    {
+        
+        $request->validate([
+         'firstname' => 'required|min:1|max:100',       
+         'email' => 'required|email|unique:users,email',        
+         'role' => 'required',
+         'phone' => 'required',
+         'is_active_status' => 'required',
+         'password' => 'sometimes|nullable',
+         'phone' => 'sometimes|nullable|regex:/^[6-9]{1}[0-9]{9}/',
+         'profile' => 'mimes:jpg,jpeg,png',
+         // 'password' => $this->passwordRules(),        
+        ]);
+
+
+        $isexistemail = User::select('id')->where('email',$request->admin_email)->get();
+            if($isexistemail->count()==0){
+            $decrypt_password=Str::random(8);
+
+   
+
+        User::insert([
+            [
+                "organization_id"=>$request->id,
+                "firstname"=>$request->firstname,
+                "role"=>$request->role,
+                "email"=>$request->email,
+                "password"=> Hash::make($decrypt_password),
+                "decrypt_password"=>$decrypt_password,
+                "phone"=>$request->phone??'',
+                'created_at' =>Carbon\Carbon::now(),    
+                'updated_at' =>Carbon\Carbon::now(), 
+                'email_verified_at' =>Carbon\Carbon::now(), 
+                'is_email_verified' =>1, 
+                'is_active_status' =>1, 
+                'ip' =>request()->ip()??0,
+            ]  
+        ]); 
+
+        return redirect(Config::get('constants.admin').'/users')->with('success', "Success! Details are added successfully");
+    }else{
+
+         return redirect()->back()->with('error', 'User already exist an account.');  
+     }
+
     }
 }

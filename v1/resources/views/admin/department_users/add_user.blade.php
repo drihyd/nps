@@ -33,13 +33,13 @@
             </select>
           </div>
           <div class="form-group">
-            <label><b>First Name</b><span style="color: red;">*</span></label>
+            <label><b>Full Name</b><span style="color: red;">*</span></label>
             <input type="text" class="form-control" name="firstname" value="{{old('firstname',$users_data->firstname??'')}}" required="required" />
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label><b>Last Name</b><span style="color: red;">*</span></label>
             <input type="text" class="form-control" name="lastname" value="{{old('lastname',$users_data->lastname??'')}}" required="required" />
-          </div>
+          </div> -->
           <div class="form-group">
             <label><b>Email</b><span style="color: red;">*</span></label>
             <input type="email" name="email" class="form-control" required="required" value="{{old('email',$users_data->email??'')}}">
