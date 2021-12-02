@@ -96,6 +96,8 @@ class NetPromoterScore extends Controller
 	public function surveyone_post(Request $request)
     {
 		
+		dd($request);
+		
 		if($request->first_questin_range){		
 		$page=false;
 		
@@ -117,6 +119,39 @@ class NetPromoterScore extends Controller
 			return redirect()->back()->with('error', 'Please select score number.');  
 		}
     }
+	
+	
+	public function set_next_question($score=false) {
+	
+	switch ($score) {
+		case 'hold':
+		$next_question='btn btn-sm btn-info';
+		break;
+		case 'placed':
+		$next_question='btn btn-sm btn-success';
+		break;
+		case 'confirmed':
+		$next_question='btn btn-sm btn-primary';
+		break;
+		case 'processing':
+		$next_question='btn btn-sm btn-warning';
+		break;
+		case 'delivered':
+		$next_question='btn btn-sm btn-light';
+		break;		 
+		case 'dispatched':
+		$next_question='btn btn-sm btn-danger';
+		break;  
+		case 'cancelled':
+		$next_question='btn btn-dark';
+		break;	
+		default:
+  $next_question='2';
+}
+
+return $color;
+	
+}
     
     
 }
