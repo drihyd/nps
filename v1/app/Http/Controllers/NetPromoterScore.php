@@ -83,7 +83,8 @@ class NetPromoterScore extends Controller
 		->where('question_id', $value->qid)
 		->get();	
 		}		
-		$page=false;
+		$page=false;		
+	
 		return view('frontend.survey.first_question',compact('page','Questions'));
 
     }
