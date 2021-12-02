@@ -22,7 +22,7 @@ class QuestionsOptionsController extends Controller
     public function questions_option_list()
     {   
         
-        $questions_options_data=QuestionsOptions::get();
+        $questions_options_data=QuestionOptions::get();
         $pageTitle="Question Options";      
         $addlink=url(Config::get('constants.admin').'/questions_options/create');     
         return view('admin.question_options.question_options_list', compact('pageTitle','questions_options_data','addlink'))
@@ -45,7 +45,7 @@ class QuestionsOptionsController extends Controller
             'question_id' => 'required', 
             'option_value' => 'required', 
         ]);
-        QuestionsOptions::insert([
+        QuestionOptions::insert([
             [
                 "question_id"=>$request->question_id??'',
                 "option_value"=>$request->option_value??'',
@@ -56,7 +56,7 @@ class QuestionsOptionsController extends Controller
     public function edit_questions_options($id)    {
         
         $ID = Crypt::decryptString($id);
-            $questions_options_data=QuestionsOptions::get()->where("id",$ID)->first();
+            $questions_options_data=QuestionOptions::get()->where("id",$ID)->first();
             $questions_data=Questions::get();
             $pageTitle="Edit";      
             return view('admin.question_options.add_edit_question_options',compact('pageTitle','questions_data','questions_options_data'));
@@ -70,7 +70,7 @@ class QuestionsOptionsController extends Controller
             'option_value' => 'required',      
         ]);  
         
-        QuestionsOptions::where('id', $request->id)
+        QuestionOptions::where('id', $request->id)
             ->update(
             [
                 
@@ -83,7 +83,7 @@ class QuestionsOptionsController extends Controller
     public function delete_questions_options($id)
     {
         $ID = Crypt::decryptString($id);
-            $data=QuestionsOptions::where('id',$ID)->delete();   
+            $data=QuestionOptions::where('id',$ID)->delete();   
          return redirect()->back()->with('success','Success! Details are deleted successfully');
         
     }
