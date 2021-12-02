@@ -41,10 +41,9 @@
                            
                               
                               <td>
-							  <!--
-							  <a href="{{url('organizations/user/edit/'.Crypt::encryptString($user->id))}}" class="edit mr-2" title="Edit" ><i class="fas fa-pen"></i></a>
-                                <a href="{{url('organizations/user/delete/'.Crypt::encryptString($user->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fas fa-trash-alt"></i></a>
-								-->
+							  
+							  <a href="{{url(Config::get('constants.superadmin').'/organizations/edit/'.Crypt::encryptString($user->organization_id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
+								
                               </td>
                           </tr>
                           @endforeach
