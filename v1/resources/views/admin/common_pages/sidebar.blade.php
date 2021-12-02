@@ -1,6 +1,3 @@
-@php
-$theme_options_data=DB::table('themeoptions')->get()->first();
-@endphp
 <div class="leftbar">
             <!-- Start Sidebar -->
             <div class="sidebar">
@@ -13,23 +10,26 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
                 <!-- Start Navigationbar -->
                 <div class="navigationbar">
                     <ul class="vertical-menu">
+					
                         <li class="{{ (request()->is('dashboard')) ? 'active' : '' }}">
                             <a href="{{url('dashboard')}}">
                                 <img src="{{URL::to('assets/images/svg-icon/dashboard.svg')}}" class="img-fluid" alt="widgets"><span>Dashboard</span><!--<span class="badge badge-success pull-right">New</span>-->
                             </a>
                         </li> 
                         
-                        @if(auth()->user()->role == 1)
+                        @if(Auth::check() && auth()->user()->role == 1 )
                         <li>
                             <a href="javaScript:void();">
                               <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Organizations</span><i class="feather icon-chevron-right pull-right"></i>
                             </a>
                             <ul class="vertical-submenu">
                                 <li class="{{ (request()->is('organizations')) ? 'active' : '' }}"><a href="{{url('organizations')}}">View all</a></li>
-                                <li class="{{ (request()->is('organizations/add-basicinfo')) ? 'active' : '' }}"><a href="{{url('organizations/add-basicinfo')}}">Add New</a></li> 
+                                <li class="{{ (request()->is('organizations/add-basicinfo')) ? 'active' : '' }}"><a href="{{url('organizations/add-basicinfo')}}">Add New</a></li>
+								
+                                <li class="{{ (request()->is('organizations/users')) ? 'active' : '' }}"><a href="{{url('organizations/users')}}">Users</a></li> 
                             </ul>
                         </li>
-                        @elseif(auth()->user()->role == 2)
+                        @elseif(Auth::check() &&  auth()->user()->role == 2)
 
                         <li>
                             <a href="javaScript:void();">
@@ -44,7 +44,7 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 
                         @endif
 
-                         @if(auth()->user()->role == 1)
+                         @if(Auth::check() &&  auth()->user()->role == 1)
                         <li>
                             <a href="javaScript:void();">
                               <img src="{{URL::to('assets/images/svg-icon/maps.svg')}}" class="img-fluid" alt="apps"><span>Settings</span><i class="feather icon-chevron-right pull-right"></i>

@@ -16,6 +16,7 @@
                             <input type="hidden" name="id" value="{{$comapany_id}}">
                             <div>
                                 <h3>Admin Details</h3>
+								<small>Login credentials will send to entered email id.</small>
                                                 <section>
                                                     <div class="form-group">
                                                         <label for="username">Name<span class="text-danger">*</span></label>

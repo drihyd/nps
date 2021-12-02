@@ -28,6 +28,20 @@ Route::get('profile/',[AdminController::class,'profile']);
 Route::post('profile/update',[AdminController::class,'update_profile']);
 /* Dashbaord */
 Route::get('dashboard', [AdminController::class,'dashboard_lists']);
+
+
+
+Route::group( ['prefix' => 'manager','middleware' => 'ismanager'],function(){
+	
+	
+	Route::get('dashboard', [AdminController::class,'dashboard_lists']);
+	Route::get('departments', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
+	
+	
+	
+});
+
+
 Route::get('organizations', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
 Route::get('organizations/add-basicinfo', [OrganizationsController::class,'add_basicinfo']);
 Route::post('organizations/store', [OrganizationsController::class,'store_basicinfo']);
@@ -53,8 +67,21 @@ Route::post('organizations/update_address_1', [OrganizationsController::class,'u
 Route::post('organizations/update_address_2', [OrganizationsController::class,'update_address_2'])->name('update_address_2');
 Route::post('organizations/update_pincode', [OrganizationsController::class,'update_pincode'])->name('update_pincode');
 Route::post('organizations/update_city', [OrganizationsController::class,'update_city'])->name('update_city');
+Route::post('organizations/update_country', [OrganizationsController::class,'update_country'])->name('update_country');
+
 Route::post('organizations/update_gst_details', [OrganizationsController::class,'update_gst'])->name('update_gst_details');
 Route::post('organizations/update_billing_address1', [OrganizationsController::class,'update_billing_address1'])->name('update_billing_address1');
+Route::post('organizations/update_billing_address2', [OrganizationsController::class,'update_billing_address2'])->name('update_billing_address2');
+Route::post('organizations/update_billing_pincode', [OrganizationsController::class,'update_billing_pincode'])->name('update_billing_pincode');
+Route::post('organizations/update_billing_city', [OrganizationsController::class,'update_billing_city'])->name('update_billing_city');
+Route::post('organizations/update_billing_country', [OrganizationsController::class,'update_billing_country'])->name('update_billing_country');
+Route::post('organizations/update_admin_name', [OrganizationsController::class,'update_admin_name'])->name('update_admin_name');
+Route::post('organizations/update_admin_email', [OrganizationsController::class,'update_admin_email'])->name('update_admin_email');
+Route::post('organizations/update_admin_mobile', [OrganizationsController::class,'update_admin_mobile'])->name('update_admin_mobile');
+Route::post('organizations/update_admin_alt_mobile', [OrganizationsController::class,'update_admin_alt_mobile'])->name('update_admin_alt_mobile');
+Route::post('organizations/update_license_startdate', [OrganizationsController::class,'update_license_startdate'])->name('update_license_startdate');
+Route::post('organizations/update_license_period_year', [OrganizationsController::class,'update_license_period_year'])->name('update_license_period_year');
+Route::post('organizations/update_license_period_month', [OrganizationsController::class,'update_license_period_month'])->name('update_license_period_month');
 
 
 /*Admin Theme options*/
@@ -67,9 +94,9 @@ Route::get('theme_options/delete/{id}',[ThemeoptionsController::class,'delete_th
 
 /*admin- Users */
 
-Route::get('users', [UsermanagementController::class,'index']);
-Route::get('user/create', [UsermanagementController::class,'create_user']);
-Route::post('user/store', [UsermanagementController::class, 'store_user']);
-Route::get('user/edit/{id}',[UsermanagementController::class,'edit_user']);
-Route::post('user/update',[UsermanagementController::class,'update_user']);
-Route::get('user/delete/{id}',[UsermanagementController::class,'delete_user']);
+Route::get('organizations/users', [UsermanagementController::class,'index']);
+Route::get('organizations/user/create', [UsermanagementController::class,'create_user']);
+Route::post('organizations/user/store', [UsermanagementController::class, 'store_user']);
+Route::get('organizations/user/edit/{id}',[UsermanagementController::class,'edit_user']);
+Route::post('organizations/user/update',[UsermanagementController::class,'update_user']);
+Route::get('organizations/user/delete/{id}',[UsermanagementController::class,'delete_user']);

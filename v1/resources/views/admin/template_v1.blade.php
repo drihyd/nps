@@ -89,16 +89,54 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <!-- End Infobar Setting Sidebar -->
     <!-- Start Containerbar -->
     <div id="containerbar">
-        <!-- Start Leftbar -->
-        @include('admin.common_pages.sidebar')
-        <!-- End Leftbar -->
-        <!-- Start Rightbar -->
-        <div class="rightbar">
-            <!-- Start Topbar Mobile -->
-            @include('admin.common_pages.top-nav')
-            <!-- End Topbar -->
-            <!-- Start Breadcrumbbar -->                    
-            @include('admin.common_pages.breadcrump')
+	
+	
+	
+	<!-- Start Breadcrumbbar -->   
+@if(Auth::user()->role==1)	
+@include('admin.common_pages.sidebar')
+@elseif(Auth::user()->role==2)
+@include('admin.common_pages.manager_sidebar')
+@elseif(Auth::user()->role==3)
+@elseif(Auth::user()->role==4)
+
+@else
+
+@endif
+
+<!-- Start Leftbar -->
+
+<!-- End Leftbar -->
+<!-- Start Rightbar -->
+<div class="rightbar">
+<!-- Start Topbar Mobile -->
+
+
+
+
+<!-- Start Breadcrumbbar -->   
+@if(Auth::user()->role==1)
+	
+
+@include('admin.common_pages.top-nav')
+@include('admin.common_pages.breadcrump')
+
+@elseif(Auth::user()->role==2)
+
+
+@include('admin.common_pages.top-nav')
+@include('admin.common_pages.breadcrump_manager')
+
+@elseif(Auth::user()->role==3)
+
+@elseif(Auth::user()->role==4)
+
+@else
+
+@endif
+
+			
+			
             <!-- End Breadcrumbbar -->
             <!-- Start Contentbar -->    
             <div class="contentbar">                
@@ -117,9 +155,8 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <!-- End Containerbar -->
     <!-- Start js --> 
    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>   
-
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
     <!-- <script src="{{URL::to('assets/js/jquery.min.js')}}"></script> -->
     <script src="{{URL::to('assets/js/popper.min.js')}}"></script>
     <script src="{{URL::to('assets/js/bootstrap.min.js')}}"></script>
@@ -129,6 +166,8 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <script src="{{URL::to('assets/js/vertical-menu.js')}}"></script>
     <!-- Switchery js -->
     <script src="{{URL::to('assets/plugins/switchery/switchery.min.js')}}"></script>
+    
+    <script src="{{URL::to('assets/js/custom/custom-switchery.js')}}"></script>
     <!-- Apex js -->
     <script src="{{URL::to('assets/plugins/apexcharts/apexcharts.min.js')}}"></script>
     <script src="{{URL::to('assets/plugins/apexcharts/irregular-data-series.js')}}"></script>    
@@ -161,7 +200,8 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <script src="{{URL::to('assets/js/custom/custom-form-xeditable.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <!-- End js -->
+@include('admin.common_pages.functions_js')
+  <!-- End js -->
     @stack('scripts')
     <script>
   $('form').parsley();

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Organizations;
-// use App\Models\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 use Mail;
+use Carbon;
 
 class OrganizationsController extends Controller
 {
@@ -36,7 +36,7 @@ class OrganizationsController extends Controller
                     })
                     ->addColumn('status', function($row){
                             
-                            if($row->is_active=='yes'){
+                            if($row->is_active=='yes' && $row->license_startdate!=''){
                                 $items= "Active";
                             }else{
                                 $items= "In Active";
@@ -152,6 +152,37 @@ class OrganizationsController extends Controller
         $pageTitle = 'Add Organization Address';
         return view('admin.organizations.add_admin_details',compact('pageTitle','comapany_id','organizations_data'));
     }
+	
+	
+	public function admininfo_storein_usertb($request){		
+
+			$isexistemail = User::select('id')->where('email',$request->admin_email)->get();
+			if($isexistemail->count()==0){
+			$decrypt_password=Str::random(8);
+			$InserasUser=User::insert(
+				[
+				"organization_id"=>$request->id,
+				"email"=>$request->admin_email,
+				"phone"=>$request->admin_mobile,
+				"password"=> Hash::make($decrypt_password),
+				"decrypt_password"=>$decrypt_password,
+				"firstname"=>$request->admin_name??'',
+				"role"=>'2',
+				'created_at' =>Carbon\Carbon::now(), 	
+				'updated_at' =>Carbon\Carbon::now(), 
+				'email_verified_at' =>Carbon\Carbon::now(), 
+				'is_email_verified' =>1, 
+				'is_active_status' =>1, 
+				'ip' =>request()->ip()??0, 
+				]
+				);		
+
+			}else{
+
+			return redirect()->back()->with('error', 'User already exist an account.');  
+			}			
+	
+	}
     public function store_admin_details(Request $request)
     {
         
@@ -175,19 +206,16 @@ class OrganizationsController extends Controller
             );
 
             $org_data= Organizations::where('id',$request->id)->get()->first();
+			
             // echo '<pre>'; print_r($org_data); exit();
-            DB::table('users')->insert([
-            [
-                "email"=>$org_data->admin_email,
-                "phone"=>$org_data->admin_mobile,
-                "password"=> Hash::make($org_data->password),
-                "firstname"=>$org_data->admin_name??'',
-                "role"=>'2',
-            ]  
-        ]);
+			
+
+		
+		$this->admininfo_storein_usertb($request);
+	
 
             if($org_data->admin_email){
-        session_start();
+     
         
     //     /* Client Notification */
         
@@ -232,7 +260,7 @@ class OrganizationsController extends Controller
     $message1 .= '<p>Thanks,</p>';
     $message1 .= '<p>Incor Group</p>';
     $message1 .= "</body></html>";
-    $response=mail($to1, $subject1, $message1, $headers1);
+   // $response=mail($to1, $subject1, $message1, $headers1);
         
         
     //Mail::to($request->email)->cc('venkat@deepredink.com')->send(new NewsletterMail(''));
@@ -271,7 +299,7 @@ class OrganizationsController extends Controller
 
 
 
-        return redirect('organizations')->with('success', "Successfully! Updated a Organization Details"); 
+        return redirect('organizations')->with('success', "Organization Details are saved successfully"); 
     }
 
     public function get_permanent_address(Request $request)
@@ -284,13 +312,19 @@ class OrganizationsController extends Controller
     }
 
 
-
-
-
     public function delete_organization(Request $request)
-    {
-            $data=Organizations::where('id',$request->id)->delete();   
-         return Response()->json(['success'=>"Success! Organization deleted successfully."]);
+    {		
+	
+          $Organizations=Organizations::where('id',$request->id)->delete(); 		  
+		  $User=User::where('organization_id',$request->id)->delete(); 
+
+		  if($Organizations){
+			 return Response()->json(['success'=>"Organization deleted successfully."]);  
+		  }
+		  else{
+			   return Response()->json(['error'=>"Record not deleted."]);
+		  }
+        
         
     }
     public function edit_organization($id)    {
@@ -386,6 +420,18 @@ public function update_entitytype(Request $request)
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated City']);
         }
     }
+    public function update_country(Request $request)
+    {
+        if($request->ajax()){
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'country' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Country']);
+        }
+    }
 public function update_gst(Request $request)
     {
         if($request->ajax()){
@@ -406,10 +452,153 @@ public function update_gst(Request $request)
             Organizations::where('id', $request->pk)
             ->update(
             [
-                'gst_no' =>$request->value??'',
+                'billing_address_1' =>$request->value??'',
             ]
             );
-            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated GST']);
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing Address 1']);
+        }
+    }
+    public function update_billing_address2(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'billing_address_2' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing Address 2']);
+        }
+    }
+    public function update_billing_pincode(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'billing_pincode' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing Pincode']);
+        }
+    }
+    public function update_billing_city(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'billing_city' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing City']);
+        }
+    }
+    public function update_billing_country(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'billing_country' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Billing City']);
+        }
+    }
+    public function update_admin_name(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'admin_name' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Name']);
+        }
+    }
+    public function update_admin_email(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'admin_email' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Email']);
+        }
+    }
+    public function update_admin_mobile(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'admin_mobile' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Mobile']);
+        }
+    }
+    public function update_admin_alt_mobile(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'admin_alter_mobile' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Alternative Mobile']);
+        }
+    }
+    public function update_license_startdate(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'license_startdate' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated License start date']);
+        }
+    }
+    public function update_license_period_year(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'license_period_year' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated License Period year']);
+        }
+    }
+    public function update_license_period_month(Request $request)
+    {
+        if($request->ajax()){
+
+            Organizations::where('id', $request->pk)
+            ->update(
+            [
+                'license_period_month' =>$request->value??'',
+            ]
+            );
+            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated License Period year']);
         }
     }
 
