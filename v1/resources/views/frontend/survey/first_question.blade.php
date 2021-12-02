@@ -48,7 +48,6 @@
 </div><br>
 <div class="tab-content" id="myTabContent">
 
-
 @if($Questions->count()>0)
 
 <form action="{{ route('surveyone.post') }}" class="signup_form" method="post">
@@ -83,8 +82,11 @@
 @elseif($Questions[0]->qinput_type=="textarea")	
 
 	@foreach($Questions[0]->qoptions as $key=>$value)
-	<label>{{$value->qpvalue??''}}</label>
-	<textarea name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}"></textarea>
+	<label>{{$value->qpvalue??''}}</label><br>
+	
+	<input type="hidden" name="first_questin_range"  value="{{$value->qoptionid}}">
+	
+	<textarea name="answerdbyperson" class="form form-control"></textarea>
 	@endforeach
 
 @else		  
@@ -106,7 +108,7 @@
 <input type="hidden" name="survey_id" value="{{$Questions[0]->qsurvey_id??0}}"/>
 </form>
 @else
-	<p>Questions are not mapped to this survey. Please contact to support team.</p>
+	<p>Thank you for completing our survey!</p>
 @endif
 
 </div>

@@ -83,7 +83,10 @@ class NetPromoterScore extends Controller
 		->where('question_id', $value->qid)
 		->get();	
 		}		
-		$page=false;		
+		$page=false;
+
+
+		
 	
 		return view('frontend.survey.first_question',compact('page','Questions'));
 
@@ -98,13 +101,31 @@ class NetPromoterScore extends Controller
     {
 		
 		
+		$Questions=Questions::select('questions.next_qustion_id as qnq','questions.sequence_order as qseq','questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$request->question_id)->get()->first();		 
+		$qseq=$Questions->qseq;		
+		if($request->first_questin_range){			
+		if($qseq!=1){		
+		$nextquestion=$Questions->qnq;
+		}
+		else{
+			/* Duplicate survey question and answered */
+	$delete_exist_answered=SurveyAnswered::where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->delete();
+			
+			$nextquestion=$this->set_next_question($request->first_questin_range);
+		}		
+		$page=false;		
+	
+	
+	
+	if(empty($request->organization_id) || empty($request->survey_id) || empty($request->question_id))
+	{
+		return redirect()->back()->with('error', 'Something went wrong.');  
+	}
+	else{
 		
-		if($request->first_questin_range){	
-
-		$nextquestion=$this->set_next_question($request->first_questin_range);
-		
-		$page=false;
-		
+	/* Duplicate answered question */
+	$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->delete();
+	
 	
 		
         $first_questionans=SurveyAnswered::insert([
@@ -113,6 +134,7 @@ class NetPromoterScore extends Controller
                 "survey_id"=>$request->survey_id??0,
                 "question_id"=>$request->question_id??0,
                 "answerid"=>$request->first_questin_range??0,
+                "answeredby_person"=>$request->answerdbyperson??'',
             ]  
         ]); 
 		
@@ -129,6 +151,8 @@ class NetPromoterScore extends Controller
 		
 		
 		return view('frontend.survey.first_question',compact('page','Questions'));
+		
+	}
 		
 		//return view('frontend.survey.second_question',compact('page'));
 		}

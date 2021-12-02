@@ -1635,102 +1635,102 @@ input {
 
 
 .btn-scale-asc-1, .btn-scale-desc-10 {
-  background-color: #33FF00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-1:hover,
 .btn-scale-desc-10:hover {
-  background-color: #2CDE00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-2,
 .btn-scale-desc-9{
-  background-color: #66FF00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-2:hover,
 .btn-scale-desc-9:hover{
-  background-color: #59DE00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-3,
 .btn-scale-desc-8 {
-  background-color: #99FF00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-3:hover,
 .btn-scale-desc-8:hover {
-  background-color: #85DE00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-4,
 .btn-scale-desc-7 {
-  background-color: #CCFF00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-4:hover,
 .btn-scale-desc-7:hover {
-  background-color: #B1DE00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-5,
 .btn-scale-desc-6 {
-  background-color: #FFFF00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-5:hover,
 .btn-scale-desc-6:hover {
-  background-color: #DEDE00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-6,
 .btn-scale-desc-5 {
-  background-color: #FFCC00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-6:hover,
 .btn-scale-desc-5:hover {
-  background-color: #DEB100;
+  background-color: #fff;
 }
 
 .btn-scale-asc-7,
 .btn-scale-desc-4 {
-  background-color: #FF9900;
+  background-color: #fff;
 }
 
 .btn-scale-asc-7:hover,
 .btn-scale-desc-4:hover {
-  background-color: #DE8500;
+  background-color: #fff;
 }
 
 .btn-scale-asc-8,
 .btn-scale-desc-3 {
-  background-color: #FF6600;
+  background-color: #fff;
 }
 
 .btn-scale-asc-8:hover,
 .btn-scale-desc-3:hover {
-  background-color: #DE5900;
+  background-color: #fff;
 }
 
 .btn-scale-asc-9,
 .btn-scale-desc-2 {
-  background-color: #FF3300;
+  background-color: #fff;
 }
 
 .btn-scale-asc-9:hover,
 .btn-scale-desc-2:hover {
-  background-color: #DE2C00;
+  background-color: #fff;
 }
 
 .btn-scale-asc-10,
 .btn-scale-desc-1 {
-  background-color: #FF0000;
+  background-color: #fff;
 }
 
 .btn-scale-asc-10:hover,
 .btn-scale-desc-1:hover {
-  background-color: #DE0000;
+  background-color: #fff;
 }
 
 .parsley-required{
