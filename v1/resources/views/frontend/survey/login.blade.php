@@ -7,7 +7,7 @@
 <h4 class="form_title">@yield('title')</h4>
 <div class="border ml-0"></div>
 </div>
-<form action="{{ route('login.verification') }}" class="signup_form" method="post">
+<form action="{{route('adminlogin.verification')}}" class="signup_form" method="post">
 @csrf 
 <div class="box_info">
 <div class="container">

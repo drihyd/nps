@@ -54,18 +54,24 @@ class LoginController extends Controller
 				case '2':
 				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
 				break;
+				case '3':
+				return redirect('survey/first')->with('success', 'Successfully logged in.');
+				break;
+				case '4':
+				return redirect('survey/first')->with('success', 'Successfully logged in.');
+				break;
 				
 				default:
 				Auth::logout();
 				Session::flush();
-				return redirect('/administrator')->with('error', 'Failed to logged in.'); 
+				return redirect('/')->with('error', 'Failed to logged in.'); 
 				}			
 
 
 		
         }
         else{
-	        return redirect('/administrator')->with('error', 'Failed to logged in.');
+	        return redirect('/')->with('error', 'Failed to logged in/Entered wrong credentials.');
 	    }
    
 
@@ -74,7 +80,7 @@ class LoginController extends Controller
     {
         Auth::logout();
         Session::flush();
-        return redirect('/administrator')->with('error', 'You have been successfully logged out!'); 
+        return redirect('/')->with('error', 'You have been successfully logged out!'); 
     }
      public function profile(){
             
