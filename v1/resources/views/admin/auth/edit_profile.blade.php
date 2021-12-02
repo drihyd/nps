@@ -12,7 +12,7 @@
               <div class="row">
                 <div class="col-sm-12">
                  @if(isset($users_data->id))
-<form id="crudTable" action="{{url('profile/update')}} " method="POST"  enctype="multipart/form-data">
+<form id="crudTable" action="{{url('administrator/profile/update')}} " method="POST"  enctype="multipart/form-data">
 
 @else
 @endif  
