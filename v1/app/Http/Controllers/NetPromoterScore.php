@@ -9,6 +9,8 @@ Use Exception;
 use Validator;
 use Auth;
 use Session;
+use App\Models\Questions;
+use App\Models\QuestionOptions;
 class NetPromoterScore extends Controller
 {
 
@@ -70,10 +72,19 @@ class NetPromoterScore extends Controller
         return redirect('/')->with('error', 'You have been successfully logged out!'); 
     }
 	
-	  public function first_question()
+	 public function first_question()
     {
+		
+
+		$Questions=Questions::select()->where('sequence_order',1)->get();		 
+		foreach ($Questions as $key => $value) {
+		$Questions[$key]->qoptions = QuestionOptions::select()
+		->where('question_id', $value->id)
+		->get();	
+		}	
 		$page=false;
-        return view('frontend.survey.first_question',compact('page'));
+		return view('frontend.survey.first_question',compact('page','Questions'));
+
     }
 	
 	public function second_question()
