@@ -64,6 +64,12 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 
 @if(Auth::check())
 <a href="index.html" class="top_logo"><img src="{{URL::to('assets/img/frontend/logo.png')}}" alt=""></a>
+
+
+                            <a href="{{route('admin.logout')}}" class="text-align-right">
+                              <img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
+                            </a>
+                     
 @else	
 @endif
 <img class="img-fluid" src="{{URL::to('assets/img/frontend/personal_img.png')}}" alt="">

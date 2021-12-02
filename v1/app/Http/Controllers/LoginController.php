@@ -55,10 +55,10 @@ class LoginController extends Controller
 				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
 				break;
 				case '3':
-				return redirect('survey/first')->with('success', 'Successfully logged in.');
+				return redirect('user/survey')->with('success', 'Successfully logged in.');
 				break;
 				case '4':
-				return redirect('survey/first')->with('success', 'Successfully logged in.');
+				return redirect('user/survey')->with('success', 'Successfully logged in.');
 				break;
 				
 				default:
