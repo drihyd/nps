@@ -11,7 +11,7 @@
                 </div>
                 @if(!isset($theme_options_data->id))
 			<div class="float-right">
-			<a href="{{url('admin/theme_options/create')}}" class="btn btn-primary btn-sm ">+ Add</a>
+			<a href="{{url(Config::get('constants.superadmin').'/theme_options/create')}}" class="btn btn-primary btn-sm ">+ Add</a>
 			</div>
 			@else
  @endif
@@ -50,8 +50,8 @@
                 
             </div>
             <div class="card-footer text-right">
-        <a href="{{url('theme_options/edit/'.$theme_options_data->id)}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
-        <a href="{{url('theme_options/delete/'.$theme_options_data->id)}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
+        <a href="{{url(Config::get('constants.superadmin').'/theme_options/edit/'.$theme_options_data->id)}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
+        <a href="{{url(Config::get('constants.superadmin').'/theme_options/delete/'.$theme_options_data->id)}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
     </div>
         </div>
 

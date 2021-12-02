@@ -11,7 +11,7 @@
             <div class="card-body">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 col-xl-6">
-                        <form  action="{{url('organizations/update_gst/')}}" method="post">
+                        <form  action="{{url(Config::get('constants.superadmin').'/organizations/update_gst/')}}" method="post">
                         	@csrf
                             <input type="hidden" name="id" value="{{$comapany_id}}">
 
@@ -71,7 +71,7 @@
                                                            
                                                         </select>
                                                     </div>
-                                                    <a href="{{ url('organizations/add-address/'.Crypt::encryptString($comapany_id))}}" class="btn btn-danger btn-sm">Back</a>
+                                                    <a href="{{ url(Config::get('constants.superadmin').'/organizations/add-address/'.Crypt::encryptString($comapany_id))}}" class="btn btn-danger btn-sm">Back</a>
                                     <button type="submit" class="btn btn-primary btn-sm">Save & Continue</button>
                                 </section>
                             </div>

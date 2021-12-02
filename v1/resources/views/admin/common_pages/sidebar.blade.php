@@ -3,16 +3,16 @@
             <div class="sidebar">
                 <!-- Start Logobar -->
                 <div class="logobar">
-                    <a href="{{url('/')}}" class="logo logo-large"><img src="{{URL::to('assets/uploads/'.$theme_options_data->header_logo??'')}}" class="img-fluid" alt="logo"></a>
-                    <a href="{{url('/')}}" class="logo logo-small"><img src="{{URL::to('assets/uploads/'.$theme_options_data->favicon??'')}}" class="img-fluid" alt="logo"></a>
+                    <a href="#" class="logo logo-large"><img src="{{URL::to('assets/uploads/'.$theme_options_data->header_logo??'')}}" class="img-fluid" alt="logo"></a>
+                    <a href="#" class="logo logo-small"><img src="{{URL::to('assets/uploads/'.$theme_options_data->favicon??'')}}" class="img-fluid" alt="logo"></a>
                 </div>
                 <!-- End Logobar -->
                 <!-- Start Navigationbar -->
                 <div class="navigationbar">
                     <ul class="vertical-menu">
 					
-                        <li class="{{ (request()->is('dashboard')) ? 'active' : '' }}">
-                            <a href="{{url('dashboard')}}">
+                        <li class="{{ (request()->is(Config::get('constants.superadmin').'/dashboard')) ? 'active' : '' }}">
+                            <a href="{{url(Config::get('constants.superadmin').'/dashboard')}}">
                                 <img src="{{URL::to('assets/images/svg-icon/dashboard.svg')}}" class="img-fluid" alt="widgets"><span>Dashboard</span><!--<span class="badge badge-success pull-right">New</span>-->
                             </a>
                         </li> 
@@ -23,24 +23,13 @@
                               <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Organizations</span><i class="feather icon-chevron-right pull-right"></i>
                             </a>
                             <ul class="vertical-submenu">
-                                <li class="{{ (request()->is('organizations')) ? 'active' : '' }}"><a href="{{url('organizations')}}">View all</a></li>
-                                <li class="{{ (request()->is('organizations/add-basicinfo')) ? 'active' : '' }}"><a href="{{url('organizations/add-basicinfo')}}">Add New</a></li>
+                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/organizations')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/organizations')}}">View all</a></li>
+                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/organizations/add-basicinfo')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/organizations/add-basicinfo')}}">Add New</a></li>
 								
-                                <li class="{{ (request()->is('organizations/users')) ? 'active' : '' }}"><a href="{{url('organizations/users')}}">Users</a></li> 
+                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/admin-users')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/admin-users')}}">Admin Users</a></li> 
                             </ul>
                         </li>
-                        @elseif(Auth::check() &&  auth()->user()->role == 2)
-
-                        <li>
-                            <a href="javaScript:void();">
-                              <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Departments</span><i class="feather icon-chevron-right pull-right"></i>
-                            </a>
-                            <ul class="vertical-submenu">
-                                <li class="{{ (request()->is('departments')) ? 'active' : '' }}"><a href="{{url('organizations')}}">View all</a></li>
-                                
-                            </ul>
-                        </li>
-                        @else
+                       
 
                         @endif
 
@@ -50,7 +39,7 @@
                               <img src="{{URL::to('assets/images/svg-icon/maps.svg')}}" class="img-fluid" alt="apps"><span>Settings</span><i class="feather icon-chevron-right pull-right"></i>
                             </a>
                             <ul class="vertical-submenu">
-                                <li class="{{ (request()->is('theme_options')) ? 'active' : '' }}"><a href="{{url('theme_options')}}">Theme Options</a></li>
+                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/theme_options')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/theme_options')}}">Theme Options</a></li>
                                 <!-- <li class="{{ (request()->is('users')) ? 'active' : '' }}"><a href="{{url('users')}}">Users</a></li>  -->
                             </ul>
                         </li>
@@ -58,7 +47,7 @@
 
                         @endif
                         <li>
-                            <a href="{{route('admin.logout')}}">
+                            <a href="{{route('session.logout')}}">
                               <img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
                             </a>
                         </li>

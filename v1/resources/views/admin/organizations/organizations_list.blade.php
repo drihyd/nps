@@ -60,7 +60,7 @@
           // ajax
           $.ajax({
             type:"POST",
-            url: "{{ url('organizations/delete') }}",
+            url: "{{ route('organizations.delete') }}",
             data: {_token: "{{ csrf_token() }}", id: id },
             dataType: 'json',
             success: function(res){

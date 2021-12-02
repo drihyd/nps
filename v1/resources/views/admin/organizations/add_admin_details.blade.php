@@ -11,7 +11,7 @@
             <div class="card-body">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 col-xl-6">
-                        <form  action="{{url('organizations/update_admin')}}" method="post">
+                        <form  action="{{url(Config::get('constants.superadmin').'/organizations/update_admin')}}" method="post">
                         	@csrf
                             <input type="hidden" name="id" value="{{$comapany_id}}">
                             <div>
@@ -34,7 +34,7 @@
                                                         <label for="altmobile">Alternate Mobile</label>
                                                         <input type="number" name="admin_alter_mobile" class="form-control" id="altmobile" data-parsley-maxlength="10" value="{{old('admin_alter_mobile',$organizations_data->admin_alter_mobile??'')}}">
                                                     </div>
-                                    <a href="{{ url('organizations/add-gst-details/'.Crypt::encryptString($comapany_id)) }}" class="btn btn-danger btn-sm">Back</a>
+                                    <a href="{{ url(Config::get('constants.superadmin').'/organizations/add-gst-details/'.Crypt::encryptString($comapany_id)) }}" class="btn btn-danger btn-sm">Back</a>
                                     <button type="submit" class="btn btn-primary btn-sm">Save & Continue</button>
                                 </section>
                             </div>

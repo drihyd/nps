@@ -40,7 +40,7 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
                                         <div class="form-head">
                                             <a href="index.html" class="logo"><img src="{{URL::to('assets/uploads/'.$theme_options_data->header_logo??'')}}" class="img-fluid" alt="logo"></a>
                                         </div>                                        
-                                        <h4 class="text-primary my-4">Admin Login !</h4>
+                                       
                                         <div class="form-group">
                                             <input type="email" name="email" class="form-control" id="username" placeholder="Enter Email" required data-parsley-type="email">
                                         </div>

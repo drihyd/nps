@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Mail;
 use Carbon;
+use Config;
 
 class OrganizationsController extends Controller
 {
@@ -45,7 +46,7 @@ class OrganizationsController extends Controller
                     })
                     ->addColumn('action', function($row){
      
-                           $btn = '<a href="'.url("organizations/edit/".Crypt::encryptString($row->id)).'"><i class="fa fa-edit"></i></a>&ensp;<a href="javascript:void(0);" data-id='.$row->id.' class="nddelete delete" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash"></i></a>';
+                           $btn = '<a href="'.url(Config::get('constants.superadmin')."/organizations/edit/".Crypt::encryptString($row->id)).'"><i class="fa fa-edit"></i></a>&ensp;<a href="javascript:void(0);" data-id='.$row->id.' class="nddelete delete" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash"></i></a>';
     
                             return $btn;
                     })
@@ -81,7 +82,7 @@ class OrganizationsController extends Controller
 ));
 
 
-        return redirect('organizations/add-address/'.Crypt::encryptString($id))->with('success', "Success! Details are added successfully"); 
+        return redirect(Config::get('constants.superadmin').'/organizations/add-address/'.Crypt::encryptString($id))->with('success', "Success! Details are added successfully"); 
     }
     public function add_address($id)
     {
@@ -111,7 +112,7 @@ class OrganizationsController extends Controller
                 "country"=>$request->country??'',
             ]
             ); 
-        return redirect('organizations/add-gst-details/'.Crypt::encryptString($request->id))->with('success', "Success! Address Details are updated successfully"); 
+        return redirect(Config::get('constants.superadmin').'/organizations/add-gst-details/'.Crypt::encryptString($request->id))->with('success', "Success! Address Details are updated successfully"); 
     }
     public function add_gst_details($id)
     {
@@ -143,7 +144,7 @@ class OrganizationsController extends Controller
                 "gst_no"=>$request->gst_no??'',
             ]
             ); 
-        return redirect('organizations/add-admin-details/'.Crypt::encryptString($request->id))->with('success', "Success! GST & Billing Details are updated successfully"); 
+        return redirect(Config::get('constants.superadmin').'/organizations/add-admin-details/'.Crypt::encryptString($request->id))->with('success', "Success! GST & Billing Details are updated successfully"); 
     }
     public function add_admin_details($id)
     {
@@ -214,62 +215,12 @@ class OrganizationsController extends Controller
 		$this->admininfo_storein_usertb($request);
 	
 
-            if($org_data->admin_email){
-     
-        
-    //     /* Client Notification */
-        
-    // $to = "anvaralikhan2020@gmail.com,lakshmipriyauv99@gmail.com";
-    // $subject = 'New Enquiry';
-    // $headers = "MIME-Version: 1.0\r\n";
-    // $headers .= "Content-Type: text/html; charset=charset=utf-8\r\n";
-    // $headers .= "From: jayarajuv5@gmail.com\r\n";
-    // //$headers .= "Reply-To: ". $_POST['email'] . "\r\n";
-    // //$headers .= "CC: xxx@xxxxx.xxx\r\n";
-    // $message = "<html><body>";
-    // $message .= '<p>Dear Admin,</p>';
-    // $message .= '<p>Here is the New Enquiry information</p>';
-    // $message .= '<table style="border-color: #666; background: #eee; cellpadding="10">';
-    // $message .= "<tr><td><strong>Name:</strong> </td><td>" .$request->name. "</td></tr>";
-    // $message .= "<tr><td><strong>Email:</strong> </td><td>" . $request->email . "</td></tr>"; 
-    // $message .= "<tr><td><strong>Message:</strong> </td><td>" . $request->message. "</td></tr>"; 
-    // $message .= "</table>";
-    // $message .= '<br>';
-    // $message .= '<p>Thanks,</p>';
-    // $message .= '<p>Anvaralikhan</p>';
-    
-    // $message .= "</body></html>";
-    // $response=mail($to, $subject, $message, $headers);
-        
-        /* FRE Notification */
-        
-    $to1 = $org_data->admin_email;
-    $subject1 = 'Thanks';
-    $headers1 = "MIME-Version: 1.0\r\n";
-    $headers1 .= "Content-Type: text/html; charset=charset=utf-8\r\n";
-    $headers1 .= "From: deepredink.com\r\n";
-    //$headers .= "Reply-To: ". $_POST['email'] . "\r\n";
-    //$headers .= "CC: xxx@xxxxx.xxx\r\n";
-    $message1 = "<html><body>";
-    $message1 .= '<p>Dear '.ucfirst($org_data->admin_name).',</p>';
-    $message1 .= '<p>User Admin Details</p>';
-    $message1 .= '<br>';
-    $message1 .= '<p>Username: '.$org_data->admin_email.'</p>';
-    $message1 .= '<p>Password: '.$org_data->password.'</p>';
-    $message1 .= '<br>';
-    $message1 .= '<p>Thanks,</p>';
-    $message1 .= '<p>Incor Group</p>';
-    $message1 .= "</body></html>";
-   // $response=mail($to1, $subject1, $message1, $headers1);
-        
-        
-    //Mail::to($request->email)->cc('venkat@deepredink.com')->send(new NewsletterMail(''));
-    }
+          
 
 
 
 
-        return redirect('organizations/add-license-details/'.Crypt::encryptString($request->id))->with('success', "Success! Address Details are updated successfully"); 
+        return redirect(Config::get('constants.superadmin').'/organizations/add-license-details/'.Crypt::encryptString($request->id))->with('success', "Success! Address Details are updated successfully"); 
     }
     public function add_license_details($id)
     {
@@ -299,7 +250,7 @@ class OrganizationsController extends Controller
 
 
 
-        return redirect('organizations')->with('success', "Organization Details are saved successfully"); 
+        return redirect(Config::get('constants.superadmin').'/organizations')->with('success', "Organization Details are saved successfully"); 
     }
 
     public function get_permanent_address(Request $request)

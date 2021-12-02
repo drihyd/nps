@@ -16,6 +16,8 @@ use Session;
 
 class AdminController extends Controller
 {
+
+
     public function dashboard_lists()
     {
         $pageTitle = 'Dashboard';
@@ -27,16 +29,17 @@ class AdminController extends Controller
     {
    	    $user  = auth()->user();       
         if ($user && $user->role==1) {           
-            return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
+            return redirect('superadmin/dashboard')->with('success', 'Successfully logged in.');
 
         }
         else if ($user && $user->role==2) {         
-            return redirect('manager/dashboard')->with('success', 'Successfully logged in.');
+            return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
         }
         else if ($user && $user->role==3) {         
             return redirect('content/dashboard')->with('success', 'Successfully logged in.');
         }
-          else if ($user && $user->role==4) {         
+
+         else if ($user && $user->role==4) {         
             return redirect('general/dashboard')->with('success', 'Successfully logged in.');
         }
         else{
@@ -90,7 +93,7 @@ class AdminController extends Controller
     {
         Auth::logout();
         Session::flush();
-        return redirect('/')->with('error', 'You have been successfully logged out!'); 
+        return redirect('/administrator')->with('error', 'You have been successfully logged out!'); 
     }
      public function profile(){
             

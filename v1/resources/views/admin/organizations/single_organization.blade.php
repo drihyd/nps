@@ -6,25 +6,25 @@
     <div class="col-lg-6">
         <div class="card m-b-30">
             <div class="card-header">
-				<h4>Basic Info</h4>
+                <h4>Basic Info</h4>
                
             </div>
             <div class="card-body">
-				<p>Company name</p>
+                <b>Company name</b>&ensp;
                 <form action="" method="post">
                     <input type="hidden" name="id" value="{{$organizations_data->id}}">
   {{csrf_field()}}
                 <a href="#" id="xeditable-company_name" data-pk="{{ $organizations_data->id }}">{{$organizations_data->company_name??''}}</a>
-				<br>
-				<small><b>Short name</b></small>&ensp;
+                <br>
+                <b>Short name</b>&ensp;
                 <a href="#" id="xeditable-shortname" data-pk="{{ $organizations_data->id }}">{{$organizations_data->short_name??''}}</a><br>
 
                 
-				<small><b>Entity type</b></small>&ensp;
+                <b>Entity type</b>&ensp;
                 <a href="#" id="xeditable-entitytype" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->is_group}}">@if($organizations_data->is_group == 'yes')Group Company @else Single Entity @endif</a><br>
 
                 </form>
-				<small>&nbsp;</small>
+                &nbsp;
             </div>
         </div>
     </div>  
@@ -38,20 +38,19 @@
             <div class="card-body">
                 <form action="" method="post">
                     <input type="hidden" name="id" value="{{$organizations_data->id}}">
-                <small><b>Address line - 1</b></small>&ensp;
-				<a href="#" id="xeditable-address1" data-pk="{{ $organizations_data->id }}">{{$organizations_data->address_1??''}}</a>
-				<br>
-				<small><b>Address line - 2</b></small>&ensp;
-				<a href="#" id="xeditable-address2" data-pk="{{ $organizations_data->id }}">{{$organizations_data->address_2??''}}</a>
-				<br><br>
-				<small><b>Pincode</b></small>&ensp;
-				<a href="#" id="xeditable-pincode" data-pk="{{ $organizations_data->id }}">{{$organizations_data->pincode??''}}</a>&ensp;&ensp;&ensp;
-            </form>
-				<small><b>City</b></small>&ensp;
-				<a href="#" id="xeditable-city" data-pk="{{ $organizations_data->id }}">{{$organizations_data->city??''}}</a>
-				&ensp;&ensp;&ensp;
-				<!-- <small><b>Country</b></small>&ensp;
-				<a href="#" id="xeditable-country" class="editable editable-click" style="color: #777777;">not selected</a> -->
+                <b>Address line - 1</b>&ensp;
+                <a href="#" id="xeditable-address1" data-pk="{{ $organizations_data->id }}">{{$organizations_data->address_1??''}}</a>
+                <br>
+                <b>Address line - 2</b>&ensp;
+                <a href="#" id="xeditable-address2" data-pk="{{ $organizations_data->id }}">{{$organizations_data->address_2??''}}</a>
+                <br><br>
+                <small><b>Pincode</b></small>&ensp;
+                <a href="#" id="xeditable-pincode" data-pk="{{ $organizations_data->id }}">{{$organizations_data->pincode??''}}</a>&ensp;&ensp;&ensp;
+                <small><b>City</b></small>&ensp;
+                <a href="#" id="xeditable-city" data-pk="{{ $organizations_data->id }}">{{$organizations_data->city??''}}</a>
+                &ensp;&ensp;&ensp;
+                <small><b>Country</b></small>&ensp;
+                <a href="#" id="xeditable-country" class="editable editable-click" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->country}}">@if($organizations_data->country == 'india')India @else Not selected @endif</a>
             </div>
         </div>
     </div>  
@@ -68,48 +67,73 @@
                     <input type="hidden" name="id" value="{{$organizations_data->id}}">
                 <small><b>GSTNO</b></small>&ensp;
                 <a href="#" id="xeditable-gst" data-pk="{{ $organizations_data->id }}">{{$organizations_data->gst_no??''}}</a>
-            </form>
-                <!-- <br>
+            
+                <br><br>
                 <small><b>Billing Address 1</b></small>&ensp;
-                <a href="#" id="xeditable-billing_address1">{{$organizations_data->short_name??''}}</a><br> -->
-                
-                <small>&nbsp;</small>
+                <a href="#" id="xeditable-billing_address1" data-pk="{{ $organizations_data->id }}">{{$organizations_data->billing_address_1??''}}</a><br>
+                <small><b>Billing Address 2</b></small>&ensp;
+                <a href="#" id="xeditable-billing_address2" data-pk="{{ $organizations_data->id }}">{{$organizations_data->billing_address_2??''}}</a><br>
+                </form>
+                <br>
+                <small><b>Pincode</b></small>&ensp;
+                <a href="#" id="xeditable-billing_pincode" data-pk="{{ $organizations_data->id }}">{{$organizations_data->billing_pincode??''}}</a>&ensp;&ensp;&ensp;
+                <small><b>City</b></small>&ensp;
+                <a href="#" id="xeditable-billing_city" data-pk="{{ $organizations_data->id }}">{{$organizations_data->billing_city??''}}</a>
+                &ensp;&ensp;&ensp;
+                <small><b>Country</b></small>&ensp;
+                <a href="#" id="xeditable-billing_country" class="editable editable-click" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->billing_country}}">@if($organizations_data->billing_country == 'india')India @else Not selected @endif</a>
             </div>
         </div>
-    </div>  
+    </div>   
     <!-- End col -->
     <!-- End col -->
-    <!-- <div class="col-lg-6">
+    <div class="col-lg-6">
         <div class="card m-b-30">
             <div class="card-header">
-                <h4>Basic Info</h4>
+                <h4>Admin Details</h4>
                
             </div>
             <div class="card-body">
-                <small><b>Company name</b></small>&ensp;
-                <a href="#" id="xeditable-username">{{$organizations_data->company_name??''}}</a>
+                <b>Admin name</b>&ensp;
+                <a href="#" id="xeditable-admin_name" data-pk="{{ $organizations_data->id }}">{{$organizations_data->admin_name??''}}</a>
                 <br>
-                <small><b>Short name</b></small>&ensp;
-                <a href="#" id="xeditable-username1">{{$organizations_data->short_name??''}}</a><br>
+                <b>Email</b>&ensp;
+                <a href="#" id="xeditable-admin_email" data-pk="{{ $organizations_data->id }}">{{$organizations_data->admin_email??''}}</a><br><br>
+                <b>Mobile</b>&ensp;
+                <a href="#" id="xeditable-admin_mobile" data-pk="{{ $organizations_data->id }}">{{$organizations_data->admin_mobile??''}}</a><br>
+                <b>Alternative Mobile</b>&ensp;
+                <a href="#" id="xeditable-admin_alt_mobile" data-pk="{{ $organizations_data->id }}">{{$organizations_data->admin_alter_mobile??''}}</a><br>
                 
-                <small>&nbsp;</small>
+                &nbsp;
             </div>
         </div>
-    </div> -->  
+    </div>  
     <!-- End col -->
     
     
     <!-- Start col -->
+    
+    
     <div class="col-lg-12 col-xl-6">
         <div class="card m-b-30">
             <div class="card-header">
-                <h5 class="card-title">Combodate (date)</h5>
+                <h4 >Licence Details</h4>
             </div>
             <div class="card-body">
-                <a href="#" id="xeditable-dob"></a>
+                <b>Licence Start Date</b>&ensp;
+                <a href="#" id="xeditable-date" data-pk="{{ $organizations_data->id }}"></a>
+                <br>
+                <br>
+
+                <b>License Period</b>&ensp;
+                <a href="#" id="xeditable-license_period_year" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->license_period_year}}">{{$organizations_data->license_period_year??''}}</a>
+                &ensp;&ensp;&ensp;
+                <small><b>Months</b></small>&ensp;
+                <a href="#" id="xeditable-license_period_month" class="editable editable-click" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->license_period_month}}">{{$organizations_data->license_period_month??''}}</a>
             </div>
         </div>
     </div>  
+    
     <!-- End col -->
     <!-- Start col -->
     <!-- <div class="col-lg-12 col-xl-6">
@@ -155,7 +179,23 @@ $(document).ready(function() {
         title: 'Enter Company Name',
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
         },
         success:function(value){
                 if(value.statsCode==200)
@@ -175,7 +215,23 @@ $(document).ready(function() {
         title: 'Enter Short Name',
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
         },
         success:function(value){
                 if(value.statsCode==200)
@@ -274,7 +330,23 @@ $(document).ready(function() {
         title: 'Enter City',
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
         },
         success:function(value){
                 if(value.statsCode==200)
@@ -290,6 +362,45 @@ $(document).ready(function() {
 
     // country
 
+
+
+    $('#xeditable-country').editable({
+        prepend: 'not selected',
+        type: 'select',
+        url: '{{route("update_country")}}',
+        pk: organization_id,
+
+        value: ['{{$organizations_data->country??''}}'],
+        source: [
+            {value: 'india', text: 'India'},
+            
+        ],
+        inputclass: 'form-control form-control-sm',
+
+        validate: function(value) {
+           if($.trim(value) == '') return 'This field is required';
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {  
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+        // display: function(value, sourceData) {
+        //      var colors = {"": "#777777", 1: "#2bcd72", 2: "#4c7cf3"},
+        //          elem = $.grep(sourceData, function(o){return o.value == value;});
+                 
+        //      if(elem.length) {    
+        //          $(this).text(elem[0].text).css("color", colors[value]); 
+        //      } else {
+        //          $(this).empty(); 
+        //      }
+        // }   
+    });
+
     $('#xeditable-gst').editable({
 
 
@@ -297,9 +408,29 @@ $(document).ready(function() {
         url: '{{route("update_gst_details")}}',
         pk: organization_id, 
         title: 'Enter GST',
-        inputclass: 'form-control form-control-sm',
+        inputclass: 'form-control form-control-sm gst',
         validate: function(value) {
-           if($.trim(value) == '') return 'This field is required';
+            
+        
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var gstinformat = new RegExp('^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$');    
+                if (gstinformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Valid GSTIN Number';               
+                            
+                } 
+                   
+               }
+               
+               
         },
         success:function(value){
                 if(value.statsCode==200)
@@ -334,51 +465,266 @@ $(document).ready(function() {
                 }
            }
     });
+    $('#xeditable-billing_address2').editable({
 
 
-
-
-    $('#xeditable-firstname').editable({
         type: 'text',
-        pk: 1, 
-        placement: 'right',
-        placeholder: 'Required',
-        title: 'Enter your firstname',  
+        url: '{{route("update_billing_address2")}}',
+        pk: organization_id, 
+        title: 'Enter GST',
         inputclass: 'form-control form-control-sm',
         validate: function(value) {
            if($.trim(value) == '') return 'This field is required';
-        }
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {            
+
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+    });$('#xeditable-billing_pincode').editable({
+
+
+        type: 'text',
+        url: '{{route("update_billing_pincode")}}',
+        pk: organization_id, 
+        title: 'Enter GST',
+        inputclass: 'form-control form-control-sm',
+        validate: function(value) {
+           if($.trim(value) == '') return 'This field is required';
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {            
+
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+    });$('#xeditable-billing_city').editable({
+
+
+        type: 'text',
+        url: '{{route("update_billing_city")}}',
+        pk: organization_id, 
+        title: 'Enter GST',
+        inputclass: 'form-control form-control-sm',
+        validate: function(value) {
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {            
+
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
     });
-    $('#xeditable-country').editable({
+
+
+
+    $('#xeditable-billing_country').editable({
         prepend: 'not selected',
         type: 'select',
-        pk: 1,
-        value: '1',
-        title: 'India',
+        url: '{{route("update_billing_country")}}',
+        pk: organization_id,
+
+        value: ['{{$organizations_data->billing_country??''}}'],
         source: [
-            {value: 1, text: 'India'},
-            {value: 2, text: 'Afghanistan'},
-            {value: 3, text: 'Angola'},
-            {value: 4, text: 'Africa'},
-            {value: 5, text: 'Algeria'},
-            {value: 6, text: 'Italy'},
-            {value: 7, text: 'United States'},
-            {value: 8, text: 'United Kingdom'},
-            {value: 9, text: 'Uzbekistan'},
+            {value: 'india', text: 'India'},
             
         ],
         inputclass: 'form-control form-control-sm',
-        display: function(value, sourceData) {
-             var colors = {"": "#777777", 1: "#2bcd72", 2: "#4c7cf3"},
-                 elem = $.grep(sourceData, function(o){return o.value == value;});
+
+        validate: function(value) {
+           if($.trim(value) == '') return 'This field is required';
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {  
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+        // display: function(value, sourceData) {
+        //      var colors = {"": "#777777", 1: "#2bcd72", 2: "#4c7cf3"},
+        //          elem = $.grep(sourceData, function(o){return o.value == value;});
                  
-             if(elem.length) {    
-                 $(this).text(elem[0].text).css("color", colors[value]); 
-             } else {
-                 $(this).empty(); 
-             }
-        }   
+        //      if(elem.length) {    
+        //          $(this).text(elem[0].text).css("color", colors[value]); 
+        //      } else {
+        //          $(this).empty(); 
+        //      }
+        // }   
     });
+
+    $('#xeditable-admin_name').editable({
+
+
+        type: 'text',
+        url: '{{route("update_admin_name")}}',
+        pk: organization_id, 
+        title: 'Enter GST',
+        inputclass: 'form-control form-control-sm',
+        validate: function(value) {
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {            
+
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+    });
+    $('#xeditable-admin_email').editable({
+
+
+        type: 'email',
+        url: '{{route("update_admin_email")}}',
+        pk: organization_id, 
+        title: 'Enter Email',
+        inputclass: 'form-control form-control-sm',
+        validate: function(value) {
+           if($.trim(value) == '')             
+               {
+                return 'This field is required';
+               }
+               else{
+                   
+                var inputvalues = value;                
+                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                if (comapyformat.test(inputvalues)) {    
+                      
+                } else {  
+    
+                    return 'Please Enter Alpha numeric only';               
+                            
+                } 
+                   
+               }
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {            
+
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+    });
+    $('#xeditable-admin_mobile').editable({
+
+
+        type: 'text',
+        url: '{{route("update_admin_mobile")}}',
+        pk: organization_id, 
+        title: 'Enter Mobile',
+        inputclass: 'form-control form-control-sm',
+        validate: function(value) {
+           if($.trim(value) == '') return 'This field is required';
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {            
+
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+    });
+    $('#xeditable-admin_alt_mobile').editable({
+
+
+        type: 'text',
+        url: '{{route("update_admin_alt_mobile")}}',
+        pk: organization_id, 
+        title: 'Enter Alternative Mobile',
+        inputclass: 'form-control form-control-sm',
+        validate: function(value) {
+           if($.trim(value) == '') return 'This field is required';
+        },
+        success:function(value){
+                if(value.statsCode==200)
+                {            
+
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+    });
+
+
+    $('#xeditable-date').editable({
+          type: 'combodate',
+          url: '{{route("update_license_startdate")}}',
+          pk: organization_id, 
+          value: '{{$organizations_data->license_startdate??''}}',
+          title: 'Select date',
+          format: 'YYYY-MM-DD',    
+          viewformat: 'DD.MM.YYYY',    
+          template: 'D / MMMM / YYYY',    
+          combodate: {
+               minYear: 2000,
+               maxYear: 2022,
+               minuteStep: 1
+          },
+          inputclass: 'form-control form-control-sm'
+     });
+
+    
     $('#xeditable-status').editable({
           type: 'select',
           pk: 1,
@@ -386,39 +732,82 @@ $(document).ready(function() {
           title: 'Select Status',
           inputclass: 'form-control form-control-sm'
     });
-    $('#xeditable-dob').editable({
-          type: 'combodate',
-          pk: 1,
-          value: '2018-10-25',
-          title: 'Select date',
-          format: 'YYYY-MM-DD',    
-          viewformat: 'DD.MM.YYYY',    
-          template: 'D / MMMM / YYYY',    
-          combodate: {
-               minYear: 2000,
-               maxYear: 2015,
-               minuteStep: 1
-          },
-          inputclass: 'form-control form-control-sm'
-     });
-     $('#xeditable-event').editable({
-        type: 'combodate',
-        pk: 1,  
-        title: 'Setup event date and time',
-        placement: 'right',
-        format: 'YYYY-MM-DD HH:mm',    
-        viewformat: 'MMM D, YYYY, HH:mm',    
-        template: 'D MMM YYYY  HH:mm',
-        combodate: {
-            firstItem: 'name'
-        },
-        inputclass: 'form-control form-control-sm'
+
+
+    $('#xeditable-license_period_year').editable({
+        url: '{{route("update_license_period_year")}}',
+        pk: organization_id,
+        type: 'select',
+        title: 'Select options',
+        value: ['{{$organizations_data->license_period_year}}'],    
+        source: [
+              {value: '1', text: '1'},
+              {value: '2', text: '2'},
+              {value: '3', text: '3'},
+              {value: '4', text: '4'},
+              {value: '5', text: '5'},
+           ],
+
+        success:function(value){
+                if(value.statsCode==200)
+                {  
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
     });
-    $('#xeditable-comments').editable({
-        title: 'Enter comments',
-        rows: 5,
-        inputclass: 'form-control form-control-sm'
-    });     
+
+    $('#xeditable-license_period_month').editable({
+        url: '{{route("update_license_period_month")}}',
+        pk: organization_id,
+        type: 'select',
+        title: 'Select options',
+        value: ['{{$organizations_data->license_period_month}}'],    
+        source: [
+              {value: '1', text: '1'},
+              {value: '2', text: '2'},
+              {value: '3', text: '3'},
+              {value: '4', text: '4'},
+              {value: '5', text: '5'},
+              {value: '6', text: '6'},
+              {value: '7', text: '7'},
+              {value: '8', text: '8'},
+              {value: '9', text: '9'},
+              {value: '10', text: '10'},
+              {value: '11', text: '11'},
+           ],
+
+        success:function(value){
+                if(value.statsCode==200)
+                {  
+                    toastr.success(value.success);
+                }
+                else{
+                    toastr.error(value.error);
+                }
+           }
+    });
+    
+    //  $('#xeditable-event').editable({
+    //     type: 'combodate',
+    //     pk: 1,  
+    //     title: 'Setup event date and time',
+    //     placement: 'right',
+    //     format: 'YYYY-MM-DD HH:mm',    
+    //     viewformat: 'MMM D, YYYY, HH:mm',    
+    //     template: 'D MMM YYYY  HH:mm',
+    //     combodate: {
+    //         firstItem: 'name'
+    //     },
+    //     inputclass: 'form-control form-control-sm'
+    // });
+    // $('#xeditable-comments').editable({
+    //     title: 'Enter comments',
+    //     rows: 5,
+    //     inputclass: 'form-control form-control-sm'
+    // });     
     
 });
 </script>

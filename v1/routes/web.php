@@ -2,10 +2,18 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
+
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NetPromoterScore;
+
 use App\Http\Controllers\ThemeoptionsController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsermanagementController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\SurveysController;
+use App\Http\Controllers\QuestionsController;
+use App\Http\Controllers\QuestionsOptionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,28 +29,87 @@ use App\Http\Controllers\UsermanagementController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::any('/',[AdminController::class, 'auth_login']);
-Route::post('adminlogin-verification',[AdminController::class, 'Loginsubmit'])->name('adminlogin.verification');
-Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');
-Route::get('profile/',[AdminController::class,'profile']);
-Route::post('profile/update',[AdminController::class,'update_profile']);
+
+Route::any('/net_promoter_score',[NetPromoterScore::class, 'nps_login']);
+Route::any('/',[NetPromoterScore::class, 'nps_login']);
+Route::post('login-verification',[NetPromoterScore::class, 'Loginsubmit'])->name('login.verification');
+Route::get('logout', [NetPromoterScore::class,'logout'])->name('user.logout');
+
+Route::get('session.logout', [LoginController::class,'logout'])->name('session.logout');
+
+
+
+Route::post('adminlogin-verification',[LoginController::class, 'Loginsubmit'])->name('adminlogin.verification');
+Route::get('administrator/logout', [LoginController::class,'logout'])->name('admin.logout');
+Route::get('administrator/profile/',[LoginController::class,'profile']);
+Route::post('administrator/profile/update',[LoginController::class,'update_profile']);
+
 /* Dashbaord */
-Route::get('dashboard', [AdminController::class,'dashboard_lists']);
 
 
 
-Route::group( ['prefix' => 'manager','middleware' => 'ismanager'],function(){
-	
-	
-	Route::get('dashboard', [AdminController::class,'dashboard_lists']);
-	Route::get('departments', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
-	
-	
+Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
+
+	Route::get('survey', [NetPromoterScore::class,'first_question']);
+	Route::get('second', [NetPromoterScore::class,'second_question']);
+	Route::post('surveyonepost', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post');
+
 	
 });
 
 
-Route::get('organizations', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
+
+Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
+
+	Route::get('dashboard', [DashboardController::class,'dashboard_lists']);
+
+	Route::get('departments', [DepartmentsController::class,'departments_list']);
+	Route::get('departments/create', [DepartmentsController::class,'create_departments']);
+	Route::post('departments/store', [DepartmentsController::class, 'store_departments']);
+	Route::get('departments/edit/{id}',[DepartmentsController::class,'edit_departments']);
+	Route::post('departments/update',[DepartmentsController::class,'update_departments']);
+	Route::get('departments/delete/{id}',[DepartmentsController::class,'delete_departments']);
+
+	// users
+	Route::get('users',[UsermanagementController::class,'department_users_list']);
+	Route::get('user/create', [UsermanagementController::class,'department_create_user']);
+	Route::post('user/store', [UsermanagementController::class, 'department_store_user']);
+	Route::get('user/edit/{id}',[UsermanagementController::class,'department_edit_user']);
+	Route::post('user/update',[UsermanagementController::class,'department_update_user']);
+	Route::get('user/delete/{id}',[UsermanagementController::class,'department_delete_user']);
+
+
+	Route::get('surveys', [SurveysController::class,'surveys_list']);
+	Route::get('surveys/create', [SurveysController::class,'create_surveys']);
+	Route::post('surveys/store', [SurveysController::class, 'store_surveys']);
+	Route::get('surveys/edit/{id}',[SurveysController::class,'edit_surveys']);
+	Route::post('surveys/update',[SurveysController::class,'update_surveys']);
+	Route::get('surveys/delete/{id}',[SurveysController::class,'delete_surveys']);
+
+	Route::get('questions', [QuestionsController::class,'questions_list']);
+	Route::get('questions/create', [QuestionsController::class,'create_questions']);
+	Route::post('questions/store', [QuestionsController::class, 'store_questions']);
+	Route::get('questions/edit/{id}',[QuestionsController::class,'edit_questions']);
+	Route::post('questions/update',[QuestionsController::class,'update_questions']);
+	Route::get('questions/delete/{id}',[QuestionsController::class,'delete_questions']);
+
+	Route::get('questions_options', [QuestionsOptionsController::class,'questions_option_list']);
+	Route::get('questions_options/create', [QuestionsOptionsController::class,'create_questions_options']);
+	Route::post('questions_options/store', [QuestionsOptionsController::class, 'store_questions_options']);
+	Route::get('questions_options/edit/{id}',[QuestionsOptionsController::class,'edit_questions_options']);
+	Route::post('questions_options/update',[QuestionsOptionsController::class,'update_questions_options']);
+	Route::get('questions_options/delete/{id}',[QuestionsOptionsController::class,'delete_questions_options']);
+
+});
+
+
+Route::group( ['prefix' => 'superadmin','middleware' => 'issuperadmin'],function(){
+
+	Route::get('dashboard', [DashboardController::class,'dashboard_lists']);
+	Route::get('organizations', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
+
+	
+
 Route::get('organizations/add-basicinfo', [OrganizationsController::class,'add_basicinfo']);
 Route::post('organizations/store', [OrganizationsController::class,'store_basicinfo']);
 Route::get('organizations/add-address/{id}', [OrganizationsController::class,'add_address']);
@@ -58,7 +125,7 @@ Route::any('organizations/get_permanent_address', [OrganizationsController::clas
 
 Route::get('organizations/edit/{id}', [OrganizationsController::class,'edit_organization']);
 
-Route::post('organizations/delete',[OrganizationsController::class,'delete_organization']);
+Route::post('organizations/delete',[OrganizationsController::class,'delete_organization'])->name('organizations.delete');
 
 Route::post('organizations/update_company', [OrganizationsController::class,'update_company'])->name('update_company');
 Route::post('organizations/update_shortname', [OrganizationsController::class,'update_shortname'])->name('update_shortname');
@@ -94,9 +161,25 @@ Route::get('theme_options/delete/{id}',[ThemeoptionsController::class,'delete_th
 
 /*admin- Users */
 
-Route::get('organizations/users', [UsermanagementController::class,'index']);
-Route::get('organizations/user/create', [UsermanagementController::class,'create_user']);
-Route::post('organizations/user/store', [UsermanagementController::class, 'store_user']);
-Route::get('organizations/user/edit/{id}',[UsermanagementController::class,'edit_user']);
-Route::post('organizations/user/update',[UsermanagementController::class,'update_user']);
-Route::get('organizations/user/delete/{id}',[UsermanagementController::class,'delete_user']);
+Route::get('admin-users', [UsermanagementController::class,'index']);
+Route::get('admin-user/create', [UsermanagementController::class,'create_user']);
+Route::post('admin-user/store', [UsermanagementController::class, 'store_user']);
+Route::get('admin-user/edit/{id}',[UsermanagementController::class,'edit_user']);
+Route::post('admin-user/update',[UsermanagementController::class,'update_user']);
+Route::get('admin-user/delete/{id}',[UsermanagementController::class,'delete_user']);
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
