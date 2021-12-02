@@ -52,7 +52,7 @@ Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 
 	Route::get('survey', [NetPromoterScore::class,'first_question']);
 	Route::get('second', [NetPromoterScore::class,'second_question']);
-	Route::post('surveyonepost', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post');
+	Route::post('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post');
 
 	
 });
