@@ -13,7 +13,7 @@
 			
           <div class="table-responsive">
         
-          <table width="100%" class="table customdatatable" id="orders-table">
+          <table id="default-datatable" class="display table Config::get('constants.tablestriped')">
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>

@@ -7,5 +7,6 @@ return [
 	'admin' => 'admin',
 	'user' => 'user',
 	'survey' => 'survey',
+	'tablestriped' => 'table-striped',
 
 ];
