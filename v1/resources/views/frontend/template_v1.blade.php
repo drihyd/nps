@@ -74,9 +74,13 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 </div>
  
  @if(Auth::check())
-<a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
+<!-- <a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
 <img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
-</a>
+</a> -->
+
+
+
+
 @else	
 @endif
  

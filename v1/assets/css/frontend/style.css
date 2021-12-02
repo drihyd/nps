@@ -196,6 +196,10 @@ button:focus {
   margin: 0px;
 }
 
+.btn:focus{
+  box-shadow: initial;
+}
+
 .btn-social {
   border: 0px;
   font-size: 16px;
@@ -1046,10 +1050,10 @@ button:focus {
 /*============== formify_form_tab  css ============*/
 /*============== formify_signup_fullwidth_two  css ============*/
 .formify_signup_fullwidth_two .formify_left_fullwidth {
-  width: 44.2%;
+  width: 50%;
 }
 .formify_signup_fullwidth_two .formify_right_fullwidth {
-  width: 55.8%;
+  width: 50%;
 }
 .formify_signup_fullwidth_two .formify_right_fullwidth .formify_box {
   box-shadow: none;
@@ -1613,18 +1617,22 @@ input {
   width: 100%;
 }
 	
-	
+.survey-radio-btns-group{
+  margin-left: -15px;
+}
 	
 	.btn-scale {
-min-width: 33px;
+    min-width: 25px;
     width: auto;
     text-align: center;
     font-weight: bold;
     color: black;
     font-family: 'Lato', sans-serif;
-
-
+    margin-left: 10px;
+    margin-top: -3px;
 }
+
+
 
 .btn-scale-asc-1, .btn-scale-desc-10 {
   background-color: #33FF00;
@@ -1738,6 +1746,67 @@ min-width: 33px;
 .parsley-errors-list{
   padding-left: 0 !important;
 }
+
+
+/*SURVEY PROFILE DROPDOWN CSS BEGINS*/
+
+.survey-profilebar button img{
+  width: 40px;
+}
+
+.survey-profilebar button{
+  background: transparent;
+}
+
+.survey-profilebar button:after{
+  display: none;
+}
+
+.survey-profilebar button:hover {
+    background-color: rgba(129, 167, 205, 0.1);
+}
+
+.survey-profilebar .dropdown-menu .dropdown-item {
+    padding: 0.5rem 1rem;
+    color: #8A98AC;
+}
+
+.survey-profilebar .dropdown-menu .dropdown-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.survey-profilebar .profilename {
+    padding: 5px 0;
+}
+.survey-profilebar .profilename h5 {
+    margin-bottom: 0;
+    font-size: 16px;
+    color: #0080ff;
+}
+
+.survey-profilebar .profile-icon {
+    padding: 0;
+    color: #263a5b;
+    border-radius: 3px;
+}
+
+.survey-profilebar .profile-icon img {
+    width: 20px;
+    margin-top: -3px;
+    margin-right: 10px;
+    filter: invert(0.6) sepia(1) saturate(1) hue-rotate(185deg);
+}
+
+.survey-profilebar .dropdown-menu {
+    border-radius: 3px;
+    text-align: center;
+    padding: 0;
+    border: none;
+    box-shadow: 0px 0px 30px 0px rgb(0 0 0 / 10%);
+    background-color: #ffffff;
+}
+
+/*SURVEY PROFILE DROPDOWN CSS ENDS*/
 
 
 

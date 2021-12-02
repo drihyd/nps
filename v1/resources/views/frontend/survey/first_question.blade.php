@@ -10,7 +10,36 @@
        
 			
 			
-<div class="formify_right_fullwidth d-flex align-items-center justify-content-center">
+<div class="formify_right_fullwidth align-items-center justify-content-center">
+
+<!-- <a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
+<img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
+</a> -->
+
+
+<div class="survey-profilebar">
+	<div class="dropdown text-right mt-4 mr-5">
+	  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	    <img src="{{URL::to('assets/uploads/61a852217e298_1638421025.png')}}" class="img-fluid">
+	  </button>
+	  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+	  	<div class="dropdown-item">
+            <div class="profilename">
+              <h5>Incor </h5>
+            </div>
+        </div>
+	    <ul class="list-unstyled mb-0">
+	        <li class="media dropdown-item">
+	            <a href="#" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="user">My Profile</a>
+	        </li>                                                      
+	        <li class="media dropdown-item">
+	            <a href="{{route('session.logout')}}" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="logout">Logout</a>
+	        </li>
+	    </ul>
+	  </div>
+	</div>
+</div>
+
 <div class="formify_box formify_box_checkbox background-white">
 <div class="formify_header">
 <h4 class="form_title"></h4>
@@ -36,12 +65,14 @@
 <div class="row">
 <div class="col-xs-12">
 <p class="page-header">{{$Questions[0]->qsublabel??''}}</p>
+<div class="survey-radio-btns-group">
 @if($Questions[0]->qinput_type=="radio")	  
 @foreach($Questions[0]->qoptions as $key=>$value)
 <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
 @endforeach
 @else		  
 @endif	
+</div>
 <hr/> 
 </div>
 
