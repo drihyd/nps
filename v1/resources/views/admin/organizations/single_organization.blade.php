@@ -132,7 +132,9 @@
                 <a href="#" id="xeditable-license_period_month" class="editable editable-click" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->license_period_month}}">{{$organizations_data->license_period_month??''}}</a>
             </div>
         </div>
-    </div>  
+    </div> 
+
+
     
     <!-- End col -->
     <!-- Start col -->
@@ -147,7 +149,10 @@
         </div>
     </div>  --> 
     <!-- End col -->
-</div> 
+</div>
+<div class=" pb-5"> 
+<a href="{{url(Config::get('constants.superadmin').'/organizations')}}" class="btn btn-danger btn-sm">Back</a>
+</div>
 @endsection
 
 @push('scripts')
