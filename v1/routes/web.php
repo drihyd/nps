@@ -37,7 +37,7 @@ Route::get('logout', [NetPromoterScore::class,'logout'])->name('user.logout');
 Route::get('session.logout', [LoginController::class,'logout'])->name('session.logout');
 
 
-Route::any('/',[LoginController::class, 'auth_login']);
+Route::any('/administrator',[LoginController::class, 'nps_login']);
 Route::post('adminlogin-verification',[LoginController::class, 'Loginsubmit'])->name('adminlogin.verification');
 Route::get('administrator/logout', [LoginController::class,'logout'])->name('admin.logout');
 Route::get('administrator/profile/',[LoginController::class,'profile']);
