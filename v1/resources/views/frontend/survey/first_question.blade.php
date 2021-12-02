@@ -13,15 +13,19 @@
 <div class="formify_right_fullwidth d-flex align-items-center justify-content-center">
 <div class="formify_box formify_box_checkbox background-white">
 <div class="formify_header">
-<h4 class="form_title">f</h4>
+<h4 class="form_title"></h4>
 <p>To improve your experiences, can you please help us by answering these simple questions in the survey</p>
 <div class="border ml-0"></div>
 </div><br>
 <div class="tab-content" id="myTabContent">
 
 
-<h6><b>How likely are you to reccomend Omni Hospitals to your friend?</b></h6>
+@if($Questions->count()>0)
+
 <form action="{{ route('surveyone.post', [ 'id'=>1 ]) }}" class="signup_form" method="post">
+
+<h6><b>{{$Questions[0]->label??''}}</b></h6>
+
 
 @csrf
  
@@ -31,7 +35,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <p class="page-header">1 is good, 10 is bad (i.e., "How much pain are you in right now?")</p>
+      <p class="page-header">{{$Questions[0]->sublabel??''}}</p>
      
         <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-1"  value=1>1
         <input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2"   value=2>2
@@ -56,6 +60,9 @@
 
 <button type="submit" class="btn thm_btn next_tab text-transform-inherit">Next</button>
 </form>
+@else
+	<p>Questions are not mapped to this survey. Please contact to support team.</p>
+@endif
 
 </div>
 

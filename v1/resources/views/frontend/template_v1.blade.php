@@ -66,15 +66,18 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 <a href="index.html" class="top_logo"><img src="{{URL::to('assets/img/frontend/logo.png')}}" alt=""></a>
 
 
-                            <a href="{{route('session.logout')}}" class="text-align-right">
-                              <img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
-                            </a>
+                          
                      
 @else	
 @endif
 <img class="img-fluid" src="{{URL::to('assets/img/frontend/personal_img.png')}}" alt="">
 </div>
  
+ 
+<a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
+<img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
+</a>
+
  
      @yield('content')
 	 
