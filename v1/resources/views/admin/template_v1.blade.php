@@ -193,6 +193,11 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <!-- Parsley js -->
     <!-- <script src="{{URL::to('assets/plugins/validatejs/validate.min.js')}}"></script> -->
     <!-- Validate js -->
+
+    <!-- Chart js -->
+    <script src="{{URL::to('assets/plugins/chart.js/chart.min.js')}}"></script>
+    <script src="{{URL::to('assets/plugins/chart.js/chart-bundle.min.js')}}"></script>
+    <!-- <script src="{{URL::to('assets/js/custom/custom-chart-chartjs.js')}}"></script>  -->
     
      <!-- X-editable js -->
     <script src="{{URL::to('assets/plugins/bootstrap-xeditable/js/bootstrap-editable.min.js')}}"></script>
@@ -256,5 +261,7 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 
   
 </script>
+
+
 </body>
 </html>

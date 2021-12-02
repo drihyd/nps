@@ -50,43 +50,45 @@
     </div>
             
     <div class="clearfix"></div>
-    <div class="col-lg-8 col-xl-8">
-        <div class="card m-b-30">
-            <div class="card-header">
-                <h5 class="card-title">Companies on-boarded&nbsp;<small>(Month on Month)</small></h5>
-            </div>
-            <div class="card-body">
-                <div id="apex-line-chart"></div>
+    <!-- Start col -->
+        <div class="col-lg-6">
+            <div class="card m-b-30">
+                <div class="card-header">
+                    <h5 class="card-title">Departments Chart</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-doughnut-chart" class="chartjs-chart"></canvas>
+                </div>
             </div>
         </div>
-    </div>
+        <!-- End col -->
             
-    <div class="col-lg-4 col-xl-4">
-        <div class="card m-b-30" style="min-height:356px">
-            <div class="card-header">                                
+    <div class="col-lg-6 col-xl-6">
+        <div class="card m-b-30" style="min-height:200px">
+            <!-- <div class="card-header">                                
                 <h5 class="card-title mb-0">Validity</h5>
-            </div>
+            </div> -->
             <div class="card-body text-center">
                 <div class="course-slider">
                     <div class="course-slider-item">
-                        <h4 class="my-0 pull-left">Licenses about expire</h4>
+                        <h4 class="my-0 pull-left">Departments</h4>
                         <div class="clearfix"></div>
                         <div class="row align-items-center my-4 py-3">
                             <div class="col-4 py-3 bg-danger-rgba rounded">
-                                <h4 class="text-danger">2</h4>
-                                <p class="text-danger mb-0">Within a week</p>
+                                <h4 class="text-danger">500</h4>
+                                <p class="text-danger mb-0">Promoters</p>
                             </div>
                             <div class="col-4 py-3 px-0">
-                                <h4 class="text-warning">8</h4>
-                                <p class="text-warning mb-0">Within a month</p>
+                                <h4 class="text-warning">100</h4>
+                                <p class="text-warning mb-0">Neutral</p>
                             </div>
                             <div class="col-4 p-0">
                                 <h4>21</h4>
-                                <p class="mb-0">Within 3 months</p>
+                                <p class="mb-0">Detractors</p>
                             </div>
                         </div>
                         
-                        <div class="row align-items-center">
+                        <!-- <div class="row align-items-center">
                             <div class="col-4 text-center">
                                <button class="btn btn-danger">Send Alert</button>
                             </div>
@@ -96,7 +98,7 @@
                             <div class="col-4 text-center">
                                 <button class="btn btn-dark">Send Alert</button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     
                     
