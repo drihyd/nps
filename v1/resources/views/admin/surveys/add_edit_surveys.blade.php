@@ -33,6 +33,10 @@
             <input type="text" class="form-control" name="title" value="{{old('title',$surveys_data->title??'')}}" required="required" />
           </div>
           <div class="form-group">
+            <label><b>Descripton</b><span style="color: red;">*</span></label>
+            <textarea class="form-control" name="description" required="required" maxlength="250" rows="3">{{old('description',$surveys_data->description??'')}}</textarea>
+          </div>
+          <div class="form-group">
         <label><b>Is Open</b><span style="color: red;">*</span></label>
       </div>
       <div class="form-group">
