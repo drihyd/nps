@@ -20,6 +20,8 @@
 <div class="survey-profilebar">
 	<div class="mt-4 ml-5 home-icon">
 		<a href="#"><i class="fa fa-home"></i></a>
+		<a href="#" class="">Survey users</a>
+		<a href="#" class="">Logout</a>
 	</div>
 	<div class="dropdown float-right mt-4 mr-5">
 	  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

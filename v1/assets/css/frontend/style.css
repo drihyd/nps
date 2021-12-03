@@ -1758,11 +1758,16 @@ input {
   display: inline-block;
 }
 
-.survey-profilebar .home-icon a{
+.survey-profilebar .home-icon i{
   color: #000;
   font-size: 22px;
+}
+
+.survey-profilebar .home-icon a{
+  color: #000;
   position: relative;
   top: 10px;
+  margin-right: 10px;
 }
 
 .survey-profilebar button{
