@@ -10,7 +10,10 @@
 
 
 <div class="survey-profilebar">
-	<div class="dropdown text-right mt-4 mr-5">
+	<div class="mt-4 ml-5 home-icon">
+		<a href="#"><i class="fa fa-home"></i></a>
+	</div>
+	<div class="dropdown float-right mt-4 mr-5">
 	  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    <img src="{{URL::to('assets/uploads/61a852217e298_1638421025.png')}}" class="img-fluid">
 	  </button>
@@ -49,19 +52,19 @@
 
 
 <div class="container">
-<div class="row">
-<div class="col-xs-12">
+<div>
+<div>
 
 
 
 
-<div class="formify_box formify_box_checkbox background-white">
+<div class="background-white">
 
 
 <form action="{{ route('post.survey.personinfo') }}" class="signup_form" method="post">
 @csrf
 <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 pl-sm-0">
           
           <div class="form-group">
             <label><b>Full Name</b><span style="color: red;">*</span></label>
@@ -77,7 +80,7 @@
           </div>
 		  
 		  
-		  <button type="submit" class="btn btn-brand btn-sm">Save</button>
+		  <button type="submit" class="btn btn-danger mt-4">Save</button>
 		  
 		 
 		  

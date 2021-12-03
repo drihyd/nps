@@ -1754,6 +1754,17 @@ input {
   width: 40px;
 }
 
+.survey-profilebar .home-icon, .survey-profilebar .dropdown{
+  display: inline-block;
+}
+
+.survey-profilebar .home-icon a{
+  color: #000;
+  font-size: 22px;
+  position: relative;
+  top: 10px;
+}
+
 .survey-profilebar button{
   background: transparent;
 }

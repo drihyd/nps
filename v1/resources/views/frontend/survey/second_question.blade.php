@@ -146,7 +146,7 @@
                         </div>
                     </div>
 
-                    <ul class="nav nav-tabs form_tab" id="myTab" role="tablist">
+                    <!-- <ul class="nav nav-tabs form_tab" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="One-tab" data-toggle="tab" href="#One" role="tab"
                                 aria-controls="One" aria-selected="true"></a>
@@ -159,7 +159,7 @@
                             <a class="nav-link" id="Three-tab" data-toggle="tab" href="#Three" role="tab"
                                 aria-controls="Three" aria-selected="false"></a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
     

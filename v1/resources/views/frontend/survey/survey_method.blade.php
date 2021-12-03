@@ -18,7 +18,10 @@
 
 
 <div class="survey-profilebar">
-	<div class="dropdown text-right mt-4 mr-5">
+	<div class="mt-4 ml-5 home-icon">
+		<a href="#"><i class="fa fa-home"></i></a>
+	</div>
+	<div class="dropdown float-right mt-4 mr-5">
 	  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    <img src="{{URL::to('assets/uploads/61a852217e298_1638421025.png')}}" class="img-fluid">
 	  </button>
@@ -62,47 +65,18 @@
 <div class="row">
 <div class="col-xs-12">
 
-<div class="survey-radio-btns-group">
+<div class="">
 
 
-<div class="formify_box formify_box_checkbox background-white">
-
-
-
-
-
-
-
-      
+<div class="background-white">
                     
-                                <div class="button-list">
-								
-						
-								
-                                  
-                                    <a href="{{URL('user/takesurvey/'.Crypt::encryptString($Surveys[0]->id))}}">
-									
-									
-									<button type="button" class="btn btn-rounded btn-outline-danger">Manual Survey</button>
-									
-									</a>
-                                   
-									
-									
-								
-									
-                                </div>
-                        
-
- 
-
-
+    <div class="button-list">
+        <a href="{{URL('user/takesurvey/'.Crypt::encryptString($Surveys[0]->id))}}">
+		<button type="button" class="btn btn-rounded btn-outline-danger">Manual Survey</button>
+		</a>
+    </div>
   </div> 
- 
-
- 
 </div>
-<hr/> 
 </div>
 
 
@@ -120,7 +94,7 @@
 
 </div>
 
-<ul class="nav nav-tabs form_tab" id="myTab" role="tablist">
+<!-- <ul class="nav nav-tabs form_tab" id="myTab" role="tablist">
 <li class="nav-item">
 <a class="nav-link active" id="One-tab" data-toggle="tab" href="#One" role="tab"
 aria-controls="One" aria-selected="true"></a>
@@ -133,7 +107,7 @@ aria-controls="Two" aria-selected="false"></a>
 <a class="nav-link" id="Three-tab" data-toggle="tab" href="#Three" role="tab"
 aria-controls="Three" aria-selected="false"></a>
 </li>
-</ul>
+</ul> -->
 
 </div>
     

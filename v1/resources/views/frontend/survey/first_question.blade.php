@@ -18,7 +18,10 @@
 
 
 <div class="survey-profilebar">
-	<div class="dropdown text-right mt-4 mr-5">
+	<div class="mt-4 ml-5 home-icon">
+		<a href="#"><i class="fa fa-home"></i></a>
+	</div>
+	<div class="dropdown float-right mt-4 mr-5">
 	  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    <img src="{{URL::to('assets/uploads/61a852217e298_1638421025.png')}}" class="img-fluid">
 	  </button>
@@ -57,11 +60,11 @@
 <div class="box_info">
 
 
-<div class="container">
-<div class="row">
-<div class="col-xs-12">
+<div class="container pl-sm-0">
+<div class="">
+<div class="">
 <p class="page-header">{{$Questions[0]->qsublabel??''}}</p>
-<div class="survey-radio-btns-group">
+<div class="">
 
 
 @if($Questions[0]->qinput_type=="radio")
@@ -88,16 +91,14 @@
 
 @else		  
 @endif	
+</div></div>
+
+
+
+<button type="submit" class="btn thm_btn next_tab text-transform-inherit mt-5">Next</button>
+
 </div>
-<hr/> 
-</div>
 
-
-
-
-</div>
-
-<button type="submit" class="btn thm_btn next_tab text-transform-inherit">Next</button>
 
 
 <input type="hidden" name="organization_id" value="{{$Questions[0]->qorgid??0}}"/>
@@ -112,7 +113,7 @@
 
 </div>
 
-<ul class="nav nav-tabs form_tab" id="myTab" role="tablist">
+<!-- <ul class="nav nav-tabs form_tab" id="myTab" role="tablist">
 <li class="nav-item">
 <a class="nav-link active" id="One-tab" data-toggle="tab" href="#One" role="tab"
 aria-controls="One" aria-selected="true"></a>
@@ -125,7 +126,7 @@ aria-controls="Two" aria-selected="false"></a>
 <a class="nav-link" id="Three-tab" data-toggle="tab" href="#Three" role="tab"
 aria-controls="Three" aria-selected="false"></a>
 </li>
-</ul>
+</ul> -->
 
 </div>
     
