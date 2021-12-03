@@ -64,7 +64,7 @@
 <div class="">
 <div class="">
 <p class="page-header">{{$Questions[0]->qsublabel??''}}</p>
-<div class="">
+<div class="survey-radio-btns-group">
 
 
 @if($Questions[0]->qinput_type=="radio")
@@ -82,11 +82,13 @@
 @elseif($Questions[0]->qinput_type=="textarea")	
 
 	@foreach($Questions[0]->qoptions as $key=>$value)
-	<label>{{$value->qpvalue??''}}</label><br>
+	<div class="ml-3">
+		<label>{{$value->qpvalue??''}}</label><br>
 	
-	<input type="hidden" name="first_questin_range"  value="{{$value->qoptionid}}">
-	
-	<textarea name="answerdbyperson" class="form form-control"></textarea>
+		<input type="hidden" name="first_questin_range"  value="{{$value->qoptionid}}">
+		
+		<textarea name="answerdbyperson" class="form form-control"></textarea>
+	</div>
 	@endforeach
 
 @else		  
