@@ -13,6 +13,7 @@ use App\Models\Questions;
 use App\Models\QuestionOptions;
 use App\Models\SurveyAnswered;
 use App\Models\Surveys;
+use App\Models\SurveyPerson;
 use Illuminate\Support\Facades\Crypt;
 
 class NetPromoterScore extends Controller
@@ -117,6 +118,49 @@ public function take_person_onfo($param=false)
 		return redirect()->back()->with('error', 'User not logged in.');  
 	}
 }	
+
+public function store_survey_personinfo(Request $request){
+
+	if($request){
+		
+			if($request->survey_id){
+				
+				
+
+				/* Duplicate Survey Person */
+				$SurveyPerson=SurveyPerson::where('organization_id',$request->organization_id)->where('survey_id',$request->survey_id)->where('email',$request->email)->delete();
+				/* End */
+				
+				$survey_person=SurveyPerson::insert([
+				[
+				"firstname"=>$request->firstname??0,
+				"email"=>$request->email??0,
+				"mobile"=>$request->phone??0,
+				"organization_id"=>$request->organization_id??0,
+				"survey_id"=>$request->survey_id??'',
+				]  
+				]);
+				
+				return redirect('user/takesurvey')->with('info', 'Start survey');
+				
+				
+			}	
+			else{
+				
+				return redirect()->back()->with('error', 'Something went wrong.');
+			}
+		}
+		else{
+			
+			return redirect()->back()->with('error', 'Something went wrong.');
+		}
+	
+}
+
+
+
+
+
 	 public function first_question()
     {
 		

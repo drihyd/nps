@@ -1,14 +1,6 @@
 @extends('frontend.template_v1')
 @section('title', 'Survey Step-1')
 @section('content')
-
-
-
-
-	
-	
-       
-			
 			
 <div class="formify_right_fullwidth align-items-center justify-content-center">
 
@@ -66,6 +58,8 @@
 <div class="formify_box formify_box_checkbox background-white">
 
 
+<form action="{{ route('post.survey.personinfo') }}" class="signup_form" method="post">
+@csrf
 <div class="row">
         <div class="col-md-12">
           
@@ -84,8 +78,18 @@
 		  
 		  
 		  <button type="submit" class="btn btn-brand btn-sm">Save</button>
+		  
+		 
+		  
       
 </div>
+
+</div>
+<input type="text" name="survey_id" value="{{$Surveys[0]->id??0}}"/>
+<input type="text" name="organization_id" value="{{$Surveys[0]->organization_id??0}}"/>
+</form>
+
+
 </div>
 
 
@@ -111,20 +115,7 @@
 
 </div>
 
-<ul class="nav nav-tabs form_tab" id="myTab" role="tablist">
-<li class="nav-item">
-<a class="nav-link active" id="One-tab" data-toggle="tab" href="#One" role="tab"
-aria-controls="One" aria-selected="true"></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" id="Two-tab" data-toggle="tab" href="#Two" role="tab"
-aria-controls="Two" aria-selected="false"></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" id="Three-tab" data-toggle="tab" href="#Three" role="tab"
-aria-controls="Three" aria-selected="false"></a>
-</li>
-</ul>
+
 
 </div>
     
