@@ -12,6 +12,9 @@ use Session;
 use App\Models\Questions;
 use App\Models\QuestionOptions;
 use App\Models\SurveyAnswered;
+use App\Models\Surveys;
+use Illuminate\Support\Facades\Crypt;
+
 class NetPromoterScore extends Controller
 {
 
@@ -73,6 +76,47 @@ class NetPromoterScore extends Controller
         return redirect('/')->with('error', 'You have been successfully logged out!'); 
     }
 	
+	 public function survey_names()
+    {
+		
+	
+		
+		if(auth()->user()){
+			
+		$organization_id=auth()->user()->organization_id;
+		$Surveys=Surveys::select('*')->where('organization_id',$organization_id??0)->get();	
+		$page=false;			
+		return view('frontend.survey.survey_names',compact('page','Surveys'));
+		}
+		else{
+			return redirect()->back()->with('error', 'Something went wrong.');  
+		}
+    }		
+public function take_person_onfo($param=false)
+{
+	if(auth()->user())
+	{
+		try{
+		$surveyid=Crypt::decryptString($param);
+		$organization_id=auth()->user()->organization_id;
+		$Surveys=Surveys::select('*')->where('id',$surveyid)->get();
+		if($Surveys){		
+		$page=false;			
+		return view('frontend.survey.person_info',compact('page','Surveys'));
+		}else{
+		return redirect()->back()->with('error', 'Undefined survey.'); 
+		}
+		}
+		catch (\Exception $exception){
+		//return redirect()->back()->with('error', 'Something went wrong.');
+		//$this->survey_names();
+		}
+	}
+	else
+	{
+		return redirect()->back()->with('error', 'User not logged in.');  
+	}
+}	
 	 public function first_question()
     {
 		
@@ -83,13 +127,9 @@ class NetPromoterScore extends Controller
 		->where('question_id', $value->qid)
 		->get();	
 		}		
-		$page=false;
-
-
-		
+		$page=false;		
 	
 		return view('frontend.survey.first_question',compact('page','Questions'));
-
     }
 	
 	public function second_question()

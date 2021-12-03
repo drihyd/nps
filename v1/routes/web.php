@@ -50,7 +50,9 @@ Route::post('administrator/profile/update',[LoginController::class,'update_profi
 
 Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 
-	Route::get('survey', [NetPromoterScore::class,'first_question']);
+	Route::get('survey', [NetPromoterScore::class,'survey_names']);
+	Route::get('survey/start/{type?}', [NetPromoterScore::class,'take_person_onfo']);
+	//Route::get('survey', [NetPromoterScore::class,'first_question']);
 	Route::get('second', [NetPromoterScore::class,'second_question']);
 	Route::post('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post');
 
