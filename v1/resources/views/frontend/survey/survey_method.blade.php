@@ -1,6 +1,14 @@
 @extends('frontend.template_v1')
 @section('title', 'Survey Step-1')
 @section('content')
+
+
+
+
+	
+	
+       
+			
 			
 <div class="formify_right_fullwidth align-items-center justify-content-center">
 
@@ -21,9 +29,9 @@
             </div>
         </div>
 	    <ul class="list-unstyled mb-0">
-	        <li class="media dropdown-item">
-	            <a href="{{URL('user/survey')}}" class="profile-icon">Home</a>
-	        </li>                                                    
+	        <!-- <li class="media dropdown-item">
+	            <a href="#" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="user">My Profile</a>
+	        </li>   -->                                                    
 	        <li class="media dropdown-item">
 	            <a href="{{route('session.logout')}}" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="logout">Logout</a>
 	        </li>
@@ -34,8 +42,10 @@
 
 <div class="formify_box formify_box_checkbox background-white">
 @include('frontend.common_pages.survey_description')
-
+<br>
 <div class="tab-content" id="myTabContent">
+
+
 
 @if($Surveys->count()>0)
 
@@ -52,52 +62,47 @@
 <div class="row">
 <div class="col-xs-12">
 
-
+<div class="survey-radio-btns-group">
 
 
 <div class="formify_box formify_box_checkbox background-white">
 
 
-<form action="{{ route('post.survey.personinfo') }}" class="signup_form" method="post">
-@csrf
-<div class="row">
-        <div class="col-md-12">
-          
-          <div class="form-group">
-            <label><b>Full Name</b><span style="color: red;">*</span></label>
-            <input type="text" class="form-control" name="firstname" value="{{old('firstname',$users_data->firstname??'')}}" required="required" />
-          </div>
-          <div class="form-group">
-            <label><b>Email</b><span style="color: red;">*</span></label>
-            <input type="email" name="email" class="form-control" required="required" value="{{old('email',$users_data->email??'')}}">
-          </div>
-          <div class="form-group">
-                <label><b>Mobile</b><span style="color: red;">*</span></label>
-                <input type="number" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" data-parsley-minlength="10" data-parsley-maxlength="10" required="required">
-          </div>
-		  
-		  
-		  <button type="submit" class="btn btn-brand btn-sm">Save</button>
-		  
-		 
-		  
+
+
+
+
+
       
-</div>
+                    
+                                <div class="button-list">
+								
+						
+								
+                                  
+                                    <a href="{{URL('user/takesurvey/'.Crypt::encryptString($Surveys[0]->id))}}">
+									
+									
+									<button type="button" class="btn btn-rounded btn-outline-danger">Manual Survey</button>
+									
+									</a>
+                                   
+									
+									
+								
+									
+                                </div>
+                        
 
-</div>
-<input type="hidden" name="survey_id" value="{{$Surveys[0]->id??0}}"/>
-<input type="hidden" name="organization_id" value="{{$Surveys[0]->organization_id??0}}"/>
-</form>
+ 
 
 
-</div>
-
-
-</div> 
+  </div> 
  
 
  
-
+</div>
+<hr/> 
 </div>
 
 
@@ -115,7 +120,20 @@
 
 </div>
 
-
+<ul class="nav nav-tabs form_tab" id="myTab" role="tablist">
+<li class="nav-item">
+<a class="nav-link active" id="One-tab" data-toggle="tab" href="#One" role="tab"
+aria-controls="One" aria-selected="true"></a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="Two-tab" data-toggle="tab" href="#Two" role="tab"
+aria-controls="Two" aria-selected="false"></a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="Three-tab" data-toggle="tab" href="#Three" role="tab"
+aria-controls="Three" aria-selected="false"></a>
+</li>
+</ul>
 
 </div>
     

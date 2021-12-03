@@ -93,6 +93,24 @@ class NetPromoterScore extends Controller
 			return redirect()->back()->with('error', 'Something went wrong.');  
 		}
     }		
+public function picksurvey_method($param=false)
+{
+	
+
+	if(auth()->user())
+	{
+		
+		$surveyid=Crypt::decryptString($param);
+		$Surveys=Surveys::select('*')->where('id',$surveyid)->get();
+		$page=false;
+		return view('frontend.survey.survey_method',compact('page','Surveys'));
+	}
+	else
+	{
+		return redirect()->back()->with('error', 'User not logged in.');  
+	}
+}	
+
 public function take_person_onfo($param=false)
 {
 	if(auth()->user())
@@ -141,7 +159,9 @@ public function store_survey_personinfo(Request $request){
 				]  
 				]);
 				
-				return redirect('user/takesurvey')->with('info', 'Start survey');
+				
+		
+				return redirect('user/picksurveymethod/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
 				
 				
 			}	
@@ -161,11 +181,16 @@ public function store_survey_personinfo(Request $request){
 
 
 
-	 public function first_question()
+	 public function first_question($param=false)
     {
 		
+		
+		
+		$surveyid=Crypt::decryptString($param);
+		
 
-		$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',1)->get();		 
+
+		$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',1)->where('survey_id',$surveyid)->get();		 
 		foreach ($Questions as $key => $value) {
 		$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
 		->where('question_id', $value->qid)

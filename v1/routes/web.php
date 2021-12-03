@@ -53,7 +53,8 @@ Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 
 	Route::get('survey', [NetPromoterScore::class,'survey_names']);
 	Route::get('survey/start/{type?}', [NetPromoterScore::class,'take_person_onfo']);
-	Route::get('takesurvey', [NetPromoterScore::class,'first_question']);
+	Route::get('takesurvey/{type?}', [NetPromoterScore::class,'first_question']);
+	Route::get('picksurveymethod/{type?}', [NetPromoterScore::class,'picksurvey_method']);
 	Route::get('second', [NetPromoterScore::class,'second_question']);
 	Route::post('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post');
 	Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo');
