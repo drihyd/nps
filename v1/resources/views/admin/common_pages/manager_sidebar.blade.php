@@ -21,6 +21,7 @@
 </a>
 <ul class="vertical-submenu">
 <li class="{{ (request()->is(Config::get('constants.admin').'/departments')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/departments')}}">Lists</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/activities')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/activities')}}">Activities</a></li>
 </ul>
 </li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/users')) ? 'active' : '' }}">

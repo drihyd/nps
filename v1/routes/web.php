@@ -14,6 +14,7 @@ use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\SurveysController;
 use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\QuestionsOptionsController;
+use App\Http\Controllers\ActivitiesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,12 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('questions_options/edit/{id}',[QuestionsOptionsController::class,'edit_questions_options']);
 	Route::post('questions_options/update',[QuestionsOptionsController::class,'update_questions_options']);
 	Route::get('questions_options/delete/{id}',[QuestionsOptionsController::class,'delete_questions_options']);
+	Route::get('activities', [ActivitiesController::class,'activities_list']);
+	Route::get('activities/create', [ActivitiesController::class,'create_activities']);
+	Route::post('activities/store', [ActivitiesController::class, 'store_activities']);
+	Route::get('activities/edit/{id}',[ActivitiesController::class,'edit_activities']);
+	Route::post('activities/update',[ActivitiesController::class,'update_activities']);
+	Route::get('activities/delete/{id}',[ActivitiesController::class,'delete_activities']);
 
 });
 
