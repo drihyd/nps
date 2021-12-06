@@ -120,7 +120,7 @@ $departments=$departments??'';
 
 
 	@foreach($departments as $key=>$value)
-	<div class="ml-3">
+	<div class="ml-3 mt-3">
 		<label>{{str_replace("*teamname*",$value->qpvalue??'',$Questions[0]->qlabel??'')}}</label><br>
 	
 		<input type="hidden" name="first_questin_range"  value="{{$value->qoptionid}}">
@@ -128,6 +128,15 @@ $departments=$departments??'';
 		<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" required></textarea>
 	</div>
 	@endforeach
+	
+	
+		<div class="ml-3 mt-3">
+		<label>Any other</label><br>
+	
+		<input type="hidden" name="first_questin_range"  value="21">
+		
+		<textarea name="answerdbyperson[21]" class="form form-control" required></textarea>
+	</div>
 	
 	
 
