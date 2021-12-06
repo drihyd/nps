@@ -10,4 +10,6 @@ class SurveyPerson extends Model
     use HasFactory;
 	protected $table = 'survey_persons';
 	public $timestamps = true;
+	
+	protected $fillable = array('firstname', 'email', 'mobile', 'organization_id', 'survey_id');
 }

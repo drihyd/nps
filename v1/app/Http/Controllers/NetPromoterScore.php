@@ -148,18 +148,19 @@ public function store_survey_personinfo(Request $request){
 				/* Duplicate Survey Person */
 				$SurveyPerson=SurveyPerson::where('organization_id',$request->organization_id)->where('survey_id',$request->survey_id)->where('email',$request->email)->delete();
 				/* End */
+		
+	
 				
-				$survey_person=SurveyPerson::insert([
-				[
+				 $input = [
 				"firstname"=>$request->firstname??0,
 				"email"=>$request->email??0,
 				"mobile"=>$request->phone??0,
 				"organization_id"=>$request->organization_id??0,
 				"survey_id"=>$request->survey_id??'',
-				]  
-				]);
-				
-				
+				];
+
+				$user = SurveyPerson::create($input);
+				Session::put('person_id', $user->id);
 		
 				return redirect('user/picksurveymethod/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
 				
@@ -211,7 +212,7 @@ public function store_survey_personinfo(Request $request){
     {
 		
 		
-	
+
 		
 		$Questions=Questions::select('questions.next_qustion_id as qnq','questions.sequence_order as qseq','questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$request->question_id)->get()->first();		 
 		$qseq=$Questions->qseq;		
@@ -220,6 +221,11 @@ public function store_survey_personinfo(Request $request){
 		$nextquestion=$Questions->qnq;
 		}
 		else{
+			
+			
+			
+			
+			
 			/* Duplicate survey question and answered */
 	$delete_exist_answered=SurveyAnswered::where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->delete();
 			
@@ -234,6 +240,12 @@ public function store_survey_personinfo(Request $request){
 		return redirect()->back()->with('error', 'Something went wrong.');  
 	}
 	else{
+		
+		
+		
+		if($request->first_questin_range){
+		
+		
 		
 	/* Duplicate answered question */
 	$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->delete();
@@ -250,6 +262,7 @@ public function store_survey_personinfo(Request $request){
                 "question_id"=>$request->question_id??0,
                 "answerid"=>$value??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
+                "person_id"=>Session::get('person_id')??0,
             ]  
         ]); 
 			
@@ -283,6 +296,7 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 			"question_id"=>$request->question_id??0,
 			"answerid"=>$key??'',
 			"answeredby_person"=>$value??'',
+			 "person_id"=>Session::get('person_id')??0,
 			]  
 			]); 
 
@@ -302,6 +316,7 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
                 "question_id"=>$request->question_id??0,
                 "answerid"=>$request->first_questin_range??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
+				 "person_id"=>Session::get('person_id')??0,
             ]  
         ]); 
 		}
@@ -328,7 +343,24 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 		
 		return view('frontend.survey.first_question',compact('page','Questions','selected_departments','departments'));
 		
+	
+	
+	
+	
+	
+		}
+		
+		else{
+			return redirect()->back()->with('error', 'Please enter value.');  
+		}
+	
+	
 	}
+	
+	
+	
+	
+	
 		
 		//return view('frontend.survey.second_question',compact('page'));
 		}

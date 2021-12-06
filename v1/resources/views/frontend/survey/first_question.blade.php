@@ -54,7 +54,23 @@
 
 <form action="{{ route('surveyone.post') }}" class="signup_form" method="post">
 
-<h6><b>{{$Questions[0]->qlabel??''}}</b></h6>
+
+
+@if($departments)
+<h6><b>
+
+
+
+</b></h6>
+
+
+@else
+	
+{{$Questions[0]->qlabel??''}}
+
+@endif
+
+
 
 
 @csrf
@@ -82,7 +98,7 @@
 
 @foreach($Questions[0]->qoptions as $key=>$value)
 <div class="col-md-12">
-<input type="checkbox" name="first_questin_range[]" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
+<input required type="checkbox" name="first_questin_range[]" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
 </div>
 @endforeach
 
@@ -91,7 +107,7 @@
 @elseif($Questions[0]->qinput_type=="dropdown")
 
 	@foreach($Questions[0]->qoptions as $key=>$value)
-	<input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
+	<input required type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
 	@endforeach
 
 @elseif($Questions[0]->qinput_type=="textarea")	
@@ -102,11 +118,11 @@
 
 	@foreach($departments as $key=>$value)
 	<div class="ml-3">
-		<label>{{$Questions[0]->qsublabel??''}} {{$value->qpvalue??''}}</label><br>
+		<label>{{str_replace("*teamname*",$value->qpvalue??'',$Questions[0]->qlabel??'')}}</label><br>
 	
-		<input type="text" name="first_questin_range"  value="{{$value->qoptionid}}">
+		<input type="hidden" name="first_questin_range"  value="{{$value->qoptionid}}">
 		
-		<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control"></textarea>
+		<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" required></textarea>
 	</div>
 	@endforeach
 	
@@ -124,9 +140,9 @@
 
 
 
-<input type="text" name="organization_id" value="{{$Questions[0]->qorgid??0}}"/>
-<input type="text" name="question_id" value="{{$Questions[0]->qid??0}}"/>
-<input type="text" name="survey_id" value="{{$Questions[0]->qsurvey_id??0}}"/>
+<input type="hidden" name="organization_id" value="{{$Questions[0]->qorgid??0}}"/>
+<input type="hidden" name="question_id" value="{{$Questions[0]->qid??0}}"/>
+<input type="hidden" name="survey_id" value="{{$Questions[0]->qsurvey_id??0}}"/>
 
 </form>
 @else
