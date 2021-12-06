@@ -20,13 +20,28 @@
 <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Departments</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
-<li class="{{ (request()->is(Config::get('constants.admin').'/departments')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/departments')}}">Lists</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/departments')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/departments')}}">All Departments</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/activities')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/activities')}}">Activities</a></li>
 </ul>
 </li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/users')) ? 'active' : '' }}">
 <a href="{{url(Config::get('constants.admin').'/users')}}">
 <img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="apps"><span>Users</span><i class="feather"></i>
+</a>
+</li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/responses')) ? 'active' : '' }}">
+<a href="{{url(Config::get('constants.admin').'/responses')}}">
+<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>View Responses</span><i class="feather"></i>
+</a>
+</li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/feedback')) ? 'active' : '' }}">
+<a href="{{url(Config::get('constants.admin').'/feedback')}}">
+<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Take Feedback</span><i class="feather"></i>
+</a>
+</li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/config-questions')) ? 'active' : '' }}">
+<a href="{{url(Config::get('constants.admin').'/config-questions')}}">
+<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Configure Questions</span><i class="feather"></i>
 </a>
 </li>
 <li>

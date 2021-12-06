@@ -15,6 +15,7 @@ use App\Http\Controllers\SurveysController;
 use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\QuestionsOptionsController;
 use App\Http\Controllers\ActivitiesController;
+use App\Http\Controllers\ResponsesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,8 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 	Route::get('dashboard', [DashboardController::class,'dashboard_lists']);
 
+	/*Admin Departments*/
+
 	Route::get('departments', [DepartmentsController::class,'departments_list']);
 	Route::get('departments/create', [DepartmentsController::class,'create_departments']);
 	Route::post('departments/store', [DepartmentsController::class, 'store_departments']);
@@ -75,7 +78,7 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::post('departments/update',[DepartmentsController::class,'update_departments']);
 	Route::get('departments/delete/{id}',[DepartmentsController::class,'delete_departments']);
 
-	// users
+	/*Admin users*/
 	Route::get('users',[UsermanagementController::class,'department_users_list']);
 	Route::get('user/create', [UsermanagementController::class,'department_create_user']);
 	Route::post('user/store', [UsermanagementController::class, 'department_store_user']);
@@ -83,33 +86,39 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::post('user/update',[UsermanagementController::class,'department_update_user']);
 	Route::get('user/delete/{id}',[UsermanagementController::class,'department_delete_user']);
 
-
+	/*Admin Surveys*/
 	Route::get('surveys', [SurveysController::class,'surveys_list']);
 	Route::get('surveys/create', [SurveysController::class,'create_surveys']);
 	Route::post('surveys/store', [SurveysController::class, 'store_surveys']);
 	Route::get('surveys/edit/{id}',[SurveysController::class,'edit_surveys']);
 	Route::post('surveys/update',[SurveysController::class,'update_surveys']);
 	Route::get('surveys/delete/{id}',[SurveysController::class,'delete_surveys']);
-
+	/*Admin Questions*/
 	Route::get('questions', [QuestionsController::class,'questions_list']);
 	Route::get('questions/create', [QuestionsController::class,'create_questions']);
 	Route::post('questions/store', [QuestionsController::class, 'store_questions']);
 	Route::get('questions/edit/{id}',[QuestionsController::class,'edit_questions']);
 	Route::post('questions/update',[QuestionsController::class,'update_questions']);
 	Route::get('questions/delete/{id}',[QuestionsController::class,'delete_questions']);
-
+	/*Admin Question Options*/
 	Route::get('questions_options', [QuestionsOptionsController::class,'questions_option_list']);
 	Route::get('questions_options/create', [QuestionsOptionsController::class,'create_questions_options']);
 	Route::post('questions_options/store', [QuestionsOptionsController::class, 'store_questions_options']);
 	Route::get('questions_options/edit/{id}',[QuestionsOptionsController::class,'edit_questions_options']);
 	Route::post('questions_options/update',[QuestionsOptionsController::class,'update_questions_options']);
 	Route::get('questions_options/delete/{id}',[QuestionsOptionsController::class,'delete_questions_options']);
+	/*Admin Activities*/
 	Route::get('activities', [ActivitiesController::class,'activities_list']);
 	Route::get('activities/create', [ActivitiesController::class,'create_activities']);
 	Route::post('activities/store', [ActivitiesController::class, 'store_activities']);
 	Route::get('activities/edit/{id}',[ActivitiesController::class,'edit_activities']);
 	Route::post('activities/update',[ActivitiesController::class,'update_activities']);
 	Route::get('activities/delete/{id}',[ActivitiesController::class,'delete_activities']);
+
+	/*Admin User Responses*/
+
+	Route::get('responses', [ResponsesController::class,'response_list']);
+	Route::get('responses/view/{per_id}', [ResponsesController::class,'response_view']);
 
 });
 
