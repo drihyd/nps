@@ -54,7 +54,10 @@
 
 <form action="{{ route('surveyone.post') }}" class="signup_form" method="post">
 
+@php
+$departments=$departments??'';
 
+@endphp
 
 @if($departments)
 <h6><b>

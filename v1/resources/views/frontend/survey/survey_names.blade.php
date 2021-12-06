@@ -53,7 +53,6 @@
 @if($Surveys->count()>0)
 
 
-<h4 class="mb-5">Start following any survey</h4>
 
 
 @csrf
