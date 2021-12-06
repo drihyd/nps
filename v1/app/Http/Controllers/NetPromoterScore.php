@@ -141,12 +141,14 @@ public function store_survey_personinfo(Request $request){
 
 	if($request){
 		
+		
+		
 			if($request->survey_id){
 				
 				
 
 				/* Duplicate Survey Person */
-				$SurveyPerson=SurveyPerson::where('organization_id',$request->organization_id)->where('survey_id',$request->survey_id)->where('email',$request->email)->delete();
+				$SurveyPerson=SurveyPerson::where('organization_id',$request->organization_id)->where('survey_id',$request->survey_id)->where('email',$request->email)->where('logged_user_id',auth()->user()->id)->delete();
 				/* End */
 		
 	
@@ -157,6 +159,7 @@ public function store_survey_personinfo(Request $request){
 				"mobile"=>$request->phone??0,
 				"organization_id"=>$request->organization_id??0,
 				"survey_id"=>$request->survey_id??'',
+				"logged_user_id"=>auth()->user()->id??0,
 				];
 
 				$user = SurveyPerson::create($input);
@@ -195,7 +198,7 @@ public function store_survey_personinfo(Request $request){
 		foreach ($Questions as $key => $value) {
 		$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
 		->where('question_id', $value->qid)
-		->orderBy('option_value','asc')
+		->orderBy('id','asc')
 		->get();	
 		}		
 		$page=false;		
@@ -227,7 +230,7 @@ public function store_survey_personinfo(Request $request){
 			
 			
 			/* Duplicate survey question and answered */
-	$delete_exist_answered=SurveyAnswered::where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->delete();
+	$delete_exist_answered=SurveyAnswered::where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id)->delete();
 			
 			$nextquestion=$this->set_next_question($request->first_questin_range);
 		}		
@@ -248,7 +251,7 @@ public function store_survey_personinfo(Request $request){
 		
 		
 	/* Duplicate answered question */
-	$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->delete();
+	$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id)->delete();
 	
 	if(is_array($request->first_questin_range))
 	{
@@ -263,6 +266,7 @@ public function store_survey_personinfo(Request $request){
                 "answerid"=>$value??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
                 "person_id"=>Session::get('person_id')??0,
+				"logged_user_id"=>auth()->user()->id??0,
             ]  
         ]); 
 			
@@ -297,6 +301,7 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 			"answerid"=>$key??'',
 			"answeredby_person"=>$value??'',
 			 "person_id"=>Session::get('person_id')??0,
+			 "logged_user_id"=>auth()->user()->id??0,
 			]  
 			]); 
 
@@ -317,6 +322,7 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
                 "answerid"=>$request->first_questin_range??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
 				 "person_id"=>Session::get('person_id')??0,
+				 "logged_user_id"=>auth()->user()->id??0,
             ]  
         ]); 
 		}

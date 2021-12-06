@@ -131,11 +131,11 @@ $departments=$departments??'';
 	
 	
 		<div class="ml-3 mt-3">
-		<label>Any other</label><br>
+		<label>Any other (optional)</label><br>
 	
 		<input type="hidden" name="first_questin_range"  value="21">
 		
-		<textarea name="answerdbyperson[21]" class="form form-control" required></textarea>
+		<textarea name="answerdbyperson[21]" class="form form-control"></textarea>
 	</div>
 	
 	
