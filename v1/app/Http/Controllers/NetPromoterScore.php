@@ -194,6 +194,7 @@ public function store_survey_personinfo(Request $request){
 		foreach ($Questions as $key => $value) {
 		$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
 		->where('question_id', $value->qid)
+		->orderBy('option_value','asc')
 		->get();	
 		}		
 		$page=false;		
@@ -209,6 +210,8 @@ public function store_survey_personinfo(Request $request){
 	public function surveyone_post(Request $request)
     {
 		
+		
+	
 		
 		$Questions=Questions::select('questions.next_qustion_id as qnq','questions.sequence_order as qseq','questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$request->question_id)->get()->first();		 
 		$qseq=$Questions->qseq;		
@@ -235,8 +238,63 @@ public function store_survey_personinfo(Request $request){
 	/* Duplicate answered question */
 	$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->delete();
 	
-	
+	if(is_array($request->first_questin_range))
+	{
 		
+		foreach($request->first_questin_range as $key=>$value){
+			
+		$first_questionans=SurveyAnswered::insert([
+            [
+                "organization_id"=>$request->organization_id??0,
+                "survey_id"=>$request->survey_id??0,
+                "question_id"=>$request->question_id??0,
+                "answerid"=>$value??0,
+                "answeredby_person"=>$request->answerdbyperson??'',
+            ]  
+        ]); 
+			
+		}
+		
+		$selected_departments=$request->first_questin_range??'';
+		
+		
+		
+
+$departments = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
+->whereIn('id', $selected_departments)
+->get();
+		
+
+	
+	}
+	else{
+		
+		
+		if(is_array($request->answerdbyperson)){
+			
+			
+			
+		foreach($request->answerdbyperson as $key=>$value){
+
+			$first_questionans=SurveyAnswered::insert([
+			[
+			"organization_id"=>$request->organization_id??0,
+			"survey_id"=>$request->survey_id??0,
+			"question_id"=>$request->question_id??0,
+			"answerid"=>$key??'',
+			"answeredby_person"=>$value??'',
+			]  
+			]); 
+
+
+		}
+					
+	
+			
+		}
+		else{
+			
+					
         $first_questionans=SurveyAnswered::insert([
             [
                 "organization_id"=>$request->organization_id??0,
@@ -246,6 +304,13 @@ public function store_survey_personinfo(Request $request){
                 "answeredby_person"=>$request->answerdbyperson??'',
             ]  
         ]); 
+		}
+
+		
+		$selected_departments='';
+		$departments='';
+		
+	}
 		
 		
 		$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$nextquestion)->get();		 
@@ -256,10 +321,12 @@ public function store_survey_personinfo(Request $request){
 		}	
 		
 		
-
 		
 		
-		return view('frontend.survey.first_question',compact('page','Questions'));
+		
+		
+		
+		return view('frontend.survey.first_question',compact('page','Questions','selected_departments','departments'));
 		
 	}
 		
@@ -274,6 +341,9 @@ public function store_survey_personinfo(Request $request){
 	public function set_next_question($score=false) {
 	
 	switch ($score) {
+		case '0':
+		$next_question='4';
+		break;	
 		case '1':
 		$next_question='4';
 		break;

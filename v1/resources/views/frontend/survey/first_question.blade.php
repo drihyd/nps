@@ -75,6 +75,19 @@
 	<input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
 	@endforeach
 
+
+@elseif($Questions[0]->qinput_type=="checkbox")
+
+<div class="row">
+
+@foreach($Questions[0]->qoptions as $key=>$value)
+<div class="col-md-12">
+<input type="checkbox" name="first_questin_range[]" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
+</div>
+@endforeach
+
+</div>
+
 @elseif($Questions[0]->qinput_type=="dropdown")
 
 	@foreach($Questions[0]->qoptions as $key=>$value)
@@ -83,15 +96,21 @@
 
 @elseif($Questions[0]->qinput_type=="textarea")	
 
-	@foreach($Questions[0]->qoptions as $key=>$value)
+
+
+
+
+	@foreach($departments as $key=>$value)
 	<div class="ml-3">
-		<label>{{$value->qpvalue??''}}</label><br>
+		<label>{{$Questions[0]->qsublabel??''}} {{$value->qpvalue??''}}</label><br>
 	
-		<input type="hidden" name="first_questin_range"  value="{{$value->qoptionid}}">
+		<input type="text" name="first_questin_range"  value="{{$value->qoptionid}}">
 		
-		<textarea name="answerdbyperson" class="form form-control"></textarea>
+		<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control"></textarea>
 	</div>
 	@endforeach
+	
+	
 
 @else		  
 @endif	
@@ -105,9 +124,10 @@
 
 
 
-<input type="hidden" name="organization_id" value="{{$Questions[0]->qorgid??0}}"/>
-<input type="hidden" name="question_id" value="{{$Questions[0]->qid??0}}"/>
-<input type="hidden" name="survey_id" value="{{$Questions[0]->qsurvey_id??0}}"/>
+<input type="text" name="organization_id" value="{{$Questions[0]->qorgid??0}}"/>
+<input type="text" name="question_id" value="{{$Questions[0]->qid??0}}"/>
+<input type="text" name="survey_id" value="{{$Questions[0]->qsurvey_id??0}}"/>
+
 </form>
 @else
 	<p>Thank you for completing our survey!</p>
