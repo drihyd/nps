@@ -60,6 +60,10 @@ Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 	Route::post('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post');
 	Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo');
 
+	Route::get('responses', [ResponsesController::class,'frontend_response_list']);
+	Route::get('responses/view/{per_id}', [ResponsesController::class,'frontend_response_view']);
+	
+
 	
 });
 

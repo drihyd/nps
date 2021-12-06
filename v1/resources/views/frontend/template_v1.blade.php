@@ -27,7 +27,8 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet"><!-- 
     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- Apex css -->
     <link href="{{URL::to('assets/plugins/apexcharts/apexcharts.css')}}" rel="stylesheet">
 
@@ -118,8 +119,8 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <script src="{{URL::to('assets/js/custom/custom-table-rwd.js')}}"></script>  -->   
     <!-- <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script> -->
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
      <!-- Core js -->
     <script src="{{URL::to('assets/js/core.js')}}"></script>
     <!-- Form Step js -->
@@ -197,6 +198,24 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
   
 
   
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+    /* -- Table - Datatable -- */
+    $('#datatable').DataTable({
+        responsive: true
+    });
+    $('#default-datatable').DataTable( {
+        "order": [[ 3, "desc" ]],
+        responsive: true
+    } );    
+    var table = $('#datatable-buttons').DataTable({
+        lengthChange: false,
+        responsive: true,
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+    });
+    table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+});
 </script>
 </body>
 </html>

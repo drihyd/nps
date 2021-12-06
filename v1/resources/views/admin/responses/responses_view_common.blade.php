@@ -1,7 +1,7 @@
 
         <div class="card m-b-30">
             <div class="card-header">
-                <h4>Response from '{{Str::title($person_data->firstname??'')}}' on Dt: {{date('d-m-Y', strtotime($person_data->created_at??''));}}</h4>
+                <h4>Response from {{Str::title($person_data->firstname??'')}} on {{date('F j, Y', strtotime($person_data->created_at??''));}}</h4>
                
             </div>
             <div class="card-body">

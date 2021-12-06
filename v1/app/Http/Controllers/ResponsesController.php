@@ -44,4 +44,28 @@ class ResponsesController extends Controller
         return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
     }
+    public function frontend_response_list()
+    {   
+        
+        $responses_data=SurveyPerson::where('logged_user_id',Auth::user()->id)->get();
+        // echo '<pre>'; print_r($responses_data); exit();
+        $pageTitle="Responses";    
+        return view('frontend.responses.responses_list', compact('pageTitle','responses_data'))
+        ->with('i', (request()->input('page', 1) - 1) * 5);  
+    }
+    public function frontend_response_view($per_id)
+    { 
+        $person_id = Crypt::decryptString($per_id);
+        $person_data= SurveyPerson::where('logged_user_id',Auth::user()->id)->where('id',$person_id)->get()->first();
+        $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
+        ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
+        ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
+        ->where('survey_answered.logged_user_id',Auth::user()->id)
+        ->where('survey_answered.person_id',$person_id)
+        ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
+        // dd($person_responses_data);
+        $pageTitle= Str::title($person_data->firstname??'')." Response";    
+        return view('frontend.responses.responses_view', compact('pageTitle','person_responses_data','person_data'))
+        ->with('i', (request()->input('page', 1) - 1) * 5);  
+    }
 }

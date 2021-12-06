@@ -1,5 +1,5 @@
 @extends('frontend.template_v1')
-@section('title', 'Survey Step-1')
+@section('title', Str::title($person_data->firstname??'')." Response")
 @section('content')
 
 
@@ -10,7 +10,7 @@
        
 			
 			
-<div class="formify_right_fullwidth align-items-center justify-content-center">
+<div class="formify_right_fullwidth align-items-center justify-content-center" style="max-width: ;">
 
 <!-- <a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
 <img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
@@ -45,17 +45,14 @@
 	</div>
 </div>
 
-<div class="formify_box formify_box_checkbox background-white">
-
-<br>
+<div class="formify_box formify_box_checkbox background-white" style="max-width:620px;">
+<div class="formify_header">
+<h4 class="form_title">@yield('title')</h4>
+<div class="border ml-0"></div>
+</div>
 <div class="tab-content" id="myTabContent">
 
-@if($Surveys->count()>0)
 
-
-
-
-@csrf
  
 <div class="box_info">
 
@@ -63,18 +60,8 @@
 <div class="container">
 <div class="row">
 <div class="col-xs-12">
-	<div class="">
-		<div class="background-white">           
-		    <div class="button-list">
-			@foreach($Surveys as $key=>$value)
-		        <a href="{{URL('user/survey/start/'.Crypt::encryptString($value->id))}}">
-				<button type="button" class="btn btn-rounded btn-outline-danger mb-2 mr-2">{{$value->title}}</button>
-				</a>
-			@endforeach
-		    </div>
+	@include('admin.responses.responses_view_common')
 
-	  </div> 
-	</div>
 </div>
 
 
@@ -83,29 +70,9 @@
 </div>
 
 
-
-@else
-	<p>Please create survey.</p>
-@endif
-
 </div>
 
 </div>
-
-<!-- <ul class="nav nav-tabs form_tab" id="myTab" role="tablist">
-<li class="nav-item">
-<a class="nav-link active" id="One-tab" data-toggle="tab" href="#One" role="tab"
-aria-controls="One" aria-selected="true"></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" id="Two-tab" data-toggle="tab" href="#Two" role="tab"
-aria-controls="Two" aria-selected="false"></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" id="Three-tab" data-toggle="tab" href="#Three" role="tab"
-aria-controls="Three" aria-selected="false"></a>
-</li>
-</ul> -->
 
 </div>
     
