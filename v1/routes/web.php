@@ -126,6 +126,9 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('responses/view/{per_id}', [ResponsesController::class,'response_view']);
 	Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
 
+
+	Route::get('feedback', [ResponsesController::class,'feedback_list']);
+
 });
 
 

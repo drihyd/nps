@@ -78,5 +78,10 @@ class ResponsesController extends Controller
          return redirect()->back()->with('success','Success! Details are deleted successfully');
         
     }
-    
+    public function feedback_list()
+    {     
+        $pageTitle="Feedback";    
+        return view('admin.feedback.feedback_list', compact('pageTitle'));  
+    }
+
 }

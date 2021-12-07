@@ -41,7 +41,7 @@
 </li>
 <li>
 <a href="javaScript:void();">
-<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Configure Questions</span><i class="feather icon-chevron-right pull-right"></i>
+<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Configure Survey</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
 <li class="{{ (request()->is(Config::get('constants.admin').'/surveys')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/surveys')}}">All Surveys</a></li>
