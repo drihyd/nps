@@ -24,7 +24,7 @@ $organization=DB::table('users')->join('organizations', 'users.organization_id',
 </div>-->  
 
 <div class="widgetbar">
-<a target="_new" href="{{URL('user/survey/start/'.Crypt::encryptString(1))}}" class="btn btn-primary-rgba"><i class="feather icon-plus mr-2"></i>Start Survey</a>
+<a target="_blank" href="{{URL('user/survey/start/'.Crypt::encryptString(1))}}" class="btn btn-primary-rgba"><i class="feather icon-plus mr-2"></i>Start Survey</a>
 </div>                     
 </div>
 </div>          

@@ -66,6 +66,7 @@ $departments=$departments??'';
 
 <div class="box_info">
 <input type="range" list="tickmarks" min="0" max="10" name="first_questin_range">
+<input type="hidden"  name="is_pick_slider" value="1">
 <datalist id="tickmarks">
 @foreach($Questions[0]->qoptions as $key=>$value)
 <option value="{{$value->qoptionid}}" label="{{$value->qpvalue}}"></option>
@@ -87,13 +88,13 @@ $departments=$departments??'';
 @endforeach
 
 </div>
-
+<input type="hidden"  name="is_pick_slider" value="0">
 @elseif($Questions[0]->qinput_type=="dropdown")
 
 	@foreach($Questions[0]->qoptions as $key=>$value)
 	<input required type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
 	@endforeach
-
+<input type="hidden"  name="is_pick_slider" value="0">
 @elseif($Questions[0]->qinput_type=="textarea")	
 
 
@@ -120,7 +121,7 @@ $departments=$departments??'';
 	</div>
 	
 	
-
+<input type="hidden"  name="is_pick_slider" value="0">
 @else		  
 @endif	
 </div></div>
@@ -144,7 +145,7 @@ $departments=$departments??'';
 <div class="col-md-12 text-center">
 	<h4 class="text text-success">Thank you for completing our survey!</h4>
 	
-	<a href="{{url('user/responses')}}" class="btn btn-success  mt-3">Go to Survey users</a>
+	<!--<a href="{{url('user/responses')}}" class="btn btn-success  mt-3">Go to Survey users</a>-->
 	</div>
 </div>
 @endif
@@ -153,20 +154,6 @@ $departments=$departments??'';
 
 </div>
 
-<!-- <ul class="nav nav-tabs form_tab" id="myTab" role="tablist">
-<li class="nav-item">
-<a class="nav-link active" id="One-tab" data-toggle="tab" href="#One" role="tab"
-aria-controls="One" aria-selected="true"></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" id="Two-tab" data-toggle="tab" href="#Two" role="tab"
-aria-controls="Two" aria-selected="false"></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" id="Three-tab" data-toggle="tab" href="#Three" role="tab"
-aria-controls="Three" aria-selected="false"></a>
-</li>
-</ul> -->
 
 </div>
     

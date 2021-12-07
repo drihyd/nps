@@ -360,8 +360,36 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 		}
 		else{
 			
-					
+				
+
+
+if($request->is_pick_slider){	
+
+
+
+$getoptid = QuestionOptions::select('question_options.id as qoptionid')
+->where('option_value', $request->first_questin_range)
+->where('question_id',1)
+->get()->first();
+
+
+			
         $first_questionans=SurveyAnswered::insert([
+            [
+                "organization_id"=>$request->organization_id??0,
+                "survey_id"=>$request->survey_id??0,
+                "question_id"=>$request->question_id??0,
+                "answerid"=>$getoptid->qoptionid??0,
+                "answeredby_person"=>$request->answerdbyperson??'',
+				 "person_id"=>Session::get('person_id')??0,
+				 "logged_user_id"=>auth()->user()->id??0,
+            ]  
+        ]);		
+		
+}
+else{
+	
+	        $first_questionans=SurveyAnswered::insert([
             [
                 "organization_id"=>$request->organization_id??0,
                 "survey_id"=>$request->survey_id??0,
@@ -371,7 +399,10 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 				 "person_id"=>Session::get('person_id')??0,
 				 "logged_user_id"=>auth()->user()->id??0,
             ]  
-        ]); 
+        ]);	
+	
+}
+		
 		}
 
 		

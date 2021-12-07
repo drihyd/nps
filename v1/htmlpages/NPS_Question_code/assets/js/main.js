@@ -36,8 +36,6 @@
     });
 
   function bodyScroll() {
-	  
-	  
     var bodyAnimation = $("body").data("scroll-animation");
     if (bodyAnimation === true) {
       new WOW({}).init();
@@ -50,9 +48,6 @@
   }
 
   $(".form_tab .nav-link#Two-tab").on("click", function () {
-	  
-	  
-	  
     $(".form_tab .nav-link#Two-tab").addClass("complete");
   });
 
