@@ -34,11 +34,13 @@
 <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>View Responses</span><i class="feather"></i>
 </a>
 </li>
+<!--
 <li class="{{ (request()->is(Config::get('constants.admin').'/feedback')) ? 'active' : '' }}">
 <a href="{{url(Config::get('constants.admin').'/feedback')}}">
 <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Take Feedback</span><i class="feather"></i>
 </a>
 </li>
+-->
 <li>
 <a href="javaScript:void();">
 <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Configure Survey</span><i class="feather icon-chevron-right pull-right"></i>
