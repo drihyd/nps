@@ -79,7 +79,7 @@
                 @endforeach
             </div>
         </div>
-
+				<a href="{{url('user/survey')}}" class="btn thm_btn next_tab text-transform-inherit mt-3">Back to Start Survey</a>
 
 </div>
 
