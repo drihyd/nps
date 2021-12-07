@@ -71,7 +71,7 @@
             <div class="card-body text-center">
                 <div class="course-slider">
                     <div class="course-slider-item">
-                        <h4 class="my-0 pull-left">Departments</h4>
+                        <h4 class="my-0 pull-left">Net Promoter Score</h4>
                         <div class="clearfix"></div>
                         <div class="row align-items-center my-4 py-3">
                             <div class="col-4 py-3 bg-danger-rgba rounded">
