@@ -1748,6 +1748,9 @@ input {
   color: red;
   list-style-type: none;
 }
+.card-header{
+  background: #ffeff9;
+}
 
 
 /*SURVEY PROFILE DROPDOWN CSS BEGINS*/
