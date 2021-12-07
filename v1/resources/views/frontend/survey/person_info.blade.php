@@ -59,7 +59,9 @@
           </div>
 		  
 		  
-		  <button type="submit" class="btn btn-danger mt-4">Save</button>
+		  <button type="submit" class="btn btn-success mt-4">Manual Survey</button>
+		  
+		  <!--<button type="button" class="btn btn-danger mt-4">Send link to Email</button>-->
 		  
 		 
 		  

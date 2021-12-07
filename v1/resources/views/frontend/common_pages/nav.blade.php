@@ -1,9 +1,15 @@
 <div class="survey-profilebar">
+
 	<div class="mt-4 ml-5 home-icon">
+	
+	<!--
 	<a href="{{url('user/survey')}}"><i class="fa fa-home"></i></a>
-	<!-- <a href="{{url('user/responses')}}" class="">Survey Users</a> -->
+
 	<a href="{{route('session.logout')}}" class="">Logout</a>
+	-->
 	</div>
+	
+	
 
 
 	<div class="dropdown float-right mt-4 mr-5">

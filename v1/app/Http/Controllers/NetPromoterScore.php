@@ -209,7 +209,12 @@ public function store_survey_personinfo(Request $request){
 				Session::put('person_id', $user->id);
 				Session::put('comapny_name',$Organizations[0]->company_name??'');
 		
-				return redirect('user/picksurveymethod/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
+		
+		
+
+		
+				return redirect('user/takesurvey/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
+				//return redirect('user/picksurveymethod/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
 				
 				
 			}	
@@ -256,7 +261,6 @@ public function store_survey_personinfo(Request $request){
     }	
 	public function surveyone_post(Request $request)
     {
-		
 		
 
 		

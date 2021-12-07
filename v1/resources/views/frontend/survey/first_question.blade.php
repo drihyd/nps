@@ -62,11 +62,20 @@ $departments=$departments??'';
 
 @if($Questions[0]->qinput_type=="radio")
 	
-	@foreach($Questions[0]->qoptions as $key=>$value)
-	<input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
-	@endforeach
 
 
+<div class="box_info">
+<input type="range" list="tickmarks" min="0" max="10" name="first_questin_range">
+<datalist id="tickmarks">
+@foreach($Questions[0]->qoptions as $key=>$value)
+<option value="{{$value->qoptionid}}" label="{{$value->qpvalue}}"></option>
+<!--<input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}-->
+@endforeach
+</datalist>
+</div>
+ 
+ 
+ 
 @elseif($Questions[0]->qinput_type=="checkbox")
 
 <div class="row">
