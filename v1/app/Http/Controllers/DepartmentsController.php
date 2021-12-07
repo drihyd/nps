@@ -104,6 +104,9 @@ class DepartmentsController extends Controller
             'department_name' => 'required', 
             'is_display' => 'sometimes|nullable',        
         ]);  
+
+
+
         
         Departments::where('id', $request->id)
             ->update(
@@ -120,7 +123,14 @@ class DepartmentsController extends Controller
     public function delete_departments($id)
     {
         $ID = Crypt::decryptString($id);
-            $data=Departments::where('id',$ID)->delete();   
+
+            $departments_name=Departments::get()->where("id",$ID)->first();
+
+            // dd($departments_name->department_name);
+
+            $data=QuestionOptions::whereIn('question_id',[2,3,4])->where("option_value",$departments_name->department_name)->delete();
+            $data=Departments::where('id',$ID)->delete();
+
          return redirect()->back()->with('success','Success! Details are deleted successfully');
         
     }
