@@ -44,9 +44,12 @@ $(".gst").change(function () {
         var doughnutChartID = document.getElementById("chartjs-doughnut-chart").getContext('2d');
         var doughnutChart = new Chart(doughnutChartID, {
             type: 'doughnut',
+            ajax: "{{ route('dashboardcount.index') }}",
+
             data: {
+                // alert(data);
                 datasets: [{
-                    data: [500,100,400],
+                    data: [{{$final_score->Promoters??''}},{{$final_score->Neutral??''}},{{$final_score->Detractors??''}}],
                     borderColor: 'transparent',
                     backgroundColor: ["#0080ff","#18d26b","#d4d8de"],
                     label: 'Dataset 1'

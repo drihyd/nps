@@ -74,6 +74,7 @@ Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 	Route::get('dashboard', [DashboardController::class,'dashboard_lists']);
+	Route::get('dashboard/doubtnutchart', [DashboardController::class,'doubtnutchart'])->name('dashboardcount.index');
 
 	/*Admin Departments*/
 
