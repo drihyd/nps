@@ -17,7 +17,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
-                        <th>Label</th>
+                        <th>Question</th>
+                        <th>Option Value</th>
                         <!-- <th>Is Active</th> -->
                         <th>Actions</th>
                     </tr>
@@ -28,6 +29,7 @@
                           <tr>
                               
                               <td>{{$loop->iteration}}</td>
+                              <td>{{Str::title($question->question_label??'')}}</td>
                               <td>{{Str::title($question->option_value??'')}}</td>
                               <!-- <td>{{$question->active??''}}</td> -->
                               
