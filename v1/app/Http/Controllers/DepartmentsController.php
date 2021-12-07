@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Departments;
+use App\Models\QuestionOptions;
 use Illuminate\Http\Request;
 use App\Models\Organizations;
 use App\Models\User;
@@ -48,14 +49,45 @@ class DepartmentsController extends Controller
             'is_display' => 'sometimes|nullable',
             
         ]);
+
+
+        $isexist = Departments::select('id')->where('department_name',$request->department_name)->get();
+            if($isexist->count()==0){
+
+
         Departments::insert([
             [
                 "department_name"=>$request->department_name??'',
                 "is_display"=>$request->is_display??'',
                 "organization_id"=>$request->organization_id??'',
             ]  
+        ]);
+        QuestionOptions::insert([
+            [
+                "question_id"=>2,
+                "option_value"=>$request->department_name??'',
+            ]  
+        ]);
+        QuestionOptions::insert([
+            [
+                "question_id"=>3,
+                "option_value"=>$request->department_name??'',
+            ]  
+        ]);
+        QuestionOptions::insert([
+            [
+                "question_id"=>4,
+                "option_value"=>$request->department_name??'',
+            ]  
         ]); 
+
+
+
         return redirect(Config::get('constants.admin').'/departments')->with('success', "Success! Details are added successfully"); 
+        }else{
+
+         return redirect()->back()->with('error', 'Department already exist an account.');  
+     }
     }
     public function edit_departments($id)    {
         
