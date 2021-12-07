@@ -33,6 +33,7 @@ use App\Http\Controllers\ResponsesController;
 // });
 
 Route::any('/net_promoter_score',[NetPromoterScore::class, 'nps_login']);
+Route::any('/nps_score_factor_count',[NetPromoterScore::class, 'nps_score_factor_count']);
 Route::any('/',[NetPromoterScore::class, 'nps_login']);
 Route::post('login-verification',[NetPromoterScore::class, 'Loginsubmit'])->name('login.verification');
 Route::get('logout', [NetPromoterScore::class,'logout'])->name('user.logout');

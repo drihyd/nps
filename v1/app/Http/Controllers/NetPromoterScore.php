@@ -20,6 +20,46 @@ use Illuminate\Support\Facades\Crypt;
 class NetPromoterScore extends Controller
 {
 
+
+
+    public function nps_score_factor_count()
+    {
+		
+		
+		
+		$organization_id=auth()->user()->organization_id;		
+		$Promoters=SurveyAnswered::select('id')
+		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
+		->where('survey_answered.organization_id',$organization_id)
+		->where('survey_answered.question_id',1)
+		->whereIn('question_options.option_value',[9,10])
+		->count();
+		$Neutral=SurveyAnswered::select('id')
+		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
+		->where('survey_answered.organization_id',$organization_id)
+		->where('survey_answered.question_id',1)
+		->whereIn('question_options.option_value',[7,8])
+		->count();
+		$Detractors=SurveyAnswered::select('id')
+		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
+		->where('survey_answered.organization_id',$organization_id)
+		->where('survey_answered.question_id',1)
+		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
+		->count();
+		
+		$final_score=
+			[
+				"Promoters"=>$Promoters,
+				"Neutral"=>$Neutral,
+				"Detractors"=>$Detractors	
+			];
+		
+		return json_encode($final_score);
+		
+
+
+    }
+
     public function nps_login()
     {
         $pageTitle="Login"; 
