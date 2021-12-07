@@ -20,12 +20,8 @@
                               <td>{{Str::title($response->firstname??'')}}</td>
                               <td>{{$response->email??''}}</td>
                               <td>{{$response->mobile??''}}</td>
-                              <td>
-                  @if(Auth::user()->organization_id == $response->organization_id)              
+                              <td>             
 							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-eye"></i></a>
-                @else
-                <a href="{{url('user/responses/view/'.Crypt::encryptString($response->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-eye"></i></a>
-                @endif
                                 <!-- <a href="{{url(Config::get('constants.admin').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a> -->
 								
                               </td>
