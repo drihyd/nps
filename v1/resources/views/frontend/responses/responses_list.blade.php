@@ -64,7 +64,7 @@
           <div class="table-responsive">
         
           <table id="default-datatable" class="display table Config::get('constants.tablestriped')">
-                <thead class="thead-dark">
+                <thead class="" style="background:#ffeff9;">
                     <tr>
                         <th>S.No</th>
                         <th>Name</th>
@@ -84,7 +84,7 @@
                               <td>{{$response->mobile??''}}</td>
                               <td>             
 							  <a href="{{url('user/responses/view/'.Crypt::encryptString($response->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-eye"></i></a>
-                                <!-- <a href="{{url(Config::get('constants.admin').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a> -->
+                                <a href="{{url('user/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
 								
                               </td>
                           </tr>

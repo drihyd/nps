@@ -62,6 +62,7 @@ Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 
 	Route::get('responses', [ResponsesController::class,'frontend_response_list']);
 	Route::get('responses/view/{per_id}', [ResponsesController::class,'frontend_response_view']);
+	Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
 	
 
 	
@@ -123,6 +124,7 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 	Route::get('responses', [ResponsesController::class,'response_list']);
 	Route::get('responses/view/{per_id}', [ResponsesController::class,'response_view']);
+	Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
 
 });
 

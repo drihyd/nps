@@ -68,4 +68,15 @@ class ResponsesController extends Controller
         return view('frontend.responses.responses_view', compact('pageTitle','person_responses_data','person_data'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
     }
+
+    public function delete_responses($per_id)
+    {
+        $ID = Crypt::decryptString($per_id);
+            $data=SurveyAnswered::where('person_id',$ID)->delete();
+            $data=SurveyPerson::where('id',$ID)->delete();
+            // dd($data);
+         return redirect()->back()->with('success','Success! Details are deleted successfully');
+        
+    }
+    
 }
