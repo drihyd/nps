@@ -75,15 +75,15 @@
                         <div class="clearfix"></div>
                         <div class="row align-items-center my-4 py-3">
                             <div class="col-4 py-3 bg-danger-rgba rounded">
-                                <h4 class="text-danger">500</h4>
+                                <h4 class="text-danger">{{$final_score->Promoters??''}}</h4>
                                 <p class="text-danger mb-0">Promoters</p>
                             </div>
                             <div class="col-4 py-3 px-0">
-                                <h4 class="text-warning">100</h4>
+                                <h4 class="text-warning">{{$final_score->Neutral??''}}</h4>
                                 <p class="text-warning mb-0">Neutral</p>
                             </div>
                             <div class="col-4 p-0">
-                                <h4>21</h4>
+                                <h4>{{$final_score->Detractors??''}}</h4>
                                 <p class="mb-0">Detractors</p>
                             </div>
                         </div>
