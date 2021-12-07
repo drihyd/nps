@@ -64,7 +64,7 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 <div class="formify_left_fullwidth formify_left_top_logo frm-vh-md-100 d-flex align-items-center justify-content-center" data-bg-color="#FFEFF9">
 
 @if(Auth::check())
-<a href="index.html" class="top_logo"><img src="{{URL::to('assets/img/frontend/logo.png')}}" alt=""></a>
+<a href="{{url('/')}}" class="top_logo"><img src="{{URL::to('assets/img/frontend/logo.png')}}" alt=""></a>
 
 
                           

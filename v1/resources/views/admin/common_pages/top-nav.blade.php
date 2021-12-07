@@ -126,6 +126,7 @@
                                     <div class="profilebar">
                                         <div class="dropdown">
                                           <a class="dropdown-toggle" href="#" role="button" id="profilelink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            
                                             @if(isset(auth()->user()->profile) && !empty(auth()->user()->profile))
                                                 <img src="{{URL::to('assets/uploads/'.auth()->user()->profile??'')}}" class="img-fluid" alt="profile">
                                             @else

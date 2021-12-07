@@ -23,7 +23,14 @@
     </div>  --> 
     <!-- End col -->
 </div>
-<div class=" pb-5"> 
+<div class=" pb-5">
+@if(Auth::user()->role==2) 
 <a href="{{url(Config::get('constants.admin').'/responses')}}" class="btn btn-danger btn-sm">Back</a>
+    @elseif(Auth::user()->role==3)
+<a href="{{url(Config::get('constants.user').'/responses')}}" class="btn btn-danger btn-sm">Back</a>
+@elseif(Auth::user()->role==4)
+<a href="{{url(Config::get('constants.user').'/responses')}}" class="btn btn-danger btn-sm">Back</a>
+@else
+@endif
 </div>
 @endsection

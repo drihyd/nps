@@ -98,8 +98,9 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 @elseif(Auth::user()->role==2)
 @include('admin.common_pages.manager_sidebar')
 @elseif(Auth::user()->role==3)
+@include('admin.common_pages.user_sidebar')
 @elseif(Auth::user()->role==4)
-
+@include('admin.common_pages.user_sidebar')
 @else
 
 @endif
@@ -129,7 +130,13 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 
 @elseif(Auth::user()->role==3)
 
+@include('admin.common_pages.top-nav')
+@include('admin.common_pages.breadcrump_user')
+
 @elseif(Auth::user()->role==4)
+
+@include('admin.common_pages.top-nav')
+@include('admin.common_pages.breadcrump_user')
 
 @else
 

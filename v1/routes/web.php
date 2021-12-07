@@ -53,6 +53,7 @@ Route::post('administrator/profile/update',[LoginController::class,'update_profi
 
 Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 
+Route::get('dashboard', [DashboardController::class,'dashboard_user_lists']);
 	Route::get('survey', [NetPromoterScore::class,'survey_names']);
 	Route::get('survey/start/{type?}', [NetPromoterScore::class,'take_person_onfo']);
 	Route::get('takesurvey/{type?}', [NetPromoterScore::class,'first_question']);

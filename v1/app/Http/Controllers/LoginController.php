@@ -28,6 +28,7 @@ class LoginController extends Controller
             return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
         }
         
+        
         else{
            
            $pageTitle="Login"; 
@@ -55,10 +56,10 @@ class LoginController extends Controller
 				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
 				break;
 				case '3':
-				return redirect('user/survey')->with('success', 'Successfully logged in.');
+				return redirect('user/dashboard')->with('success', 'Successfully logged in.');
 				break;
 				case '4':
-				return redirect('user/survey')->with('success', 'Successfully logged in.');
+				return redirect('user/dashboard')->with('success', 'Successfully logged in.');
 				break;
 				
 				default:

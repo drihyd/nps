@@ -85,7 +85,7 @@ class ResponsesController extends Controller
         }
         // echo '<pre>'; print_r($responses_data); exit();
         $pageTitle="Responses";    
-        return view('frontend.responses.responses_list', compact('pageTitle','responses_data'))
+        return view('admin.responses.responses_list', compact('pageTitle','responses_data'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
     }
     public function frontend_response_view($per_id)
@@ -100,7 +100,7 @@ class ResponsesController extends Controller
         ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
         // dd($person_responses_data);
         $pageTitle= Str::title($person_data->firstname??'')." Response";    
-        return view('frontend.responses.responses_view', compact('pageTitle','person_responses_data','person_data'))
+        return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
     }
 

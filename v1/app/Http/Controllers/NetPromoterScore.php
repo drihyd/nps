@@ -66,11 +66,11 @@ class NetPromoterScore extends Controller
         $page=false;
 		$user  = auth()->user();       
         if ($user && $user->role==3) {           
-            return redirect('survey/first')->with('success', 'Successfully logged in.');
+            return redirect('user/dashboard')->with('success', 'Successfully logged in.');
 
         }
         else if ($user && $user->role==4) {         
-            return redirect('survey/first')->with('success', 'Successfully logged in.');
+            return redirect('user/dashboard')->with('success', 'Successfully logged in.');
         }
         
         else{

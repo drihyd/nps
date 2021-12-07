@@ -33,6 +33,22 @@ class DashboardController extends Controller
         // dd(Auth::user()->organization_id);
         return view('admin.dashboard.show',compact('pageTitle','all_organizations','all_group','all_single','all_admin_departments','all_admin_users','all_admin_surveys','final_score'));
     }
+
+    public function dashboard_user_lists()
+    {
+
+
+            $nps_score= new NetPromoterScore();
+            $npsscore=$nps_score->nps_score_factor_count();
+
+            $final_score = json_decode($npsscore);
+
+        $pageTitle = 'Dashboard';
+        
+        $all_admin_surveys = SurveyPerson::where('logged_user_id',Auth::user()->id)->get()->count();
+        // dd(Auth::user()->organization_id);
+        return view('admin.dashboard.show',compact('pageTitle','all_admin_surveys','final_score'));
+    }
     public function doubtnutchart()
     {
         $nps_score= new NetPromoterScore();
