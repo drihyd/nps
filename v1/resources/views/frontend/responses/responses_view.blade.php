@@ -27,7 +27,7 @@
 	
 
 
-<div class="formify_box formify_box_checkbox background-white">
+<div class="formify_box formify_box_checkbox background-white" style="width:100%">
 <div class="formify_header">
 <h4 class="form_title">@yield('title')</h4>
 <div class="border ml-0"></div>
