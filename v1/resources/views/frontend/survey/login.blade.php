@@ -2,7 +2,7 @@
 @section('title', 'Login')
 @section('content')			
 <div class="formify_right_fullwidth d-flex align-items-center justify-content-center">
-<div class="formify_box formify_box_checkbox background-white">
+<div class="formify_box formify_box_checkbox background-white" style="width:600px;">
 <div class="formify_header">
 <h4 class="form_title">@yield('title')</h4>
 <div class="border ml-0"></div>
