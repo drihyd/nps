@@ -39,8 +39,8 @@
 <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Take Feedback</span><i class="feather"></i>
 </a>
 </li>
-<li class="{{ (request()->is(Config::get('constants.admin').'/config-questions')) ? 'active' : '' }}">
-<a href="{{url(Config::get('constants.admin').'/config-questions')}}">
+<li class="{{ (request()->is(Config::get('constants.admin').'/questions')) ? 'active' : '' }}">
+<a href="{{url(Config::get('constants.admin').'/questions')}}">
 <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Configure Questions</span><i class="feather"></i>
 </a>
 </li>
