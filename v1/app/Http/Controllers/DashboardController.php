@@ -9,7 +9,7 @@ use App\Models\Departments;
 use App\Models\User;
 use App\Models\Surveys;
 use App\Models\SurveyPerson;
-use App\http\Controllers\NetPromoterScore;
+use App\Http\Controllers\NetPromoterScore;
 use Auth;
 
 class DashboardController extends Controller
@@ -22,9 +22,6 @@ class DashboardController extends Controller
             $npsscore=$nps_score->nps_score_factor_count();
 
             $final_score = json_decode($npsscore);
-
-                // dd($final_score);
-
 
         $pageTitle = 'Dashboard';
         $all_organizations = Organizations::get()->count();
