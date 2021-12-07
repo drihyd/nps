@@ -55,7 +55,8 @@ $departments=$departments??'';
 <div class="container pl-sm-0">
 <div class="">
 <div class="">
-<p class="page-header">{{$Questions[0]->qsublabel??''}}</p>
+
+<p class="page-header">{{str_replace("*companyname*",Session::get('comapny_name'),$Questions[0]->qsublabel??'')}}</p>
 <div class="survey-radio-btns-group">
 
 

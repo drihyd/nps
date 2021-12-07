@@ -9,6 +9,7 @@ Use Exception;
 use Validator;
 use Auth;
 use Session;
+use App\Models\Organizations;
 use App\Models\Questions;
 use App\Models\QuestionOptions;
 use App\Models\SurveyAnswered;
@@ -152,8 +153,10 @@ public function store_survey_personinfo(Request $request){
 				/* End */
 		
 	
+				$Organizations=Organizations::select('*')->where('id',$request->organization_id??0)->get();	
 				
-				 $input = [
+
+				$input = [
 				"firstname"=>$request->firstname??0,
 				"email"=>$request->email??0,
 				"mobile"=>$request->phone??0,
@@ -164,6 +167,7 @@ public function store_survey_personinfo(Request $request){
 
 				$user = SurveyPerson::create($input);
 				Session::put('person_id', $user->id);
+				Session::put('comapny_name',$Organizations[0]->company_name??'');
 		
 				return redirect('user/picksurveymethod/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
 				
@@ -187,7 +191,6 @@ public function store_survey_personinfo(Request $request){
 
 	 public function first_question($param=false)
     {
-		
 		
 		
 		$surveyid=Crypt::decryptString($param);
