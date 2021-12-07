@@ -233,7 +233,7 @@ public function store_survey_personinfo(Request $request){
 			
 			
 			/* Duplicate survey question and answered */
-	$delete_exist_answered=SurveyAnswered::where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id)->delete();
+	$delete_exist_answered=SurveyAnswered::where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id)->where('person_id',Session::get('person_id'))->delete();
 			
 			$nextquestion=$this->set_next_question($request->first_questin_range);
 		}		
@@ -254,7 +254,7 @@ public function store_survey_personinfo(Request $request){
 		
 		
 	/* Duplicate answered question */
-	$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id)->delete();
+	$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id)->where('person_id',Session::get('person_id'))->delete();
 	
 	if(is_array($request->first_questin_range))
 	{
