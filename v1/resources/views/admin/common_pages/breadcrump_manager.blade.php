@@ -9,7 +9,7 @@ $organization=DB::table('users')->join('organizations', 'users.organization_id',
 <div class="breadcrumbbar">
 <div class="row align-items-center">
 <div class="col-md-8 col-lg-8">
-<h4 class="page-title">{{Str::title($organization->companyname??'')}} - Dashboard</h4>
+<h4 class="page-title">{{Str::upper($organization->companyname??'')}} - Dashboard</h4>
 <div class="breadcrumb-list">
 <ol class="breadcrumb">
 <li class="breadcrumb-item"><a href="{{url(Config::get('constants.admin').'/dashboard')}}">Home</a></li>
