@@ -460,7 +460,7 @@ button:focus {
 /*========= background_transparent css ========*/
 /*========= formify_box_checkbox css ========*/
 .formify_box_checkbox {
-  max-width: 600px;
+  max-width: 800px;
   padding: 60px;
   box-shadow: none;
 }

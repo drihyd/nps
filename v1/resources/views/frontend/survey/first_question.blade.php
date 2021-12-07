@@ -10,40 +10,11 @@
        
 			
 			
-<div class="formify_right_fullwidth align-items-center justify-content-center">
-
-<!-- <a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
-<img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
-</a> -->
+<div class=" justify-content-center">
 
 
-<div class="survey-profilebar">
-	<div class="mt-4 ml-5 home-icon">
-		<a href="#"><i class="fa fa-home"></i></a>
-		<a href="{{url('user/responses')}}" class="">Survey users</a>
-		<a href="#" class="">Logout</a>
-	</div>
-	<div class="dropdown float-right mt-4 mr-5">
-	  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	    <img src="{{URL::to('assets/uploads/61a852217e298_1638421025.png')}}" class="img-fluid">
-	  </button>
-	  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-	  	<div class="dropdown-item">
-            <div class="profilename">
-              <h5>{{Str::Title(auth()->user()->firstname??'')}} </h5>
-            </div>
-        </div>
-	    <ul class="list-unstyled mb-0">
-	        <!-- <li class="media dropdown-item">
-	            <a href="#" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="user">My Profile</a>
-	        </li>   -->                                                    
-	        <li class="media dropdown-item">
-	            <a href="{{route('session.logout')}}" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="logout">Logout</a>
-	        </li>
-	    </ul>
-	  </div>
-	</div>
-</div>
+
+@include('frontend.common_pages.nav')
 
 <div class="formify_box formify_box_checkbox background-white">
 @include('frontend.common_pages.survey_description')
@@ -158,7 +129,14 @@ $departments=$departments??'';
 
 </form>
 @else
-	<p>Thank you for completing our survey!</p>
+	
+<div class="row">
+<div class="col-md-12 text-center">
+	<h4 class="text text-success">Thank you for completing our survey!</h4>
+	
+	<a href="{{url('user/responses')}}" class="btn btn-success  mt-3">Go to Survey users</a>
+	</div>
+</div>
 @endif
 
 </div>
