@@ -22,7 +22,7 @@ class QuestionsOptionsController extends Controller
     public function questions_option_list()
     {   
         
-        $questions_options_data=QuestionOptions::join('questions', 'question_options.question_id', '=', 'questions.id')->get(['question_options.*','questions.label as question_label']);
+        $questions_options_data=QuestionOptions::join('questions', 'question_options.question_id', '=', 'questions.id')->orderBy('question_options.question_id')->get(['question_options.*','questions.label as question_label']);
         $pageTitle="Question Options";      
         $addlink=url(Config::get('constants.admin').'/questions_options/create');     
         return view('admin.question_options.question_options_list', compact('pageTitle','questions_options_data','addlink'))

@@ -4,7 +4,7 @@
           <table id="default-datatable" class="display table Config::get('constants.tablestriped')">
                 <thead class="thead-dark">
                     <tr>
-                        <th>S.No</th>
+                        <!-- <th>S.No</th> -->
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -17,8 +17,6 @@
                   
                       @foreach ($responses_data as $response)  
                           <tr>
-                              
-                              <td>{{$loop->iteration}}</td>
                               <td>{{Str::title($response->firstname??'')}}</td>
                               <td>{{$response->email??''}}</td>
                               <td>{{$response->mobile??''}}</td>

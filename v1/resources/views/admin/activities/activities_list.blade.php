@@ -17,9 +17,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
-
-                        <th>Name</th>
                         <th>Department</th>
+                        <th>Activity</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -29,8 +28,9 @@
                           <tr>
                               
                               <td>{{$loop->iteration}}</td>
-                              <td>{{Str::title($activity->activity_name??'')}}</td>
+                              
                               <td>{{$activity->department_name??''}}</td>
+                              <td>{{Str::title($activity->activity_name??'')}}</td>
                               
                            
                               
