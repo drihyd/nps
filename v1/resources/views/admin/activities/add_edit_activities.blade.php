@@ -40,7 +40,7 @@
       </div>
           <div class="form-group">
             <label><b>Name</b><span style="color: red;">*</span></label>
-            <input type="text" class="form-control" name="activity_name" value="{{old('activity_name',$activities_data->activity_name??'')}}" required="required" />
+            <input type="text" class="form-control" name="activity_name" value="{{old('activity_name',$activities_data->activity_name??'')}}" required="required" data-parsley-pattern="/^[a-z\d\-_\s]+$/i"/>
           </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
       <a href="{{url(Config::get('constants.admin').'/activities')}}" class="btn btn-danger btn-sm">Back</a>

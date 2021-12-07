@@ -30,7 +30,7 @@
           <input type="hidden" name="admin_user_id" value="{{auth()->user()->id??''}}">
           <div class="form-group">
             <label><b>Title</b><span style="color: red;">*</span></label>
-            <input type="text" class="form-control" name="title" value="{{old('title',$surveys_data->title??'')}}" required="required" />
+            <input type="text" class="form-control" name="title" value="{{old('title',$surveys_data->title??'')}}" required="required" data-parsley-pattern="/^[a-z\d\-_\s]+$/i" />
           </div>
           <div class="form-group">
             <label><b>Descripton</b><span style="color: red;">*</span></label>

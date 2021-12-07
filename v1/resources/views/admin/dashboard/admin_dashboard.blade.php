@@ -23,7 +23,7 @@
                     <div class="media">
                     <span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="feather icon-folder"></i></span>
                         <div class="media-body">
-                            <p class="mb-0">Users</p>
+                            <p class="mb-0">Customers</p>
                             <h5 class="mb-0">{{$all_admin_users??''}}</h5>                      
                         </div>
                     </div>
@@ -34,13 +34,13 @@
     </div>
             
     <div class="col-lg-4 col-xl-4">
-        <a href="{{url(Config::get('constants.admin').'/surveys')}}">
+        <a href="{{url(Config::get('constants.admin').'/responses')}}">
                 <div class="card m-b-30">
                     <div class="card-body">
                     <div class="media">
                     <span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="feather icon-folder"></i></span>
                         <div class="media-body">
-                            <p class="mb-0">Surveys</p>
+                            <p class="mb-0">Responses</p>
                             <h5 class="mb-0">{{$all_admin_surveys??''}}</h5>                      
                         </div>
                     </div>

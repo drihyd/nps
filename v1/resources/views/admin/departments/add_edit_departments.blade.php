@@ -29,7 +29,7 @@
           <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
           <div class="form-group">
             <label><b>Name</b><span style="color: red;">*</span></label>
-            <input type="text" class="form-control" name="department_name" value="{{old('department_name',$departments_data->department_name??'')}}" required="required" />
+            <input type="text" class="form-control" name="department_name" value="{{old('department_name',$departments_data->department_name??'')}}" required="required" data-parsley-pattern="/^[a-z\d\-_\s]+$/i"/>
           </div>
           <div class="form-group">
         <label><b>Is Display</b><span style="color: red;">*</span></label>

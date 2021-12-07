@@ -33,11 +33,11 @@
           </div>
           <div class="form-group">
             <label><b>First Name</b><span style="color: red;">*</span></label>
-            <input type="text" class="form-control" name="firstname" value="{{old('firstname',$users_data->firstname??'')}}" required="required" />
+            <input type="text" class="form-control" name="firstname" value="{{old('firstname',$users_data->firstname??'')}}" required="required" data-parsley-pattern="/^[a-z\d\-_\s]+$/i"/>
           </div>
           <div class="form-group">
             <label><b>Last Name</b><span style="color: red;">*</span></label>
-            <input type="text" class="form-control" name="lastname" value="{{old('lastname',$users_data->lastname??'')}}" required="required" />
+            <input type="text" class="form-control" name="lastname" value="{{old('lastname',$users_data->lastname??'')}}" required="required" data-parsley-pattern="/^[a-z\d\-_\s]+$/i"/>
           </div>
           <div class="form-group">
             <label><b>Email</b><span style="color: red;">*</span></label>
@@ -45,7 +45,7 @@
           </div>
           <div class="form-group">
                 <label><b>Mobile</b><span style="color: red;">*</span></label>
-                <input type="text" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" >
+                <input type="text" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" data-parsley-minlength="10" data-parsley-maxlength="10">
           </div>
           
       

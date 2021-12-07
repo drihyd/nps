@@ -9,9 +9,9 @@
 
                 <b>{{$loop->iteration}}) {{ Str::replace('*teamname*', $person_response->option_value??'', $person_response->question_label??'') }}</b>&ensp;&nbsp;
                 @if($person_response->answeredby_person == '')
-                <p>A) {{$person_response->option_value??''}}</p>
+                <p>A) {{Str::title($person_response->option_value??'')}}</p>
                 @else
-                    <p>A) {{$person_response->answeredby_person??''}}</p>
+                    <p>A) {{Str::title($person_response->answeredby_person??'')}}</p>
                 @endif
                 <br>
                 @endforeach

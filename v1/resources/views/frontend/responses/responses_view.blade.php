@@ -27,7 +27,7 @@
 	
 
 
-<div class="formify_box formify_box_checkbox background-white" style="width:100%">
+<div class="formify_box formify_box_checkbox background-white" style="max-width:100%">
 <div class="formify_header">
 <h4 class="form_title">@yield('title')</h4>
 <div class="border ml-0"></div>
@@ -45,7 +45,7 @@
 	
         <div class="card m-b-30">
             <div class="card-header">
-                <h6>Feedback from {{Str::title($person_data->firstname??'')}} on {{date('F j, Y', strtotime($person_data->created_at??''));}}</h6>
+                <h6>Feedback from {{Str::title($person_data->firstname??'')}} on {{date('F j, Y', strtotime($person_data->created_at??''))}}</h6>
                
             </div>
             <div class="card-body">
@@ -53,9 +53,9 @@
 
                 <b>{{$loop->iteration}}) {{ Str::replace('*teamname*', $person_response->option_value??'', $person_response->question_label??'') }}</b>&ensp;&nbsp;
                 @if($person_response->answeredby_person == '')
-                <p>A) {{$person_response->option_value??''}}</p>
+                <p>A) {{Str::title($person_response->option_value??'')}}</p>
                 @else
-                    <p>A) {{$person_response->answeredby_person??''}}</p>
+                    <p>A) {{Str::title($person_response->answeredby_person??'')}}</p>
                 @endif
                 <br>
                 @endforeach
