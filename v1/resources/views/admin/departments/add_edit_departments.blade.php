@@ -1,8 +1,8 @@
 @extends('admin.template_v1')
 @if(isset($departments_data->id))
-@section('title', 'Edit Department')
+@section('title', 'Edit a department')
 @else
-@section('title', 'Add Department')
+@section('title', 'Add a department')
 @endif
 @section('content')
   <div class="row">

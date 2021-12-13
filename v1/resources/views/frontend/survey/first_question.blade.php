@@ -9,21 +9,40 @@
 	
        
 			
-			
-<div class=" justify-content-center">
+	@if(auth()->user())		
+<div class="justify-content-center">
+@else
+	<div class="justify-content-center" style="width:100%">
+@endif
 
-
-
+@if(auth()->user())
 @include('frontend.common_pages.nav')
+@else
+@endif
+
 
 <div class="formify_box formify_box_checkbox background-white">
+
+@if(auth()->user())
 @include('frontend.common_pages.survey_description')
+@else
+	<p>To improve your experiences, can you please help us by answering these simple questions in the survey.</p>
+@endif
 <br>
 <div class="tab-content" id="myTabContent">
 
 @if($Questions->count()>0)
 
-<form action="{{ route('surveyone.post') }}" class="signup_form" method="post">
+@if(auth()->user())
+	@if(auth()->user()->role==2)
+	<form action="{{ route('surveyone.post.'.Config::get('constants.admin')) }}" class="signup_form" method="post">
+	@else
+	<form action="{{ route('surveyone.post.'.Config::get('constants.user')) }}" class="signup_form" method="post">
+	@endif
+
+@else
+	<form action="{{ route('offline.surveyone.post') }}" class="signup_form" method="post">
+@endif
 
 @php
 $departments=$departments??'';

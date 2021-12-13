@@ -14,6 +14,8 @@ use Carbon;
 Use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Config;
+use Mail;
+use App\Mail\ResetPassword;
 
 class UsermanagementController extends Controller
 {
@@ -42,6 +44,7 @@ class UsermanagementController extends Controller
     public function store_user(Request $request)
     {
     	
+		
         $request->validate([
          'firstname' => 'required|min:1|max:100',        
          'lastname' => 'required|min:1|max:100',        
@@ -81,12 +84,45 @@ class UsermanagementController extends Controller
                 'ip' =>request()->ip()??0,
             ]  
         ]); 
+		
+		   $email = $request->email;
+     
+	 
+	 
+	 
+	 try{
+				
+	
+		 
+		 $offer = [
+            'token' => $decrypt_password,
+			 'password' =>$decrypt_password,
+			  'name' =>$request->firstname,
+			  'email' =>$request->email
+        ];
+		 
+		 Mail::to($request->email)->send(new ResetPassword($offer));
+		 
+		 
+		 
+		 
+		 
+			}
+			catch (\Exception $exception) {
+
+			} 
+
 
         return redirect(Config::get('constants.superadmin').'/admin-users')->with('success', "Success! Details are added successfully");
-    }else{
+    }
+	
+	
+	
+	else{
 
          return redirect()->back()->with('error', 'User already exist an account.');  
      }
+	 
 
 	}
 	public function edit_user($id){
@@ -114,7 +150,10 @@ class UsermanagementController extends Controller
          'profile' => 'mimes:jpg,jpeg,png',        	        
 		]); 
         
-
+		
+		
+		$isexistemail = User::select('id')->where('email',$request->email)->get();
+        if($isexistemail->count()==1){
         if ($request->hasFile('profile')) {      
         $profile_filename=uniqid().'_'.time().'.'.$request->profile->extension();
         $request->profile->move(('assets/uploads'),$profile_filename);
@@ -126,6 +165,8 @@ class UsermanagementController extends Controller
         else{
             $profile_filename="";
         } 
+		
+		/*
 
         if ($request->password) {
         $password = Hash::make($request->password);
@@ -137,6 +178,7 @@ class UsermanagementController extends Controller
     }else{
         $password ="";
     }
+	*/
         
         DB::table('users')
             ->where('id', $request->id)
@@ -151,6 +193,19 @@ class UsermanagementController extends Controller
             ]
             );      
         return redirect('admin/users')->with('success', "Success! Details are updated successfully");
+		
+			}
+			
+			else{
+				
+				  return redirect('admin/users')->with('error', "Duplicate email not allowed");
+			}
+		
+		
+		
+		
+		
+		
             
         
         
@@ -169,8 +224,7 @@ class UsermanagementController extends Controller
          'firstname' => 'required|min:1|max:100',        
          'lastname' => 'required|min:1|max:100',        
          'email' => 'required|email', 
-         'phone' => 'required',
-         'password' => 'sometimes|nullable',
+         'phone' => 'required',        
          'phone' => 'sometimes|nullable|regex:/^[6-9]{1}[0-9]{9}/',
          'profile' => 'mimes:jpg,jpeg,png',                 
         ]); 
@@ -187,7 +241,7 @@ class UsermanagementController extends Controller
         else{
             $profile_filename="";
         } 
-
+/*
         if ($request->password) {
         $password = Hash::make($request->password);
 
@@ -195,10 +249,14 @@ class UsermanagementController extends Controller
         ->where('id', auth()->user()->id)
         ->update(["password"=>$password]);
         
-    }else{
+    }
+	
+	else{
         $password ="";
     }
-        
+       
+*/
+	   
         DB::table('users')
             ->where('id', auth()->user()->id)
             ->update(
@@ -252,13 +310,18 @@ class UsermanagementController extends Controller
          'password' => 'sometimes|nullable',
          'phone' => 'sometimes|nullable|regex:/^[6-9]{1}[0-9]{9}/',
         ]);
-
+		
+		
+		 $decrypt_password=Str::random(8);
+		 
+		    
+     
 
         $isexistemail = User::select('id')->where('email',$request->admin_email)->get();
             if($isexistemail->count()==0){
-            $decrypt_password=Str::random(8);
+           
 
-   
+
 
         User::insert([
             [
@@ -277,6 +340,62 @@ class UsermanagementController extends Controller
                 'ip' =>request()->ip()??0,
             ]  
         ]); 
+
+
+        
+        
+ 
+		
+         	try{
+				
+	/*			
+$str='';
+$str.='<!DOCTYPE html>';
+$str.='<html>';
+$str.='<head>';
+$str.='<title>NPS</title>';
+$str.='</head>';
+$str.='<body style="font-family:Arial, sans-serif;font-size:13px;color:#000;background: #f4f4f4;line-height:1.5;padding: 30px;">';
+$str.='<div style="background: #fff;max-width:550px;display: block;margin: 15px auto;padding: 30px;border-bottom: 6px solid #F2BD55;">';
+$str.='<h1 style="font-size: 21px;display:block;margin-bottom: 0;">Login Credentials<br></h1>';	
+$str.='<div style="font-size: 13px;color: #333;display:block;margin: 15px 0 15px;max-width:360px;">';
+
+$str.='<p style="margin: 0 0 6px;"><strong>Login URL: </strong>'.URL('/').'</p>';		
+$str.='<p style="margin: 0 0 6px;"><strong>Username: </strong>'.$request->email.'</p>';
+$str.='<p style="margin: 0 0 6px;"><strong>Password: </strong>'.$decrypt_password.'</p>';
+$str.='</div>';	
+$str.='<p style="margin-bottom: 0px;">Thanks,<br><strong>Admin</strong></p>';
+$str.='</div>';
+$str.='</body>';
+$str.='</html>';	
+				
+				
+				
+				
+		 $to = $request->email;
+         $subject = "NPS - Login Credentials";         
+         $message = $str;         
+         $header = "From:noreply@deepredink.com \r\n";
+     
+         $header .= "MIME-Version: 1.0\r\n";
+         $header .= "Content-type: text/html\r\n";         
+         $retval = mail ($to,$subject,$message,$header);
+		 
+		 */
+		 
+		 $offer = [
+            'token' => $decrypt_password,
+			 'password' =>$decrypt_password,
+			  'name' =>$request->firstname,
+			  'email' =>$request->email
+        ];
+		 
+		 Mail::to($request->email)->send(new ResetPassword($offer));
+			}
+			catch (\Exception $exception) {
+
+			} 
+
 
         return redirect(Config::get('constants.admin').'/users')->with('success', "Success! Details are added successfully");
     }else{

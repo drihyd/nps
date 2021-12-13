@@ -1,8 +1,8 @@
 @extends('admin.template_v1')
 @if(isset($questions_data->id))
-@section('title', 'Edit Question')
+@section('title', 'Edit a activity')
 @else
-@section('title', 'Add Question')
+@section('title', 'Add a activity')
 @endif
 @section('content')
 @include('admin.alerts')
@@ -29,7 +29,7 @@
         <div class="col-md-5">
           <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
           <div class="form-group" id="survey_id">
-        <label for="survey_id">Departments<span class="text-red"style="color: red;">*</span></label>
+        <label for="survey_id">Department<span class="text-red"style="color: red;">*</span></label>
         <select  class="form-control" name="department_id" id="department_id" required="required">
           <option value="">-- Select --</option>
           @foreach($departments_data as $department)

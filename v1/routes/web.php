@@ -16,6 +16,8 @@ use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\QuestionsOptionsController;
 use App\Http\Controllers\ActivitiesController;
 use App\Http\Controllers\ResponsesController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\ChangePasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,10 +46,21 @@ Route::get('session.logout', [LoginController::class,'logout'])->name('session.l
 
 
 
+
+
+
 Route::post('adminlogin-verification',[LoginController::class, 'Loginsubmit'])->name('adminlogin.verification');
 Route::get('administrator/logout', [LoginController::class,'logout'])->name('admin.logout');
 Route::get('administrator/profile/',[LoginController::class,'profile']);
 Route::post('administrator/profile/update',[LoginController::class,'update_profile']);
+
+Route::get('reset-password',[ChangePasswordController::class,'index'])->name('reset.password');
+Route::post('reset-password-post',[ChangePasswordController::class,'store'])->name('verifying.password');
+
+
+
+Route::get('offlinesurvey/{sid?}/{logid?}/{pid?}', [NetPromoterScore::class,'first_question_offline']);
+Route::post('offline.surveyone.post', [NetPromoterScore::class,'surveyone_post'])->name('offline.surveyone.post');
 
 /* Dashbaord */
 
@@ -55,14 +68,15 @@ Route::post('administrator/profile/update',[LoginController::class,'update_profi
 
 Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 
-Route::get('dashboard', [DashboardController::class,'dashboard_user_lists']);
+	Route::get('dashboard', [DashboardController::class,'dashboard_user_lists']);
+	
 	Route::get('survey', [NetPromoterScore::class,'survey_names']);
 	Route::get('survey/start/{type?}', [NetPromoterScore::class,'take_person_onfo']);
 	Route::get('takesurvey/{type?}', [NetPromoterScore::class,'first_question']);
 	Route::get('picksurveymethod/{type?}', [NetPromoterScore::class,'picksurvey_method']);
 	Route::get('second', [NetPromoterScore::class,'second_question']);
-	Route::post('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post');
-	Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo');
+	Route::post('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.user');
+	Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo.user');
 
 	Route::get('responses', [ResponsesController::class,'frontend_response_list']);
 	Route::get('responses/view/{per_id}', [ResponsesController::class,'frontend_response_view']);
@@ -126,6 +140,17 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('activities/delete/{id}',[ActivitiesController::class,'delete_activities']);
 
 	/*Admin User Responses*/
+	
+	
+	
+	
+	Route::get('survey', [NetPromoterScore::class,'survey_names']);
+	Route::get('survey/start/{type?}', [NetPromoterScore::class,'take_person_onfo']);
+	Route::get('takesurvey/{type?}', [NetPromoterScore::class,'first_question']);
+	Route::get('picksurveymethod/{type?}', [NetPromoterScore::class,'picksurvey_method']);
+	Route::get('second', [NetPromoterScore::class,'second_question']);
+	Route::post('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.admin');
+	Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo.admin');
 
 	Route::get('responses', [ResponsesController::class,'response_list']);
 	Route::get('responses/view/{per_id}', [ResponsesController::class,'response_view']);

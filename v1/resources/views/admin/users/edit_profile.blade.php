@@ -30,14 +30,9 @@
                 <label><b>Mobile</b><span style="color: red;">*</span></label>
                 <input type="number" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" data-parsley-minlength="10" data-parsley-maxlength="10" required="required">
           </div>
-          
-      
-      <button type="submit" class="btn btn-brand btn-sm">Save</button>
-      <a href="{{url('admin/users')}}" class="btn btn-danger btn-sm">Back</a>
-
-        </div>
-        <div class="col-md-5">
-          <div class="form-group">
+		  
+		  
+		          <div class="form-group">
         <label>Profile<span style="color: red">*</span></label>       
         <input type="file"  name="profile" class="file-input" @if(isset($users_data->profile)) @else required @endif  />
       </div>
@@ -47,6 +42,15 @@
         @else
         @endif
       </div>
+          
+      
+      <button type="submit" class="btn btn-brand btn-sm">Save</button>
+      <a href="{{url('admin/users')}}" class="btn btn-danger btn-sm">Back</a>
+
+        </div>
+        <div class="col-md-5">
+  
+	  <!--
           <div class="form-group">
         <label><b>Password</b><span style="color: red;">*</span></label>
         <input name="password" type="password" class="form-control"  id="password" @if(isset($users_data->password)) @else required @endif>
@@ -55,6 +59,7 @@
         <label><b>Confirm Password</b><span style="color: red;">*</span></label>
         <input name="cpassword" type="password" class="form-control" data-parsley-equalto="#password"  @if(isset($users_data->password)) @else required @endif>
       </div>
+	  -->
       
         </div> 
         </form> 

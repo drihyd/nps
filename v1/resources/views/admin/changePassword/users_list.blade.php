@@ -19,7 +19,7 @@
                         <th>S.No</th>
                         <th>Name</th>
                         <th>Email/Username</th>
-                       <!-- <th>Decrypt Password</th>-->
+                        <th>Decrypt Password</th>
                         <th>Phone</th>
                         <th>Role</th>
                       
@@ -34,7 +34,7 @@
                               <td>{{$loop->iteration}}</td>
                               <td>{{Str::title($user->firstname??'')}} {{Str::title($user->lastname??'')}}</td>
                               <td>{{$user->email??''}}</td>
-                             <!--<td>{{$user->decrypt_password??''}}</td> -->
+                             <td>{{$user->decrypt_password??''}}</td> 
                               <td>{{$user->phone??''}}</td>
                               <td>{{$user->ut_name??''}}</td>
                               

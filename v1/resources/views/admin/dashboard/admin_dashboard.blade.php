@@ -56,9 +56,23 @@
                 <div class="card-header">
                     <h5 class="card-title">Net Promoter Score</h5>
                 </div>
+				
+				
+				@if($final_score->Promoters>0 || $final_score->Neutral>0 || $final_score->Detractors>0)
                 <div class="card-body">
                     <canvas id="chartjs-doughnut-chart" class="chartjs-chart"></canvas>
                 </div>
+				
+				@else
+					
+					<div class="col-md-4 col-lg-4 mb-5">
+					<div class="widgetbar">
+<a target="_blank" href="{{URL('admin/survey/start/'.Crypt::encryptString(1))}}" class="btn btn-primary-rgba"><i class="feather icon-plus mr-2"></i>Start Survey</a>
+</div> 
+</div> 
+				@endif
+				
+				
             </div>
         </div>
         <!-- End col -->

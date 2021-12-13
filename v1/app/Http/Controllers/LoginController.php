@@ -42,25 +42,33 @@ class LoginController extends Controller
     {
     
    
-   
+  
    
    	$credentials = $request->only('email', 'password');		
 		
         if (Auth::attempt($credentials)) {  
+		
+		
+		
+		
         	$user  = auth()->user();
-				switch(Auth::user()->role){
+				switch(auth()->user()->role){
+					
 				case '1':
 				return redirect('superadmin/dashboard')->with('success', 'Successfully logged in.');
 				break;
+				
 				case '2':
 				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
 				break;
+				
 				case '3':
 				return redirect('user/dashboard')->with('success', 'Successfully logged in.');
 				break;
+				
 				case '4':
 				return redirect('user/dashboard')->with('success', 'Successfully logged in.');
-				break;
+				break;	
 				
 				default:
 				Auth::logout();
@@ -96,7 +104,7 @@ class LoginController extends Controller
          'firstname' => 'required|min:1|max:100',    
          'email' => 'required|email', 
          'phone' => 'required',
-         'password' => 'sometimes|nullable',
+       
          'phone' => 'sometimes|nullable|regex:/^[6-9]{1}[0-9]{9}/',
          'profile' => 'mimes:jpg,jpeg,png',                 
         ]); 
@@ -113,6 +121,7 @@ class LoginController extends Controller
         else{
             $profile_filename="";
         } 
+		/*
 
         if ($request->password) {
         $password = Hash::make($request->password);
@@ -124,7 +133,7 @@ class LoginController extends Controller
     }else{
         $password ="";
     }
-        
+       */ 
         DB::table('users')
             ->where('id', auth()->user()->id)
             ->update(

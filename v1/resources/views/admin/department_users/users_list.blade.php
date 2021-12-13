@@ -34,9 +34,9 @@
                               <td>{{$loop->iteration}}</td>
                               <td>{{Str::title($user->firstname??'')}} {{Str::title($user->lastname??'')}}</td>
                               <td>{{$user->email??''}}</td>
-                              <!-- <td>{{$user->decrypt_password??''}}</td> -->
+                              <!--<td>{{$user->decrypt_password??''}}</td> -->
                               <td>{{$user->phone??''}}</td>
-                              <td>{{Str::title($user->ut_name??'')}}</td>
+                              <td>{{$user->ut_name??''}}</td>
                               
                            
                               

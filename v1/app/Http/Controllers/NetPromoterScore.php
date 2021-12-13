@@ -16,6 +16,9 @@ use App\Models\SurveyAnswered;
 use App\Models\Surveys;
 use App\Models\SurveyPerson;
 use Illuminate\Support\Facades\Crypt;
+use Config;
+use Mail;
+use App\Mail\FeedbackSurvey;
 
 class NetPromoterScore extends Controller
 {
@@ -32,18 +35,21 @@ class NetPromoterScore extends Controller
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
 		->where('survey_answered.question_id',1)
+		->where('survey_answered.logged_user_id',auth()->user()->id??0)
 		->whereIn('question_options.option_value',[9,10])
 		->count();
 		$Neutral=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
 		->where('survey_answered.question_id',1)
+		->where('survey_answered.logged_user_id',auth()->user()->id??0)
 		->whereIn('question_options.option_value',[7,8])
 		->count();
 		$Detractors=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
 		->where('survey_answered.question_id',1)
+		->where('survey_answered.logged_user_id',auth()->user()->id??0)
 		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
 		->count();
 		
@@ -180,6 +186,8 @@ public function take_person_onfo($param=false)
 
 public function store_survey_personinfo(Request $request){
 
+
+
 	if($request){
 		
 		
@@ -189,7 +197,7 @@ public function store_survey_personinfo(Request $request){
 				
 
 				/* Duplicate Survey Person */
-				$SurveyPerson=SurveyPerson::where('organization_id',$request->organization_id)->where('survey_id',$request->survey_id)->where('email',$request->email)->where('logged_user_id',auth()->user()->id)->delete();
+				//$SurveyPerson=SurveyPerson::where('organization_id',$request->organization_id)->where('survey_id',$request->survey_id)->where('email',$request->email)->where('logged_user_id',auth()->user()->id)->delete();
 				/* End */
 		
 	
@@ -212,8 +220,54 @@ public function store_survey_personinfo(Request $request){
 		
 		
 
+
+if($request->sendlink_email){
+	
+
+	
+	if(auth()->user()->role==2){
+		$prefix=Config::get('constants.admin');
+	}
+	else{
+		$prefix=Config::get('constants.user');
+	}
+	
+		try{
+		$offer = [		
+		'name' =>$request->firstname,
+		'email' =>$request->email,
+		'prefix' =>$prefix,
+		'surveyid' =>Crypt::encryptString($request->survey_id),
+		'loggedid' =>Crypt::encryptString(auth()->user()->id),
+		'personid' =>Crypt::encryptString($user->id),
+
+		];
+		Mail::to($request->email)->send(new FeedbackSurvey($offer));
+		}
+		catch (\Exception $exception) {
+		} 
 		
-				return redirect('user/takesurvey/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
+		
+		return redirect()->back()->with('success', 'Feedback survey url sent to entered email id.');
+				
+}
+else{
+
+
+			
+
+
+		
+			if(auth()->user()->role==2){
+				return redirect(Config::get('constants.admin').'/takesurvey/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
+			}
+			else{
+				
+				return redirect(Config::get('constants.user').'/takesurvey/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
+			}
+			
+}
+				
 				//return redirect('user/picksurveymethod/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
 				
 				
@@ -232,37 +286,63 @@ public function store_survey_personinfo(Request $request){
 
 
 
+public function first_question_offline($sid=false,$logid=false,$pid=false)
+{
 
-
-	 public function first_question($param=false)
-    {
-		
-		
-		$surveyid=Crypt::decryptString($param);
-		
-
-
-		$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',1)->where('survey_id',$surveyid)->get();		 
-		foreach ($Questions as $key => $value) {
-		$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
-		->where('question_id', $value->qid)
-		->orderBy('id','asc')
-		->get();	
-		}		
-		$page=false;		
+	$surveyid=Crypt::decryptString($sid);
+	$logid=Crypt::decryptString($logid);
+	$pid=Crypt::decryptString($pid);	
 	
-		return view('frontend.survey.first_question',compact('page','Questions'));
-    }
+	Session::put('person_id',$pid);		
+	Session::put('logged_user_id',$logid);
+				
+	
+				
+	$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',1)->where('survey_id',$surveyid)->get();		 
+	foreach ($Questions as $key => $value) {
+	$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
+	->where('question_id', $value->qid)
+	->orderBy('id','asc')
+	->get();	
+	}		
+	$page=false;		
+
+	return view('frontend.survey.first_question',compact('page','Questions'));
+}
+
+
+
+public function first_question($param=false)
+{
+
+	$surveyid=Crypt::decryptString($param);
+	$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',1)->where('survey_id',$surveyid)->get();		 
+	foreach ($Questions as $key => $value) {
+	$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
+	->where('question_id', $value->qid)
+	->orderBy('id','asc')
+	->get();	
+	}		
+	$page=false;		
+
+	return view('frontend.survey.first_question',compact('page','Questions'));
+}
 	
 	public function second_question()
     {
 		$page=false;
         return view('frontend.survey.second_question',compact('page'));
     }	
+	
+	
+	
 	public function surveyone_post(Request $request)
     {
 		
 
+
+
+		
 		
 		$Questions=Questions::select('questions.next_qustion_id as qnq','questions.sequence_order as qseq','questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$request->question_id)->get()->first();		 
 		$qseq=$Questions->qseq;		
@@ -277,7 +357,7 @@ public function store_survey_personinfo(Request $request){
 			
 			
 			/* Duplicate survey question and answered */
-	$delete_exist_answered=SurveyAnswered::where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id)->where('person_id',Session::get('person_id'))->delete();
+	 $delete_exist_answered=SurveyAnswered::where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id??Session::get('logged_user_id'))->where('person_id',Session::get('person_id'))->delete();
 			
 			$nextquestion=$this->set_next_question($request->first_questin_range);
 		}		
@@ -298,7 +378,7 @@ public function store_survey_personinfo(Request $request){
 		
 		
 	/* Duplicate answered question */
-	$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id)->where('person_id',Session::get('person_id'))->delete();
+	$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id??Session::get('logged_user_id'))->where('person_id',Session::get('person_id'))->delete();
 	
 	if(is_array($request->first_questin_range))
 	{
@@ -313,7 +393,7 @@ public function store_survey_personinfo(Request $request){
                 "answerid"=>$value??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
                 "person_id"=>Session::get('person_id')??0,
-				"logged_user_id"=>auth()->user()->id??0,
+				"logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
             ]  
         ]); 
 			
@@ -348,7 +428,7 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 			"answerid"=>$key??'',
 			"answeredby_person"=>$value??'',
 			 "person_id"=>Session::get('person_id')??0,
-			 "logged_user_id"=>auth()->user()->id??0,
+			 "logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
 			]  
 			]); 
 
@@ -382,7 +462,7 @@ $getoptid = QuestionOptions::select('question_options.id as qoptionid')
                 "answerid"=>$getoptid->qoptionid??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
 				 "person_id"=>Session::get('person_id')??0,
-				 "logged_user_id"=>auth()->user()->id??0,
+				 "logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
             ]  
         ]);		
 		
@@ -397,7 +477,7 @@ else{
                 "answerid"=>$request->first_questin_range??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
 				 "person_id"=>Session::get('person_id')??0,
-				 "logged_user_id"=>auth()->user()->id??0,
+				 "logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
             ]  
         ]);	
 	
@@ -452,6 +532,7 @@ else{
 			return redirect()->back()->with('error', 'Please select score number.');  
 		}
     }
+
 	
 	
 	public function set_next_question($score=false) {

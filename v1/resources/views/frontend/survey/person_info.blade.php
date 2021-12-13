@@ -38,9 +38,12 @@
 
 
 <div class="background-white">
+@if(auth()->user()->role==2)
 
-
-<form action="{{ route('post.survey.personinfo') }}" class="signup_form" method="post">
+<form action="{{ route('post.survey.personinfo.'.Config::get('constants.admin')) }}" class="" method="post">
+@else
+	<form action="{{ route('post.survey.personinfo.'.Config::get('constants.user')) }}" class="" method="post">
+@endif
 @csrf
 <div class="row">
         <div class="col-md-12 pl-sm-0">
@@ -59,9 +62,17 @@
           </div>
 		  
 		  
-		  <button type="submit" class="btn btn-success mt-4">Manual Survey</button>
+		  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input form-control" id="exampleCheck1" name="sendlink_email">
+    <label class="form-check-label" for="exampleCheck1">Send feedback link to Email</label>
+  </div>
 		  
-		  <!--<button type="button" class="btn btn-danger mt-4">Send link to Email</button>-->
+
+	 
+		
+		   
+		  <button type="submit" class="btn btn-success mt-4">Next</button>
+	
 		  
 		 
 		  

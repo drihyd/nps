@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ResetPassword extends Mailable
+class FeedbackSurvey extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,8 +18,8 @@ class ResetPassword extends Mailable
      */
     public function __construct($content)
     {
-        $this->content = $content;
         //
+		  $this->content = $content;
     }
 
     /**
@@ -29,6 +29,6 @@ class ResetPassword extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.ResetpasswordMail')->with('content',$this->content);
+        return $this->markdown('emails.FeedbackSurvey')->with('content',$this->content);
     }
 }

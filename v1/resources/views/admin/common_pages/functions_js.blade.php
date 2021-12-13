@@ -49,7 +49,7 @@ $(".gst").change(function () {
             data: {
                 // alert(data);
                 datasets: [{
-                    data: [{{$final_score->Promoters??''}},{{$final_score->Neutral??''}},{{$final_score->Detractors??''}}],
+                    data: [{{$final_score->Promoters??0}},{{$final_score->Neutral??0}},{{$final_score->Detractors??0}}],
                     borderColor: 'transparent',
                     backgroundColor: ["#0080ff","#18d26b","#d4d8de"],
                     label: 'Dataset 1'
