@@ -32,6 +32,8 @@ use App\Http\Controllers\ResponsesController;
 //     return view('welcome');
 // });
 
+
+Route::get('/send-markdown-mail', [MailController::class, 'sendOfferMail']);
 Route::any('/net_promoter_score',[NetPromoterScore::class, 'nps_login']);
 Route::any('/nps_score_factor_count',[NetPromoterScore::class, 'nps_score_factor_count']);
 Route::any('/',[NetPromoterScore::class, 'nps_login']);
