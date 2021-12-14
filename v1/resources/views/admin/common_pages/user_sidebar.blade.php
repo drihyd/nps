@@ -18,7 +18,14 @@
 
 <li class="{{ (request()->is(Config::get('constants.user').'/responses')) ? 'active' : '' }}">
 <a href="{{url(Config::get('constants.user').'/responses')}}">
-<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Customers Survey</span><i class="feather"></i>
+<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>View Responses</span><i class="feather"></i>
+</a>
+</li>
+
+
+<li class="{{ (request()->is(Config::get('constants.user').'/user/survey/start')) ? 'active' : '' }}">
+<a href="{{URL(Config::get('constants.user').'/survey/start/'.Crypt::encryptString(1))}}" target="_blank">
+<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Take Feedback</span><i class="feather"></i>
 </a>
 </li>
 

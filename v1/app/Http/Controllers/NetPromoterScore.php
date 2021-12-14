@@ -53,13 +53,25 @@ class NetPromoterScore extends Controller
 		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
 		->count();
 		
+		$total_feedbacks=$Promoters+$Neutral+$Detractors;
+		
+		
+		
+				if($total_feedbacks){
+				$NPS = (((($Promoters-$Detractors)/$total_feedbacks)*100)*1);
+				}
+				else{
+				$NPS = (((($Promoters-$Detractors)/1)*100)*1);
+				}
 		$final_score=
 			[
 				"Promoters"=>$Promoters,
 				"Neutral"=>$Neutral,
-				"Detractors"=>$Detractors	
+				"Detractors"=>$Detractors,
+				"total_feedbacks"=>$total_feedbacks,
+				"NPS"=>$NPS,
 			];
-		
+			
 		return json_encode($final_score);
 		
 

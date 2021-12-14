@@ -23,7 +23,9 @@ class ResponsesController extends Controller
     public function response_list()
     {   
         
-        $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)->get();
+        $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)		
+		->where('survey_persons.logged_user_id',auth()->user()->id??0)
+		->get();
         // echo '<pre>'; print_r($responses_data); exit();
 
         foreach ($responses_data as $key => $value) {

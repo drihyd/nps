@@ -5,7 +5,6 @@ Dear {{$content['name']??'Hello'}}<br><br>
 <br><br>
 @php
 $linkurl = URL::to('offlinesurvey/'.$content['surveyid'].'/'.$content['loggedid'].'/'.$content['personid']);
-dd($linkurl);
 @endphp
 Select and copy the following URL to give your feedback.
 {{$linkurl}}

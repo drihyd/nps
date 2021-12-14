@@ -22,8 +22,9 @@ class OrganizationsController extends Controller
     {
         $pageTitle = 'Organizations';
 
-        if ($request->ajax()) {
-            $data = Organizations::get();
+        if ($request->ajax()) {			
+	
+            $data = Organizations::Orderby('created_at','desc')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('entity_group', function($row){

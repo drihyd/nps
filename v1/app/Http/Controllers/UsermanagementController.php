@@ -23,7 +23,7 @@ class UsermanagementController extends Controller
 
     public function index()
     {	
-        
+    
             $users_data=User::select('users.*','user_types.name as ut_name')
             ->leftjoin('user_types','user_types.id','=','users.role')       
             ->whereNotIn('users.role',[1])       
@@ -281,9 +281,12 @@ class UsermanagementController extends Controller
     public function department_users_list()
     {   
         
+		
             $users_data=User::select('users.*','user_types.name as ut_name')
             ->leftjoin('user_types','user_types.id','=','users.role')       
             ->whereNotIn('users.role',[1,2])       
+            ->where('users.organization_id',auth()->user()->organization_id??0)       
+            ->Orderby('users.created_at','desc')       
             ->get(); 
             $addlink=url(Config::get('constants.admin').'/user/create'); 
             $pageTitle="Users";          

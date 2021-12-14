@@ -64,7 +64,7 @@
 		  
 		  <div class="form-group form-check">
     <input type="checkbox" class="form-check-input form-control" id="exampleCheck1" name="sendlink_email">
-    <label class="form-check-label" for="exampleCheck1">Send feedback link to Email</label>
+    <label class="form-check-label" for="exampleCheck1" style="font-weight:100;">Send feedback link to Email</label>
   </div>
 		  
 

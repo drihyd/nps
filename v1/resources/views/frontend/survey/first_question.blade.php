@@ -10,7 +10,7 @@
        
 			
 	@if(auth()->user())		
-<div class="justify-content-center">
+<div class="justify-content-center" style="width:100%">
 @else
 	<div class="justify-content-center" style="width:100%">
 @endif

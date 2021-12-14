@@ -19,6 +19,12 @@ $(".gst").change(function () {
   </script> 
   <script type="text/javascript">
       $(document).ready(function() {
+		  
+		  
+		  
+
+		  
+		  
         /* -----  Chartjs - Global Style  ----- */
     Chart.defaults.global.defaultFontFamily = 'Muli';
     Chart.defaults.global.defaultFontColor = '#8A98AC';
@@ -49,7 +55,7 @@ $(".gst").change(function () {
             data: {
                 // alert(data);
                 datasets: [{
-                    data: [{{$final_score->Promoters??0}},{{$final_score->Neutral??0}},{{$final_score->Detractors??0}}],
+                    data: [{{$final_score->Promoters??1}},{{$final_score->Neutral??1}},{{$final_score->Detractors??1}}],
                     borderColor: 'transparent',
                     backgroundColor: ["#0080ff","#18d26b","#d4d8de"],
                     label: 'Dataset 1'
@@ -63,13 +69,22 @@ $(".gst").change(function () {
                     position: 'top'
                 },
                 title: {
-                    display: false,
-                    text: 'Chart.js Doughnut Chart'
+                    display:true,
+                    text: "NPS Score is "+{{$final_score->NPS??0}}
                 },
                 animation: {
                     animateScale: true,
                     animateRotate: true
-                }
+                },
+				
+
+  
+  
+  
+
+				
+				
+				
             }
         });
     });
