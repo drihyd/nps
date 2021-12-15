@@ -25,7 +25,7 @@ class DepartmentsController extends Controller
     {   
         
             $departments_data=Departments::where('organization_id',Auth::user()->organization_id)->get();
-            $pageTitle="Departments";      
+            $pageTitle="Teams";      
             $addlink=url(Config::get('constants.admin').'/departments/create');     
             return view('admin.departments.departments_list', compact('pageTitle','departments_data','addlink'))
             ->with('i', (request()->input('page', 1) - 1) * 5);

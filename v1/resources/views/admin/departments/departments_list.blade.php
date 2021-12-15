@@ -1,5 +1,5 @@
 @extends('admin.template_v1')
-@section('title', 'Departments')
+@section('title', 'Teams')
 @section('content')
 <div class="row">
     <!-- Start col -->

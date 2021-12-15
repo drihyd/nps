@@ -57,10 +57,10 @@ $(".gst").change(function () {
                 datasets: [{
                     data: [{{$final_score->Promoters??1}},{{$final_score->Neutral??1}},{{$final_score->Detractors??1}}],
                     borderColor: 'transparent',
-                    backgroundColor: ["#0080ff","#18d26b","#d4d8de"],
+                    backgroundColor: ["#228B22","#ffa800","#ff654d"],
                     label: 'Dataset 1'
                 }],
-                labels: ['Promoters','Neutral','Detractors']
+                labels: ['Promoters : '+{{$final_score->Promoters??0}},'Passvies: '+{{$final_score->Neutral??0}},'Detractors :'+{{$final_score->Detractors??0}}]
             },
             options: {
                 responsive: true,  
@@ -68,10 +68,7 @@ $(".gst").change(function () {
                 legend: {
                     position: 'top'
                 },
-                title: {
-                    display:true,
-                    text: "NPS Score is "+{{$final_score->NPS??0}}
-                },
+           
                 animation: {
                     animateScale: true,
                     animateRotate: true
@@ -88,4 +85,25 @@ $(".gst").change(function () {
             }
         });
     });
+  </script>
+  
+
+  
+  <script>
+  
+      /* -- Chartistjs - Gauge Chart Using Fill Rather Than Stroke -- */
+	  
+	  /*
+      new Chartist.Pie('#chartist-gauge-fill-rather-chart', {
+        series: [{{$final_score->Promoters??0}},{{$final_score->Neutral??0}},{{$final_score->Detractors??0}}]
+      }, {
+        donut: true,
+        donutWidth: 40,
+        donutSolid: true,
+        startAngle: 270,
+        total: {{$final_score->total_feedbacks??0}},
+        showLabel: true
+      });
+  
+  */
   </script>

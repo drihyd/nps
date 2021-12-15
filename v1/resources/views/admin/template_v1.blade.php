@@ -212,6 +212,14 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <script src="{{URL::to('assets/js/custom/custom-form-xeditable.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+ <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <link href="https//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" rel="stylesheet" type="text/css" />
+    <link href='http://fonts.googleapis.com/css?family=Oxygen:300' rel='stylesheet' type='text/css'>
+
+
+
 @include('admin.common_pages.functions_js')
   <!-- End js -->
     @stack('scripts')

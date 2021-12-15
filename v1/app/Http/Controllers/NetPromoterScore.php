@@ -30,7 +30,9 @@ class NetPromoterScore extends Controller
 		
 		
 		
-		$organization_id=auth()->user()->organization_id;		
+		$organization_id=auth()->user()->organization_id;	
+
+		
 		$Promoters=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
@@ -45,6 +47,8 @@ class NetPromoterScore extends Controller
 		->where('survey_answered.logged_user_id',auth()->user()->id??0)
 		->whereIn('question_options.option_value',[7,8])
 		->count();
+		
+		
 		$Detractors=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
@@ -52,6 +56,43 @@ class NetPromoterScore extends Controller
 		->where('survey_answered.logged_user_id',auth()->user()->id??0)
 		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
 		->count();
+		
+		
+		
+	
+		$Promoters_lastweek=SurveyAnswered::select('id')
+		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
+		->where('survey_answered.organization_id',$organization_id)
+		->where('survey_answered.question_id',1)
+		->where('survey_answered.logged_user_id',auth()->user()->id??0)
+		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
+		->whereIn('question_options.option_value',[9,10])
+		->count();
+		$Neutral_lastweek=SurveyAnswered::select('id')
+		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
+		->where('survey_answered.organization_id',$organization_id)
+		->where('survey_answered.question_id',1)
+		->where('survey_answered.logged_user_id',auth()->user()->id??0)
+		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
+		->whereIn('question_options.option_value',[7,8])
+		->count();
+		
+		
+		$Detractors_lastweek=SurveyAnswered::select('id')
+		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
+		->where('survey_answered.organization_id',$organization_id)
+		->where('survey_answered.question_id',1)
+		->where('survey_answered.logged_user_id',auth()->user()->id??0)
+		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
+		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
+		->count();
+		
+		
+		$Lastoneweek=$Promoters_lastweek+$Neutral_lastweek+$Detractors_lastweek;
+		
+		
+		
+		
 		
 		$total_feedbacks=$Promoters+$Neutral+$Detractors;
 		
@@ -70,8 +111,9 @@ class NetPromoterScore extends Controller
 				"Detractors"=>$Detractors,
 				"total_feedbacks"=>$total_feedbacks,
 				"NPS"=>$NPS,
+				"lastoneweek"=>$Lastoneweek,
 			];
-			
+	
 		return json_encode($final_score);
 		
 
@@ -393,6 +435,7 @@ public function first_question($param=false)
             [
                 "organization_id"=>$request->organization_id??0,
                 "survey_id"=>$request->survey_id??0,
+				"rating"=>Session::get('rating')??0,
                 "question_id"=>$request->question_id??0,
                 "answerid"=>$value??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
@@ -428,6 +471,7 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 			[
 			"organization_id"=>$request->organization_id??0,
 			"survey_id"=>$request->survey_id??0,
+			"rating"=>Session::get('rating')??0,
 			"question_id"=>$request->question_id??0,
 			"answerid"=>$key??'',
 			"answeredby_person"=>$value??'',
@@ -449,7 +493,7 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 
 if($request->is_pick_slider){	
 
-
+Session::put('rating',$request->first_questin_range);
 
 $getoptid = QuestionOptions::select('question_options.id as qoptionid')
 ->where('option_value', $request->first_questin_range)
@@ -462,6 +506,7 @@ $getoptid = QuestionOptions::select('question_options.id as qoptionid')
             [
                 "organization_id"=>$request->organization_id??0,
                 "survey_id"=>$request->survey_id??0,
+                "rating"=>Session::get('rating')??0,
                 "question_id"=>$request->question_id??0,
                 "answerid"=>$getoptid->qoptionid??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
@@ -477,6 +522,7 @@ else{
             [
                 "organization_id"=>$request->organization_id??0,
                 "survey_id"=>$request->survey_id??0,
+				"rating"=>Session::get('rating')??0,
                 "question_id"=>$request->question_id??0,
                 "answerid"=>$request->first_questin_range??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
