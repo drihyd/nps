@@ -233,10 +233,7 @@ public function store_survey_personinfo(Request $request){
 		
 
 
-if($request->sendlink_email){
-	
-
-	
+if($request->sendlink_email){	
 	if(auth()->user()->role==2){
 		$prefix=Config::get('constants.admin');
 	}
@@ -264,11 +261,6 @@ if($request->sendlink_email){
 				
 }
 else{
-
-
-			
-
-
 		
 			if(auth()->user()->role==2){
 				return redirect(Config::get('constants.admin').'/takesurvey/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');

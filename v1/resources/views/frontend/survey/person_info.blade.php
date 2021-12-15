@@ -63,15 +63,18 @@
 		  
 		  
 		  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input form-control" id="exampleCheck1" name="sendlink_email">
-    <label class="form-check-label" for="exampleCheck1" style="font-weight:100;">Send feedback link to Email</label>
+		  
+		   <input type="hidden" class="form-control" id="sendlink_email" name="sendlink_email">
+    
   </div>
 		  
 
 	 
 		
 		   
-		  <button type="submit" class="btn btn-success mt-4">Next</button>
+		  <button type="submit" class="btn btn-success mt-4" id="manulsurvey">Manual Survey</button>
+		  
+		   <button type="submit" class="btn btn-danger mt-4" id="notmanulsurvey">Send survey link to email</button>
 	
 		  
 		 
@@ -121,5 +124,14 @@
 
 @push('scripts')
 
+<script>
+$('#manulsurvey').click(function(){
+    $('#sendlink_email').val(0);
+});
+
+$('#notmanulsurvey').click(function(){
+    $('#sendlink_email').val(1);
+});
+</script>
 
 @endpush

@@ -164,7 +164,22 @@ $departments=$departments??'';
 <div class="col-md-12 text-center">
 	<h4 class="text text-success">Thank you for completing our survey!</h4>
 	
-	<!--<a href="{{url('user/responses')}}" class="btn btn-success  mt-3">Go to Survey users</a>-->
+	@if(auth()->user())
+	@if(auth()->user()->role==2)
+		
+	<a href="{{url(Config::get('constants.admin').'/dashboard')}}" class="btn btn-success  mt-3">Back to home</a>
+	
+	@else
+		
+	<a href="{{url(Config::get('constants.user').'/dashboard')}}" class="btn btn-success  mt-3">Back to home</a>
+	
+	@endif
+
+@else
+	
+@endif
+	
+	
 	</div>
 </div>
 @endif
