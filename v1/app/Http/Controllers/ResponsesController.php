@@ -72,10 +72,27 @@ class ResponsesController extends Controller
 			
 		}
 		
+		
+		
+		
+				if($request->team) {					
+				$QuestionOptions=QuestionOptions::select()
+				->where('option_value',$request->team)
+				->pluck('id');				
+				}		
+				else{
+				$QuestionOptions='';
+				
+				
+				}
+		
+		
+		
+		
 			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
-			->where('survey_answered.question_id',1)		
+				
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])
 			->where('survey_persons.logged_user_id',auth()->user()->id??0)			
 			->where(function($Detractors) use ($from_date,$to_date){	
@@ -83,7 +100,19 @@ class ResponsesController extends Controller
 				$Detractors->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
 				$Detractors->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
 			}		
-			})		
+			})
+
+			->where(function($Detractors) use ($QuestionOptions){	
+			if($QuestionOptions){		
+				$Detractors->whereIn('survey_answered.answerid',$QuestionOptions);				
+				$Detractors->where('survey_answered.answeredby_person','!=','');				
+			}	
+			else{
+			$Detractors->where('survey_answered.question_id',1);	
+			}
+			
+			})
+			
 			->orderBy('survey_persons.created_at','DESC')
 			->get();
 			
@@ -91,7 +120,7 @@ class ResponsesController extends Controller
 			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
-			->where('survey_answered.question_id',1)		
+			//->where('survey_answered.question_id',1)		
 			->whereIn('survey_answered.rating',[7,8])
 			->where('survey_persons.logged_user_id',auth()->user()->id??0)			
 			->where(function($Passives) use ($from_date,$to_date){	
@@ -99,7 +128,19 @@ class ResponsesController extends Controller
 				$Passives->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
 				$Passives->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
 			}		
-			})			
+			})
+			
+			->where(function($Passives) use ($QuestionOptions){	
+			if($QuestionOptions){		
+				$Passives->whereIn('survey_answered.answerid',$QuestionOptions);
+			   $Passives->where('survey_answered.answeredby_person','!=','');					
+			}	
+			else{
+			$Passives->where('survey_answered.question_id',1);	
+			}
+			
+			})
+			
 			->orderBy('survey_persons.created_at','DESC')
 			->get(); 
 			
@@ -108,7 +149,7 @@ class ResponsesController extends Controller
 			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
-			->where('survey_answered.question_id',1)		
+			//->where('survey_answered.question_id',1)		
 			->whereIn('survey_answered.rating',[9,10])
 			->where('survey_persons.logged_user_id',auth()->user()->id??0)			
 			->where(function($Promoters) use ($from_date,$to_date){	
@@ -116,7 +157,20 @@ class ResponsesController extends Controller
 				$Promoters->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
 				$Promoters->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
 			}		
-			})			
+			})		
+
+
+			->where(function($Promoters) use ($QuestionOptions){	
+			if($QuestionOptions){		
+				$Promoters->whereIn('survey_answered.answerid',$QuestionOptions);	
+				$Promoters->where('survey_answered.answeredby_person','!=','');				
+			}
+			else{
+				$Promoters->where('survey_answered.question_id',1);	
+			}
+			
+			})
+			
 			->orderBy('survey_persons.created_at','DESC')
 			->get();
 			
@@ -126,9 +180,10 @@ class ResponsesController extends Controller
 		
 		
 		
-        $pageTitle="Responses";    
-        return view('admin.responses.responses_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters'))
-        ->with('i', (request()->input('page', 1) - 1) * 5);  
+        $pageTitle="Responses";  
+		$pickteam=$request->team??'';		
+        return view('admin.responses.responses_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam'))
+        ->withInput('i', (request()->input('page', 1) - 1) * 5);  
     }
     public function response_view($per_id)
     { 
