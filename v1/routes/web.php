@@ -45,6 +45,9 @@ Route::get('logout', [NetPromoterScore::class,'logout'])->name('user.logout');
 Route::get('session.logout', [LoginController::class,'logout'])->name('session.logout');
 
 
+Route::post('filter.responses', [ResponsesController::class,'response_list'])->name('filter.responses');
+
+
 
 
 

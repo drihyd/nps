@@ -20,9 +20,16 @@ use Illuminate\Support\Facades\Crypt;
 
 class ResponsesController extends Controller
 {
-    public function response_list()
+    public function response_list(Request $request)
     {   
         
+	
+		
+		
+
+		
+	
+		
         $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)		
 		->where('survey_persons.logged_user_id',auth()->user()->id??0)
 		->get();
@@ -50,8 +57,77 @@ class ResponsesController extends Controller
         // ->where('survey_answered.question_id',1)
         // ->orderBy('survey_persons.created_at','DESC')
         // ->get();
+		
+		
+		
+		
+		if($request->from_date &&  $request->to_date) {
+			$from_date = $request->from_date;
+			$to_date = $request->to_date;			
+		}		
+		else{
+			
+			$from_date = date('Y-m-01');
+			$to_date = date('Y-m-t');
+			
+		}
+		
+			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer')
+			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
+			->where('survey_persons.organization_id',Auth::user()->organization_id)
+			->where('survey_answered.question_id',1)		
+			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])
+			->where('survey_persons.logged_user_id',auth()->user()->id??0)			
+			->where(function($Detractors) use ($from_date,$to_date){	
+			if($from_date &&  $to_date){		
+				$Detractors->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+				$Detractors->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+			}		
+			})		
+			->orderBy('survey_persons.created_at','DESC')
+			->get();
+			
+		
+			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer')
+			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
+			->where('survey_persons.organization_id',Auth::user()->organization_id)
+			->where('survey_answered.question_id',1)		
+			->whereIn('survey_answered.rating',[7,8])
+			->where('survey_persons.logged_user_id',auth()->user()->id??0)			
+			->where(function($Passives) use ($from_date,$to_date){	
+			if($from_date &&  $to_date){		
+				$Passives->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+				$Passives->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+			}		
+			})			
+			->orderBy('survey_persons.created_at','DESC')
+			->get(); 
+			
+			
+			
+			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer')
+			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
+			->where('survey_persons.organization_id',Auth::user()->organization_id)
+			->where('survey_answered.question_id',1)		
+			->whereIn('survey_answered.rating',[9,10])
+			->where('survey_persons.logged_user_id',auth()->user()->id??0)			
+			->where(function($Promoters) use ($from_date,$to_date){	
+			if($from_date &&  $to_date){		
+				$Promoters->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+				$Promoters->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+			}		
+			})			
+			->orderBy('survey_persons.created_at','DESC')
+			->get();
+			
+			
+			
+	
+		
+		
+		
         $pageTitle="Responses";    
-        return view('admin.responses.responses_list', compact('pageTitle','responses_data'))
+        return view('admin.responses.responses_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
     }
     public function response_view($per_id)
