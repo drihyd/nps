@@ -55,28 +55,30 @@ class DepartmentsController extends Controller
             if($isexist->count()==0){
 
 
-        Departments::insert([
-            [
+       $id = Departments::insertGetId(array(
+            
                 "department_name"=>$request->department_name??'',
                 "is_display"=>$request->is_display??'',
                 "organization_id"=>$request->organization_id??'',
-            ]  
-        ]);
+            ));
         QuestionOptions::insert([
             [
                 "question_id"=>2,
+                "department_id"=>$id??'',
                 "option_value"=>$request->department_name??'',
             ]  
         ]);
         QuestionOptions::insert([
             [
                 "question_id"=>3,
+                "department_id"=>$id??'',
                 "option_value"=>$request->department_name??'',
             ]  
         ]);
         QuestionOptions::insert([
             [
                 "question_id"=>4,
+                "department_id"=>$id??'',
                 "option_value"=>$request->department_name??'',
             ]  
         ]); 
@@ -105,7 +107,7 @@ class DepartmentsController extends Controller
             'is_display' => 'sometimes|nullable',        
         ]);  
 
-
+        // dd($request->id);
 
         
         Departments::where('id', $request->id)
@@ -117,7 +119,30 @@ class DepartmentsController extends Controller
                 "is_display"=>$request->is_display??'',
                 "organization_id"=>$request->organization_id??'',
             ]
-            );      
+            );  
+
+
+            QuestionOptions::where('department_id', $request->id)->where('question_id',2)
+            ->update(
+            [
+                // "question_id"=>2,
+                "option_value"=>$request->department_name??'',
+            ]  
+        );
+        QuestionOptions::where('department_id', $request->id)->where('question_id',3)
+            ->update(
+            [
+                // "question_id"=>2,
+                "option_value"=>$request->department_name??'',
+            ]  
+        );
+        QuestionOptions::where('department_id', $request->id)->where('question_id',4)
+            ->update(
+            [
+                // "question_id"=>2,
+                "option_value"=>$request->department_name??'',
+            ]  
+        );   
         return redirect(Config::get('constants.admin').'/departments')->with('success', "Success! Details are updated successfully");
     }
     public function delete_departments($id)
