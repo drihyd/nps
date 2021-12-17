@@ -81,7 +81,7 @@ class ResponsesController extends Controller
 		
 		
 		
-			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer')
+			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 				
@@ -109,7 +109,7 @@ class ResponsesController extends Controller
 			->get();
 			
 		
-			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer')
+			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			//->where('survey_answered.question_id',1)		
@@ -138,7 +138,7 @@ class ResponsesController extends Controller
 			
 			
 			
-			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer')
+			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			//->where('survey_answered.question_id',1)		

@@ -436,6 +436,7 @@ public function first_question($param=false)
                 "organization_id"=>$request->organization_id??0,
                 "survey_id"=>$request->survey_id??0,
 				"rating"=>Session::get('rating')??0,
+				"ticket_status"=>$this->checking_ticket_action(Session::get('rating')??''),
                 "question_id"=>$request->question_id??0,
                 "answerid"=>$value??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
@@ -472,6 +473,7 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 			"organization_id"=>$request->organization_id??0,
 			"survey_id"=>$request->survey_id??0,
 			"rating"=>Session::get('rating')??0,
+			"ticket_status"=>$this->checking_ticket_action(Session::get('rating')??''),
 			"question_id"=>$request->question_id??0,
 			"answerid"=>$key??'',
 			"answeredby_person"=>$value??'',
@@ -507,6 +509,7 @@ $getoptid = QuestionOptions::select('question_options.id as qoptionid')
                 "organization_id"=>$request->organization_id??0,
                 "survey_id"=>$request->survey_id??0,
                 "rating"=>Session::get('rating')??0,
+				"ticket_status"=>$this->checking_ticket_action(Session::get('rating')??''),
                 "question_id"=>$request->question_id??0,
                 "answerid"=>$getoptid->qoptionid??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
@@ -523,6 +526,7 @@ else{
                 "organization_id"=>$request->organization_id??0,
                 "survey_id"=>$request->survey_id??0,
 				"rating"=>Session::get('rating')??0,
+				"ticket_status"=>$this->checking_ticket_action(Session::get('rating')??''),
                 "question_id"=>$request->question_id??0,
                 "answerid"=>$request->first_questin_range??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
@@ -626,6 +630,51 @@ else{
 }
 
 return $next_question;
+	
+}
+
+
+public function checking_ticket_action($score=false) {
+	
+	switch ($score) {
+		case '0':
+		$status='opened';
+		break;	
+		case '1':
+		$status='opened';
+		break;
+		case '2':
+		$status='opened';
+		break;
+		case '3':
+		$status='opened';
+		break;
+		case '4':
+		$status='opened';
+		break;
+		case '5':
+		$status='opened';
+		break;		 
+		case '6':
+		$status='opened';
+		break;  
+		case '7':
+		$status=null;
+		break;	
+		case '8':
+		$status=null;
+		break;
+		case '9':
+		$status=null;
+		break;
+		case '10':
+		$status=null;
+		break;
+		default:
+		$status=null;
+}
+
+return $status;
 	
 }
     
