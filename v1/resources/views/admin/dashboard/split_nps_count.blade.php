@@ -111,8 +111,12 @@ $totalcount=$Promoters+$Passives+$Detractors;
 									</div>
 									<div class="col-md-6">
 										
-                                        
-                                        	<h5 class="mb-0 " style="text-align: center;padding-top:10px;">{{Str::title($item->department_name)}}</h5>                      
+                                        <a href="{{route('filter.responses',['team'=>$item->department_name])}}">										
+                                        	<h5 class="mb-0 " style="text-align: center;padding-top:10px;">										
+											{{Str::title($item->department_name)}}											
+											</h5> 
+
+											</a>											
                                     	
 									</div>
 									<div class="col-md-4">

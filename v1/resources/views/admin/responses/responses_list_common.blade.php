@@ -1,4 +1,16 @@
 
+
+
+
+
+
+
+
+
+<div class="col-md-12 col-lg-12 col-xl-12">
+
+
+
 <form class="form-inline" action="{{route('filter.responses')}}" method="post">
 @csrf
 
@@ -23,16 +35,10 @@
 </form>
 
 
-
-
-
-
-
-<div class="col-md-12 col-lg-12 col-xl-12">
 <div class="card">
 <div class="card-body">
 							
-							
+			<p class="text text-danger">Default current month data fetched on this page.</p>				
 		<ul class="nav nav-tabs custom-tab-line mb-3" id="defaultTabLine" role="tablist">
 		<li class="nav-item">
 		<a class="nav-link active" id="home-tab-line" data-toggle="tab" href="#home-line" role="tab" aria-controls="home-line" aria-selected="true"><i class="feather icon-user mr-2"></i>Detractors</a>

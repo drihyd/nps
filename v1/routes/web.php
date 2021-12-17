@@ -45,7 +45,7 @@ Route::get('logout', [NetPromoterScore::class,'logout'])->name('user.logout');
 Route::get('session.logout', [LoginController::class,'logout'])->name('session.logout');
 
 
-Route::post('filter.responses', [ResponsesController::class,'response_list'])->name('filter.responses');
+Route::any('filter.responses', [ResponsesController::class,'response_list'])->name('filter.responses');
 
 
 
@@ -81,7 +81,7 @@ Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 	Route::post('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.user');
 	Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo.user');
 
-	Route::get('responses', [ResponsesController::class,'frontend_response_list']);
+	Route::get('responses', [ResponsesController::class,'response_list']);
 	Route::get('responses/view/{per_id}', [ResponsesController::class,'frontend_response_view']);
 	Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
 	
