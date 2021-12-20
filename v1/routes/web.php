@@ -19,6 +19,7 @@ use App\Http\Controllers\ResponsesController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\DesignationlevelsController;
+use App\Http\Controllers\NotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -187,6 +188,14 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('designation_roles/delete/{id}',[DesignationlevelsController::class,'delete_designation_roles']);
 
 	Route::get('getrole_level',[DesignationlevelsController::class, 'getrole_level'])->name('getrole_level');
+
+	/*Admin Notifications*/
+	Route::get('notifications', [NotificationsController::class,'notifications_list']);
+	Route::get('notifications/create', [NotificationsController::class,'create_notifications']);
+	Route::post('notifications/store', [NotificationsController::class, 'store_notifications']);
+	Route::get('notifications/edit/{id}',[NotificationsController::class,'edit_notifications']);
+	Route::post('notifications/update',[NotificationsController::class,'update_notifications']);
+	Route::get('notifications/delete/{id}',[NotificationsController::class,'delete_notifications']);
 
 });
 
