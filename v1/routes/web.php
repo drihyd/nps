@@ -18,6 +18,7 @@ use App\Http\Controllers\ActivitiesController;
 use App\Http\Controllers\ResponsesController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\DesignationlevelsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -161,6 +162,31 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 
 	Route::get('feedback', [ResponsesController::class,'feedback_list']);
+
+	/*Admin Group levels*/
+	Route::get('designations', [DesignationlevelsController::class,'designations_list']);
+	Route::get('designations/create', [DesignationlevelsController::class,'create_designations']);
+	Route::post('designations/store', [DesignationlevelsController::class, 'store_designations']);
+	Route::get('designations/edit/{id}',[DesignationlevelsController::class,'edit_designations']);
+	Route::post('designations/update',[DesignationlevelsController::class,'update_designations']);
+	Route::get('designations/delete/{id}',[DesignationlevelsController::class,'delete_designations']);
+
+	/*Admin Role levels*/
+	Route::get('designation_levels', [DesignationlevelsController::class,'designation_levels_list']);
+	Route::get('designation_levels/create', [DesignationlevelsController::class,'create_designation_levels']);
+	Route::post('designation_levels/store', [DesignationlevelsController::class, 'store_designation_levels']);
+	Route::get('designation_levels/edit/{id}',[DesignationlevelsController::class,'edit_designation_levels']);
+	Route::post('designation_levels/update',[DesignationlevelsController::class,'update_designation_levels']);
+	Route::get('designation_levels/delete/{id}',[DesignationlevelsController::class,'delete_designation_levels']);
+	/*Admin Role levels*/
+	Route::get('designation_roles', [DesignationlevelsController::class,'designation_roles_list']);
+	Route::get('designation_roles/create', [DesignationlevelsController::class,'create_designation_roles']);
+	Route::post('designation_roles/store', [DesignationlevelsController::class, 'store_designation_roles']);
+	Route::get('designation_roles/edit/{id}',[DesignationlevelsController::class,'edit_designation_roles']);
+	Route::post('designation_roles/update',[DesignationlevelsController::class,'update_designation_roles']);
+	Route::get('designation_roles/delete/{id}',[DesignationlevelsController::class,'delete_designation_roles']);
+
+	Route::get('getrole_level',[DesignationlevelsController::class, 'getrole_level'])->name('getrole_level');
 
 });
 
