@@ -188,9 +188,11 @@ class ResponsesController extends Controller
         ->where('survey_answered.organization_id',Auth::user()->organization_id)
         ->where('survey_answered.person_id',$person_id)
         ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
+        $person_responses_status_data = UpdateStatusResponseLog::where('logged_user_id',Auth::user()->id)->where('person_id',$person_id)->orderBy('created_at','DESC')->get();
+        // dd($person_responses_status_data);
         
         $pageTitle= Str::title($person_data->firstname??'')." Response";    
-        return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data'))
+        return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data','person_responses_status_data'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
     }
     public function frontend_response_list()
@@ -224,9 +226,11 @@ class ResponsesController extends Controller
         ->where('survey_answered.logged_user_id',Auth::user()->id)
         ->where('survey_answered.person_id',$person_id)
         ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
-        // dd($person_responses_data);
+
+        $person_responses_status_data = UpdateStatusResponseLog::where('logged_user_id',Auth::user()->id)->where('person_id',$person_id)->orderBy('created_at','DESC')->get();
+        // dd($person_responses_status_data);
         $pageTitle= Str::title($person_data->firstname??'')." Response";    
-        return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data'))
+        return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data','person_responses_status_data'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
     }
 

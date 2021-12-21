@@ -5,7 +5,7 @@
                
             </div>
             <div class="card-body">
-                <form id="crudTable" action="{{url(Config::get('constants.admin').'/responses/update_status')}} " method="POST"  enctype="multipart/form-data">
+                <form id="crudTable" action="{{url('responses/update_status')}} " method="POST"  enctype="multipart/form-data">
                     @csrf
                 <input type="hidden" name="id" value="{{$person_data->id}}">
                 <input type="hidden" name="logged_user_id" value="{{$person_data->logged_user_id}}">
