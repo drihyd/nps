@@ -7,10 +7,10 @@
             <div class="card-body">
                 <form id="crudTable" action="{{url(Config::get('constants.admin').'/responses/update_status')}} " method="POST"  enctype="multipart/form-data">
                     @csrf
-                <input type="text" name="id" value="{{$person_data->id}}">
-                <input type="text" name="logged_user_id" value="{{$person_data->logged_user_id}}">
-                <input type="text" name="organization_id" value="{{$person_data->organization_id}}">
-                <input type="text" name="survey_id" value="{{$person_data->survey_id}}">
+                <input type="hidden" name="id" value="{{$person_data->id}}">
+                <input type="hidden" name="logged_user_id" value="{{$person_data->logged_user_id}}">
+                <input type="hidden" name="organization_id" value="{{$person_data->organization_id}}">
+                <input type="hidden" name="survey_id" value="{{$person_data->survey_id}}">
                 <div class="form-group">
         <label for="survey_id">Status<span class="text-red"style="color: red;">*</span></label>
         <select name="ticket_status" class="form-control" required="required">
