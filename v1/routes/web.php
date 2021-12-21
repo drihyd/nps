@@ -160,6 +160,7 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('responses', [ResponsesController::class,'response_list']);
 	Route::get('responses/view/{per_id}', [ResponsesController::class,'response_view']);
 	Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
+	Route::post('responses/update_status', [ResponsesController::class,'response_update_status']);
 
 
 	Route::get('feedback', [ResponsesController::class,'feedback_list']);

@@ -16,6 +16,7 @@ use App\Models\QuestionOptions;
 use App\Models\SurveyAnswered;
 use App\Models\Surveys;
 use App\Models\SurveyPerson;
+use App\Models\UpdateStatusResponseLog;
 use Illuminate\Support\Facades\Crypt;
 
 class ResponsesController extends Controller
@@ -187,7 +188,7 @@ class ResponsesController extends Controller
         ->where('survey_answered.organization_id',Auth::user()->organization_id)
         ->where('survey_answered.person_id',$person_id)
         ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
-        // dd($person_responses_data);
+        
         $pageTitle= Str::title($person_data->firstname??'')." Response";    
         return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
@@ -242,6 +243,36 @@ class ResponsesController extends Controller
     {     
         $pageTitle="Feedback";    
         return view('admin.feedback.feedback_list', compact('pageTitle'));  
+    }
+
+    public function response_update_status(Request $request)
+    { 
+        $request->validate([
+            'ticket_status' => 'required', 
+            'ticket_remarks' => 'required',        
+        ]); 
+
+        
+        SurveyAnswered::where('person_id', $request->id)
+            ->update(
+            [  
+                "ticket_status"=>$request->ticket_status??'',
+                "ticket_remarks"=>$request->ticket_remarks??'',
+            ]
+            ); 
+
+
+       	UpdateStatusResponseLog::insert([
+            [
+                "organization_id"=>$request->organization_id??'',
+                "logged_user_id"=>$request->logged_user_id??'',
+                "survey_id"=>$request->survey_id??'',
+                "person_id"=>$request->id??'',
+                "ticket_status"=>$request->ticket_status??'',
+                "ticket_remarks"=>$request->ticket_remarks??'',
+            ]  
+        ]);
+        return redirect()->back()->with('success', "Success! Status are updated successfully"); 
     }
 
 }

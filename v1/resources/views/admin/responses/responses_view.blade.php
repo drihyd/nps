@@ -3,8 +3,11 @@
 @section('content')
 <div class="row">
     <!-- End col -->
-    <div class="col-lg-8">
+    <div class="col-lg-7">
         @include('admin.responses.responses_view_common')
+    </div>
+    <div class="col-lg-5">
+        @include('admin.responses.responses_updatestatus_common')
     </div>  
     <!-- End col -->
     <!-- Start col -->
