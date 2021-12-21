@@ -36,8 +36,8 @@
 <img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="apps"><span>Users</span><i class="feather"></i>
 </a>
 </li>
-<li class="{{ (request()->is(Config::get('constants.admin').'/surveys')) ? 'active' : '' }}">
-<a href="{{url(Config::get('constants.admin').'/surveys')}}"><img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Questionaire</span><i class="feather"></i></a>
+<li class="{{ (request()->is(Config::get('constants.admin').'/questionnaire')) ? 'active' : '' }}">
+<a href="{{url(Config::get('constants.admin').'/questionnaire')}}"><img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Questionaire</span><i class="feather"></i></a>
 </li>
 
 

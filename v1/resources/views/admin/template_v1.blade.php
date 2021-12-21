@@ -38,6 +38,7 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <link href="{{URL::to('assets/plugins/slick/slick.css')}}" rel="stylesheet">
     <link href="{{URL::to('assets/plugins/slick/slick-theme.css')}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <!-- End css -->
      
 
@@ -215,6 +216,7 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 
 
  <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+ <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <link href="https//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Oxygen:300' rel='stylesheet' type='text/css'>
 
@@ -224,8 +226,12 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
   <!-- End js -->
     @stack('scripts')
     <script>
+
   $('form').parsley();
+
+  
 </script>
+
     <script>
   @if(Session::has('message'))
   toastr.options =

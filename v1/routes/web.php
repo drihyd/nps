@@ -116,12 +116,13 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('user/delete/{id}',[UsermanagementController::class,'department_delete_user']);
 
 	/*Admin Surveys*/
-	Route::get('surveys', [SurveysController::class,'surveys_list']);
-	Route::get('surveys/create', [SurveysController::class,'create_surveys']);
-	Route::post('surveys/store', [SurveysController::class, 'store_surveys']);
-	Route::get('surveys/edit/{id}',[SurveysController::class,'edit_surveys']);
-	Route::post('surveys/update',[SurveysController::class,'update_surveys']);
-	Route::get('surveys/delete/{id}',[SurveysController::class,'delete_surveys']);
+	Route::get('questionnaire', [SurveysController::class,'surveys_list']);
+	Route::get('questionnaire/create', [SurveysController::class,'create_surveys']);
+	Route::post('questionnaire/store', [SurveysController::class, 'store_surveys']);
+	Route::get('questionnaire/edit/{id}',[SurveysController::class,'edit_surveys']);
+	Route::post('questionnaire/update',[SurveysController::class,'update_surveys']);
+	Route::get('questionnaire/delete/{id}',[SurveysController::class,'delete_surveys']);
+	Route::post('changeStatus', [SurveysController::class,'changeStatus']);
 	/*Admin Questions*/
 	Route::get('questions', [QuestionsController::class,'questions_list']);
 	Route::get('questions/create', [QuestionsController::class,'create_questions']);

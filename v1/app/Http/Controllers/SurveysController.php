@@ -22,8 +22,8 @@ class SurveysController extends Controller
     {   
         
         $surveys_data=Surveys::where('organization_id',Auth::user()->organization_id)->get();
-        $pageTitle="Surveys";      
-        $addlink=url(Config::get('constants.admin').'/surveys/create');     
+        $pageTitle="Questionnaire";      
+        $addlink=url(Config::get('constants.admin').'/questionnaire/create');     
         return view('admin.surveys.surveys_list', compact('pageTitle','surveys_data','addlink'))
         ->with('i', (request()->input('page', 1) - 1) * 5);
             
@@ -93,5 +93,18 @@ class SurveysController extends Controller
             $data=Surveys::where('id',$ID)->delete();   
          return redirect()->back()->with('success','Success! Details are deleted successfully');
         
+    }
+    public function changeStatus(Request $request)
+    {
+        if($request->ajax()){
+        Surveys::where('id', $request->id)
+            ->update(
+            [
+                "isopen"=>$request->isopen??'',
+            ]
+            );
+        }     
+  
+        return response()->json(['statusCode'=>200,'success'=>'Status change successfully.']);
     }
 }

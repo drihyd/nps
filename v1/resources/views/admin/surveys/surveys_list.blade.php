@@ -1,5 +1,5 @@
 @extends('admin.template_v1')
-@section('title', 'Surveys')
+@section('title', 'Questionnaire')
 @section('content')
 <div class="row">
     <!-- Start col -->
@@ -31,10 +31,10 @@
                               <td>{{$loop->iteration}}</td>
                               <td>{{Str::title($survey->title??'')}}</td>
                               <td width="50%">{{$survey->description??''}}</td>
-                              <td>{{$survey->isopen??''}}</td>
+                              <td><input data-id="{{$survey->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $survey->isopen =='yes'?'checked' : '' }}></td>
                               <td>
-							  <a href="{{url(Config::get('constants.admin').'/surveys/edit/'.Crypt::encryptString($survey->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
-                                <a href="{{url(Config::get('constants.admin').'/surveys/delete/'.Crypt::encryptString($survey->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
+							  <a href="{{url(Config::get('constants.admin').'/questionnaire/edit/'.Crypt::encryptString($survey->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
+                                <a href="{{url(Config::get('constants.admin').'/questionnaire/delete/'.Crypt::encryptString($survey->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
 								
                               </td>
                           </tr>
@@ -50,5 +50,47 @@
 </div>
         @endsection
 
+@push('scripts')
+        <script>
+  $(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('.toggle-class').change(function() {
+        // alert('hi');
+         toastr.options = {
+          "closeButton": true,
+          "newestOnTop": true,
+          "positionClass": "toast-top-right"
+        };
+        var status = $(this).prop('checked') == true ? 'yes' : 'no'; 
+        var id = $(this).data('id'); 
+         
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "{{ url(Config::get('constants.admin').'/changeStatus') }}",
+            data: {'isopen': status, 'id': id},
+            success: function(data){
+
+          
+              if(data.statusCode==200)
+                {            
+                    toastr.success(data.success);
+                }
+                else{
+                    toastr.error(data.error);
+                }
+            }
+        });
+    })
+  })
+</script>
+@endpush
+
+            
 
 

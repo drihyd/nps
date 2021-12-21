@@ -1,8 +1,8 @@
 @extends('admin.template_v1')
 @if(isset($surveys_data->id))
-@section('title', 'Edit Survey')
+@section('title', 'Edit Questionnaire')
 @else
-@section('title', 'Add Survey')
+@section('title', 'Add Questionnaire')
 @endif
 @section('content')
   <div class="row">
@@ -18,10 +18,10 @@
                   @if(isset($surveys_data->id))
 
           
-<form id="crudTable" action="{{url(Config::get('constants.admin').'/surveys/update')}} " method="POST"  enctype="multipart/form-data">
+<form id="crudTable" action="{{url(Config::get('constants.admin').'/questionnaire/update')}} " method="POST"  enctype="multipart/form-data">
 <input type="hidden" name="id" value="{{$surveys_data->id}}">
 @else
-<form id="crudTable" action="{{url(Config::get('constants.admin').'/surveys/store')}}" method="POST"  enctype="multipart/form-data">
+<form id="crudTable" action="{{url(Config::get('constants.admin').'/questionnaire/store')}}" method="POST"  enctype="multipart/form-data">
 @endif  
       @csrf
       <div class="row">
@@ -46,7 +46,7 @@
         <label>Off</label>
       </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
-      <a href="{{url(Config::get('constants.admin').'/surveys')}}" class="btn btn-danger btn-sm">Back</a>
+      <a href="{{url(Config::get('constants.admin').'/questionnaire')}}" class="btn btn-danger btn-sm">Back</a>
 
         </div>
         <div class="col-md-5">
