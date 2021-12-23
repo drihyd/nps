@@ -20,6 +20,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\DesignationlevelsController;
 use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\SlaConfigurationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -198,6 +199,14 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('notifications/edit/{id}',[NotificationsController::class,'edit_notifications']);
 	Route::post('notifications/update',[NotificationsController::class,'update_notifications']);
 	Route::get('notifications/delete/{id}',[NotificationsController::class,'delete_notifications']);
+
+	/*Admin SLA Configurations*/
+	Route::get('sla_configurations', [SlaConfigurationController::class,'sla_configurations_list']);
+	Route::get('sla_configurations/create', [SlaConfigurationController::class,'create_sla_configurations']);
+	Route::post('sla_configurations/store', [SlaConfigurationController::class, 'store_sla_configurations']);
+	Route::get('sla_configurations/edit/{id}',[SlaConfigurationController::class,'edit_sla_configurations']);
+	Route::post('sla_configurations/update',[SlaConfigurationController::class,'update_sla_configurations']);
+	Route::get('sla_configurations/delete/{id}',[SlaConfigurationController::class,'delete_sla_configurations']);
 
 });
 
