@@ -24,7 +24,8 @@
 
 
 <li class="{{ (request()->is(Config::get('constants.admin').'/feedback')) ? 'active' : '' }}">
-<a href="{{URL(Config::get('constants.admin').'/survey/start/'.Crypt::encryptString(1))}}" target="_blank">
+<a href="{{URL(Config::get('constants.admin').'/survey')}}" target="_blank">
+<!--<a href="{{URL(Config::get('constants.admin').'/survey/start/'.Crypt::encryptString(1))}}" target="_blank">-->
 <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Take Feedback</span><i class="feather"></i>
 </a>
 </li>
