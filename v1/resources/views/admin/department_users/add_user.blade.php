@@ -48,7 +48,7 @@
           
           
       
-      <button type="submit" class="btn btn-brand btn-sm">Save</button>
+      <button type="submit" class="btn btn-primary btn-sm">Save</button>
       <a href="{{url(Config::get('constants.admin').'/users')}}" class="btn btn-danger btn-sm">Back</a>
 
         </div>
@@ -56,6 +56,10 @@
           <div class="form-group">
                 <label><b>Mobile</b><span style="color: red;">*</span></label>
                 <input type="text" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" >
+          </div>
+          <div class="form-group">
+                <label><b>Report to</b><span style="color: red;">*</span></label>
+                <input type="email" name="report_to" id="title" class="form-control" value="{{old('report_to',$users_data->report_to??'')}}" required="required" >
           </div>
       <div class="form-group">
         <label><b>Status</b><span style="color: red;">*</span></label>

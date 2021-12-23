@@ -22,7 +22,7 @@ class QuestionsController extends Controller
     public function questions_list()
     {   
         
-        $questions_data=Questions::where('organization_id',Auth::user()->organization_id)->get();
+        $questions_data=Questions::leftjoin('surveys', 'questions.survey_id', '=', 'surveys.id')->where('questions.organization_id',Auth::user()->organization_id)->get(['questions.*','surveys.title as survey_title']);
         $pageTitle="Questions";      
         $addlink=url(Config::get('constants.admin').'/questions/create');     
         return view('admin.questions.questions_list', compact('pageTitle','questions_data','addlink'))

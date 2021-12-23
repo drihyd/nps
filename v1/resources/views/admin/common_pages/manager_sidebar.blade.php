@@ -36,9 +36,9 @@
 <img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="apps"><span>Users</span><i class="feather"></i>
 </a>
 </li>
-<li class="{{ (request()->is(Config::get('constants.admin').'/questionnaire')) ? 'active' : '' }}">
+<!-- <li class="{{ (request()->is(Config::get('constants.admin').'/questionnaire')) ? 'active' : '' }}">
 <a href="{{url(Config::get('constants.admin').'/questionnaire')}}"><img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Questionaire</span><i class="feather"></i></a>
-</li>
+</li> -->
 
 
 <li>
@@ -66,9 +66,9 @@
 <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Configure</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
-<!--
-<li class="{{ (request()->is(Config::get('constants.admin').'/surveys')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/surveys')}}">All Surveys</a></li>
--->
+
+<li class="{{ (request()->is(Config::get('constants.admin').'/questionnaire')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questionnaire')}}">Questionaire</a></li>
+
 
 <li class="{{ (request()->is(Config::get('constants.admin').'/questions')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questions')}}">Questions</a></li>
 <!--<li class="{{ (request()->is(Config::get('constants.admin').'/questions_options')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questions_options')}}">Questions Options</a></li>-->
