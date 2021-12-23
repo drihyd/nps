@@ -271,6 +271,7 @@ public function store_survey_personinfo(Request $request){
 
 				$user = SurveyPerson::create($input);
 				Session::put('person_id', $user->id);
+				Session::put('survey_id', $request->survey_id??0);
 				Session::put('comapny_name',$Organizations[0]->company_name??'');
 		
 		
@@ -431,8 +432,7 @@ public function first_question($param=false)
 	if(is_array($request->first_questin_range))
 	{
 		
-		foreach($request->first_questin_range as $key=>$value){
-			
+		foreach($request->first_questin_range as $key=>$value){			
 		$first_questionans=SurveyAnswered::insert([
             [
                 "organization_id"=>$request->organization_id??0,

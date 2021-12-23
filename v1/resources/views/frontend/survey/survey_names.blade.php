@@ -40,7 +40,7 @@
 <div class="row-fluid">
 <div class="col-xs-12 mt-5">
 
-<h6>Please select questionnaire to proceed feedback</h6>
+<h5>Please select questionnaire to proceed feedback</h5>
 
 	<div class="mt-5">
 		<div class="background-white">           

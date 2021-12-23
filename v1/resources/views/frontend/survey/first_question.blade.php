@@ -153,9 +153,9 @@ $departments=$departments??'';
 
 
 
-<input type="hidden" name="organization_id" value="{{$Questions[0]->qorgid??0}}"/>
-<input type="hidden" name="question_id" value="{{$Questions[0]->qid??0}}"/>
-<input type="hidden" name="survey_id" value="{{$Questions[0]->qsurvey_id??0}}"/>
+<input type="text" name="organization_id" value="{{$Questions[0]->qorgid??0}}"/>
+<input type="text" name="question_id" value="{{$Questions[0]->qid??0}}"/>
+<input type="text" name="survey_id" value="{{Session::get('person_id')??0,}}"/>
 
 </form>
 @else

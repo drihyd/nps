@@ -101,8 +101,8 @@
 </div>
 
 </div>
-<input type="hidden" name="survey_id" value="{{$Surveys[0]->id??0}}"/>
-<input type="hidden" name="organization_id" value="{{$Surveys[0]->organization_id??0}}"/>
+<input type="text" name="survey_id" value="{{$Surveys[0]->id??0}}"/>
+<input type="text" name="organization_id" value="{{$Surveys[0]->organization_id??0}}"/>
 </form>
 
 
