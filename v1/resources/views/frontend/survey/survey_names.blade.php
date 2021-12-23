@@ -38,17 +38,27 @@
 
 <div class="container">
 <div class="row-fluid">
-<div class="col-xs-12">
+<div class="col-xs-12 mt-5">
 
-<h4>Please select questionnaire to proceed feedback</h4>
+<h6>Please select questionnaire to proceed feedback</h6>
 
 	<div class="mt-5">
 		<div class="background-white">           
 		    <div class="button-list">
 			@foreach($Surveys as $key=>$value)
-		        <a href="{{URL('user/survey/start/'.Crypt::encryptString($value->id))}}">
-				<button type="button" class="btn btn-rounded btn-outline-danger mb-2 mr-2">{{$value->title}}</button>
-				</a>
+			
+		@if(auth()->user()->role==2)
+		<a href="{{URL(Config::get('constants.admin').'/survey/start/'.Crypt::encryptString($value->id))}}">
+		<button type="button" class="btn btn-rounded btn-outline-danger mb-2 mr-2">{{$value->title}}</button>
+		</a>
+		@else
+		<a href="{{URL(Config::get('constants.admin').'/survey/start/'.Crypt::encryptString($value->id))}}">
+		<button type="button" class="btn btn-rounded btn-outline-danger mb-2 mr-2">{{$value->title}}</button>
+		</a>
+		@endif
+	
+	
+				
 			@endforeach
 		    </div>
 
