@@ -68,7 +68,7 @@
 </a>
 <ul class="vertical-submenu">
 
-<li class="{{ (request()->is(Config::get('constants.admin').'/questionnaire')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questionnaire')}}">Questionaire</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/questionnaire')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questionnaire')}}">Questionnaire</a></li>
 
 
 <li class="{{ (request()->is(Config::get('constants.admin').'/questions')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questions')}}">Questions</a></li>
