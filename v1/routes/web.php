@@ -21,6 +21,7 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\DesignationlevelsController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\SlaConfigurationController;
+use App\Http\Controllers\CustomerFieldsConfigurableController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,12 +140,12 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::post('questions_options/update',[QuestionsOptionsController::class,'update_questions_options']);
 	Route::get('questions_options/delete/{id}',[QuestionsOptionsController::class,'delete_questions_options']);
 	/*Admin Activities*/
-	Route::get('activities', [ActivitiesController::class,'activities_list']);
-	Route::get('activities/create', [ActivitiesController::class,'create_activities']);
-	Route::post('activities/store', [ActivitiesController::class, 'store_activities']);
-	Route::get('activities/edit/{id}',[ActivitiesController::class,'edit_activities']);
-	Route::post('activities/update',[ActivitiesController::class,'update_activities']);
-	Route::get('activities/delete/{id}',[ActivitiesController::class,'delete_activities']);
+	Route::get('customer_fields_configurables', [CustomerFieldsConfigurableController::class,'customer_fields_configurables_list']);
+	Route::get('customer_fields_configurables/create', [CustomerFieldsConfigurableController::class,'create_customer_fields_configurables']);
+	Route::post('customer_fields_configurables/store', [CustomerFieldsConfigurableController::class, 'store_customer_fields_configurables']);
+	Route::get('customer_fields_configurables/edit/{id}',[CustomerFieldsConfigurableController::class,'edit_customer_fields_configurables']);
+	Route::post('customer_fields_configurables/update',[CustomerFieldsConfigurableController::class,'update_customer_fields_configurables']);
+	Route::get('customer_fields_configurables/delete/{id}',[CustomerFieldsConfigurableController::class,'delete_customer_fields_configurables']);
 
 	/*Admin User Responses*/
 	
@@ -207,6 +208,14 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('sla_configurations/edit/{id}',[SlaConfigurationController::class,'edit_sla_configurations']);
 	Route::post('sla_configurations/update',[SlaConfigurationController::class,'update_sla_configurations']);
 	Route::get('sla_configurations/delete/{id}',[SlaConfigurationController::class,'delete_sla_configurations']);
+
+	/*Admin C F C*/
+	Route::get('notifications', [NotificationsController::class,'notifications_list']);
+	Route::get('notifications/create', [NotificationsController::class,'create_notifications']);
+	Route::post('notifications/store', [NotificationsController::class, 'store_notifications']);
+	Route::get('notifications/edit/{id}',[NotificationsController::class,'edit_notifications']);
+	Route::post('notifications/update',[NotificationsController::class,'update_notifications']);
+	Route::get('notifications/delete/{id}',[NotificationsController::class,'delete_notifications']);
 
 });
 
