@@ -60,6 +60,24 @@
                 <label><b>Mobile</b><span style="color: red;">*</span></label>
                 <input type="number" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" data-parsley-minlength="10" data-parsley-maxlength="10" required="required">
           </div>
+          @foreach($custom_fields as $custom_field)
+          	@if($custom_field->input_type == 'radio')
+          	<div class="form-group">
+                <label><b>{{Str::title($custom_field->label??'')}}</b><span style="color: red;">*</span></label>
+              </div>
+          <div class="form-check">
+  <input class="form-check-input" type="{{$custom_field->input_type??''}}" name="{{$custom_field->input_name??''}}" id="inlineRadio1" value="male">
+  <label class="form-check-label" for="inlineRadio1">Male</label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="{{$custom_field->input_type??''}}" name="{{$custom_field->input_name??''}}" id="inlineRadio2" value="female">
+  <label class="form-check-label" for="inlineRadio2">Female</label>
+</div>
+      @else
+
+      @endif
+
+          @endforeach
 		  
 		  
 		  <div class="form-group form-check">

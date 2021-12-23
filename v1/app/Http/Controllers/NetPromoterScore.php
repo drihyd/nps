@@ -15,6 +15,7 @@ use App\Models\QuestionOptions;
 use App\Models\SurveyAnswered;
 use App\Models\Surveys;
 use App\Models\SurveyPerson;
+use App\Models\CustomerFieldsConfigurable;
 use Illuminate\Support\Facades\Crypt;
 use Config;
 use Mail;
@@ -220,9 +221,10 @@ public function take_person_onfo($param=false)
 		$surveyid=Crypt::decryptString($param);
 		$organization_id=auth()->user()->organization_id;
 		$Surveys=Surveys::select('*')->where('id',$surveyid)->get();
+		$custom_fields=CustomerFieldsConfigurable::select('*')->where('organization_id',$organization_id)->where('is_display','yes')->get();
 		if($Surveys){		
 		$page=false;			
-		return view('frontend.survey.person_info',compact('page','Surveys'));
+		return view('frontend.survey.person_info',compact('page','Surveys','custom_fields'));
 		}else{
 		return redirect()->back()->with('error', 'Undefined survey.'); 
 		}
