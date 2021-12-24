@@ -55,7 +55,7 @@ class SurveysController extends Controller
                 "admin_user_id"=>$request->admin_user_id??'',
             ]  
         ]); 
-        return redirect(Config::get('constants.admin').'/surveys')->with('success', "Success! Details are added successfully"); 
+        return redirect(Config::get('constants.admin').'/questionnaire')->with('success', "Success! Details are added successfully"); 
     }
     public function edit_surveys($id)    {
         
@@ -85,7 +85,7 @@ class SurveysController extends Controller
                 "admin_user_id"=>$request->admin_user_id??'',
             ]
             );      
-        return redirect(Config::get('constants.admin').'/surveys')->with('success', "Success! Details are updated successfully");
+        return redirect(Config::get('constants.admin').'/questionnaire')->with('success', "Success! Details are updated successfully");
     }
     public function delete_surveys($id)
     {
