@@ -1,7 +1,7 @@
 @extends('frontend.template_v1')
 @section('title', 'Survey Step-1')
 @section('content')
-			
+
 <div class="formify_right_fullwidth align-items-center justify-content-center">
 
 <!-- <a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
@@ -60,24 +60,40 @@
                 <label><b>Mobile</b><span style="color: red;">*</span></label>
                 <input type="number" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" data-parsley-minlength="10" data-parsley-maxlength="10" required="required">
           </div>
-          @foreach($custom_fields as $custom_field)
-          	@if($custom_field->input_type == 'radio')
+         
           	<div class="form-group">
-                <label><b>{{Str::title($custom_field->label??'')}}</b><span style="color: red;">*</span></label>
-              </div>
-          <div class="form-check">
-  <input class="form-check-input" type="{{$custom_field->input_type??''}}" name="{{$custom_field->input_name??''}}" id="inlineRadio1" value="male">
-  <label class="form-check-label" for="inlineRadio1">Male</label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="{{$custom_field->input_type??''}}" name="{{$custom_field->input_name??''}}" id="inlineRadio2" value="female">
-  <label class="form-check-label" for="inlineRadio2">Female</label>
-</div>
-      @else
+                
+              
 
-      @endif
 
-          @endforeach
+
+
+
+
+ @foreach($custom_fields as $custom_field)
+          	@if($custom_field->input_type == 'radio')
+
+<div >
+  <table>
+    <tbody>
+      <tr>
+        <td><label><strong>{{Str::title($custom_field->label??'')}}</strong><span style="color: red;">*</span></label></td>
+        <td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="male"></td>
+        <td>Male</td>
+		<td width="5"></td>
+        <td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="female"></td>
+        <td>Female</td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+@else
+@endif
+@endforeach
 		  
 		  
 		  <div class="form-group form-check">
@@ -101,8 +117,8 @@
 </div>
 
 </div>
-<input type="text" name="survey_id" value="{{$Surveys[0]->id??0}}"/>
-<input type="text" name="organization_id" value="{{$Surveys[0]->organization_id??0}}"/>
+<input type="hidden" name="survey_id" value="{{$Surveys[0]->id??0}}"/>
+<input type="hidden" name="organization_id" value="{{$Surveys[0]->organization_id??0}}"/>
 </form>
 
 

@@ -264,6 +264,7 @@ public function store_survey_personinfo(Request $request){
 				"firstname"=>$request->firstname??0,
 				"email"=>$request->email??0,
 				"mobile"=>$request->phone??0,
+				"gender"=>$request->gender??null,
 				"organization_id"=>$request->organization_id??0,
 				"survey_id"=>$request->survey_id??'',
 				"logged_user_id"=>auth()->user()->id??0,
