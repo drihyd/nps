@@ -12,6 +12,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
+                        <th>Gender</th>
                         <th>Score</th>
                         <th>Date</th>
                         <th>Status</th>
@@ -26,6 +27,7 @@
                               <td>{{Str::title($response->firstname??'')}}</td>
                               <td>{{$response->email??''}}</td>
                               <td>{{$response->mobile??''}}</td>
+                              <td>{{$response->gender??''}}</td>
                               <td>{{$response->answer??0}}</td>
                               <td>{{date('F j, Y', strtotime($response->created_at??''))}}</td>
 							  

@@ -78,10 +78,11 @@
     <tbody>
       <tr>
         <td><label><strong>{{Str::title($custom_field->label??'')}}</strong><span style="color: red;">*</span></label></td>
-        <td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="male"></td>
+        <td width="5"></td>
+		<td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="male" required></td>
         <td>Male</td>
 		<td width="5"></td>
-        <td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="female"></td>
+        <td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="female" required></td>
         <td>Female</td>
 
       </tr>
