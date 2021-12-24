@@ -28,7 +28,7 @@
         <div class="col-md-5">
           <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
           <div class="form-group" id="survey_id">
-        <label for="survey_id">Survey<span class="text-red"style="color: red;">*</span></label>
+        <label for="survey_id">Questionnaire<span class="text-red"style="color: red;">*</span></label>
         <select  class="form-control" name="survey_id" id="survey_id" required="required">
           <option value="">-- Select --</option>
           @foreach($surveys_data as $survey)
