@@ -29,7 +29,7 @@
                           <tr>
                               
                               <td>{{$loop->iteration}}</td>
-                              <td>{{Str::title($group_level->role_name??'')}}</td>
+                              <td>{{$group_level->role_name??''}}</td>
                               <td>{{Str::upper($group_level->role_level??'')}}</td>
                               <td>{{Str::title($group_level->group_level_name??'')}}</td>
                               <td>
