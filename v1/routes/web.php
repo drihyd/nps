@@ -22,6 +22,8 @@ use App\Http\Controllers\DesignationlevelsController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\SlaConfigurationController;
 use App\Http\Controllers\CustomerFieldsConfigurableController;
+use App\Http\Controllers\SendSMSController; 
+
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +40,9 @@ use App\Http\Controllers\CustomerFieldsConfigurableController;
 //     return view('welcome');
 // });
 
+/** SMS **/
+
+Route::get('send-sms', [SendSMSController::class, 'index']);
 
 Route::get('/send-markdown-mail', [MailController::class, 'sendOfferMail']);
 Route::any('/net_promoter_score',[NetPromoterScore::class, 'nps_login']);
