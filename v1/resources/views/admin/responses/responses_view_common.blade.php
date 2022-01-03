@@ -18,11 +18,13 @@
                     <table class="responses-table">
                         <tbody>
                             @foreach($person_responses_data as $person_response)
+                            @if($person_response->answeredby_person != '')
                             <tr>
-                                <td><b>{{Str::title($person_response->option_value??'')}}</b></td>
-                                <td>too</td>
+                                <td><b>{{$person_response->option_value??''}}</b></td>
+                                <td>{{Str::title($person_response->department_activities??'')}}</td>
                                 <td>{{Str::title($person_response->answeredby_person??'')}}</td>
                             </tr>
+                            @endif
                              @endforeach
                             <!-- <tr>
                                 <td><b>House Keeping</b></td>

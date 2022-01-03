@@ -17,28 +17,24 @@
 
                     @if($person_responses_status->ticket_status=="opened")
                     <h6 class="badge badge-danger">{{$person_responses_status->ticket_status}}</h6>
-                    @elseif($person_responses_status->ticket_status=="completed")
+                    @elseif($person_responses_status->ticket_status=="closed_satisfied" || $person_responses_status->ticket_status=="closed_unsatisfied")
                     <h6 class="badge badge-success">{{$person_responses_status->ticket_status}}</h6>
+                    <p><b>Remarks:</b>{{$person_responses_status->ticket_remarks??''}}</p>
                     @else
                     <h6 class="badge badge-primary">{{$person_responses_status->ticket_status}}</h6>
+                    <p><b>Remarks: </b>{{$person_responses_status->ticket_remarks??''}}</p>
                     @endif                                            
                     
                     <p class="mb-0">{{ date('G:i A.', strtotime($person_responses_status->created_at??'')) }} - {{date('F j, Y', strtotime($person_responses_status->created_at??''))}}</p>
                 </div>
             </div>
             @endforeach
-            <!-- <div class="activities-history-list">
-                <div class="activities-history-item">
-                    <h6>Received confirmation from marketing manager.</h6>
-                    <p class="mb-0">11:00 AM - 3 Oct, 2019</p>
-                </div>
-            </div>
             <div class="activities-history-list">
                 <div class="activities-history-item">
-                    <h6>Zoe Updated quick start guide for development process.</h6>
-                    <p class="mb-0">09:25 PM - 27 Sep, 2019</p>
+                    <h6 class="badge badge-danger">Opened</h6>
+                    <p class="mb-0">{{ date('G:i A.', strtotime($person_responses_data[0]->created_at??'')) }} - {{date('F j, Y', strtotime($person_responses_data[0]->created_at??''))}}</p>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>

@@ -184,11 +184,17 @@ class ResponsesController extends Controller
         $person_data= SurveyPerson::where('organization_id',Auth::user()->organization_id)->where('id',$person_id)->get()->first();
 
         $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
-        ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
         ->where('survey_answered.organization_id',Auth::user()->organization_id)
         ->where('survey_answered.person_id',$person_id)
-        ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
+        ->get(['survey_answered.*','question_options.option_value as option_value']);
+        // $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
+        // ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
+        // ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
+        // ->join('departments', 'departments.id', '=', 'question_options.department_id')
+        // ->where('survey_answered.organization_id',Auth::user()->organization_id)
+        // ->where('survey_answered.person_id',$person_id)
+        // ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value','departments.department_name as department_name']);
         // dd($person_data);
         $person_responses_status_data = UpdateStatusResponseLog::where('logged_user_id',Auth::user()->id)->where('person_id',$person_id)->orderBy('created_at','DESC')->get();
         // dd($person_responses_status_data);

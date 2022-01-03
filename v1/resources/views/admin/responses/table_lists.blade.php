@@ -36,7 +36,7 @@
 							  
 									@if($response->ticket_status=="opened")
 									<span class="badge badge-danger">{{$response->ticket_status??''}}</span>
-									@elseif($response->ticket_status=="completed")
+									@elseif($response->ticket_status=="closed_satisfied" || $response->ticket_status=="closed_unsatisfied" )
 									<span class="badge badge-success">{{$response->ticket_status??''}}</span>
 									@else
 									<span class="badge badge-primary">{{$response->ticket_status??''}}</span>
