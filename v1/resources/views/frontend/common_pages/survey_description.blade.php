@@ -6,7 +6,8 @@ $surveys_data=DB::table('surveys')->where('organization_id',Auth::user()->organi
 @endif
 
 <div class="formify_header">
-<h4 class="form_title"></h4>
-<p>{{$surveys_data->description??''}}</p>
+<h5 class="form_title" style="font-size:18px;">
+Questionnaire: {{$surveys_data->title??''}}
+</h5>
 <div class="border ml-0"></div>
 </div>

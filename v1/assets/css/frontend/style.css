@@ -1844,26 +1844,25 @@ select {
 
 /* Labels for checked inputs */
 input:checked + label {
-  color: red;
+  
   width:20px;
 }
 
 /* Radio element, when checked */
 input[type="radio"]:checked {
-  box-shadow: 0 0 0 3px orange;
+
   width:20px;
 }
 
 /* Checkbox element, when checked */
 input[type="checkbox"]:checked {
-  box-shadow: 0 0 0 3px hotpink;
+ 
   width:20px;
 }
 
 /* Option elements, when selected */
 option:checked {
-  box-shadow: 0 0 0 3px lime;
-  color: red;
+  box-shadow: 0 0 0 3px lime;  
   font-size:20px;
 }
 

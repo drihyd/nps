@@ -3,11 +3,7 @@
 @section('content')
 
 
-@php
 
-use App\Models\Surveys;
-$Surveys=Surveys::select('*')->where('id',Session::get('survey_id')??0)->get()->first();
-@endphp
 	
        
 			
@@ -24,12 +20,12 @@ $Surveys=Surveys::select('*')->where('id',Session::get('survey_id')??0)->get()->
 
 
 <div class="formify_box formify_box_checkbox background-white">
-<h3>{{$Surveys->title??''}}</h3>
+
 
 @if(auth()->user())
 @include('frontend.common_pages.survey_description')
 @else
-	<p>To improve your experiences, can you please help us by answering these simple questions in the survey.</p>
+	
 @endif
 <br>
 <div class="tab-content" id="myTabContent">
@@ -157,7 +153,7 @@ else{
 @endforeach
 @if(isset($value->activities) && $value->activities->count()>0)
 	<div class="mt-3">
-<input required type="checkbox" name="first_activities[]" class="btn btn-scale btn-scale-asc-2" value="Any Other">Any Other
+<input type="checkbox" id="option_checkboxes" name="first_activities[]" class="btn btn-scale btn-scale-asc-2" value="Any Other">Any Other
 </div>	
 
 @endif
@@ -167,9 +163,9 @@ else{
 
 
 	@if($value->qoptionid==21)		
-	<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control"></textarea>	
+	<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" id="answerdbyperson_checkboxes"></textarea>	
 	@else
-		<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" required></textarea>
+		<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" id="answerdbyperson_checkboxes" @if(isset($value->activities) && $value->activities->count()>0)  @else required @endif></textarea>
 	@endif
 		
 		
@@ -246,6 +242,32 @@ else{
 @endsection
 
 @push('scripts')
+
+
+
+<script type="text/javascript">
+
+
+
+
+	$(document).ready(function(){
+    $('#option_checkboxes').change(function(){
+		
+		
+        if($(this).prop('checked') === true){			
+			$('#answerdbyperson_checkboxes').attr('required', true);	
+
+        }else{			
+			$('#answerdbyperson_checkboxes').attr('required', false); 			
+            
+        }
+    });
+});
+	
+	
+
+
+</script>
 
 
 @endpush
