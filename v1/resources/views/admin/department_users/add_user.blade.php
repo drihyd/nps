@@ -24,7 +24,7 @@
         <div class="col-md-5">
           <div class="form-group">
             <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
-            <label><b>Role</b><span style="color: red;">*</span></label>
+            <label><b>Designation</b><span style="color: red;">*</span></label>
             <select class="form-control" name="role" id="role" required="required">
               <option value="">-- Select --</option>
               @foreach($user_type_data as $usertype)
@@ -33,6 +33,27 @@
               @endforeach
             </select>
           </div>
+		  
+		  <div class="form-group">
+             
+			
+			@include('masters.departments', ['department' =>$users_data->department??'','is_required'=>""])
+			
+			
+			
+          </div>
+		  
+		   <div class="form-group">
+		   
+		   
+		      @include('masters.users', ['existvalue' =>$users_data->reportingto??'','is_required'=>""])
+		   
+		   
+		   
+                
+               
+          </div>
+		  
           <div class="form-group">
             <label><b>Full Name</b><span style="color: red;">*</span></label>
             <input type="text" class="form-control" name="firstname" value="{{old('firstname',$users_data->firstname??'')}}" required="required" />
@@ -54,13 +75,10 @@
         </div>
         <div class="col-md-5">
           <div class="form-group">
-                <label><b>Mobile</b><span style="color: red;">*</span></label>
+                <label><b>Mobile (Enter 10 digits mobile number)</b><span style="color: red;">*</span></label>
                 <input type="text" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" >
           </div>
-          <div class="form-group">
-                <label><b>Report to</b><span style="color: red;">*</span></label>
-                <input type="email" name="report_to" id="title" class="form-control" value="{{old('report_to',$users_data->report_to??'')}}" required="required" >
-          </div>
+         
       <div class="form-group">
         <label><b>Status</b><span style="color: red;">*</span></label>
       </div>

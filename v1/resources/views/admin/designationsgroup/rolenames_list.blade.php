@@ -1,5 +1,5 @@
 @extends('admin.template_v1')
-@section('title', 'Designation Roles')
+@section('title', 'Designation')
 @section('content')
 <div class="row">
     <!-- Start col -->
@@ -18,8 +18,8 @@
                     <tr>
                         <th>S.No</th>
                         <th>Name</th>
-                        <th>Role</th>
-                        <th>Designation</th>
+                        <th>Sub Level</th>
+                        <th>Parent Level</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -31,7 +31,7 @@
                               <td>{{$loop->iteration}}</td>
                               <td>{{$group_level->role_name??''}}</td>
                               <td>{{Str::upper($group_level->role_level??'')}}</td>
-                              <td>{{Str::title($group_level->group_level_name??'')}}</td>
+                              <td>{{Str::title($group_level->alias??'')}}</td>
                               <td>
 							  
 							  <a href="{{url(Config::get('constants.admin').'/designation_roles/edit/'.Crypt::encryptString($group_level->id))}}" class="edit mr-2" title="Edit" ><i class="feather icon-edit-2"></i></a>

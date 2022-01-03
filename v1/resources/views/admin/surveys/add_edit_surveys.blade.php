@@ -36,12 +36,13 @@
             <label><b>Descripton</b><span style="color: red;">*</span></label>
             <textarea class="form-control" name="description" required="required" maxlength="250" rows="3">{{old('description',$surveys_data->description??'')}}</textarea>
           </div>
-          <div class="form-group">
-        <label><b>Is Open</b><span style="color: red;">*</span></label>
-      </div>
+          
       <div class="form-group">
+	  
+	  <label><b>Is Open</b><span style="color: red;">*</span></label>&nbsp;&nbsp;
         <input type="radio" class="rdbtn"  name="isopen" value="yes" {{ old('isopen',$surveys_data->isopen??'') == 'yes'?'checked':'checked'}}/>
         <label>On</label>
+		&nbsp;&nbsp;
         <input type="radio" class="rdbtn" name="isopen" value="no" required="required"    {{ old('isopen',$surveys_data->isopen??'') == 'no'?'checked':''}}/>
         <label>Off</label>
       </div>

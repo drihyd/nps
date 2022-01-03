@@ -45,6 +45,9 @@ use App\Http\Controllers\SendSMSController;
 Route::get('send-sms', [SendSMSController::class, 'index']);
 
 Route::get('/send-markdown-mail', [MailController::class, 'sendOfferMail']);
+Route::get('/trigger_escalation_mails', [NetPromoterScore::class, 'trigger_escalation_mails']);
+
+
 Route::any('/net_promoter_score',[NetPromoterScore::class, 'nps_login']);
 Route::any('/nps_score_factor_count',[NetPromoterScore::class, 'nps_score_factor_count']);
 Route::any('/',[NetPromoterScore::class, 'nps_login']);
@@ -145,6 +148,17 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::post('questions_options/update',[QuestionsOptionsController::class,'update_questions_options']);
 	Route::get('questions_options/delete/{id}',[QuestionsOptionsController::class,'delete_questions_options']);
 	/*Admin Activities*/
+	
+	
+	
+	/*Admin Activities*/
+	Route::get('activities', [ActivitiesController::class,'activities_list']);
+	Route::get('activities/create', [ActivitiesController::class,'create_activities']);
+	Route::post('activities/store', [ActivitiesController::class, 'store_activities']);
+	Route::get('activities/edit/{id}',[ActivitiesController::class,'edit_activities']);
+	Route::post('activities/update',[ActivitiesController::class,'update_activities']);
+	Route::get('activities/delete/{id}',[ActivitiesController::class,'delete_activities']);
+	
 	Route::get('customer_fields_configurables', [CustomerFieldsConfigurableController::class,'customer_fields_configurables_list']);
 	Route::get('customer_fields_configurables/create', [CustomerFieldsConfigurableController::class,'create_customer_fields_configurables']);
 	Route::post('customer_fields_configurables/store', [CustomerFieldsConfigurableController::class, 'store_customer_fields_configurables']);

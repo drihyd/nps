@@ -53,6 +53,7 @@ class DesignationlevelsController extends Controller
                 "name"=>$request->name??'',
                 "alias"=>$request->alias??'',
                 "organization_id"=>$request->organization_id??'',
+                "esc_minitues"=>$request->esc_minitues??0,
             ]  
         ]); 
         return redirect(Config::get('constants.admin').'/designations')->with('success', "Success! Details are added successfully"); 
@@ -81,6 +82,7 @@ class DesignationlevelsController extends Controller
                 "name"=>$request->name??'',
                 "alias"=>$request->alias??'',
                 "organization_id"=>$request->organization_id??'',
+				"esc_minitues"=>$request->esc_minitues??0,
             ]
             );      
         return redirect(Config::get('constants.admin').'/designations')->with('success', "Success! Details are updated successfully");
@@ -97,7 +99,7 @@ class DesignationlevelsController extends Controller
 
        
         
-        $group_level_data=RoleLevel::join('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')->orderBy('role_levels.designation_id')->where('role_levels.organization_id',Auth::user()->organization_id)->get(['role_levels.*','group_levels.name as group_level_name']);
+        $group_level_data=RoleLevel::join('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')->orderBy('role_levels.designation_id')->where('role_levels.organization_id',Auth::user()->organization_id)->get(['role_levels.*','group_levels.name as group_level_name','group_levels.alias as alias']);
         $pageTitle="Designation Levels";      
         $addlink=url(Config::get('constants.admin').'/designation_levels/create');     
         return view('admin.designationsgroup.rolelevel_list', compact('pageTitle','group_level_data','addlink'))
@@ -171,7 +173,7 @@ class DesignationlevelsController extends Controller
     public function designation_roles_list()
     {   
 
-        $group_level_data=RoleNames::leftjoin('role_levels', 'role_names.designation_role_id', '=', 'role_levels.id')->leftjoin('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')->where('role_names.organization_id',Auth::user()->organization_id)->get(['role_levels.*','role_names.*','group_levels.name as group_level_name']);
+        $group_level_data=RoleNames::leftjoin('role_levels', 'role_names.designation_role_id', '=', 'role_levels.id')->leftjoin('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')->where('role_names.organization_id',Auth::user()->organization_id)->get(['role_levels.*','role_names.*','group_levels.name as group_level_name','group_levels.alias as alias']);
         $pageTitle="Designation Roles";      
         $addlink=url(Config::get('constants.admin').'/designation_roles/create');     
         return view('admin.designationsgroup.rolenames_list', compact('pageTitle','group_level_data','addlink'))

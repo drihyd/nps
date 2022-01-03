@@ -22,7 +22,7 @@ class MailController extends Controller
 		
 		
 		
-       $email = 'venkatyadav.1986@gmail.com';
+       $email = 'venkat@deepredink.com';
         $offer = [
             'title' => 'Deals of the Day',
             'url' => 'https://www.remotestack.io'

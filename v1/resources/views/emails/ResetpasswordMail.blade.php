@@ -1,5 +1,5 @@
 @component('mail::message')
-<h1>Reset Password</h1>
+<h1>Login Credentials</h1>
 Dear {{$content['name']??'Hello'}}<br><br>
 #Login Username: {{$content['email']}}<br>
 #Login Password: {{$content['password']}}<br>

@@ -1,8 +1,8 @@
 @extends('admin.template_v1')
 @if(isset($questions_data->id))
-@section('title', 'Edit Designation Level')
+@section('title', 'Edit a Sub Level')
 @else
-@section('title', 'Add Designation Level')
+@section('title', 'Add a Sub Level')
 @endif
 @section('content')
   <div class="row">
@@ -30,7 +30,7 @@
         <div class="col-md-5">
           <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
           <div class="form-group" id="survey_id">
-        <label for="survey_id">Designations<span class="text-red"style="color: red;">*</span></label>
+        <label for="survey_id">Level<span class="text-red"style="color: red;">*</span></label>
         <select  class="form-control" name="designation_id" id="designation_id" required="required">
           <option value="">-- Select --</option>
           @foreach($designations_data as $designation)
@@ -41,7 +41,7 @@
       </div>
           
           <div class="form-group">
-            <label><b>Level</b><span style="color: red;">*</span><small>(Example: TM1)</small></label>
+            <label><b>Sub Level</b><span style="color: red;">*</span><small>(Example: TM1)</small></label>
             <input type="text" class="form-control" name="role_level" value="{{old('role_level',$group_level_data->role_level??'')}}" required="required" data-parsley-pattern="/^[a-z\d\-_\s]+$/i"/>
           </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>

@@ -73,15 +73,15 @@
  @foreach($custom_fields as $custom_field)
           	@if($custom_field->input_type == 'radio')
 
-<div >
+<div>
   <table>
     <tbody>
       <tr>
-        <td><label><strong>{{Str::title($custom_field->label??'')}}</strong><span style="color: red;">*</span></label></td>
+        <td><strong>{{Str::title($custom_field->label??'')}}<span style="color: red;">*</span></strong></td>
         <td width="5"></td>
 		<td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="male" required></td>
         <td>Male</td>
-		<td width="5"></td>
+		<td width="10"></td>
         <td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="female" required></td>
         <td>Female</td>
 

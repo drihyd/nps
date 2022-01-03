@@ -1,5 +1,5 @@
 @extends('admin.template_v1')
-@section('title', 'Designations')
+@section('title', 'Levels')
 @section('content')
 <div class="row">
     <!-- Start col -->
@@ -18,7 +18,8 @@
                     <tr>
                         <th>S.No</th>
                         <th>Name</th>
-                        <th>Alias</th>
+                        <th>Level Code</th>
+                        <th>SLA Minutes</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -30,6 +31,7 @@
                               <td>{{$loop->iteration}}</td>
                               <td>{{Str::title($group_level->name??'')}}</td>
                               <td>{{Str::title($group_level->alias??'')}}</td>
+                              <td>{{Str::title($group_level->esc_minitues??'')}}</td>
                               <td>
 							  
 							  <a href="{{url(Config::get('constants.admin').'/designations/edit/'.Crypt::encryptString($group_level->id))}}" class="edit mr-2" title="Edit" ><i class="feather icon-edit-2"></i></a>

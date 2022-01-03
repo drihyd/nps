@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Crypt;
 use Config;
 use Mail;
 use App\Mail\FeedbackSurvey;
+use App\Mail\TicketOpened;
 
 class NetPromoterScore extends Controller
 {
@@ -187,7 +188,7 @@ class NetPromoterScore extends Controller
 		if(auth()->user()){
 			
 		$organization_id=auth()->user()->organization_id;
-		$Surveys=Surveys::select('*')->where('organization_id',$organization_id??0)->get();	
+		$Surveys=Surveys::select('*')->where('organization_id',$organization_id??0)->where('isopen','yes')->get();	
 		$page=false;			
 		return view('frontend.survey.survey_names',compact('page','Surveys'));
 		}
@@ -562,6 +563,21 @@ else{
 		
 		
 		
+				
+		if($Questions->count()==0)			
+		{			
+			$get_person_answered=SurveyAnswered::where('person_id',Session::get('person_id'))->get();
+			
+			foreach($get_person_answered as $key=>$value){				
+				if($value->question_id==1 && $value->rating<=6){				
+				$this->send_ticket_opened_mail(Session::get('person_id'));				
+				break;					
+				}
+				
+			}		
+			
+		}
+		
 		return view('frontend.survey.first_question',compact('page','Questions','selected_departments','departments'));
 		
 	
@@ -680,6 +696,132 @@ public function checking_ticket_action($score=false) {
 return $status;
 	
 }
+
+
+
+public function send_ticket_status_emails($status=false,$person_id=false) {
+
+
+	switch ($status) {
+  case 'hold':
+    $color='btn btn-sm btn-info';
+    break;
+	  case 'placed':
+     $color='btn btn-sm btn-success';
+    break;
+  case 'confirmed':
+    $color='btn btn-sm btn-primary';
+    break;
+	 case 'opened':
+	$this->send_ticket_opened_mail($person_id);
+    break;
+	case 'delivered':
+   $color='btn btn-sm btn-light';
+    break;		 
+	case 'dispatched':
+	$this->send_order_dispatched_mail($ordernumber);
+    break;  
+	case 'cancelled':
+   $color='btn btn-dark';
+    break;	
+  default:
+  $color='btn btn-sm btn-primary';
+}
+
+
+	
+}
+
+
+
+
+
+
+public function send_ticket_opened_mail($person_id=null){
+	
+	if($person_id){			
+		
+		 $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
+        ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
+        ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
+        ->where('survey_answered.organization_id',Auth::user()->organization_id)
+        ->where('survey_answered.person_id',$person_id)
+        ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
+		
+		$person_data= SurveyPerson::where('organization_id',Auth::user()->organization_id)->where('id',$person_id)->get()->first();
+		
+		
+		
+		
+		$users_data=User::select('users.reportingto as reportingto')                 
+            ->where('users.id',auth()->user()->id??0)       
+            ->get()->first(); 
+			
+			
+			
+			
+			
+					$reportingto=User::select('users.email as email')                 
+            ->where('users.id',$users_data->reportingto??0)       
+            ->get()->first(); 
+			
+		
+		
+		
+		$mail_params = [
+		'data' =>$person_responses_data??'',
+		'person_data' =>$person_data??'',
+		];
+		
+	
+		if(isset($reportingto->email)){	
+				try{
+				Mail::to($person_data->email)->send(new TicketOpened($mail_params));
+				}catch (\Exception $exception) {
+				}
+		
+		}
+	}
+	
+	
+}
+
+
+public function trigger_escalation_mails(){
+	
+	
+	
+	$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
+        ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
+        ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
+        ->where('survey_answered.organization_id',Auth::user()->organization_id)
+        ->where('survey_answered.ticket_status','!=','completed')
+        ->where('survey_answered.question_id','=',1)
+        ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
+		
+		
+		
+		
+		
+		
+		
+		
+		$to = \Carbon\Carbon::now()->toDateString();
+$from = \Carbon\Carbon::createFromFormat('Y-m-d', '2021-12-30');
+
+
+$diff_in_minutes = $to->diffInMinutes($from);
+print_r($diff_in_minutes); // Output: 20
+
+
+
+
+
+		
+dd($person_responses_data);
+	
+}
+
     
     
 }

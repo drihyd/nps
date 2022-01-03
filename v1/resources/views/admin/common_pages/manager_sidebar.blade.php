@@ -53,12 +53,12 @@
 </li>
 <li>
 <a href="javaScript:void();">
-<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Group Levels</span><i class="feather icon-chevron-right pull-right"></i>
+<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Designation Levels</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
-<li class="{{ (request()->is(Config::get('constants.admin').'/designations')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/designations')}}">Designations</a></li>
-<li class="{{ (request()->is(Config::get('constants.admin').'/designation_levels')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/designation_levels')}}">Designation Levels</a></li>
-<li class="{{ (request()->is(Config::get('constants.admin').'/designation_roles')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/designation_roles')}}">Designation Roles</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/designations')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/designations')}}">Levels</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/designation_levels')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/designation_levels')}}">Sub Levels</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/designation_roles')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/designation_roles')}}">Designations</a></li>
 </ul>
 </li>
 
@@ -73,7 +73,7 @@
 
 <li class="{{ (request()->is(Config::get('constants.admin').'/questions')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questions')}}">Questions</a></li>
 
-<li class="{{ (request()->is(Config::get('constants.admin').'/sla_configurations')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/sla_configurations')}}">SLA Configurations</a></li>
+<!--<li class="{{ (request()->is(Config::get('constants.admin').'/sla_configurations')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/sla_configurations')}}">SLA Configurations</a></li>-->
 <li class="{{ (request()->is(Config::get('constants.admin').'/customer_fields_configurables')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/customer_fields_configurables')}}">Customer Fields</a></li>
 <!--<li class="{{ (request()->is(Config::get('constants.admin').'/questions_options')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questions_options')}}">Questions Options</a></li>-->
 </ul>

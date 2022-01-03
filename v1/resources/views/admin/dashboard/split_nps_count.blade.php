@@ -90,7 +90,7 @@ $totalcount=$Promoters+$Passives+$Detractors;
 									
 									
 									@if($totalcount==0)
-										<img src="{{URL::to('assets/icons/sad.svg')}}" style="width:45px" alt="sad"/>
+										<img src="{{URL::to('assets/icons/moderate.svg')}}" style="width:45px" alt="sad"/>
 									@else
 										
 									@if($value=="p")									

@@ -1,8 +1,8 @@
 @extends('admin.template_v1')
 @if(isset($questions_data->id))
-@section('title', 'Edit Designation Role')
+@section('title', 'Edit a Designation')
 @else
-@section('title', 'Add Designation Role')
+@section('title', 'Add a Designation')
 @endif
 @section('content')
   <div class="row">
@@ -30,7 +30,7 @@
         <div class="col-md-5">
           <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
           <div class="form-group" id="survey_id">
-        <label for="survey_id">Designations<span class="text-red"style="color: red;">*</span></label>
+        <label for="survey_id">Parent Level<span class="text-red"style="color: red;">*</span></label>
         <select  class="form-control" name="designation_id" id="designation" required="required">
           <option value="">-- Select --</option>
           @foreach($designations_data as $key => $designation)
@@ -40,7 +40,7 @@
         </select>
       </div>
       <div class="form-group">
-      <label for="designation_level">Designation level:</label>
+      <label for="designation_level">Sub level:</label>
       <select name="designation_role_id" id="designation_level" class="form-control"></select>
     </div>
           <div class="form-group">

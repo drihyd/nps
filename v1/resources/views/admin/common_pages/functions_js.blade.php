@@ -60,7 +60,7 @@ $(".gst").change(function () {
                     backgroundColor: ["#228B22","#ffa800","#ff654d"],
                     label: 'Dataset 1'
                 }],
-                labels: ['Promoters : '+{{$final_score->Promoters??0}},'Passvies: '+{{$final_score->Neutral??0}},'Detractors :'+{{$final_score->Detractors??0}}]
+                labels: ['Promoters : '+{{$final_score->Promoters??0}},'Passives: '+{{$final_score->Neutral??0}},'Detractors :'+{{$final_score->Detractors??0}}]
             },
             options: {
                 responsive: true,  

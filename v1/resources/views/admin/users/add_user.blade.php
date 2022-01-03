@@ -22,7 +22,7 @@
       <div class="row">
         <div class="col-md-5">
           <div class="form-group">
-            <label><b>Role</b><span style="color: red;">*</span></label>
+            <label><b>Designation</b><span style="color: red;">*</span></label>
             <select class="form-control" name="role" id="role" required="required">
               <option value="">-- Select --</option>
               @foreach($user_type_data as $usertype)
