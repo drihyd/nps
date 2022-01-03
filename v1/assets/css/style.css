@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*
 ---------------------
-	: CSS Table :
+  : CSS Table :
 ---------------------
 1. Custom Variables
 2. Custom General
@@ -35230,3 +35230,32 @@ input[type="checkbox"]:checked::before{
 .parsley-type{
   text-align: left;
 }
+
+
+.responses-table td{
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+}
+
+
+.nps-score-div{
+    text-align: center;
+    background: #ddd;
+    padding: 10px;
+    border: 1px solid #000;
+    color: #000;
+
+}
+.nps-score{
+    font-size: 50px;
+    color: #000;
+}
+
+.nps-score-details p{
+    margin-bottom: 2px;
+}
+
+
+
+
+

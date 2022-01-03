@@ -16,11 +16,11 @@
         <select name="ticket_status" class="form-control" required="required">
       <option value="opened" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'opened'? 'selected':''}}>Opened</option>
 
-      <option value="on_hold" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'on_hold'? 'selected':''}}>On Hold</option>
-      <option value="awaiting_reply" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'awaiting_reply'? 'selected':''}}>Awaiting Reply</option>
-      <option value="completed" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'completed'? 'selected':''}}>Completed</option>
-      <option value="accetped" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'accetped'? 'selected':''}}>Accetped</option>
-      <option value="action_taken" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'action_taken'? 'selected':''}}>Action taken</option>
+      <option value="phone_ringing_no_response" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'phone_ringing_no_response'? 'selected':''}}>Phone Ringing - No Response</option>
+      <option value="connected_refused_to_talk" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'connected_refused_to_talk'? 'selected':''}}>Connected - Refused to talk</option>
+      <option value="connected_asked_for_call_back" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'connected_asked_for_call_back'? 'selected':''}}>Connected - Asked for call back</option>
+      <option value="closed_satisfied" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'closed_satisfied'? 'selected':''}}> Closed - Satisfied</option>
+      <option value="closed_unsatisfied" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'closed_unsatisfied'? 'selected':''}}>Closed - Unsatisfied</option>
 
 </select>
       </div>
