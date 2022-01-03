@@ -68,7 +68,7 @@ $departments=$departments??'';
 
 @csrf
  
-<div class="box_info">
+<div class="box_info ml-3 mt-3">
 
 
 <div class="container pl-sm-0">
@@ -119,25 +119,71 @@ $departments=$departments??'';
 
 
 
+<!--- Display Activity -->
+
+@php
+
+if($departments){
+	
+	$departments=$departments;
+	
+}
+else{
+	$departments=[];
+}
+
+@endphp
 
 	@foreach($departments as $key=>$value)
-	<div class="ml-3 mt-3">
-		<label>{{str_replace("*teamname*",$value->qpvalue??'',$Questions[0]->qlabel??'')}}</label><br>
+	<div>
+	
+	
+	@if($value->qoptionid==21)		
+	{{$value->qpvalue??''}}	(Optional)	
+	@else
+		<label >{{str_replace("*teamname*",$value->qpvalue??'',$Questions[0]->qlabel??'')}}</label>	
+	@endif
+		
+		
+
+		
+		@foreach($value->activities as $akey=>$avalue)
+<div class="mt-3">
+<input required type="checkbox" name="first_activities[]" class="btn btn-scale btn-scale-asc-2" value="{{$avalue->activity_name}}">{{$avalue->activity_name}}
+</div>
+@endforeach
+@if(isset($value->activities) && $value->activities->count()>0)
+	<div class="mt-3">
+<input required type="checkbox" name="first_activities[]" class="btn btn-scale btn-scale-asc-2" value="Any Other">Any Other
+</div>	
+
+@endif
+		
 	
 		<input type="hidden" name="first_questin_range"  value="{{$value->qoptionid}}">
-		
+
+
+	@if($value->qoptionid==21)		
+	<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control"></textarea>	
+	@else
 		<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" required></textarea>
+	@endif
+		
+		
+	
+	
 	</div>
 	@endforeach
 	
-	
-		<div class="ml-3 mt-3">
+	<!--
+		<div class="mt-3">
 		<label>Any other (optional)</label><br>
 	
 		<input type="hidden" name="first_questin_range"  value="21">
 		
 		<textarea name="answerdbyperson[21]" class="form form-control"></textarea>
 	</div>
+	-->
 	
 	
 <input type="hidden"  name="is_pick_slider" value="0">

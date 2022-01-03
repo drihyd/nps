@@ -21,6 +21,7 @@ use Config;
 use Mail;
 use App\Mail\FeedbackSurvey;
 use App\Mail\TicketOpened;
+use App\Models\Activities;
 
 class NetPromoterScore extends Controller
 {
@@ -415,6 +416,8 @@ public function first_question($param=false)
 		$page=false;		
 	
 	
+	//dd($nextquestion);
+	
 	
 	if(empty($request->organization_id) || empty($request->survey_id) || empty($request->question_id))
 	{
@@ -434,6 +437,9 @@ public function first_question($param=false)
 	if(is_array($request->first_questin_range))
 	{
 		
+	
+		$remove_exist_person=DB::table('passing_departments')->where('person_id',Session::get('person_id')??0)->delete();
+		
 		foreach($request->first_questin_range as $key=>$value){			
 		$first_questionans=SurveyAnswered::insert([
             [
@@ -448,17 +454,61 @@ public function first_question($param=false)
 				"logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
             ]  
         ]); 
+		
+		
+		if($key==0){
+			$sorting="ready";
+		}
+		else{
+			$sorting="no";
+		}
+		
+DB::table('passing_departments')->insert(
+[
+'person_id' => Session::get('person_id')??0, 
+'sorting' =>$key,
+'department_id' => $value,
+'passing_page' =>$sorting,
+
+]
+);
+
 			
 		}
+		
+		
+		DB::table('passing_departments')->insert(
+[
+'person_id' => Session::get('person_id')??0, 
+'sorting' =>30,
+'department_id' => 21,
+'passing_page' =>"no",
+
+]
+);
+
 		
 		$selected_departments=$request->first_questin_range??'';
 		
 		
-		
 
-$departments = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
-->whereIn('id', $selected_departments)
-->get();
+	$firstdata=DB::table('passing_departments')->where('person_id',Session::get('person_id')??0)->where('passing_page','!=','passed')->first(); 
+
+	$departments = QuestionOptions::select('question_options.department_id as department_id','question_options.option_value as qpvalue','question_options.id as qoptionid')
+		->whereIn('id', $selected_departments)
+		->where('question_options.id',$firstdata->department_id??0)
+		->get();
+		
+		
+	foreach($departments as $key=>$value){			
+		$departments[$key]->activities=Activities::select('activity_name as activity_name','id as activityid')
+		->where('department_id', $value->department_id)
+		->get();
+		
+		}
+		
+		
+		
 		
 
 	
@@ -470,7 +520,13 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 			
 			
 			
+
+			
+			
 		foreach($request->answerdbyperson as $key=>$value){
+			
+			
+			
 
 			$first_questionans=SurveyAnswered::insert([
 			[
@@ -483,13 +539,44 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 			"answeredby_person"=>$value??'',
 			 "person_id"=>Session::get('person_id')??0,
 			 "logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
+			 "department_activities"=>implode(",",$request->first_activities??[]),
 			]  
 			]); 
+			
+			
+/* Passing departments*/		
+DB::table('passing_departments')->where('person_id',Session::get('person_id')??0)->where('department_id',$key??0)->update(array(
+'passing_page'=>'passed',
+));
+			
 
 
 		}
 					
 	
+	$selected_departments=$request->first_questin_range??'';
+	
+	$firstdata=DB::table('passing_departments')->where('person_id',Session::get('person_id')??0)->where('passing_page','!=','passed')->first(); 
+	
+	
+	$departments = QuestionOptions::select('question_options.department_id as department_id','question_options.option_value as qpvalue','question_options.id as qoptionid')
+		
+		->where('question_options.id',$firstdata->department_id??0)
+		->get();
+		
+		
+		foreach($departments as $key=>$value){			
+		$departments[$key]->activities=Activities::select('activity_name as activity_name','id as activityid')
+		->where('department_id', $value->department_id)
+		->get();
+		
+		}
+		
+		
+		
+		
+	
+
 			
 		}
 		else{
@@ -498,6 +585,8 @@ $departments = QuestionOptions::select('question_options.option_value as qpvalue
 
 
 if($request->is_pick_slider){	
+
+$remove_exist_person=DB::table('passing_departments')->where('person_id',Session::get('person_id')??0)->delete();
 
 Session::put('rating',$request->first_questin_range);
 
@@ -540,16 +629,43 @@ else{
         ]);	
 	
 }
+
+
+$selected_departments='';
+		$departments='';
+		
+		
+		
 		
 		}
 
 		
-		$selected_departments='';
-		$departments='';
+		
 		
 	}
 		
 		
+		
+		
+		
+		
+		$firstdata=DB::table('passing_departments')->where('person_id',Session::get('person_id')??0)->where('passing_page','!=','passed')->first(); 
+		
+		
+		
+		
+		
+		if(isset($firstdata->passing_page)){
+			
+			if(Session::get('rating')<=6){
+				$nextquestion=7;
+			}
+			else if(Session::get('rating')>=7 && Session::get('rating')<=8){
+				$nextquestion=6;				
+			}
+			else{				
+				$nextquestion=5;
+			}
 		$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$nextquestion)->get();		 
 		foreach ($Questions as $key => $value) {
 		$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
@@ -557,6 +673,24 @@ else{
 		->get();	
 		}	
 		
+		
+		
+		}
+		else{
+			
+			$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$nextquestion)->get();		 
+		foreach ($Questions as $key => $value) {
+		$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
+		->where('question_id', $value->qid)
+		->get();	
+		}
+		
+		
+		
+		
+			
+		}
+
 		
 		
 		
@@ -575,6 +709,13 @@ else{
 				}
 				
 			}		
+			
+		}
+		
+		if($departments){
+			
+		}
+		else{
 			
 		}
 		
