@@ -432,7 +432,7 @@ public function first_question($param=false)
 		
 		
 	/* Duplicate answered question */
-	$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id??Session::get('logged_user_id'))->where('person_id',Session::get('person_id'))->delete();
+	
 	
 	if(is_array($request->first_questin_range))
 	{
@@ -440,7 +440,12 @@ public function first_question($param=false)
 	
 		$remove_exist_person=DB::table('passing_departments')->where('person_id',Session::get('person_id')??0)->delete();
 		
-		foreach($request->first_questin_range as $key=>$value){			
+		foreach($request->first_questin_range as $key=>$value){	
+		
+		
+		
+		$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id??Session::get('logged_user_id'))->where('person_id',Session::get('person_id'))->where('answerid',$value??0)->delete();
+		
 		$first_questionans=SurveyAnswered::insert([
             [
                 "organization_id"=>$request->organization_id??0,
@@ -472,6 +477,9 @@ DB::table('passing_departments')->insert(
 
 ]
 );
+
+
+
 
 			
 		}
@@ -526,7 +534,7 @@ DB::table('passing_departments')->insert(
 		foreach($request->answerdbyperson as $key=>$value){
 			
 			
-			
+			$delete_exist_answered=SurveyAnswered::where('question_id',$request->question_id)->where('survey_id',$request->survey_id)->where('organization_id',$request->organization_id)->where('logged_user_id',auth()->user()->id??Session::get('logged_user_id'))->where('person_id',Session::get('person_id'))->where('answerid',$key??0)->delete();
 
 			$first_questionans=SurveyAnswered::insert([
 			[
@@ -549,6 +557,9 @@ DB::table('passing_departments')->where('person_id',Session::get('person_id')??0
 'passing_page'=>'passed',
 ));
 			
+
+
+
 
 
 		}

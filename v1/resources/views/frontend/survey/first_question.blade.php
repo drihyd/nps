@@ -3,9 +3,11 @@
 @section('content')
 
 
+@php
 
-
-	
+use App\Models\Surveys;
+$Surveys=Surveys::select('*')->where('id',Session::get('survey_id')??0)->get()->first();
+@endphp
 	
        
 			
@@ -22,6 +24,7 @@
 
 
 <div class="formify_box formify_box_checkbox background-white">
+<h3>{{$Surveys->title??''}}</h3>
 
 @if(auth()->user())
 @include('frontend.common_pages.survey_description')
