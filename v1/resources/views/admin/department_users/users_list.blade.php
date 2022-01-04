@@ -22,6 +22,7 @@
                         <!-- <th>Decrypt Password</th> -->
                         <th>Phone</th>
                         <th>Role</th>
+                        <th>Designation</th>
                       
                         <th>Actions</th>
                     </tr>
@@ -37,6 +38,7 @@
                               <!--<td>{{$user->decrypt_password??''}}</td> -->
                               <td>{{$user->phone??''}}</td>
                               <td>{{$user->ut_name??''}}</td>
+                              <td>{{$user->designation_name??''}}</td>
                               
                            
                               

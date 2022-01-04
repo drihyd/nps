@@ -24,12 +24,23 @@
         <div class="col-md-5">
           <div class="form-group">
             <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
-            <label><b>Designation</b><span style="color: red;">*</span></label>
+            <label><b>Parent Role</b><span style="color: red;">*</span></label>
             <select class="form-control" name="role" id="role" required="required">
               <option value="">-- Select --</option>
               @foreach($user_type_data as $usertype)
 
                 <option value="{{$usertype->id??''}}" {{ old('role',$users_data->role??'') == $usertype->id ? 'selected':''}}>{{ucwords($usertype->name??'')}}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
+            <label><b>Designation</b><span style="color: red;">*</span></label>
+            <select class="form-control" name="designation_id" id="role" required="required">
+              <option value="">-- Select --</option>
+              @foreach($group_level_data as $group_level)
+
+                <option value="{{$group_level->id??''}}" {{ old('designation_id',$users_data->designation_id??'') == $group_level->id ? 'selected':''}}>{{ucwords($group_level->name??'')}}</option>
               @endforeach
             </select>
           </div>

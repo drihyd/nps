@@ -80,13 +80,13 @@
             <input type="number" class="form-control" name="mobile" value="{{old('mobile',$notifications_data->mobile??'')}}" />
           </div>
           <div class="form-group">
-        <label><b>Is Active</b><span style="color: red;">*</span></label>
+        <label><b>Is Active?</b><span style="color: red;">*</span></label>
       </div>
       <div class="form-group">
         <input type="radio" class="rdbtn"  name="is_active" value="yes" {{ old('is_active',$questions_data->is_active??'') == 'yes'?'checked':'checked'}}/>
-        <label>On</label>
+        <label>Yes</label>
         <input type="radio" class="rdbtn" name="is_active" value="no" required="required"    {{ old('is_active',$questions_data->is_active??'') == 'no'?'checked':''}}/>
-        <label>Off</label>
+        <label>No</label>
       </div>
         </div> 
         </form> 

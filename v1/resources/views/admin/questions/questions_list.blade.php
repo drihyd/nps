@@ -19,7 +19,7 @@
                         <th>S.No</th>
                         <th>Questionnaire</th>
                         <th>Label</th>
-                        <th>Is Active</th>
+                        <th>Is Active?</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

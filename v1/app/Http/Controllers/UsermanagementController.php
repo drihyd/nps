@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\GroupLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -282,8 +283,9 @@ class UsermanagementController extends Controller
     {   
         
 		
-            $users_data=User::select('users.*','user_types.name as ut_name')
+            $users_data=User::select('users.*','user_types.name as ut_name','group_levels.name as designation_name')
             ->leftjoin('user_types','user_types.id','=','users.role')       
+            ->leftjoin('group_levels','group_levels.id','=','users.designation_id')       
             ->whereNotIn('users.role',[1,2])       
             ->where('users.organization_id',auth()->user()->organization_id??0)       
             ->Orderby('users.created_at','desc')       
@@ -298,7 +300,8 @@ class UsermanagementController extends Controller
         
         $pageTitle="Add User";
         $user_type_data=DB::table('user_types')->whereNotIn('user_types.id',[1,2])->get();
-        return view('admin.department_users.add_user',compact('pageTitle','user_type_data')); 
+        $group_level_data=GroupLevel::where('organization_id',Auth::user()->organization_id)->get();
+        return view('admin.department_users.add_user',compact('pageTitle','user_type_data','group_level_data')); 
             
     }
     public function department_store_user(Request $request)
@@ -308,6 +311,7 @@ class UsermanagementController extends Controller
          'firstname' => 'required|min:1|max:100',       
          'email' => 'required|email|unique:users,email',        
          'role' => 'required',
+         'designation_id' => 'required',
          'phone' => 'required',
          'is_active_status' => 'required',
          'password' => 'sometimes|nullable',
@@ -329,6 +333,7 @@ class UsermanagementController extends Controller
         User::insert([
             [
                 "organization_id"=>$request->organization_id,
+                "designation_id"=>$request->designation_id,
                 "firstname"=>$request->firstname,
                 "role"=>$request->role,
                 "email"=>$request->email,
@@ -414,10 +419,11 @@ $str.='</html>';
         $user_id=Crypt::decryptString($id);
 
             $users_data=User::where("id",$user_id)->get()->first();
+            $group_level_data=GroupLevel::where('organization_id',Auth::user()->organization_id)->get();
             
              $user_type_data=DB::table('user_types')->get();
             $pageTitle="Edit User";     
-            return view('admin.department_users.add_user',compact('pageTitle','users_data','user_type_data'));
+            return view('admin.department_users.add_user',compact('pageTitle','users_data','user_type_data','group_level_data'));
 
     }
     public function department_update_user(Request $request)
@@ -426,6 +432,7 @@ $str.='</html>';
          'firstname' => 'required',       
          'email' => 'required|email',        
          'role' => 'required',
+         'designation_id' => 'required',
          'phone' => 'required',
          'is_active_status' => 'required',
          'password' => 'sometimes|nullable',
@@ -438,6 +445,7 @@ $str.='</html>';
                 "organization_id"=>$request->organization_id,
                 "firstname"=>$request->firstname,
                 "role"=>$request->role,
+                "designation_id"=>$request->designation_id,
                 "email"=>$request->email,
                 // "password"=> Hash::make($decrypt_password),
                 // "decrypt_password"=>$decrypt_password,

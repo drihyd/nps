@@ -22,7 +22,10 @@
                       @foreach ($Data as $response)  
                           <tr>
                               <td>{{$loop->iteration}}</td>
+
                               <td>{{Str::title($response->firstname??'')}}<br>{{$response->email??''}}<br>{{$response->mobile??''}}</td>
+
+
                               <td>{{Str::title($response->gender??'')}}</td>
                               <td>{{$response->answer??0}}</td>
                               <td>{{date('F j, Y', strtotime($response->created_at??''))}}</td>
@@ -31,11 +34,16 @@
 							  <p class="font-15 mb-0">
 							  
 									@if($response->ticket_status=="opened")
-									<span class="badge badge-danger">{{$response->ticket_status??''}}</span>
-									@elseif($response->ticket_status=="closed_satisfied" || $response->ticket_status=="closed_unsatisfied" )
-									<span class="badge badge-success">{{$response->ticket_status??''}}</span>
+									<span class="badge badge-danger">Opened</span>
+									@elseif($response->ticket_status== "phone_ringing_no_response")
+									<span class="badge badge-primary">Phone Ringing - No Response</span>
+									@elseif($response->ticket_status=="connected_refused_to_talk")
+									<span class="badge badge-primary">Connected - Refused to talk</span>@elseif($response->ticket_status=="connected_asked_for_call_back")
+									<span class="badge badge-primary">Connected - Asked for call back</span>@elseif($response->ticket_status=="closed_satisfied")
+									<span class="badge badge-success">Closed - Satisfied</span>
+									@elseif($response->ticket_status=="closed_unsatisfied")
+									<span class="badge badge-success">Closed - Unsatisfied</span>
 									@else
-									<span class="badge badge-primary">{{$response->ticket_status??''}}</span>
 									@endif
 							  
 							  </p>
@@ -45,13 +53,13 @@
 							  
                               <td>    
                               @if(Auth::user()->role==2)         
-							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-edit-2"></i></a>
+							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>
                                 <a href="{{url(Config::get('constants.admin').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
                                 @elseif(Auth::user()->role==3)
-								                  <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-edit-2"></i></a>
+								                  <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>
                                 <a href="{{url(Config::get('constants.user').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
                                 @elseif(Auth::user()->role==4)
-                                <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-edit-2"></i></a>
+                                <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>
                                 <a href="{{url(Config::get('constants.user').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
                                 @else
 

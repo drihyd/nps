@@ -39,12 +39,12 @@
           
       <div class="form-group">
 	  
-	  <label><b>Is Open</b><span style="color: red;">*</span></label>&nbsp;&nbsp;
+	  <label><b>Is Active?</b><span style="color: red;">*</span></label>&nbsp;&nbsp;
         <input type="radio" class="rdbtn"  name="isopen" value="yes" {{ old('isopen',$surveys_data->isopen??'') == 'yes'?'checked':'checked'}}/>
-        <label>On</label>
+        <label>Yes</label>
 		&nbsp;&nbsp;
         <input type="radio" class="rdbtn" name="isopen" value="no" required="required"    {{ old('isopen',$surveys_data->isopen??'') == 'no'?'checked':''}}/>
-        <label>Off</label>
+        <label>No</label>
       </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
       <a href="{{url(Config::get('constants.admin').'/questionnaire')}}" class="btn btn-danger btn-sm">Back</a>
