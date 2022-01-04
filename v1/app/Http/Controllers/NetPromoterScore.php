@@ -993,7 +993,7 @@ public function trigger_escalation_mails(){
 				->get()
 				->first();
 				
-				echo $escllations->alias."---".$sno."---".$value->rating.'----'.$minutes."-----".$value->created_at."<br>";
+				//echo $escllations->alias."---".$sno."---".$value->rating.'----'.$minutes."-----".$value->created_at."<br>";
 				
 				
 				if($escllations->alias=="L3"){					
