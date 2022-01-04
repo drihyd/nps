@@ -22,6 +22,7 @@ use Mail;
 use App\Mail\FeedbackSurvey;
 use App\Mail\TicketOpened;
 use App\Mail\HodMails;
+use App\Mail\EsclationMails;
 use App\Models\Activities;
 use App\Models\Departments;
 
@@ -937,56 +938,8 @@ public function send_ticket_opened_mail($person_id=null){
 		}		
 		}
 		
-		
-		foreach($person_responses_data as $key=>$value){
-			
-			if($value->answeredby_person!=''){
-				
-				$get_dep=Departments::select('id','department_name')->where("organization_id",$value->organization_id)->where("department_name",$value->option_value)->get()->first();
-	
-				
-				if($get_dep){
-					
-					$reporting_hod_dep=User::select('users.email as email')                 
-					->where('users.department',$get_dep->id??0)       
-					->where('users.organization_id',$value->organization_id??0)					       
-					->get()->first();
-		
-			if($get_dep->department_name==$value->option_value){
-				
-				if(isset($reporting_hod_dep))
-				{
-					
-					if(isset($reporting_hod_dep->email)){	
-					try{
-
-					$mail_params = [
-					'Dep_name' =>$value->option_value??'',
-					'Dep_activities' =>$value->department_activities??'',
-					'Dep_note' =>$value->answeredby_person??'',
-					'person_data' =>$person_data??'',
-					'nps_score' =>$value->rating??'',
-					];
-
-					Mail::to($reporting_hod_dep->email)->send(new HodMails($mail_params));
-					}catch (\Exception $exception) {
-					}		
-					}			
-				}
-}
-
-
-					
-					
-					
-					
-				
-				}
-				
-				
-			}
-			
-		}
+		/** Trigger HOD mail **/
+		$this->trigger_hod_mail($person_id,Auth::user()->organization_id);
 		
 		
 		
@@ -1031,25 +984,165 @@ public function trigger_escalation_mails(){
 				$now = date('Y-m-d H:i:s'); // get current time 
 				$a = strtotime($value->created_at); 
 				$b = strtotime($now);		
-				$minutes = ceil(($b - $a) / 60);		
-				$escllations=DB::table('group_levels')->select()->wherenotIn('alias',['L1','L2'])->orderby('alias','asc')->get();
-				echo $sno."---".$value->rating.'----'.$minutes."-----".$value->created_at."<br>";			
+				$minutes = ceil(($b - $a) / 60);	
+				
+				$escllations=DB::table('group_levels')
+				->select('alias')
+				->wherenotIn('alias',['L1','L2'])
+				->where('esc_minitues', '<', $minutes)			
+				->get()
+				->first();
+				
+				echo $escllations->alias."---".$sno."---".$value->rating.'----'.$minutes."-----".$value->created_at."<br>";
+				
+				
+				if($escllations->alias=="L3"){					
+					/** Trigger HOD Escllation mail **/
+					
+					$this->trigger_hod_mail($value->person_id,$value->organization_id);					
+				}				
+				else if($escllations->alias=="L4"){					
+					/** Trigger Operational Escllation mail **/
+					
+					
+					$reportingto=User::select('users.email as email')                 
+					->where('users.role',5)       
+					->get(); 
+					
+					
+					foreach($reportingto as $key1=>$value1){
+					$this->trigger_escal_mail($value->person_id,$value->organization_id,$value1->email);
+					}
+
+					
+				}				
+				else if($escllations->alias=="L5"){	
+
+					/** Trigger Unit Head Escllation mail **/
+					
+					
+					$reportingto=User::select('users.email as email')                 
+					->where('users.role',6)       
+					->get(); 
+					
+					
+					foreach($reportingto as $key1=>$value1){
+					$this->trigger_escal_mail($value->person_id,$value->organization_id,$value1->email);
+					}
+					
+					
+					
+				}
+				else{
+					
+				}
+				
+				
+				
+				
+			
+
+				
 				$sno++;
 			
 			}
+		}		
+		
+	
+}
+
+
+public function trigger_hod_mail($person_id=false,$organization_id=false){
+	
+	
+	
+	   $person_data= SurveyPerson::where('organization_id',$organization_id)->where('id',$person_id)->get()->first();
+	
+
+		$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
+		->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
+		->where('survey_answered.organization_id',$organization_id)
+		->where('survey_answered.person_id',$person_id)
+		->get(['survey_answered.*','question_options.option_value as option_value']);
+	
+	
+	
+	
+	
+	foreach($person_responses_data as $key=>$value){
+			
+			if($value->answeredby_person!=''){
+				
+				$get_dep=Departments::select('id','department_name')->where("organization_id",$value->organization_id)->where("department_name",$value->option_value)->get()->first();
+	
+				
+				if($get_dep){
+					
+					$reporting_hod_dep=User::select('users.email as email')                 
+					->where('users.department',$get_dep->id??0)       
+					->where('users.organization_id',$value->organization_id??0)					       
+					->get()->first();
+		
+						if($get_dep->department_name==$value->option_value)
+						{
+
+							if(isset($reporting_hod_dep))
+							{
+
+								if(isset($reporting_hod_dep->email)){	
+								try{
+									$mail_params = [
+									'Dep_name' =>$value->option_value??'',
+									'Dep_activities' =>$value->department_activities??'',
+									'Dep_note' =>$value->answeredby_person??'',
+									'person_data' =>$person_data??'',
+									'nps_score' =>$value->rating??'',
+									];
+
+									Mail::to($reporting_hod_dep->email)->send(new HodMails($mail_params));
+									}catch (\Exception $exception) {
+									}		
+								}			
+							}
+						}
+
+				}
+				
+				
+			}
+			
 		}
-		
-		
+	
+	
+	
+}
 
-
-		
-
-
-
-
-
-		
-
+public function trigger_escal_mail($person_id=false,$organization_id=false,$reportingto=false){
+	
+	
+	
+	$person_data= SurveyPerson::where('organization_id',$organization_id)->where('id',$person_id)->get()->first();
+	
+	
+	$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
+	->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
+	->where('survey_answered.organization_id',$organization_id)
+	->where('survey_answered.person_id',$person_id)
+	->get(['survey_answered.*','question_options.option_value as option_value']);	
+	
+	
+	$mail_params = [
+	'data' =>$person_responses_data??'',
+	'person_data' =>$person_data??'',
+	];
+	
+	
+	if(isset($reportingto)){	
+	try{
+	Mail::to($reportingto)->send(new EsclationMails($mail_params));
+	}catch (\Exception $exception) {
+	}		
+	}
 	
 }
 
