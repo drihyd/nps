@@ -24,7 +24,7 @@ class ActivitiesController extends Controller
 
        
         
-        $activities_data=Activities::join('departments', 'activities.department_id', '=', 'departments.id')->where('activities.organization_id',Auth::user()->organization_id)->get(['activities.*', 'departments.department_name']);
+        $activities_data=Activities::join('departments', 'activities.department_id', '=', 'departments.id')->where('activities.organization_id',Auth::user()->organization_id)->orderBy('departments.department_name','ASC')->get(['activities.*', 'departments.department_name']);
         $pageTitle="Activities";      
         $addlink=url(Config::get('constants.admin').'/activities/create');     
         return view('admin.activities.activities_list', compact('pageTitle','activities_data','addlink'))

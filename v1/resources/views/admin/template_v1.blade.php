@@ -287,11 +287,14 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     $(document).ready(function() {
     /* -- Table - Datatable -- */
     $('#datatable').DataTable({
-        responsive: true
+        responsive: true,
+		"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+		
     });
     $('#default-datatable').DataTable( {
         "order": [[ 3, "desc" ]],
-        responsive: true
+        responsive: true,
+		"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
     } );    
     var table = $('#datatable-buttons').DataTable({
         lengthChange: false,
@@ -299,6 +302,10 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     });
     table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+	
+	
+	
+	
 });
 </script>
 
