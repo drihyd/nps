@@ -1,5 +1,5 @@
 @component('mail::message')
-<h2>NPS Score/Rating: {{Str::title($content['data'][0]->option_value??'')}} </h2>
+<h2>NPS Score/Rating: {{Str::title($content['nps_score']??'')}} </h2>
 Name: {{Str::title($content['person_data']->firstname??'')}}<br> 
 Mobile: {{Str::title($content['person_data']->mobile??'')}}<br>
 Email: {{Str::title($content['person_data']->email??'')}}<br>
@@ -7,15 +7,13 @@ Feedback Date: {{date('F j, Y', strtotime($content['person_data']->created_at??'
 <h3>Areas of Improvement.</h3>
 <table colspan=2 cellpadding=2 style="border-collapse: collapse;width: 100%;" border="border-collapse" >
 <tbody>
-@foreach($content['data'] as $person_response)
-@if($person_response->answeredby_person != '')
+
 <tr>
-<td><b>{{$person_response->option_value??''}}</b></td>
-<td>{{Str::title($person_response->department_activities??'')}}</td>
-<td>{{Str::title($person_response->answeredby_person??'')}}</td>
+<td><b>{{Str::title($content['Dep_name']??'')}}</b></td>
+<td>{{Str::title($content['Dep_activities']??'')}}</td>
+<td>{{Str::title($content['Dep_note']??'')}}</td>
 </tr>
-@endif
-@endforeach					
+				
 </tbody>
 </table><br>
 

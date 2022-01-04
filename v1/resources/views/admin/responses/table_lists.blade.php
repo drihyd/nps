@@ -9,12 +9,10 @@
                 <thead class="thead-dark">
                     <tr>
                          <th>S.No</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
+                        <th>Customer</th>      
                         <th>Gender</th>
                         <th>Score</th>
-                        <th>Date</th>
+                        <th>Feedback Date</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -24,9 +22,10 @@
                       @foreach ($Data as $response)  
                           <tr>
                               <td>{{$loop->iteration}}</td>
-                              <td>{{Str::title($response->firstname??'')}}</td>
-                              <td>{{$response->email??''}}</td>
-                              <td>{{$response->mobile??''}}</td>
+
+                              <td>{{Str::title($response->firstname??'')}}<br>{{$response->email??''}}<br>{{$response->mobile??''}}</td>
+
+
                               <td>{{Str::title($response->gender??'')}}</td>
                               <td>{{$response->answer??0}}</td>
                               <td>{{date('F j, Y', strtotime($response->created_at??''))}}</td>
