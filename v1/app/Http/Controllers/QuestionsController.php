@@ -19,13 +19,35 @@ use Config;
 
 class QuestionsController extends Controller
 {
-    public function questions_list()
+    public function questions_list(Request $request)
     {   
         
-        $questions_data=Questions::leftjoin('surveys', 'questions.survey_id', '=', 'surveys.id')->where('questions.organization_id',Auth::user()->organization_id)->get(['questions.*','surveys.title as survey_title']);
+        if($request->question_id) {                    
+                $Question=Questions::select()
+                ->where('survey_id',$request->question_id)
+                ->pluck('id');  
+                }       
+                else{
+                $Question='';
+                
+                
+                }
+
+
+
+        $questions_data=Questions::leftjoin('surveys', 'questions.survey_id', '=', 'surveys.id')
+        ->where('questions.organization_id',Auth::user()->organization_id)
+        ->where(function($questions_data) use ($Question){   
+            if($Question){       
+                $questions_data->whereIn('questions.survey_id',$Question);                
+            }
+            })
+        ->get(['questions.*','surveys.title as survey_title']);
+        $surveys_data=Surveys::where('organization_id',Auth::user()->organization_id)->get();
         $pageTitle="Questions";      
-        $addlink=url(Config::get('constants.admin').'/questions/create');     
-        return view('admin.questions.questions_list', compact('pageTitle','questions_data','addlink'))
+        $addlink=url(Config::get('constants.admin').'/questions/create'); 
+        $quetion=$request->question_id??'';    
+        return view('admin.questions.questions_list', compact('pageTitle','questions_data','addlink','surveys_data','quetion'))
         ->with('i', (request()->input('page', 1) - 1) * 5);
             
         

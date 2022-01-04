@@ -59,6 +59,7 @@ Route::get('session.logout', [LoginController::class,'logout'])->name('session.l
 
 Route::any('filter.responses', [ResponsesController::class,'response_list'])->name('filter.responses');
 
+Route::any('filter.questions', [QuestionsController::class,'questions_list'])->name('filter.questions');
 
 
 

@@ -9,7 +9,21 @@
              <div class="card-header">
                 <h5 class="card-title">@yield('title')</h5>
             </div>
+
+            
             <div class="card-body">
+                <form class="form-inline" action="{{route('filter.questions')}}" method="post">
+@csrf
+@include('admin.common_pages.surveys',['quetion'=>$quetion??''])
+&nbsp;
+@include('admin.common_pages.action_button')
+&nbsp;
+<div class="form-group mb-2">
+<a href="{{url(Config::get('constants.admin').'/questions')}}">Clear filter</a>
+
+</div>
+
+</form>
 			
           <div class="table-responsive">
         
@@ -17,7 +31,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
-                        <th>Questionnaire</th>
+                        <!-- <th>Questionnaire</th> -->
                         <th>Label</th>
                         <th>Is Active?</th>
                         <th>Actions</th>
@@ -29,9 +43,9 @@
                           <tr>
                               
                               <td>{{$loop->iteration}}</td>
-                              <td>{{Str::title($question->survey_title??'')}}</td>
+                              <!-- <td>{{Str::title($question->survey_title??'')}}</td> -->
                               <td>{{Str::title($question->label??'')}}</td>
-                              <td>{{$question->active??''}}</td>
+                              <td>{{Str::title($question->active??'')}}</td>
                               
                            
                               
