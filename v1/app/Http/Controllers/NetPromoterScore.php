@@ -929,12 +929,12 @@ public function send_ticket_opened_mail($person_id=null){
 		
 
 	
-if(isset($reportingto->email)){	
-try{
-//Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
-}catch (\Exception $exception) {
-}		
-}
+		if(isset($reportingto->email)){	
+		try{
+		Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
+		}catch (\Exception $exception) {
+		}		
+		}
 		
 		
 		foreach($person_responses_data as $key=>$value){
@@ -942,8 +942,7 @@ try{
 			if($value->answeredby_person!=''){
 				
 				$get_dep=Departments::select('id','department_name')->where("organization_id",$value->organization_id)->where("department_name",$value->option_value)->get()->first();
-				
-				echo $get_dep->id;
+	
 				
 				if($get_dep){
 					
@@ -951,35 +950,31 @@ try{
 					->where('users.department',$get_dep->id??0)       
 					->where('users.organization_id',$value->organization_id??0)					       
 					->get()->first();
-dd($reporting_hod_dep);
-					
-					
-				
-					
-					
-					if($get_dep->department_name==$value->option_value){
-					
-			if(isset($reporting_hod_dep->email)){	
-			try{
-				
-				$mail_params = [
-				'data' =>$person_responses_data??'',
-				'person_data' =>$person_data??'',
-				];
 		
-			//Mail::to($reportingto->email)->send(new HodMails($mail_params));
-			}catch (\Exception $exception) {
-			}		
-			}
+			if($get_dep->department_name==$value->option_value){
+				
+				if(isset($reporting_hod_dep))
+				{
+					
+					if(isset($reporting_hod_dep->email)){	
+					try{
 
+					$mail_params = [
+					'Dep_name' =>$value->option_value??'',
+					'Dep_activities' =>$value->department_activities??'',
+					'Dep_note' =>$value->answeredby_person??'',
+					'person_data' =>$person_data??'',
+					'nps_score' =>$value->rating??'',
+					];
 
-
+					Mail::to($reporting_hod_dep->email)->send(new HodMails($mail_params));
+					}catch (\Exception $exception) {
+					}		
+					}			
+				}
 }
 
-					
-					
-					echo $value->option_value."----".$value->department_activities."----".$value->answeredby_person;
-					echo "<br>";
+
 					
 					
 					
@@ -1010,7 +1005,7 @@ public function trigger_escalation_mails(){
 	$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
-        ->where('survey_answered.organization_id',Auth::user()->organization_id)
+        ->where('survey_answered.organization_id',Auth::user()->organization_id??0)
         ->where('survey_answered.ticket_status','!=','completed')
         ->where('survey_answered.question_id','=',1)
         ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
@@ -1019,22 +1014,19 @@ public function trigger_escalation_mails(){
 		
 		
 		
-		
-		
-		
-		$to = \Carbon\Carbon::now()->toDateString();
-$from = \Carbon\Carbon::createFromFormat('Y-m-d', '2021-12-30');
 
 
-$diff_in_minutes = $to->diffInMinutes($from);
-print_r($diff_in_minutes); // Output: 20
+		$now = \Carbon\Carbon::now()->toDateString(); // get current time 
+		$b = strtotime($now); 
+		$a = strtotime("2022-01-04 12:12:22");
+		$minutes = ceil(($a - $b) / 3600); 
 
 
 
 
 
 		
-dd($person_responses_data);
+dd($minutes);
 	
 }
 
