@@ -21,7 +21,9 @@ use Config;
 use Mail;
 use App\Mail\FeedbackSurvey;
 use App\Mail\TicketOpened;
+use App\Mail\HodMails;
 use App\Models\Activities;
+use App\Models\Departments;
 
 class NetPromoterScore extends Controller
 {
@@ -714,8 +716,8 @@ $selected_departments='';
 			$get_person_answered=SurveyAnswered::where('person_id',Session::get('person_id'))->get();
 			
 			foreach($get_person_answered as $key=>$value){				
-				if($value->question_id==1 && $value->rating<=6){				
-				$this->send_ticket_opened_mail(Session::get('person_id'));				
+				if($value->question_id==1 && $value->rating<=6){
+				$this->send_ticket_status_emails("opened",Session::get('person_id'));			
 				break;					
 				}
 				
@@ -891,31 +893,29 @@ public function send_ticket_status_emails($status=false,$person_id=false) {
 
 public function send_ticket_opened_mail($person_id=null){
 	
-	if($person_id){			
+	if($person_id){		
 		
-		 $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
-        ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
+		$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
         ->where('survey_answered.organization_id',Auth::user()->organization_id)
         ->where('survey_answered.person_id',$person_id)
-        ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
+        ->get(['survey_answered.*','question_options.option_value as option_value']);	
+		
 		
 		$person_data= SurveyPerson::where('organization_id',Auth::user()->organization_id)->where('id',$person_id)->get()->first();
 		
-		
-		
-		
+				
 		$users_data=User::select('users.reportingto as reportingto')                 
-            ->where('users.id',auth()->user()->id??0)       
-            ->get()->first(); 
-			
-			
-			
-			
-			
-					$reportingto=User::select('users.email as email')                 
-            ->where('users.id',$users_data->reportingto??0)       
-            ->get()->first(); 
+		->where('users.id',auth()->user()->id??0)       
+		->get()->first(); 
+
+
+
+
+
+		$reportingto=User::select('users.email as email')                 
+		->where('users.id',$users_data->reportingto??0)       
+		->get()->first(); 
 			
 		
 		
@@ -925,14 +925,78 @@ public function send_ticket_opened_mail($person_id=null){
 		'person_data' =>$person_data??'',
 		];
 		
-	
-		if(isset($reportingto->email)){	
-				try{
-				Mail::to($person_data->email)->send(new TicketOpened($mail_params));
-				}catch (\Exception $exception) {
-				}
 		
+		
+
+	
+if(isset($reportingto->email)){	
+try{
+//Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
+}catch (\Exception $exception) {
+}		
+}
+		
+		
+		foreach($person_responses_data as $key=>$value){
+			
+			if($value->answeredby_person!=''){
+				
+				$get_dep=Departments::select('id','department_name')->where("organization_id",$value->organization_id)->where("department_name",$value->option_value)->get()->first();
+				
+				echo $get_dep->id;
+				
+				if($get_dep){
+					
+					$reporting_hod_dep=User::select('users.email as email')                 
+					->where('users.department',$get_dep->id??0)       
+					->where('users.organization_id',$value->organization_id??0)					       
+					->get()->first();
+dd($reporting_hod_dep);
+					
+					
+				
+					
+					
+					if($get_dep->department_name==$value->option_value){
+					
+			if(isset($reporting_hod_dep->email)){	
+			try{
+				
+				$mail_params = [
+				'data' =>$person_responses_data??'',
+				'person_data' =>$person_data??'',
+				];
+		
+			//Mail::to($reportingto->email)->send(new HodMails($mail_params));
+			}catch (\Exception $exception) {
+			}		
+			}
+
+
+
+}
+
+					
+					
+					echo $value->option_value."----".$value->department_activities."----".$value->answeredby_person;
+					echo "<br>";
+					
+					
+					
+					
+				
+				}
+				
+				
+			}
+			
 		}
+		
+		
+		
+		
+		
+		
 	}
 	
 	
