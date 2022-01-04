@@ -1,5 +1,5 @@
 
-        <div class="card m-b-30">
+        <div class="card m-b-30" style="min-height: 372px;">
             <div class="card-body">
                 <div class="row">
                     <div class="col-3">

@@ -18,7 +18,7 @@
                     <tr>
                         <th>S.No</th>
                         <th>Name</th>
-                        <th>Is Display</th>
+                        <th>Is Active?</th>
                       
                         <th>Actions</th>
                     </tr>
@@ -30,8 +30,11 @@
                               
                               <td>{{$loop->iteration}}</td>
                               <td>{{Str::title($user->department_name??'')}}</td>
-                              <td>{{$user->is_display??''}}</td>
-                              
+                              @if($user->is_display == "on")
+                              <td>Yes</td>
+                              @else
+                              <td>No</td>
+                              @endif
                            
                               
                               <td>

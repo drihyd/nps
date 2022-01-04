@@ -65,13 +65,13 @@
             <input type="text" class="form-control" name="input_id" value="{{old('input_id',$customer_fields_configurables_data->input_id??'')}}" required="required"/>
           </div>
           <div class="form-group">
-        <label><b>Is Display</b><span style="color: red;">*</span></label>
+        <label><b>Is Active?</b><span style="color: red;">*</span></label>
       </div>
       <div class="form-group">
         <input type="radio" class="rdbtn"  name="is_display" value="yes" {{ old('is_display',$customer_fields_configurables_data->is_display??'') == 'yes'?'checked':'checked'}}/>
-        <label>On</label>
+        <label>Yes</label>
         <input type="radio" class="rdbtn" name="is_display" value="no" required="required"    {{ old('is_display',$customer_fields_configurables_data->is_display??'') == 'no'?'checked':''}}/>
-        <label>Off</label>
+        <label>No</label>
       </div>
         </div> 
         </form> 

@@ -20,7 +20,7 @@
                         <th>Label</th>
                         <th>Input Type</th>
                         <th>Input Name</th>
-                        <th>Is Display</th>
+                        <th>Is Active?</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

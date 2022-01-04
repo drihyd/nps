@@ -58,7 +58,7 @@
 </select>
       </div>
           <div class="form-group">
-        <label><b>Is Active</b><span style="color: red;">*</span></label>
+        <label><b>Is Active?</b><span style="color: red;">*</span></label>
       </div>
       <div class="form-group">
         <input type="radio" class="rdbtn"  name="active" value="yes" {{ old('active',$questions_data->active??'') == 'yes'?'checked':'checked'}}/>

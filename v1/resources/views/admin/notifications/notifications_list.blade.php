@@ -18,7 +18,7 @@
                     <tr>
                         <th>S.No</th>
                         <th>Gateway</th>
-                        <th>Is Active</th>
+                        <th>Is Active?</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

@@ -32,13 +32,13 @@
             <input type="text" class="form-control" name="department_name" value="{{old('department_name',$departments_data->department_name??'')}}" required="required" data-parsley-pattern="/^[a-z\d\-_\s]+$/i"/>
           </div>
           <div class="form-group">
-        <label><b>Is Display</b><span style="color: red;">*</span></label>
+        <label><b>Is Active?</b><span style="color: red;">*</span></label>
       </div>
       <div class="form-group">
         <input type="radio" class="rdbtn"  name="is_display" value="on" {{ old('is_display',$departments_data->is_display??'') == 'on'?'checked':'checked'}}/>
-        <label>On</label>
+        <label>Yes</label>
         <input type="radio" class="rdbtn" name="is_display" value="off" required="required"    {{ old('is_display',$departments_data->is_display??'') == 'off'?'checked':''}}/>
-        <label>Off</label>
+        <label>No</label>
       </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
       <a href="{{url(Config::get('constants.admin').'/departments')}}" class="btn btn-danger btn-sm">Back</a>

@@ -19,7 +19,7 @@
                         <th>S.No</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Is Open</th>
+                        <th>Is Active?</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
