@@ -25,6 +25,7 @@ use App\Mail\HodMails;
 use App\Models\Activities;
 use App\Models\Departments;
 
+
 class NetPromoterScore extends Controller
 {
 
@@ -1001,32 +1002,54 @@ public function send_ticket_opened_mail($person_id=null){
 public function trigger_escalation_mails(){
 	
 	
-	
-	$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
-        ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
+
+		
+		
+		$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
-        ->where('survey_answered.organization_id',Auth::user()->organization_id??0)
-        ->where('survey_answered.ticket_status','!=','completed')
-        ->where('survey_answered.question_id','=',1)
-        ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
+        ->where('survey_answered.organization_id',Auth::user()->organization_id)       
+		->wherenotIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied'])
+		->orderBy('survey_answered.created_at','asc')
+        ->get(['survey_answered.*','question_options.option_value as option_value']);	
 		
 		
 		
 		
 		
+		
+		
+		
+		
+		$sno=1;
+		
+		foreach($person_responses_data as $key=>$value){
+			
+			
+			if($value->answeredby_person!=''){
+
+				
+				$now = date('Y-m-d H:i:s'); // get current time 
+				$a = strtotime($value->created_at); 
+				$b = strtotime($now);		
+				$minutes = ceil(($b - $a) / 60);		
+				$escllations=DB::table('group_levels')->select()->wherenotIn('alias',['L1','L2'])->orderby('alias','asc')->get();
+				echo $sno."---".$value->rating.'----'.$minutes."-----".$value->created_at."<br>";			
+				$sno++;
+			
+			}
+		}
+		
+		
 
 
-		$now = \Carbon\Carbon::now()->toDateString(); // get current time 
-		$b = strtotime($now); 
-		$a = strtotime("2022-01-04 12:12:22");
-		$minutes = ceil(($a - $b) / 3600); 
+		
 
 
 
 
 
 		
-dd($minutes);
+
 	
 }
 
