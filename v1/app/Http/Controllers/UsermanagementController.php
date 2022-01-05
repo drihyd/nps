@@ -283,9 +283,10 @@ class UsermanagementController extends Controller
     {   
         
 		
-            $users_data=User::select('users.*','user_types.name as ut_name','group_levels.name as designation_name')
+            $users_data=User::select('users.*','user_types.name as ut_name','group_levels.name as designation_name','departments.department_name as dname')
             ->leftjoin('user_types','user_types.id','=','users.role')       
-            ->leftjoin('group_levels','group_levels.id','=','users.designation_id')       
+            ->leftjoin('group_levels','group_levels.id','=','users.designation_id')
+            ->leftJoin('departments','departments.id', '=', 'users.department')       
             ->whereNotIn('users.role',[1,2])       
             ->where('users.organization_id',auth()->user()->organization_id??0)       
             ->Orderby('users.created_at','desc')       
@@ -311,7 +312,7 @@ class UsermanagementController extends Controller
          'firstname' => 'required|min:1|max:100',       
          'email' => 'required|email|unique:users,email',        
          'role' => 'required',
-         'designation_id' => 'required',
+         // 'designation_id' => 'required',
          'phone' => 'required',
          'is_active_status' => 'required',
          'password' => 'sometimes|nullable',
@@ -333,7 +334,7 @@ class UsermanagementController extends Controller
         User::insert([
             [
                 "organization_id"=>$request->organization_id,
-                "designation_id"=>$request->designation_id,
+                // "designation_id"=>$request->designation_id,
                 "firstname"=>$request->firstname,
                 "role"=>$request->role,
                 "email"=>$request->email,
@@ -432,7 +433,7 @@ $str.='</html>';
          'firstname' => 'required',       
          'email' => 'required|email',        
          'role' => 'required',
-         'designation_id' => 'required',
+         // 'designation_id' => 'required',
          'phone' => 'required',
          'is_active_status' => 'required',
          'password' => 'sometimes|nullable',
@@ -445,7 +446,7 @@ $str.='</html>';
                 "organization_id"=>$request->organization_id,
                 "firstname"=>$request->firstname,
                 "role"=>$request->role,
-                "designation_id"=>$request->designation_id,
+                // "designation_id"=>$request->designation_id,
                 "email"=>$request->email,
                 // "password"=> Hash::make($decrypt_password),
                 // "decrypt_password"=>$decrypt_password,

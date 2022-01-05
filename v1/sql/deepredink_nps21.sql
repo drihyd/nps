@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 03, 2022 at 04:33 AM
+-- Generation Time: Jan 05, 2022 at 05:42 AM
 -- Server version: 10.3.32-MariaDB
 -- PHP Version: 7.3.33
 
@@ -43,7 +43,30 @@ CREATE TABLE `activities` (
 
 INSERT INTO `activities` (`id`, `organization_id`, `department_id`, `activity_name`, `created_at`, `updated_at`) VALUES
 (4, 23, 5, 'Registration', '2021-12-13 03:47:25', '2021-12-13 03:47:25'),
-(5, 23, 5, 'Final Bill', '2021-12-13 03:47:38', '2021-12-13 03:47:38');
+(5, 23, 5, 'Final Bill', '2021-12-13 03:47:38', '2021-12-13 03:47:38'),
+(6, 23, 8, 'Room Clean', '2022-01-03 10:26:02', '2022-01-03 10:26:02'),
+(7, 23, 16, 'Cost high', '2022-01-03 10:26:18', '2022-01-03 10:26:18'),
+(8, 23, 16, 'No table clean', '2022-01-03 10:26:50', '2022-01-03 10:26:50'),
+(9, 23, 8, 'Attitude', '2022-01-04 07:27:40', '2022-01-04 07:27:40'),
+(10, 23, 8, 'Medicine Administration', '2022-01-04 07:28:14', '2022-01-04 07:28:14'),
+(11, 23, 5, 'Late Billing', '2022-01-04 07:29:33', '2022-01-04 07:29:33'),
+(12, 23, 15, 'Attitude', '2022-01-04 07:30:07', '2022-01-04 07:30:07'),
+(13, 23, 15, 'Counselling', '2022-01-04 07:30:27', '2022-01-04 07:30:27'),
+(14, 23, 5, 'Wrong Billing', '2022-01-04 07:30:57', '2022-01-04 07:30:57'),
+(15, 23, 5, 'Insurance Assistance', '2022-01-04 07:31:21', '2022-01-04 07:31:21'),
+(16, 23, 16, 'Proper Cooked', '2022-01-04 07:32:07', '2022-01-04 07:32:07'),
+(17, 23, 16, 'Quality and Test', '2022-01-04 07:32:34', '2022-01-04 07:32:34'),
+(18, 23, 16, 'Delay Serving', '2022-01-04 07:32:48', '2022-01-04 07:32:48'),
+(19, 23, 16, 'Hygiene', '2022-01-04 07:33:08', '2022-01-04 07:33:08'),
+(20, 23, 17, 'AC Not working', '2022-01-04 07:33:44', '2022-01-04 07:33:44'),
+(21, 23, 17, 'Poor Room Light', '2022-01-04 07:34:26', '2022-01-04 07:34:26'),
+(22, 23, 17, 'Plumbing', '2022-01-04 07:34:58', '2022-01-04 07:34:58'),
+(23, 23, 17, 'Electrical', '2022-01-04 07:35:22', '2022-01-04 07:35:22'),
+(24, 23, 8, 'Proper Communication', '2022-01-04 07:35:36', '2022-01-04 07:35:36'),
+(25, 23, 8, 'Empathy', '2022-01-04 07:37:30', '2022-01-04 07:37:30'),
+(26, 23, 8, 'Sympathy', '2022-01-04 07:37:43', '2022-01-04 07:37:43'),
+(27, 23, 15, 'Empathy', '2022-01-04 07:38:04', '2022-01-04 07:38:04'),
+(28, 23, 15, 'Sympathy', '2022-01-04 07:38:13', '2022-01-04 07:38:13');
 
 -- --------------------------------------------------------
 
@@ -102,8 +125,8 @@ INSERT INTO `departments` (`id`, `organization_id`, `department_name`, `is_displ
 (15, 23, 'Doctors', 'on', '2021-12-15 12:43:24', '2021-12-15 12:43:24'),
 (16, 23, 'Food  and Beverage', 'on', '2021-12-15 12:44:13', '2021-12-15 17:44:13'),
 (17, 23, 'Maintenance', 'on', '2021-12-15 12:44:24', '2021-12-15 12:44:24'),
-(18, 23, 'Lab and Radiology', 'on', '2021-12-24 06:35:24', '2021-12-24 06:35:24'),
-(19, 23, 'Test Team', 'on', '2021-12-31 10:17:54', '2021-12-31 10:17:54');
+(18, 23, 'Radiology', 'on', '2022-01-04 08:20:58', '2022-01-04 13:50:58'),
+(20, 23, 'Laboratory', 'on', '2022-01-04 08:21:13', '2022-01-04 08:21:13');
 
 -- --------------------------------------------------------
 
@@ -217,6 +240,39 @@ INSERT INTO `organizations` (`id`, `company_name`, `is_group`, `short_name`, `sl
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `passing_departments`
+--
+
+CREATE TABLE `passing_departments` (
+  `id` int(11) NOT NULL,
+  `person_id` int(11) DEFAULT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  `passing_page` char(20) NOT NULL DEFAULT 'no',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `sorting` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `passing_departments`
+--
+
+INSERT INTO `passing_departments` (`id`, `person_id`, `department_id`, `passing_page`, `created_at`, `updated_at`, `sorting`) VALUES
+(1, 1, 14, 'passed', '2022-01-04 04:06:20', '2022-01-04 04:06:20', 0),
+(2, 1, 21, 'passed', '2022-01-04 04:06:24', '2022-01-04 04:06:24', 30),
+(3, 2, 14, 'passed', '2022-01-04 05:52:00', '2022-01-04 05:52:00', 0),
+(4, 2, 31, 'passed', '2022-01-04 05:52:33', '2022-01-04 05:52:33', 1),
+(5, 2, 33, 'passed', '2022-01-04 05:52:52', '2022-01-04 05:52:52', 2),
+(6, 2, 49, 'passed', '2022-01-04 05:53:24', '2022-01-04 05:53:24', 3),
+(7, 2, 21, 'passed', '2022-01-04 05:54:02', '2022-01-04 05:54:02', 30),
+(8, 4, 31, 'ready', '2022-01-04 07:24:39', '2022-01-04 07:24:39', 0),
+(9, 4, 21, 'no', '2022-01-04 07:24:39', '2022-01-04 07:24:39', 30),
+(10, 5, 31, 'passed', '2022-01-04 07:39:18', '2022-01-04 07:39:18', 0),
+(11, 5, 21, 'passed', '2022-01-04 07:40:13', '2022-01-04 07:40:13', 30);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `password_resets`
 --
 
@@ -314,12 +370,12 @@ INSERT INTO `question_options` (`id`, `question_id`, `department_id`, `option_va
 (50, 2, 17, 'Maintenance', '2021-12-16 12:30:19', '2021-12-16 12:30:19'),
 (51, 3, 17, 'Maintenance', '2021-12-16 12:30:22', '2021-12-16 12:30:22'),
 (52, 4, 17, 'Maintenance', '2021-12-16 12:30:26', '2021-12-16 12:30:26'),
-(56, 2, 18, 'Lab and Radiology', '2021-12-24 06:35:24', '2021-12-24 06:35:24'),
-(57, 3, 18, 'Lab and Radiology', '2021-12-24 06:35:24', '2021-12-24 06:35:24'),
-(58, 4, 18, 'Lab and Radiology', '2021-12-24 06:35:24', '2021-12-24 06:35:24'),
-(59, 2, 19, 'Test Team', '2021-12-31 10:17:54', '2021-12-31 10:17:54'),
-(60, 3, 19, 'Test Team', '2021-12-31 10:17:54', '2021-12-31 10:17:54'),
-(61, 4, 19, 'Test Team', '2021-12-31 10:17:54', '2021-12-31 10:17:54');
+(56, 2, 18, 'Radiology', '2022-01-04 08:20:58', '2022-01-04 13:50:58'),
+(57, 3, 18, 'Radiology', '2022-01-04 08:20:58', '2022-01-04 13:50:58'),
+(58, 4, 18, 'Radiology', '2022-01-04 08:20:58', '2022-01-04 13:50:58'),
+(62, 2, 20, 'Laboratory', '2022-01-04 08:21:13', '2022-01-04 08:21:13'),
+(63, 3, 20, 'Laboratory', '2022-01-04 08:21:13', '2022-01-04 08:21:13'),
+(64, 4, 20, 'Laboratory', '2022-01-04 08:21:13', '2022-01-04 08:21:13');
 
 -- --------------------------------------------------------
 
@@ -385,8 +441,7 @@ INSERT INTO `role_names` (`id`, `organization_id`, `designation_id`, `designatio
 (22, 23, 6, 17, 'Feedback Executive', '2021-12-31 06:51:48', '2021-12-31 06:51:48'),
 (23, 23, 4, 9, 'HOD', '2021-12-31 06:54:18', '2021-12-31 06:54:18'),
 (24, 23, 3, 5, 'Unit Head', '2021-12-31 06:54:46', '2021-12-31 06:54:46'),
-(25, 23, 2, 2, 'Group CEO', '2021-12-31 06:56:02', '2021-12-31 06:56:02'),
-(26, 23, 6, 19, 'Junior CX Executive', '2021-12-31 12:16:30', '2021-12-31 12:16:30');
+(25, 23, 2, 2, 'Group CEO', '2021-12-31 06:56:02', '2021-12-31 06:56:02');
 
 -- --------------------------------------------------------
 
@@ -425,9 +480,8 @@ CREATE TABLE `surveys` (
 --
 
 INSERT INTO `surveys` (`id`, `admin_user_id`, `title`, `description`, `isopen`, `created_at`, `updated_at`, `organization_id`) VALUES
-(1, 321, 'Pre-Discharge', 'Tell us about your stay so far and help us improve our services', 'yes', '2021-12-31 07:21:32', '2021-12-31 07:21:32', 23),
-(3, 321, 'Post Discharge', 'Tell us about your recent stay & treatment at Omni Hospitals and help us improve our services', 'yes', '2021-12-31 07:17:00', '2021-12-31 07:17:00', 23),
-(4, 321, '6 month review', 'How was your recovery over the last 6 months?', 'yes', '2021-12-31 12:21:48', '2021-12-31 12:21:48', 23);
+(1, 321, 'Pre-Discharge', 'Tell us about your stay so far and help us improve our services', 'yes', '2022-01-04 10:09:40', '2022-01-04 15:39:40', 23),
+(3, 321, 'Post Discharge', 'Tell us about your recent stay & treatment at Omni Hospitals and help us improve our services', 'yes', '2022-01-04 07:21:56', '2022-01-04 07:21:56', 23);
 
 -- --------------------------------------------------------
 
@@ -443,8 +497,9 @@ CREATE TABLE `survey_answered` (
   `question_id` int(11) DEFAULT NULL,
   `answerid` int(11) DEFAULT NULL,
   `answeredby_person` text DEFAULT NULL,
+  `department_activities` text DEFAULT NULL,
   `rating` int(11) DEFAULT NULL,
-  `ticket_status` enum('opened','on_hold','awaiting_reply','completed','accetped','action_taken') DEFAULT NULL,
+  `ticket_status` enum('opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied') CHARACTER SET latin1 DEFAULT NULL,
   `ticket_remarks` text DEFAULT NULL,
   `person_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -455,19 +510,28 @@ CREATE TABLE `survey_answered` (
 -- Dumping data for table `survey_answered`
 --
 
-INSERT INTO `survey_answered` (`id`, `survey_id`, `organization_id`, `logged_user_id`, `question_id`, `answerid`, `answeredby_person`, `rating`, `ticket_status`, `ticket_remarks`, `person_id`, `created_at`, `updated_at`) VALUES
-(2, 1, 23, 321, 1, 6, '', 5, 'action_taken', 'called customer. updated', 1, '2021-12-31 12:29:16', '2021-12-31 12:29:16'),
-(3, 1, 23, 321, 4, 31, '', 5, 'action_taken', 'called customer. updated', 1, '2021-12-31 12:29:16', '2021-12-31 12:29:16'),
-(4, 1, 23, 321, 7, 31, 'Not caring patient properly', 5, 'action_taken', 'called customer. updated', 1, '2021-12-31 12:29:16', '2021-12-31 12:29:16'),
-(5, 1, 23, 321, 7, 21, '', 5, 'action_taken', 'called customer. updated', 1, '2021-12-31 12:29:16', '2021-12-31 12:29:16'),
-(13, 1, 23, 321, 1, 9, '', 8, 'opened', 'Called customer today. Phone ringing no response', 3, '2021-12-31 11:30:21', '2021-12-31 11:30:21'),
-(14, 1, 23, 321, 3, 60, '', 8, 'opened', 'Called customer today. Phone ringing no response', 3, '2021-12-31 11:30:21', '2021-12-31 11:30:21'),
-(15, 1, 23, 321, 6, 60, 'Something', 8, 'opened', 'Called customer today. Phone ringing no response', 3, '2021-12-31 11:30:21', '2021-12-31 11:30:21'),
-(16, 1, 23, 321, 6, 21, '', 8, 'opened', 'Called customer today. Phone ringing no response', 3, '2021-12-31 11:30:21', '2021-12-31 11:30:21'),
-(17, 1, 23, 321, 1, 10, '', 9, NULL, NULL, 4, '2021-12-31 12:23:06', '2021-12-31 12:23:06'),
-(18, 1, 23, 321, 2, 44, '', 9, NULL, NULL, 4, '2021-12-31 12:23:17', '2021-12-31 12:23:17'),
-(19, 1, 23, 321, 5, 44, 'They were kind and encouraged me quite a lot', 9, NULL, NULL, 4, '2021-12-31 12:23:32', '2021-12-31 12:23:32'),
-(20, 1, 23, 321, 5, 21, '', 9, NULL, NULL, 4, '2021-12-31 12:23:32', '2021-12-31 12:23:32');
+INSERT INTO `survey_answered` (`id`, `survey_id`, `organization_id`, `logged_user_id`, `question_id`, `answerid`, `answeredby_person`, `department_activities`, `rating`, `ticket_status`, `ticket_remarks`, `person_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 23, 321, 1, 5, '', NULL, 4, 'phone_ringing_no_response', 'I trying to call but not lift my calls', 1, '2022-01-04 04:07:15', '2022-01-04 04:07:15'),
+(2, 1, 23, 321, 4, 14, '', NULL, 4, 'phone_ringing_no_response', 'I trying to call but not lift my calls', 1, '2022-01-04 04:07:15', '2022-01-04 04:07:15'),
+(3, 1, 23, 321, 7, 14, 'Taking too much time for clear final settlement bills', 'Final Bill', 4, 'phone_ringing_no_response', 'I trying to call but not lift my calls', 1, '2022-01-04 04:07:15', '2022-01-04 04:07:15'),
+(5, 1, 23, 321, 7, 21, '', '', 4, 'phone_ringing_no_response', 'I trying to call but not lift my calls', 1, '2022-01-04 04:07:15', '2022-01-04 04:07:15'),
+(6, 1, 23, 321, 1, 5, '', NULL, 4, 'opened', NULL, 2, '2022-01-04 05:50:40', '2022-01-04 05:50:40'),
+(7, 1, 23, 321, 4, 14, '', NULL, 4, 'opened', NULL, 2, '2022-01-04 05:50:47', '2022-01-04 05:50:47'),
+(8, 1, 23, 321, 4, 31, '', NULL, 4, 'opened', NULL, 2, '2022-01-04 05:50:47', '2022-01-04 05:50:47'),
+(9, 1, 23, 321, 4, 33, '', NULL, 4, 'opened', NULL, 2, '2022-01-04 05:50:47', '2022-01-04 05:50:47'),
+(10, 1, 23, 321, 4, 49, '', NULL, 4, 'opened', NULL, 2, '2022-01-04 05:50:47', '2022-01-04 05:50:47'),
+(11, 1, 23, 321, 7, 14, '1. Patient education -- Many of a patient\'s medical expenses remain “invisible” to them.', 'Registration,Final Bill', 4, 'opened', NULL, 2, '2022-01-04 05:52:00', '2022-01-04 05:52:00'),
+(13, 1, 23, 321, 7, 33, 'The last comprehensive study of medication errors was over a decade ag', '', 4, 'opened', NULL, 2, '2022-01-04 05:52:52', '2022-01-04 05:52:52'),
+(15, 1, 23, 321, 7, 21, 'Please provide seperate sitting room for COVID-19 Patients', '', 4, 'opened', NULL, 2, '2022-01-04 05:54:02', '2022-01-04 05:54:02'),
+(16, 1, 23, 321, 7, 49, 'charging too much price for beverages', 'Cost high,No table clean,Any Other', 4, 'opened', NULL, 2, '2022-01-04 05:54:48', '2022-01-04 05:54:48'),
+(28, 1, 23, 321, 7, 31, 'The first coronavirus outbreak in the United States happened in a nursing home in February', 'Any Other', 4, 'opened', NULL, 2, '2022-01-04 07:05:05', '2022-01-04 07:05:05'),
+(29, 1, 23, 321, 1, 6, '', NULL, 5, 'opened', NULL, 3, '2022-01-04 07:23:07', '2022-01-04 07:23:07'),
+(30, 1, 23, 321, 1, 6, '', NULL, 5, 'opened', NULL, 4, '2022-01-04 07:24:21', '2022-01-04 07:24:21'),
+(31, 1, 23, 321, 4, 31, '', NULL, 5, 'opened', NULL, 4, '2022-01-04 07:24:39', '2022-01-04 07:24:39'),
+(32, 1, 23, 321, 1, 6, '', NULL, 5, 'opened', NULL, 5, '2022-01-04 07:38:38', '2022-01-04 07:38:38'),
+(33, 1, 23, 321, 4, 31, '', NULL, 5, 'opened', NULL, 5, '2022-01-04 07:38:43', '2022-01-04 07:38:43'),
+(34, 1, 23, 321, 7, 31, 'Room was being cleaned as per the schedule', 'Room Clean', 5, 'opened', NULL, 5, '2022-01-04 07:39:17', '2022-01-04 07:39:17'),
+(35, 1, 23, 321, 7, 21, 'Over all I am no happy with the nursing services whereas doctors were very good throughout', '', 5, 'opened', NULL, 5, '2022-01-04 07:40:13', '2022-01-04 07:40:13');
 
 -- --------------------------------------------------------
 
@@ -494,10 +558,11 @@ CREATE TABLE `survey_persons` (
 --
 
 INSERT INTO `survey_persons` (`id`, `survey_id`, `firstname`, `lastname`, `email`, `mobile`, `gender`, `created_at`, `updated_at`, `organization_id`, `logged_user_id`) VALUES
-(1, 1, 'Venkat', NULL, 'venkat@deepredink.com', '9052691535', 'male', '2021-12-31 06:25:23', '2021-12-31 06:25:23', 23, 321),
-(2, 1, 'Prekash', NULL, 'shubhang@deepredink.com', '9885012345', 'male', '2021-12-31 07:18:13', '2021-12-31 07:18:13', 23, 321),
-(3, 1, 'Ranjith R', NULL, 'ranjith@deepredink.com', '9885047096', 'male', '2021-12-31 10:36:24', '2021-12-31 10:36:24', 23, 321),
-(4, 1, 'Raju', NULL, 'raju@deepredink.com', '9885323628', 'male', '2021-12-31 12:22:51', '2021-12-31 12:22:51', 23, 321);
+(1, 1, 'Venkat', NULL, 'venkat@deepredink.com', '9052691535', 'male', '2022-01-04 04:05:37', '2022-01-04 04:05:37', 23, 321),
+(2, 1, 'Venkat', NULL, 'venkat@deepredink.com', '9052691535', 'male', '2022-01-04 05:50:35', '2022-01-04 05:50:35', 23, 321),
+(3, 1, 'Abdullah Saleem', NULL, 'abdullahs@incor.in', '8600990814', 'male', '2022-01-04 07:22:32', '2022-01-04 07:22:32', 23, 321),
+(4, 1, 'Abdullah Saleem', NULL, 'abdullahs@incor.in', '8600990814', 'male', '2022-01-04 07:24:18', '2022-01-04 07:24:18', 23, 321),
+(5, 1, 'Abdullah Saleem', NULL, 'abdullahs@incor.in', '8600990814', 'male', '2022-01-04 13:08:35', '2022-01-04 13:08:35', 23, 321);
 
 -- --------------------------------------------------------
 
@@ -554,7 +619,7 @@ CREATE TABLE `update_status_response_logs` (
   `logged_user_id` int(11) DEFAULT NULL,
   `organization_id` int(11) DEFAULT NULL,
   `survey_id` int(11) DEFAULT NULL,
-  `ticket_status` enum('opened','on_hold','awaiting_reply','completed','accetped','action_taken') DEFAULT NULL,
+  `ticket_status` enum('opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied') DEFAULT NULL,
   `ticket_remarks` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -565,12 +630,7 @@ CREATE TABLE `update_status_response_logs` (
 --
 
 INSERT INTO `update_status_response_logs` (`id`, `person_id`, `logged_user_id`, `organization_id`, `survey_id`, `ticket_status`, `ticket_remarks`, `created_at`, `updated_at`) VALUES
-(1, 11, 321, 23, 1, 'action_taken', 'Testing', '2021-12-24 04:36:52', '2021-12-24 04:36:52'),
-(2, 16, 321, 23, 1, 'opened', 'Ticket is still opened', '2021-12-31 05:31:58', '2021-12-31 05:31:58'),
-(3, 16, 321, 23, 1, 'action_taken', 'Action taken', '2021-12-31 05:32:19', '2021-12-31 05:32:19'),
-(4, 3, 321, 23, 1, 'opened', 'Called customer today. Phone ringing no response', '2021-12-31 11:30:21', '2021-12-31 11:30:21'),
-(5, 1, 321, 23, 1, 'awaiting_reply', 'called. no response', '2021-12-31 12:27:53', '2021-12-31 12:27:53'),
-(6, 1, 321, 23, 1, 'action_taken', 'called customer. updated', '2021-12-31 12:29:16', '2021-12-31 12:29:16');
+(10, 1, 321, 23, 1, 'phone_ringing_no_response', 'I trying to call but not lift my calls', '2022-01-04 04:07:15', '2022-01-04 04:07:15');
 
 -- --------------------------------------------------------
 
@@ -584,6 +644,7 @@ CREATE TABLE `users` (
   `department` int(11) DEFAULT NULL,
   `reportingto` int(11) DEFAULT NULL,
   `role` int(11) DEFAULT 0,
+  `designation_id` int(11) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` text DEFAULT NULL,
   `decrypt_password` varchar(100) DEFAULT NULL,
@@ -620,17 +681,21 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `organization_id`, `department`, `reportingto`, `role`, `email`, `password`, `decrypt_password`, `phone`, `country`, `state`, `city`, `address`, `firstname`, `lastname`, `age`, `pincode`, `gender`, `profile`, `profile_pic`, `user_type`, `donot_send_newsletter`, `date`, `is_guest`, `guest_email`, `sent_email`, `social_media`, `identifier`, `ip`, `is_active_status`, `remember_token`, `created_at`, `updated_at`, `email_verified_at`, `is_email_verified`) VALUES
-(11, NULL, NULL, NULL, 1, 'admin@nps.com', '$2y$10$kweucu9H/5FY4fCnuaHVEee20DvM27FvD9LpzDo4UgyklO6ioxWOi', '123456', '9090909090', 'india', 'Telangana', 'hyderabad', 'MALANI EXCEL,10-3-150 & 151, 4th floor, St. John\'s Road,\r\nBeside Ratnadeep Supermarket,Beside Ratnadeep Supermarket,', 'Incor', NULL, NULL, '500026', 'Male', '61a852217e298_1638421025.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', 'GDoxfkqw6LRN86t5T1WntslmTxH6SALegc4Y0BDOSltvrCNt1ceeW6m7l9sT', '2021-07-02 01:33:40', '2021-10-25 14:35:03', '2021-09-28 07:53:01', 0),
-(317, 21, NULL, NULL, 2, 'sads@deepredink.com', '$2y$10$7AS3byAR87DBLClRGMjEu.Th7YHE6RxFaIIxnXOW8fS7UcLVVZQR2', 'hyeD1p66', '988345678', NULL, NULL, NULL, NULL, 'Aditya', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.104.149', '0', NULL, '2021-12-01 17:14:08', '2021-12-01 17:14:08', '2021-12-01 12:14:08', 1),
-(318, 22, NULL, NULL, 2, 'amazon@gmail.com', '$2y$10$m2FL.05H3fFwwZHV85apB.xP5vwJSEOgMxerHd7lC2ix2gjG7fUQ6', 'h1j7sMnC', '9700334319', NULL, NULL, NULL, NULL, 'amazon', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '49.205.211.207', '0', NULL, '2021-12-01 17:39:47', '2021-12-01 17:39:47', '2021-12-01 12:39:47', 1),
-(321, 23, NULL, 337, 2, 'omni@incor.in', '$2y$10$DX4jVt5OQsNwq4uJ799hJ.2OT/6HjQOhjdy0/V74iThMuetzvcLgW', '9OUlXBR0', '9700334152', NULL, NULL, NULL, NULL, 'Abdullah Saleem', NULL, NULL, NULL, NULL, '61ce925f051ec_1640927839.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '49.205.208.26', '0', NULL, '2021-12-02 09:45:18', '2021-12-02 09:45:18', '2021-12-02 04:45:18', 1),
-(337, 28, NULL, NULL, 2, 'venkat1@deepredink.com', '$2y$10$ZOY2w4UcqqyVqXJGmKFStOnkXq6rfjSBUTb9jajoSi5yawNHmqoay', 'awwJ2Fvx', '9052691535', NULL, NULL, NULL, NULL, 'K Venkat', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '49.206.59.123', '0', NULL, '2021-12-14 07:23:05', '2021-12-14 07:23:05', '2021-12-14 02:23:05', 1),
-(338, 28, NULL, NULL, 4, 'venkatyadav.1986@gmail.com', '$2y$10$uxXM5eCgFgVNhDxljejYJeg8Q.q3s18gbto7Msi7MkO4tH8ztuzjy', 'QiqgeYZq', '9052691535', NULL, NULL, NULL, NULL, 'Yadav', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '49.206.59.123', '1', NULL, '2021-12-14 07:35:46', '2021-12-14 07:35:46', '2021-12-14 02:35:46', 1),
-(344, 23, 5, 0, 4, 'venkat@deepredink.com', '$2y$10$3rk9ak1eUP0OpY0kRNq7feS4fqjeSMD2CUEjrtm6kOqOrOsslydzO', '7aNSRgGV', '9885047096', NULL, NULL, NULL, NULL, 'Venkat', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '103.211.39.52', '1', NULL, '2021-12-31 10:59:53', '2021-12-31 10:59:53', '2021-12-31 10:59:53', 1),
-(345, 23, 0, 0, 4, 'shubhang@deepredink.com', '$2y$10$YCx2olENog.z6/1IL2kOV.JNiP68uagHtWqoycmO0IahovRNm3k7u', 'idANYObb', '9885047096', NULL, NULL, NULL, NULL, 'Shuhbhang', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '103.211.39.52', '1', NULL, '2021-12-31 11:00:23', '2021-12-31 11:00:23', '2021-12-31 11:00:23', 1),
-(346, 23, 15, 321, 3, 'ranjith.ram@gmail.com', '$2y$10$SFJTWrFi05fgX.1/xRCF/eX0yteC2F7jLgiOH/jPZir7O17fg18GS', '23gZrp6h', '9885047096', NULL, NULL, NULL, NULL, 'Dr.Ranjith', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.104.149', '1', NULL, '2021-12-31 11:01:04', '2021-12-31 11:37:04', '2021-12-31 11:37:04', 1),
-(347, 23, 16, 321, 3, 'ashwini@deepredink.com', '$2y$10$8c9nGNH7zzvDj/LmWu.9NOFmpQd1gBMLJTh8OyRPmUO2Z6kZVm602', '4XF1zngO', '9885047096', NULL, NULL, NULL, NULL, 'Ashwini', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '103.211.39.52', '1', NULL, '2021-12-31 11:04:30', '2021-12-31 11:04:30', '2021-12-31 11:04:30', 1);
+INSERT INTO `users` (`id`, `organization_id`, `department`, `reportingto`, `role`, `designation_id`, `email`, `password`, `decrypt_password`, `phone`, `country`, `state`, `city`, `address`, `firstname`, `lastname`, `age`, `pincode`, `gender`, `profile`, `profile_pic`, `user_type`, `donot_send_newsletter`, `date`, `is_guest`, `guest_email`, `sent_email`, `social_media`, `identifier`, `ip`, `is_active_status`, `remember_token`, `created_at`, `updated_at`, `email_verified_at`, `is_email_verified`) VALUES
+(11, NULL, NULL, NULL, 1, NULL, 'admin@nps.com', '$2y$10$kweucu9H/5FY4fCnuaHVEee20DvM27FvD9LpzDo4UgyklO6ioxWOi', '123456', '9090909090', 'india', 'Telangana', 'hyderabad', 'MALANI EXCEL,10-3-150 & 151, 4th floor, St. John\'s Road,\r\nBeside Ratnadeep Supermarket,Beside Ratnadeep Supermarket,', 'Incor', NULL, NULL, '500026', 'Male', '61a852217e298_1638421025.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', 'GDoxfkqw6LRN86t5T1WntslmTxH6SALegc4Y0BDOSltvrCNt1ceeW6m7l9sT', '2021-07-02 01:33:40', '2021-10-25 14:35:03', '2021-09-28 07:53:01', 0),
+(317, 21, NULL, NULL, 2, NULL, 'sads@deepredink.com', '$2y$10$7AS3byAR87DBLClRGMjEu.Th7YHE6RxFaIIxnXOW8fS7UcLVVZQR2', 'hyeD1p66', '988345678', NULL, NULL, NULL, NULL, 'Aditya', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.104.149', '0', NULL, '2021-12-01 17:14:08', '2021-12-01 17:14:08', '2021-12-01 12:14:08', 1),
+(318, 22, NULL, NULL, 2, NULL, 'amazon@gmail.com', '$2y$10$m2FL.05H3fFwwZHV85apB.xP5vwJSEOgMxerHd7lC2ix2gjG7fUQ6', 'h1j7sMnC', '9700334319', NULL, NULL, NULL, NULL, 'amazon', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '49.205.211.207', '0', NULL, '2021-12-01 17:39:47', '2021-12-01 17:39:47', '2021-12-01 12:39:47', 1),
+(321, 23, NULL, 344, 2, NULL, 'omni@incor.in', '$2y$10$DX4jVt5OQsNwq4uJ799hJ.2OT/6HjQOhjdy0/V74iThMuetzvcLgW', '9OUlXBR0', '9700334152', NULL, NULL, NULL, NULL, 'Abdullah Saleem', NULL, NULL, NULL, NULL, '61ce925f051ec_1640927839.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '49.205.208.26', '0', NULL, '2021-12-02 09:45:18', '2021-12-02 09:45:18', '2021-12-02 04:45:18', 1),
+(337, 28, NULL, NULL, 2, NULL, 'venkat1@deepredink.com', '$2y$10$ZOY2w4UcqqyVqXJGmKFStOnkXq6rfjSBUTb9jajoSi5yawNHmqoay', 'awwJ2Fvx', '9052691535', NULL, NULL, NULL, NULL, 'K Venkat', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '49.206.59.123', '0', NULL, '2021-12-14 07:23:05', '2021-12-14 07:23:05', '2021-12-14 02:23:05', 1),
+(338, 23, 10, 345, 4, NULL, 'dgiriprasad.ch@omnihospitals.in', '$2y$10$uxXM5eCgFgVNhDxljejYJeg8Q.q3s18gbto7Msi7MkO4tH8ztuzjy', 'QiqgeYZq', '9701871857', NULL, NULL, NULL, NULL, 'Mr. Giri Prasad', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.107.250', '1', NULL, '2021-12-14 07:35:46', '2022-01-04 13:50:10', '2022-01-04 13:50:10', 1),
+(344, 23, 0, 0, 6, NULL, 'ddr.vasudev@omnihospitals.in', '$2y$10$3rk9ak1eUP0OpY0kRNq7feS4fqjeSMD2CUEjrtm6kOqOrOsslydzO', '7aNSRgGV', '9885047096', NULL, NULL, NULL, NULL, 'Dr. B Vasudev', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.107.250', '1', NULL, '2021-12-31 10:59:53', '2022-01-04 13:36:43', '2022-01-04 13:36:43', 1),
+(345, 23, 0, 344, 5, NULL, 'ddrwaris@omnihospitals.in', '$2y$10$YCx2olENog.z6/1IL2kOV.JNiP68uagHtWqoycmO0IahovRNm3k7u', 'idANYObb', '9676193777', NULL, NULL, NULL, NULL, 'Dr. Waris', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.107.250', '1', NULL, '2021-12-31 11:00:23', '2022-01-04 13:36:26', '2022-01-04 13:36:26', 1),
+(346, 23, 8, 345, 3, NULL, 'ranjith.ram@gmail.com', '$2y$10$SFJTWrFi05fgX.1/xRCF/eX0yteC2F7jLgiOH/jPZir7O17fg18GS', '23gZrp6h', '9705423333', NULL, NULL, NULL, NULL, 'Ms Rajeshwari', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.107.250', '1', NULL, '2021-12-31 11:01:04', '2022-01-04 13:40:14', '2022-01-04 13:40:14', 1),
+(347, 23, 5, 349, 3, NULL, 'sshivakumar@omnihospitals.in', '$2y$10$8c9nGNH7zzvDj/LmWu.9NOFmpQd1gBMLJTh8OyRPmUO2Z6kZVm602', '4XF1zngO', '9100929081', NULL, NULL, NULL, NULL, 'Mr. Shivakumar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.107.250', '1', NULL, '2021-12-31 11:04:30', '2022-01-04 13:44:38', '2022-01-04 13:44:38', 1),
+(348, 23, 5, 349, 3, NULL, 'dkukatpallymaintenance@omnihospitals.in', '$2y$10$ym7fn63Fh6idiwmmLZTgtO2yDUbDLT1sN8DXMkRBp.2tzYEhJBGS2', 'j6wZB2tf', '9100961167', NULL, NULL, NULL, NULL, 'Mr. Ashok Kiran Kumar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.107.250', '1', NULL, '2022-01-04 05:23:26', '2022-01-04 13:49:56', '2022-01-04 13:49:56', 1),
+(349, 23, 0, 344, 5, NULL, 'ddr.manjunath@omnihospitals.in', '$2y$10$MhgS5PHx8rMCE4QgZWFMD.WqJ1TAP0KQTWRI7LIvOLvcn.4ux84Gu', 'RML6mqd1', '9491090023', NULL, NULL, NULL, NULL, 'Dr. Manjunath', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.107.250', '1', NULL, '2022-01-04 13:42:51', '2022-01-04 13:42:51', '2022-01-04 13:42:51', 1),
+(350, 23, 20, 345, 3, NULL, 'dkukatpallylab@omnihospitals.in', '$2y$10$uwtz1IXY8NZ9iD43vxBJM.U5a40MFDY3pY/gkLlXaFmwwKG4CHunW', 'WANES9lJ', '9100442771', NULL, NULL, NULL, NULL, 'Mr. Arun', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.107.250', '1', NULL, '2022-01-04 13:53:51', '2022-01-04 13:53:51', '2022-01-04 13:53:51', 1),
+(351, 23, 18, 345, 3, NULL, 'no@email.com', '$2y$10$oS91iL4GsttzY0yCw/ZYL.JWXIShVokpjd6nR7NpQcj8OD07j.N8.', 'ss49l35H', '9676799400', NULL, NULL, NULL, NULL, 'Dr. Harish', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '183.82.107.250', '1', NULL, '2022-01-04 13:57:53', '2022-01-04 13:57:53', '2022-01-04 13:57:53', 1);
 
 -- --------------------------------------------------------
 
@@ -654,7 +719,9 @@ INSERT INTO `user_types` (`id`, `name`, `code`, `created_at`, `updated_at`) VALU
 (1, 'Super admin', '', '2021-09-16 06:34:08', '2021-09-16 06:34:22'),
 (2, 'Company admin', '', '2021-09-16 06:34:08', '2021-09-16 06:34:22'),
 (3, 'HOD', '', '2021-09-16 06:34:08', '2021-09-16 06:34:22'),
-(4, 'Feedback Executive', 'general', '2021-09-16 06:34:08', '2021-09-16 06:34:22');
+(4, 'Feedback Executive', 'general', '2021-09-16 06:34:08', '2021-09-16 06:34:22'),
+(5, 'Operational Head', 'othead', '2021-09-16 06:34:08', '2021-09-16 06:34:22'),
+(6, 'Unit Head', 'unithead', '2021-09-16 06:34:08', '2021-09-16 06:34:22');
 
 --
 -- Indexes for dumped tables
@@ -694,6 +761,12 @@ ALTER TABLE `notifications`
 -- Indexes for table `organizations`
 --
 ALTER TABLE `organizations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `passing_departments`
+--
+ALTER TABLE `passing_departments`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -782,7 +855,7 @@ ALTER TABLE `user_types`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `customer_fields_configurables`
@@ -794,7 +867,7 @@ ALTER TABLE `customer_fields_configurables`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `group_levels`
@@ -815,6 +888,12 @@ ALTER TABLE `organizations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
+-- AUTO_INCREMENT for table `passing_departments`
+--
+ALTER TABLE `passing_departments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `password_resets`
 --
 ALTER TABLE `password_resets`
@@ -830,7 +909,7 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `question_options`
 --
 ALTER TABLE `question_options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `role_levels`
@@ -860,13 +939,13 @@ ALTER TABLE `surveys`
 -- AUTO_INCREMENT for table `survey_answered`
 --
 ALTER TABLE `survey_answered`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `survey_persons`
 --
 ALTER TABLE `survey_persons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `themeoptions`
@@ -878,19 +957,19 @@ ALTER TABLE `themeoptions`
 -- AUTO_INCREMENT for table `update_status_response_logs`
 --
 ALTER TABLE `update_status_response_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=348;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
 
 --
 -- AUTO_INCREMENT for table `user_types`
 --
 ALTER TABLE `user_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

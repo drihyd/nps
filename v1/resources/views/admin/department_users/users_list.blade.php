@@ -1,3 +1,6 @@
+<?php
+use App\Models\User;
+?>
 @extends('admin.template_v1')
 @section('title', 'Users')
 @section('content')
@@ -17,12 +20,12 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
-                        <th>Name</th>
-                        <th>Email/Username</th>
+                        <th>User Details</th>
+                        <!-- <th>Email/Username</th> -->
                         <!-- <th>Decrypt Password</th> -->
-                        <th>Phone</th>
-                        <th>Role</th>
+                        <!-- <th>Phone</th> -->
                         <th>Designation</th>
+                        <th>Reporting To</th>
                       
                         <th>Actions</th>
                     </tr>
@@ -33,12 +36,20 @@
                           <tr>
                               
                               <td>{{$loop->iteration}}</td>
-                              <td>{{Str::title($user->firstname??'')}} {{Str::title($user->lastname??'')}}</td>
-                              <td>{{$user->email??''}}</td>
+                              <td><b>{{Str::title($user->firstname??'')}} {{Str::title($user->lastname??'')}}</b><br>{{$user->email??''}}<br>{{$user->phone??''}}</td>
+                              <!-- <td></td> -->
                               <!--<td>{{$user->decrypt_password??''}}</td> -->
-                              <td>{{$user->phone??''}}</td>
+                              <!-- <td></td> -->
                               <td>{{$user->ut_name??''}}</td>
-                              <td>{{$user->designation_name??''}}</td>
+                              @php
+                              $Report_person=User::select('departments.department_name as dname','users.id as uid','users.email as uemail','users.firstname as uname')
+                                ->leftJoin('departments','departments.id', '=', 'users.department')
+                                ->where("users.organization_id",Auth::user()->organization_id)
+                                ->where("users.id",$user->reportingto)
+                                ->get()->first();
+
+                              @endphp
+                              <td>{{ucwords($Report_person->uname??'')}}-{{ucwords($Report_person->uemail??'')}}-{{ucwords($Report_person->dname??'')}}</td>
                               
                            
                               
