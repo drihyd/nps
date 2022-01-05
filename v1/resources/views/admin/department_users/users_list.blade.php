@@ -40,7 +40,7 @@ use App\Models\User;
 			
           <div class="table-responsive">
         
-          <table id="default-datatable" class="display table Config::get('constants.tablestriped')">
+          <table id="default-datatable" class="display table Config::get('constants.tablestriped') table-responsive">
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
@@ -51,6 +51,7 @@ use App\Models\User;
                         <th>Designation</th>
                         <th>Team</th>
                         <th>Reporting To</th>
+                        <th>Is Active</th>
                       
                         <th>Actions</th>
                     </tr>
@@ -75,11 +76,16 @@ use App\Models\User;
                                 ->get()->first();
 
                               @endphp
+
                               <td>{{ucwords($Report_person->uname??'')}}-{{ucwords($Report_person->uemail??'')}}-{{ucwords($Report_person->dname??'')}}</td>
-                              
-                           
+                              @if($user->is_active_status??'' == 1)
+                           <td>Yes</td>
+                           @else
+                            <td>No</td>
+                           @endif
                               
                               <td>
+
 							  
 							  <a href="{{url(Config::get('constants.admin').'/user/edit/'.Crypt::encryptString($user->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
                                 <a href="{{url(Config::get('constants.admin').'/user/delete/'.Crypt::encryptString($user->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
