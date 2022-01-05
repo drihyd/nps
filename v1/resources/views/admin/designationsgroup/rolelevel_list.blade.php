@@ -37,7 +37,7 @@
                         <th>S.No</th>
                         <th>Name</th>
                         <th>Level code</th>
-                        <th>Level name</th>
+                        <!-- <th>Level name</th> -->
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -49,7 +49,7 @@
                               <td>{{$loop->iteration}}</td>
                               <td>{{Str::upper($group_level->role_level??'')}}</td>
                               <td>{{Str::title($group_level->alias??'')}}</td>
-                              <td>{{Str::title($group_level->group_level_name??'')}}</td>
+                              <!-- <td>{{Str::title($group_level->group_level_name??'')}}</td> -->
                               <td>
 							  
 							  <a href="{{url(Config::get('constants.admin').'/designation_levels/edit/'.Crypt::encryptString($group_level->id))}}" class="edit mr-2" title="Edit" ><i class="feather icon-edit-2"></i></a>
