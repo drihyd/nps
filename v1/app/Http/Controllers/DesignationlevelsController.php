@@ -94,15 +94,32 @@ class DesignationlevelsController extends Controller
          return redirect()->back()->with('success','Success! Details are deleted successfully');
         
     }
-    public function designation_levels_list()
+    public function designation_levels_list(Request $request)
     {   
 
-       
+       if($request->level) {    
+
+               
+
+                $level=$request->level;
+                }       
+                else{
+                $level='';
+                
+                
+                }
         
-        $group_level_data=RoleLevel::join('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')->orderBy('role_levels.designation_id')->where('role_levels.organization_id',Auth::user()->organization_id)->get(['role_levels.*','group_levels.name as group_level_name','group_levels.alias as alias']);
-        $pageTitle="Designation Levels";      
+        $group_level_data=RoleLevel::join('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')->orderBy('role_levels.designation_id')->where('role_levels.organization_id',Auth::user()->organization_id)
+        ->where(function($group_level_data) use ($level){   
+            if($level){       
+                $group_level_data->where('role_levels.designation_id',"=",$level);            
+            }
+            })
+        ->get(['role_levels.*','group_levels.name as group_level_name','group_levels.alias as alias']);
+        $pageTitle="Designation Levels";   
+        $level=$request->level??'';   
         $addlink=url(Config::get('constants.admin').'/designation_levels/create');     
-        return view('admin.designationsgroup.rolelevel_list', compact('pageTitle','group_level_data','addlink'))
+        return view('admin.designationsgroup.rolelevel_list', compact('pageTitle','group_level_data','addlink','level'))
         ->with('i', (request()->input('page', 1) - 1) * 5);
             
         

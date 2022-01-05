@@ -62,6 +62,7 @@ Route::any('filter.responses', [ResponsesController::class,'response_list'])->na
 Route::any('filter.questions', [QuestionsController::class,'questions_list'])->name('filter.questions');
 Route::any('filter.roles', [UsermanagementController::class,'department_users_list'])->name('filter.roles');
 Route::any('filter.teams', [ActivitiesController::class,'activities_list'])->name('filter.teams');
+Route::any('filter.levels', [DesignationlevelsController::class,'designation_levels_list'])->name('filter.levels');
 
 
 
