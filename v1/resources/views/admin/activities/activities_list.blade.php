@@ -10,6 +10,29 @@
                 <h5 class="card-title">@yield('title')</h5>
             </div>
             <div class="card-body">
+                 <form class="form-inline mb-4" action="{{route('filter.teams')}}" method="post">
+@csrf
+@include('admin.common_pages.departments',['team'=>$team??''])
+&nbsp;
+@include('admin.common_pages.action_button')
+&nbsp;
+<div class="form-group mb-2">
+@if(auth()->user())
+@if(auth()->user()->role==2)
+<a href="{{url(Config::get('constants.admin').'/activities')}}">Clear filter</a>
+@else
+<a href="{{url(Config::get('constants.user').'/activities')}}">Clear filter</a>
+@endif
+@else
+<a href="#">
+@endif
+
+</div>
+
+
+
+
+</form>
 			
           <div class="table-responsive">
         
@@ -17,7 +40,6 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
-                        <th>Department</th>
                         <th>Activity</th>
                         <th>Actions</th>
                     </tr>
@@ -28,8 +50,6 @@
                           <tr>
                               
                               <td>{{$loop->iteration}}</td>
-                              
-                              <td>{{$activity->department_name??''}}</td>
                               <td>{{Str::title($activity->activity_name??'')}}</td>
                               
                            
