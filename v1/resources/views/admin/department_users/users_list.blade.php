@@ -49,6 +49,7 @@ use App\Models\User;
                         <!-- <th>Decrypt Password</th> -->
                         <!-- <th>Phone</th> -->
                         <th>Designation</th>
+                        <th>Team</th>
                         <th>Reporting To</th>
                       
                         <th>Actions</th>
@@ -65,6 +66,7 @@ use App\Models\User;
                               <!--<td>{{$user->decrypt_password??''}}</td> -->
                               <!-- <td></td> -->
                               <td>{{$user->ut_name??''}}</td>
+                              <td>{{$user->dname??''}}</td>
                               @php
                               $Report_person=User::select('departments.department_name as dname','users.id as uid','users.email as uemail','users.firstname as uname')
                                 ->leftJoin('departments','departments.id', '=', 'users.department')
