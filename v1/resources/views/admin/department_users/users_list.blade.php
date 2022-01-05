@@ -13,6 +13,30 @@ use App\Models\User;
                 <h5 class="card-title">List of all users</h5>
             </div>
             <div class="card-body">
+                <form class="form-inline mb-4" action="{{route('filter.roles')}}" method="post">
+@csrf
+@include('admin.common_pages.roles',['role'=>$role??''])
+&nbsp;
+@include('admin.common_pages.action_button')
+&nbsp;
+<div class="form-group mb-2">
+@if(auth()->user())
+@if(auth()->user()->role==2)
+<a href="{{url(Config::get('constants.admin').'/users')}}">Clear filter</a>
+@else
+<a href="{{url(Config::get('constants.user').'/users')}}">Clear filter</a>
+@endif
+@else
+<a href="#">
+@endif
+
+</div>
+
+
+
+
+</form>
+
 			
           <div class="table-responsive">
         

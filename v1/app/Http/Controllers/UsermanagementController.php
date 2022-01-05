@@ -279,21 +279,44 @@ class UsermanagementController extends Controller
     }
 
 
-    public function department_users_list()
-    {   
-        
+    public function department_users_list(Request $request)
+    { 
+        if($request->role) {    
+
+                    /*    
+                $role=User::select()
+                ->where('role',$request->role)
+                ->pluck('id');
+                */
+
+                $role=$request->role;
+                }       
+                else{
+                $role='';
+                
+                
+                }
+
 		
-            $users_data=User::select('users.*','user_types.name as ut_name','group_levels.name as designation_name','departments.department_name as dname')
-            ->leftjoin('user_types','user_types.id','=','users.role')       
+            $users_data=User::leftjoin('user_types','user_types.id','=','users.role')       
             ->leftjoin('group_levels','group_levels.id','=','users.designation_id')
-            ->leftJoin('departments','departments.id', '=', 'users.department')       
+            ->leftJoin('departments','departments.id', '=', 'users.department')
             ->whereNotIn('users.role',[1,2])       
-            ->where('users.organization_id',auth()->user()->organization_id??0)       
+            ->where('users.organization_id',auth()->user()->organization_id??0)  
+            ->where(function($users_data) use ($role){   
+            if($role){       
+                $users_data->where('users.role',"=",$role);            
+            }
+            })
             ->Orderby('users.created_at','desc')       
-            ->get(); 
+            ->get(['users.*','user_types.name as ut_name','group_levels.name as designation_name','departments.department_name as dname']); 
+            
+
+
             $addlink=url(Config::get('constants.admin').'/user/create'); 
+            $role=$request->role??''; 
             $pageTitle="Users";          
-            return view('admin.department_users.users_list', compact('pageTitle','users_data','addlink'));
+            return view('admin.department_users.users_list', compact('pageTitle','users_data','addlink','role'));
         
     }
     public function department_create_user()
