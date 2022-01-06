@@ -366,6 +366,8 @@ if($request->sendlink_email){
 		'surveyid' =>Crypt::encryptString($request->survey_id),
 		'loggedid' =>Crypt::encryptString(auth()->user()->id),
 		'personid' =>Crypt::encryptString($user->id),
+		'ticket_number' =>$ticketnumber,
+		'subjectline' =>"Feedback Survey #".$ticketnumber,
 
 		];
 		Mail::to($request->email)->send(new FeedbackSurvey($offer));

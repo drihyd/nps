@@ -29,6 +29,6 @@ class FeedbackSurvey extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.FeedbackSurvey')->with('content',$this->content);
+        return $this->markdown('emails.FeedbackSurvey')->subject($this->content['subjectline']??'Feedback Survey')->with('content',$this->content);
     }
 }
