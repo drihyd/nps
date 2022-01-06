@@ -95,7 +95,7 @@ Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 	Route::get('takesurvey/{type?}', [NetPromoterScore::class,'first_question']);
 	Route::get('picksurveymethod/{type?}', [NetPromoterScore::class,'picksurvey_method']);
 	Route::get('second', [NetPromoterScore::class,'second_question']);
-	Route::post('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.user');
+	Route::any('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.user');
 	Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo.user');
 
 	Route::get('responses', [ResponsesController::class,'response_list']);
@@ -180,8 +180,10 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('survey/start/{type?}', [NetPromoterScore::class,'take_person_onfo']);
 	Route::get('takesurvey/{type?}', [NetPromoterScore::class,'first_question']);
 	Route::get('picksurveymethod/{type?}', [NetPromoterScore::class,'picksurvey_method']);
-	Route::get('second', [NetPromoterScore::class,'second_question']);
-	Route::post('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.admin');
+	Route::get('second', [NetPromoterScore::class,'second_question']);	
+	Route::any('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.admin');	
+	
+	
 	Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo.admin');
 
 	Route::get('responses', [ResponsesController::class,'response_list']);

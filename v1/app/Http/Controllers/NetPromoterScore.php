@@ -41,7 +41,8 @@ class NetPromoterScore extends Controller
 		
 		
 	
-		
+		try{
+
 		$organization_id=auth()->user()->organization_id;	
 
 		
@@ -124,9 +125,15 @@ class NetPromoterScore extends Controller
 				"total_feedbacks"=>$total_feedbacks,
 				"NPS"=>$NPS,
 				"lastoneweek"=>$Lastoneweek,
-			];
-	
+			];	
 		return json_encode($final_score);
+		
+		}
+		
+catch (\Exception $exception){	
+	abort(401);
+
+}
 		
 
 
@@ -134,6 +141,7 @@ class NetPromoterScore extends Controller
 
     public function nps_login()
     {
+		
         $pageTitle="Login"; 
         $page=false;
 		$user  = auth()->user();       
@@ -149,12 +157,14 @@ class NetPromoterScore extends Controller
            
            return view('frontend.survey.login',compact('pageTitle','page'));
         } 
+		
+		
     }
     public function Loginsubmit(Request $request)
     {
     
    
-   
+   try{
    
    	$credentials = $request->only('email', 'password');		
 		
@@ -180,6 +190,12 @@ class NetPromoterScore extends Controller
         else{
 	        return redirect('/')->with('error', 'Failed to logged in.');
 	    }
+		
+   }
+catch (\Exception $exception){
+abort(401);
+}
+   
    
 
     }
@@ -193,41 +209,56 @@ class NetPromoterScore extends Controller
 	 public function survey_names()
     {
 		
-	
-		
-		if(auth()->user()){
-			
-		$organization_id=auth()->user()->organization_id;
-		$Surveys=Surveys::select('*')->where('organization_id',$organization_id??0)->where('isopen','yes')->get();	
-		$page=false;			
-		return view('frontend.survey.survey_names',compact('page','Surveys'));
-		}
-		else{
+		try{
+			if(auth()->user()){
+			$organization_id=auth()->user()->organization_id;
+			$Surveys=Surveys::select('*')->where('organization_id',$organization_id??0)->where('isopen','yes')->get();	
+			$page=false;			
+			return view('frontend.survey.survey_names',compact('page','Surveys'));
+			}
+			else{
 			return redirect()->back()->with('error', 'Something went wrong.');  
+			}
+
+			}
+			catch (\Exception $exception){
+			abort(401);
 		}
+		
+		
     }		
 public function picksurvey_method($param=false)
 {
 	
+	try{
+		if(auth()->user())
+		{
 
-	if(auth()->user())
-	{
-		
 		$surveyid=Crypt::decryptString($param);
 		$Surveys=Surveys::select('*')->where('id',$surveyid)->get();
 		$page=false;
 		return view('frontend.survey.survey_method',compact('page','Surveys'));
-	}
-	else
-	{
+		}
+		else
+		{
 		return redirect()->back()->with('error', 'User not logged in.');  
+		}
+
 	}
+	catch (\Exception $exception){
+	abort(401);
+	}
+	
+	
 }	
 
 public function take_person_onfo($param=false)
 {
-	if(auth()->user())
-	{
+	
+	try{
+		
+		if(auth()->user())
+		{
 		try{
 		$surveyid=Crypt::decryptString($param);
 		$organization_id=auth()->user()->organization_id;
@@ -241,14 +272,18 @@ public function take_person_onfo($param=false)
 		}
 		}
 		catch (\Exception $exception){
-		//return redirect()->back()->with('error', 'Something went wrong.');
-		//$this->survey_names();
+		abort(401);
 		}
-	}
-	else
-	{
+		}
+		else
+		{
 		return redirect()->back()->with('error', 'User not logged in.');  
+		}
+
 	}
+		catch (\Exception $exception){
+		abort(401);
+		}
 }	
 
 
@@ -257,28 +292,33 @@ public function take_person_onfo($param=false)
 public function getNextTicketNumber()
 {
   #Store Unique Order/Product Number
+	try{
 		$unique_no = SurveyPerson::orderBy('id', 'DESC')->pluck('ticket_series_number')->first();
-        if($unique_no == null or $unique_no == ""){
-        #If Table is Empty
-        $unique_no = 1;
-        }
-        else{
-        #If Table has Already some Data
-        $unique_no = $unique_no + 1;
-      }
-    return $unique_no;
+		if($unique_no == null or $unique_no == ""){
+		#If Table is Empty
+		$unique_no = 1;
+		}
+		else{
+		#If Table has Already some Data
+		$unique_no = $unique_no + 1;
+		}
+		return $unique_no;
+
+	}
+		catch (\Exception $exception){
+		abort(401);
+	}
 }
 
 public function store_survey_personinfo(Request $request){
 
 
-
-	if($request){
+try{
+	
+	if($request){	
 		
 		
-		
-			if($request->survey_id){
-				
+			if($request->survey_id){			
 				
 
 				/* Duplicate Survey Person */
@@ -362,6 +402,10 @@ else{
 			
 			return redirect()->back()->with('error', 'Something went wrong.');
 		}
+}
+		catch (\Exception $exception){
+		abort(401);
+	}
 	
 }
 
@@ -369,7 +413,9 @@ else{
 
 public function first_question_offline($sid=false,$logid=false,$pid=false)
 {
-
+	
+	
+try{
 	$surveyid=Crypt::decryptString($sid);
 	$logid=Crypt::decryptString($logid);
 	$pid=Crypt::decryptString($pid);	
@@ -389,6 +435,11 @@ public function first_question_offline($sid=false,$logid=false,$pid=false)
 	$page=false;		
 
 	return view('frontend.survey.first_question',compact('page','Questions'));
+	
+	}
+		catch (\Exception $exception){
+		abort(401);
+	}
 }
 
 
@@ -396,6 +447,8 @@ public function first_question_offline($sid=false,$logid=false,$pid=false)
 public function first_question($param=false)
 {
 
+try{
+	
 	$surveyid=Crypt::decryptString($param);
 	$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',1)->where('survey_id',$surveyid)->get();		 
 	foreach ($Questions as $key => $value) {
@@ -407,24 +460,32 @@ public function first_question($param=false)
 	$page=false;		
 
 	return view('frontend.survey.first_question',compact('page','Questions'));
+	
+	}
+		catch (\Exception $exception){
+		abort(401);
+	}
 }
 	
 	public function second_question()
     {
+		
+		try{
 		$page=false;
-        return view('frontend.survey.second_question',compact('page'));
+		return view('frontend.survey.second_question',compact('page'));
+
+		}
+		catch (\Exception $exception){
+		abort(401);
+		}
     }	
 	
 	
 	
-	public function surveyone_post(Request $request)
-    {
+public function surveyone_post(Request $request)
+{
 		
-
-
-
-		
-		
+try{
 		$Questions=Questions::select('questions.next_qustion_id as qnq','questions.sequence_order as qseq','questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$request->question_id)->get()->first();		 
 		$qseq=$Questions->qseq;		
 		if($request->first_questin_range){			
@@ -785,6 +846,19 @@ $selected_departments='';
 		else{
 			return redirect()->back()->with('error', 'Please select score number.');  
 		}
+		
+		
+		
+}
+
+catch (\Exception $exception){
+		abort(401);
+}
+		
+		
+		
+		
+		
     }
 
 	
