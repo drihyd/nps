@@ -10,10 +10,11 @@
                     <tr>
                          <th>S.No</th>
                         <th>Customer</th>      
-                        <th>Gender</th>
+                        <!-- <th>Gender</th> -->
                         <th>Ticket Number</th>
                         <th>Score</th>
                         <th>Feedback Date</th>
+                        <th>Last Updated Date</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -26,10 +27,7 @@
                           <tr>
                               <td>{{$loop->iteration}}</td>
 
-                              <td>{{Str::title($response->firstname??'')}}<br>{{$response->email??''}}<br>{{$response->mobile??''}}</td>
-
-
-                              <td>{{Str::title($response->gender??'')}}</td>
+                              <td><b>{{Str::title($response->firstname??'')}}</b><br>{{$response->email??''}}<br>{{$response->mobile??''}}<br><b>Gender:</b> {{Str::title($response->gender??'')}}</td>
                               <td>
 							  @if(Auth::user()->role==2)         
 							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a>
@@ -49,6 +47,7 @@
 							  </td>
                               <td>{{$response->answer??0}}</td>
                               <td>{{date('F j, Y', strtotime($response->created_at??''))}}</td>
+                              <td>{{date('F j, Y', strtotime($response->updated_at??''))}}</td>
 							  
 							  <td>
 							  <p class="font-15 mb-0">
