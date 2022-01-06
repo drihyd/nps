@@ -10,6 +10,25 @@
                 <h5 class="card-title">@yield('title')</h5>
             </div>
             <div class="card-body">
+<form class="form-inline mb-4" action="{{route('filter.designation_levels')}}" method="post">
+@csrf
+@include('admin.common_pages.levels',['level'=>$level??''])
+&nbsp;
+@include('admin.common_pages.action_button')
+&nbsp;
+<div class="form-group mb-2">
+@if(auth()->user())
+@if(auth()->user()->role==2)
+<a href="{{url(Config::get('constants.admin').'/designation_roles')}}">Clear filter</a>
+@else
+<a href="{{url(Config::get('constants.user').'/designation_roles')}}">Clear filter</a>
+@endif
+@else
+<a href="#">
+@endif
+
+</div>
+</form>
 			
           <div class="table-responsive">
         
@@ -19,7 +38,7 @@
                         <th>S.No</th>
                         <th>Name</th>
                         <th>Sub Level</th>
-                        <th>Parent Level</th>
+                        <!-- <th>Parent Level</th> -->
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -31,7 +50,7 @@
                               <td>{{$loop->iteration}}</td>
                               <td>{{$group_level->role_name??''}}</td>
                               <td>{{Str::upper($group_level->role_level??'')}}</td>
-                              <td>{{Str::title($group_level->alias??'')}}</td>
+                              <!-- <td>{{Str::title($group_level->alias??'')}}</td> -->
                               <td>
 							  
 							  <a href="{{url(Config::get('constants.admin').'/designation_roles/edit/'.Crypt::encryptString($group_level->id))}}" class="edit mr-2" title="Edit" ><i class="feather icon-edit-2"></i></a>

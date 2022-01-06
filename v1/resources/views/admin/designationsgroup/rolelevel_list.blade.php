@@ -19,9 +19,9 @@
 <div class="form-group mb-2">
 @if(auth()->user())
 @if(auth()->user()->role==2)
-<a href="{{url(Config::get('constants.admin').'/questions')}}">Clear filter</a>
+<a href="{{url(Config::get('constants.admin').'/designation_levels')}}">Clear filter</a>
 @else
-<a href="{{url(Config::get('constants.user').'/questions')}}">Clear filter</a>
+<a href="{{url(Config::get('constants.user').'/designation_levels')}}">Clear filter</a>
 @endif
 @else
 <a href="#">

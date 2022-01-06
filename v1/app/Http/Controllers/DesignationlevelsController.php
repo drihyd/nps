@@ -187,13 +187,31 @@ class DesignationlevelsController extends Controller
          return redirect()->back()->with('success','Success! Details are deleted successfully');
         
     }
-    public function designation_roles_list()
+    public function designation_roles_list(Request $request)
     {   
 
-        $group_level_data=RoleNames::leftjoin('role_levels', 'role_names.designation_role_id', '=', 'role_levels.id')->leftjoin('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')->where('role_names.organization_id',Auth::user()->organization_id)->get(['role_levels.*','role_names.*','group_levels.name as group_level_name','group_levels.alias as alias']);
+        if($request->level) { 
+                $level=$request->level;
+                }       
+                else{
+                $level='';
+                
+                
+                }
+
+        $group_level_data=RoleNames::leftjoin('role_levels', 'role_names.designation_role_id', '=', 'role_levels.id')
+        ->leftjoin('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')
+        ->where('role_names.organization_id',Auth::user()->organization_id)
+        ->where(function($group_level_data) use ($level){   
+            if($level){       
+                $group_level_data->where('role_levels.designation_id',"=",$level);            
+            }
+            })
+        ->get(['role_levels.*','role_names.*','group_levels.name as group_level_name','group_levels.alias as alias']);
         $pageTitle="Designation Roles";      
-        $addlink=url(Config::get('constants.admin').'/designation_roles/create');     
-        return view('admin.designationsgroup.rolenames_list', compact('pageTitle','group_level_data','addlink'))
+        $addlink=url(Config::get('constants.admin').'/designation_roles/create');
+        $level=$request->level??'';     
+        return view('admin.designationsgroup.rolenames_list', compact('pageTitle','group_level_data','addlink','level'))
         ->with('i', (request()->input('page', 1) - 1) * 5);
             
         
@@ -217,14 +235,18 @@ class DesignationlevelsController extends Controller
             'designation_role_id' => 'required', 
         ]);
 
-        RoleNames::insert([
-            [
+       $role_id= RoleNames::insertGetId(array(
                 "role_name"=>$request->role_name??'',
                 "designation_id"=>$request->designation_id??'',
                 "designation_role_id"=>$request->designation_role_id??'',
                 "organization_id"=>$request->organization_id??'',
+            )); 
+        DB::table('user_types')->insert([
+            [
+                "name"=>$request->role_name??'',
+                "role_name_id"=> $role_id,
             ]  
-        ]); 
+        ]);
         return redirect(Config::get('constants.admin').'/designation_roles')->with('success', "Success! Details are added successfully"); 
     }
     public function edit_designation_roles($id)    {
@@ -255,13 +277,22 @@ class DesignationlevelsController extends Controller
                 "designation_role_id"=>$request->designation_role_id??'',
                 "organization_id"=>$request->organization_id??'',
             ]
-            );      
+            );  
+
+             DB::table('user_types')->where('role_name_id', $request->id)->update(
+            [
+                
+                "name"=>$request->role_name??'',
+            ]  
+        );    
         return redirect(Config::get('constants.admin').'/designation_roles')->with('success', "Success! Details are updated successfully");
     }
     public function delete_designation_roles($id)
     {
         $ID = Crypt::decryptString($id);
-            $data=RoleNames::where('id',$ID)->delete();   
+            $data=RoleNames::where('id',$ID)->delete(); 
+            $data=DB::table('user_types')->where('role_name_id',$ID)->delete(); 
+
          return redirect()->back()->with('success','Success! Details are deleted successfully');
         
     }
