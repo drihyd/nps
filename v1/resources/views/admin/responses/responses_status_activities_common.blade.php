@@ -1,3 +1,4 @@
+@if(isset($person_responses_data[0]->ticket_status))
 <div class="card m-b-30">
     <div class="card-header">                                
         <div class="row align-items-center">
@@ -48,3 +49,5 @@
         </div>
     </div>
 </div>
+
+@endif

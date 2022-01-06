@@ -11,6 +11,7 @@
                          <th>S.No</th>
                         <th>Customer</th>      
                         <th>Gender</th>
+                        <th>Ticket Number</th>
                         <th>Score</th>
                         <th>Feedback Date</th>
                         <th>Status</th>
@@ -18,6 +19,8 @@
                     </tr>
                 </thead>
                 <tbody>
+				
+			
                   
                       @foreach ($Data as $response)  
                           <tr>
@@ -27,6 +30,23 @@
 
 
                               <td>{{Str::title($response->gender??'')}}</td>
+                              <td>
+							  @if(Auth::user()->role==2)         
+							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a>
+                               
+                                @elseif(Auth::user()->role==3)
+								                  <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a>
+                                
+                                @elseif(Auth::user()->role==4)
+                                <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a>
+                               
+                                @else
+
+                                @endif
+							  
+							  
+							  
+							  </td>
                               <td>{{$response->answer??0}}</td>
                               <td>{{date('F j, Y', strtotime($response->created_at??''))}}</td>
 							  

@@ -32,10 +32,15 @@ class NetPromoterScore extends Controller
 
 
 
+
+
     public function nps_score_factor_count()
     {
 		
 		
+		
+		
+	
 		
 		$organization_id=auth()->user()->organization_id;	
 
@@ -246,6 +251,24 @@ public function take_person_onfo($param=false)
 	}
 }	
 
+
+/** Generate Ticket series number **/
+
+public function getNextTicketNumber()
+{
+  #Store Unique Order/Product Number
+		$unique_no = SurveyPerson::orderBy('id', 'DESC')->pluck('ticket_series_number')->first();
+        if($unique_no == null or $unique_no == ""){
+        #If Table is Empty
+        $unique_no = 1;
+        }
+        else{
+        #If Table has Already some Data
+        $unique_no = $unique_no + 1;
+      }
+    return $unique_no;
+}
+
 public function store_survey_personinfo(Request $request){
 
 
@@ -264,7 +287,7 @@ public function store_survey_personinfo(Request $request){
 		
 	
 				$Organizations=Organizations::select('*')->where('id',$request->organization_id??0)->get();	
-				
+				$ticketnumber=$this->getNextTicketNumber();
 
 				$input = [
 				"firstname"=>$request->firstname??0,
@@ -274,6 +297,8 @@ public function store_survey_personinfo(Request $request){
 				"organization_id"=>$request->organization_id??0,
 				"survey_id"=>$request->survey_id??'',
 				"logged_user_id"=>auth()->user()->id??0,
+				"ticket_series_number"=>$ticketnumber,
+				"ticker_final_number"=>"#".Carbon::now()->format('y')."".sprintf ("%02d",$ticketnumber),
 				];
 
 				$user = SurveyPerson::create($input);
@@ -925,21 +950,22 @@ public function send_ticket_opened_mail($person_id=null){
 		$mail_params = [
 		'data' =>$person_responses_data??'',
 		'person_data' =>$person_data??'',
+		'subjectline' =>'Ticket Opened '.$person_data->ticker_final_number??'',
 		];
 		
 		
-		
+	
 
 	
 		if(isset($reportingto->email)){	
 		try{
-		Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
+		Mail::to("venkat@deepredink.com")->subject()->send(new TicketOpened($mail_params));
 		}catch (\Exception $exception) {
 		}		
 		}
 		
 		/** Trigger HOD mail **/
-		$this->trigger_hod_mail($person_id,Auth::user()->organization_id);
+		//$this->trigger_hod_mail($person_id,Auth::user()->organization_id);
 		
 		
 		

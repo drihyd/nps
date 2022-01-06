@@ -29,6 +29,6 @@ class TicketOpened extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.ticket-opened')->subject('Ticket Opened')->with('content',$this->content);
+        return $this->markdown('emails.ticket-opened')->subject($this->content['subjectline']??'Ticket Opened')->with('content',$this->content);
     }
 }

@@ -1,6 +1,16 @@
         <div class="card m-b-30" style="min-height: 372px;">
             <div class="card-body">
-                <div class="row">
+			
+			
+			    <div class="row">				
+				 <div class="col-12 mb-3">
+                        <h4>Ticket Number {{$person_data->ticker_final_number??''}}</h4>
+                    </div>
+					</div>
+					
+					
+                <div class="row">		
+				
                     <div class="col-3">
                         <p class="nps-score-div"><span class="nps-score">{{$person_responses_data[0]->option_value??''}}</span><br> NPS Score</p>
                     </div>

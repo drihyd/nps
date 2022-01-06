@@ -7,8 +7,15 @@
         @include('admin.responses.responses_view_common')
     </div>
     <div class="col-lg-5">
+	
+
+	
         @include('admin.responses.responses_updatestatus_common')
         @include('admin.responses.responses_status_activities_common')
+		
+	
+		
+
     </div>  
     <!-- End col -->
     <!-- Start col -->

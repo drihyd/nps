@@ -1,4 +1,4 @@
-
+@if(isset($person_responses_data[0]->ticket_status))
         <div class="card m-b-30">
             <div class="card-header">
                 <h4>Update Status to {{Str::title($person_data->firstname??'')}} </h4>
@@ -33,3 +33,5 @@
   </form>
             </div>
         </div>
+		
+		@endif

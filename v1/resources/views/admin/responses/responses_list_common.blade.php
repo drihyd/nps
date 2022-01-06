@@ -44,16 +44,16 @@
 		
 		
 		<div class="tab-pane fade active show" id="home-line" role="tabpanel" aria-labelledby="home-tab-line">
-		@include('admin.responses.table_lists',['Data'=>$Detractors])									
+		@include('admin.responses.table_lists',['Data'=>$Detractors,'is_action_enabled'=>'yes'])									
 		</div>
 		<div class="tab-pane fade" id="profile-line" role="tabpanel" aria-labelledby="profile-tab-line">
 
-		@include('admin.responses.table_lists',['Data'=>$Passives])
+		@include('admin.responses.table_lists',['Data'=>$Passives,'is_action_enabled'=>'no'])
 
 		</div>
 		<div class="tab-pane fade" id="contact-line" role="tabpanel" aria-labelledby="contact-tab-line">
 
-		@include('admin.responses.table_lists',['Data'=>$Promoters])
+		@include('admin.responses.table_lists',['Data'=>$Promoters,'is_action_enabled'=>'no'])
 
 		</div>
 		</div>
