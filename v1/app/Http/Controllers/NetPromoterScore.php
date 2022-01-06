@@ -366,7 +366,7 @@ if($request->sendlink_email){
 		'surveyid' =>Crypt::encryptString($request->survey_id),
 		'loggedid' =>Crypt::encryptString(auth()->user()->id),
 		'personid' =>Crypt::encryptString($user->id),
-		'ticket_number' =>"#".Carbon::now()->format('y')."".sprintf ("%02d",$ticketnumber),
+		'ticket_number' =>Carbon::now()->format('y')."".sprintf ("%02d",$ticketnumber),
 		'subjectline' =>"Feedback Survey #".Carbon::now()->format('y')."".sprintf ("%02d",$ticketnumber),
 
 		];
