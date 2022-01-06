@@ -35,8 +35,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
-                        <th>Name</th>
-                        <th>Level code</th>
+                        <th>Sub Level</th>
+                        <!-- <th>Level code</th> -->
                         <!-- <th>Level name</th> -->
                         <th>Actions</th>
                     </tr>
@@ -48,7 +48,7 @@
                               
                               <td>{{$loop->iteration}}</td>
                               <td>{{Str::upper($group_level->role_level??'')}}</td>
-                              <td>{{Str::title($group_level->alias??'')}}</td>
+                              <!-- <td>{{Str::title($group_level->alias??'')}}</td> -->
                               <!-- <td>{{Str::title($group_level->group_level_name??'')}}</td> -->
                               <td>
 							  
