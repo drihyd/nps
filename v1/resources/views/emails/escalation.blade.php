@@ -1,5 +1,6 @@
 @component('mail::message')
 <h2>NPS Score/Rating: {{Str::title($content['data'][0]->rating??'')}} </h2>
+Ticket Number: {{Str::title($content['ticket_number']??'')}}<br>
 Name: {{Str::title($content['person_data']->firstname??'')}}<br> 
 Mobile: {{Str::title($content['person_data']->mobile??'')}}<br>
 Email: {{Str::title($content['person_data']->email??'')}}<br>

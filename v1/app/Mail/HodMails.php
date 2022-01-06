@@ -29,6 +29,6 @@ class HodMails extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.hod_department')->subject('Department Ticket Opened')->with('content',$this->content);
+        return $this->markdown('emails.hod_department')->subject($this->content['subjectline']??'Department Ticket Opened')->with('content',$this->content);
     }
 }

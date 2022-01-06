@@ -951,6 +951,7 @@ public function send_ticket_opened_mail($person_id=null){
 		'data' =>$person_responses_data??'',
 		'person_data' =>$person_data??'',
 		'subjectline' =>'Ticket Opened '.$person_data->ticker_final_number??'',
+		'ticket_number' =>$person_data->ticker_final_number??'',
 		];
 		
 		
@@ -959,13 +960,13 @@ public function send_ticket_opened_mail($person_id=null){
 	
 		if(isset($reportingto->email)){	
 		try{
-		Mail::to("venkat@deepredink.com")->subject()->send(new TicketOpened($mail_params));
+		Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
 		}catch (\Exception $exception) {
 		}		
 		}
 		
 		/** Trigger HOD mail **/
-		//$this->trigger_hod_mail($person_id,Auth::user()->organization_id);
+		$this->trigger_hod_mail($person_id,Auth::user()->organization_id);
 		
 		
 		
@@ -1025,7 +1026,7 @@ public function trigger_escalation_mails(){
 				if($escllations->alias=="L3"){					
 					/** Trigger HOD Escllation mail **/
 					
-					$this->trigger_hod_mail($value->person_id,$value->organization_id);					
+					$this->trigger_hod_mail($value->person_id,$value->organization_id,"First Ticket Escalation");					
 				}				
 				else if($escllations->alias=="L4"){					
 					/** Trigger Operational Escllation mail **/
@@ -1037,7 +1038,7 @@ public function trigger_escalation_mails(){
 					
 					
 					foreach($reportingto as $key1=>$value1){
-					$this->trigger_escal_mail($value->person_id,$value->organization_id,$value1->email);
+					$this->trigger_escal_mail($value->person_id,$value->organization_id,$value1->email,"Second Ticket Escalation");
 					}
 
 					
@@ -1053,7 +1054,7 @@ public function trigger_escalation_mails(){
 					
 					
 					foreach($reportingto as $key1=>$value1){
-					$this->trigger_escal_mail($value->person_id,$value->organization_id,$value1->email);
+					$this->trigger_escal_mail($value->person_id,$value->organization_id,$value1->email,"Third Ticket Escalation");
 					}
 					
 					
@@ -1123,6 +1124,8 @@ public function trigger_hod_mail($person_id=false,$organization_id=false){
 									'Dep_note' =>$value->answeredby_person??'',
 									'person_data' =>$person_data??'',
 									'nps_score' =>$value->rating??'',
+									'subjectline' =>'Department Ticket Opened '.$person_data->ticker_final_number??'',
+									'ticket_number' =>$person_data->ticker_final_number??'',
 									];
 
 									Mail::to($reporting_hod_dep->email)->send(new HodMails($mail_params));
@@ -1143,7 +1146,7 @@ public function trigger_hod_mail($person_id=false,$organization_id=false){
 	
 }
 
-public function trigger_escal_mail($person_id=false,$organization_id=false,$reportingto=false){
+public function trigger_escal_mail($person_id=false,$organization_id=false,$reportingto=false,$escalatonmsg=false){
 	
 	
 	
@@ -1160,6 +1163,8 @@ public function trigger_escal_mail($person_id=false,$organization_id=false,$repo
 	$mail_params = [
 	'data' =>$person_responses_data??'',
 	'person_data' =>$person_data??'',
+	'subjectline' =>$escalatonmsg." ".$person_data->ticker_final_number??'',
+	'ticket_number' =>$person_data->ticker_final_number??'',
 	];
 	
 	

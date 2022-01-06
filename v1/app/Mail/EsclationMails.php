@@ -29,6 +29,6 @@ class EsclationMails extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.escalation')->subject('Escalation Ticket')->with('content',$this->content);;
+        return $this->markdown('emails.escalation')->subject($this->content['subjectline']??'Escalation Ticket')->with('content',$this->content);;
     }
 }
