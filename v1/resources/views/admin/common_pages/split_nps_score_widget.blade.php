@@ -124,43 +124,7 @@
 
 
 
-<!--
 
-        <div class="card m-b-30" style="min-height:200px">
-
-            <div class="card-body text-center">
-                <div class="course-slider">
-                    <div class="course-slider-item">
-                        <h4 class="my-0 pull-left">Net Promoter Score</h4>
-                        <div class="clearfix"></div>
-                        <div class="row align-items-center my-4 py-3">
-                            <div class="col-4 py-3 px-0  success-rgba text-success">
-                                <h4 class="text-danger">{{$final_score->Promoters??''}}</h4>
-                                <p class="text-danger mb-0">Promoters</p>
-                            </div>
-							
-							
-							 <div class="col-4 py-3 px-0 danger-rgba text-danger">
-                                <h4>{{$final_score->Detractors??''}}</h4>
-                                <p class="mb-0">Detractors</p>
-                            </div>
-							
-                            <div class="col-4 py-3 px-0 primary-rgba text-primary">
-                                <h4 class="text-warning">{{$final_score->Neutral??''}}</h4>
-                                <p class="text-warning mb-0">Neutral</p>
-                            </div>
-                           
-                        </div>
-                        
-                        
-                    </div>
-                    
-                    
-                </div>                                        
-            </div>
-        </div>
-		
-		-->
 		
 		
 		
