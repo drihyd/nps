@@ -29,7 +29,7 @@ class ResponsesController extends Controller
         // echo '<pre>'; print_r($responses_data); exit();
 
         foreach ($responses_data as $key => $value) {
-        $responses_data[$key]->qoptions = SurveyAnswered::select('question_options.option_value as answer')
+        $responses_data[$key]->qoptions = SurveyAnswered::select('question_options.option_value as answer','survey_answered.updated_at as last_status_updated_at')
          ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
          ->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
         ->where('survey_persons.organization_id',Auth::user()->organization_id)
@@ -82,7 +82,7 @@ class ResponsesController extends Controller
 		
 		
 		
-			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status')
+			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 				
@@ -110,7 +110,7 @@ class ResponsesController extends Controller
 			->get();
 			
 		
-			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status')
+			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			//->where('survey_answered.question_id',1)		
@@ -139,7 +139,7 @@ class ResponsesController extends Controller
 			
 			
 			
-			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status')
+			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			//->where('survey_answered.question_id',1)		
@@ -171,7 +171,7 @@ class ResponsesController extends Controller
 			
 	
 		
-		
+		// dd($responses_data);
 		
         $pageTitle="Responses";  
 		$pickteam=$request->team??'';		

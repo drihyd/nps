@@ -47,7 +47,7 @@
 							  </td>
                               <td>{{$response->answer??0}}</td>
                               <td>{{date('F j, Y', strtotime($response->created_at??''))}}</td>
-                              <td>{{date('F j, Y', strtotime($response->updated_at??''))}}</td>
+                              <td>{{date('F j, Y', strtotime($response->last_action_date??''))}}</td>
 							  
 							  <td>
 							  <p class="font-15 mb-0">
