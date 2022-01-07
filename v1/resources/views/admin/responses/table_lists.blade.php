@@ -14,7 +14,7 @@
                         <th>Ticket Number</th>
                         <th>Score</th>
                         <th>Feedback Date</th>
-                        <!-- <th>Last Updated Date</th> -->
+                        <th>Last Updated Date</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -47,7 +47,7 @@
 							  </td>
                               <td>{{$response->answer??0}}</td>
                               <td>{{date('F j, Y', strtotime($response->created_at??''))}}</td>
-                              <!-- <td>{{date('F j, Y', strtotime($response->updated_at??''))}}</td> -->
+                              <td>{{date('F j, Y', strtotime($response->last_action_date??''))}}</td>
 							  
 							  <td>
 							  <p class="font-15 mb-0">
