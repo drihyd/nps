@@ -21,12 +21,21 @@ use Illuminate\Support\Facades\Crypt;
 
 class ResponsesController extends Controller
 {
+	
+	
+	public function __construct() {
+		$this->role = auth()->user()->role??0;
+	  }
     public function response_list(Request $request)
     {   
+	
+		$role=auth()->user()->role??0;
+
+	
         $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)		
 		->where('survey_persons.logged_user_id',auth()->user()->id??0)
 		->get();
-        // echo '<pre>'; print_r($responses_data); exit();
+
 
         foreach ($responses_data as $key => $value) {
         $responses_data[$key]->qoptions = SurveyAnswered::select('question_options.option_value as answer','survey_answered.updated_at as last_status_updated_at')
@@ -39,17 +48,7 @@ class ResponsesController extends Controller
         ->get();   
         }
 
-        //dd($responses_data);
-
-        // echo '<pre>'; print_r($responses_data); exit();
-
-        // $responses_data=SurveyAnswered::select('question_options.option_value','survey_persons.firstname','survey_persons.email','survey_persons.mobile','survey_persons.created_at')
-        //  ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
-        //  ->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-        // ->where('survey_persons.organization_id',Auth::user()->organization_id)
-        // ->where('survey_answered.question_id',1)
-        // ->orderBy('survey_persons.created_at','DESC')
-        // ->get();
+      
 		
 		
 		
@@ -84,10 +83,23 @@ class ResponsesController extends Controller
 		
 			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-			->where('survey_persons.organization_id',Auth::user()->organization_id)
+			->where('survey_persons.organization_id',Auth::user()->organization_id)				
+			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])			
+		
+
+			->where(function($Detractors) use ($role){	
+			
+			
+			if($role==2){	
 				
-			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])
-			//->where('survey_persons.logged_user_id',auth()->user()->id??0)			
+			}
+			else{
+				$Detractors->where('survey_persons.logged_user_id',auth()->user()->id??0);
+			}	
+			})
+			
+			
+			
 			->where(function($Detractors) use ($from_date,$to_date){	
 			if($from_date &&  $to_date){		
 				$Detractors->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
@@ -115,7 +127,14 @@ class ResponsesController extends Controller
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			//->where('survey_answered.question_id',1)		
 			->whereIn('survey_answered.rating',[7,8])
-			//->where('survey_persons.logged_user_id',auth()->user()->id??0)			
+			->where(function($Passives) use ($role){	
+			if($role==2){	
+				
+			}
+			else{
+				$Passives->where('survey_persons.logged_user_id',auth()->user()->id??0);
+			}	
+			})			
 			->where(function($Passives) use ($from_date,$to_date){	
 			if($from_date &&  $to_date){		
 				$Passives->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
@@ -144,7 +163,14 @@ class ResponsesController extends Controller
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			//->where('survey_answered.question_id',1)		
 			->whereIn('survey_answered.rating',[9,10])
-			//->where('survey_persons.logged_user_id',auth()->user()->id??0)			
+			->where(function($Promoters) use ($role){	
+			if($role==2){	
+				
+			}
+			else{
+				$Promoters->where('survey_persons.logged_user_id',auth()->user()->id??0);
+			}	
+			})		
 			->where(function($Promoters) use ($from_date,$to_date){	
 			if($from_date &&  $to_date){		
 				$Promoters->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
@@ -180,6 +206,7 @@ class ResponsesController extends Controller
     }
     public function response_view($per_id)
     { 
+	
         $person_id = Crypt::decryptString($per_id);
         $person_data= SurveyPerson::where('organization_id',Auth::user()->organization_id)->where('id',$person_id)->get()->first();
 
@@ -196,8 +223,8 @@ class ResponsesController extends Controller
         // ->where('survey_answered.person_id',$person_id)
         // ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value','departments.department_name as department_name']);
         // dd($person_data);
-        $person_responses_status_data = UpdateStatusResponseLog::where('logged_user_id',Auth::user()->id)->where('person_id',$person_id)->orderBy('created_at','DESC')->get();
-        // dd($person_responses_status_data);
+        $person_responses_status_data = UpdateStatusResponseLog::where('person_id',$person_id)->orderBy('created_at','DESC')->get();
+        //dd($person_responses_status_data);
         
         $pageTitle= Str::title($person_data->firstname??'')." Response";    
         return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data','person_responses_status_data'))
@@ -226,6 +253,7 @@ class ResponsesController extends Controller
     }
     public function frontend_response_view($per_id)
     { 
+	
         $person_id = Crypt::decryptString($per_id);
         $person_data= SurveyPerson::where('logged_user_id',Auth::user()->id)->where('id',$person_id)->get()->first();
         $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
@@ -235,7 +263,7 @@ class ResponsesController extends Controller
         ->where('survey_answered.person_id',$person_id)
         ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
 
-        $person_responses_status_data = UpdateStatusResponseLog::where('logged_user_id',Auth::user()->id)->where('person_id',$person_id)->orderBy('created_at','DESC')->get();
+        $person_responses_status_data = UpdateStatusResponseLog::where('person_id',$person_id)->orderBy('created_at','DESC')->get();
         // dd($person_responses_status_data);
         $pageTitle= Str::title($person_data->firstname??'')." Response";    
         return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data','person_responses_status_data'))

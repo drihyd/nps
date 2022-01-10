@@ -291,8 +291,7 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 		"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
 		
     });
-    $('#default-datatable').DataTable( {
-        "order": [[ 3, "desc" ]],
+    $('#default-datatable').DataTable( {   
         responsive: true,
 		"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
     } );    

@@ -89,21 +89,3 @@ $(".gst").change(function () {
   
 
   
-  <script>
-  
-      /* -- Chartistjs - Gauge Chart Using Fill Rather Than Stroke -- */
-	  
-	  /*
-      new Chartist.Pie('#chartist-gauge-fill-rather-chart', {
-        series: [{{$final_score->Promoters??0}},{{$final_score->Neutral??0}},{{$final_score->Detractors??0}}]
-      }, {
-        donut: true,
-        donutWidth: 40,
-        donutSolid: true,
-        startAngle: 270,
-        total: {{$final_score->total_feedbacks??0}},
-        showLabel: true
-      });
-  
-  */
-  </script>

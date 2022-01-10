@@ -40,7 +40,7 @@ use App\Models\User;
 			
           <div class="table-responsive">
         
-          <table id="default-datatable" class="display table Config::get('constants.tablestriped') table-responsive">
+          <table id="default-datatable" class="display table Config::get('constants.tablestriped')">
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
@@ -56,7 +56,8 @@ use App\Models\User;
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody>			
+		
                   
                       @foreach ($users_data as $user)  
                           <tr>
