@@ -60,6 +60,7 @@ Route::get('session.logout', [LoginController::class,'logout'])->name('session.l
 Route::any('filter.responses', [ResponsesController::class,'response_list'])->name('filter.responses');
 
 Route::any('filter.questions', [QuestionsController::class,'questions_list'])->name('filter.questions');
+Route::any('filter.questions_options', [QuestionsOptionsController::class,'questions_option_list'])->name('filter.questions_options');
 Route::any('filter.roles', [UsermanagementController::class,'department_users_list'])->name('filter.roles');
 Route::any('filter.teams', [ActivitiesController::class,'activities_list'])->name('filter.teams');
 Route::any('filter.levels', [DesignationlevelsController::class,'designation_levels_list'])->name('filter.levels');

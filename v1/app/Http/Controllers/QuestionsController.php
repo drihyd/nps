@@ -23,9 +23,7 @@ class QuestionsController extends Controller
     {   
         
         if($request->question_id) {                    
-                $Question=Questions::select()
-                ->where('survey_id',$request->question_id)
-                ->pluck('id');  
+                $Question=$request->question_id;
                 }       
                 else{
                 $Question='';
@@ -39,7 +37,7 @@ class QuestionsController extends Controller
         ->where('questions.organization_id',Auth::user()->organization_id)
         ->where(function($questions_data) use ($Question){   
             if($Question){       
-                $questions_data->whereIn('questions.survey_id',$Question);                
+                $questions_data->where('questions.survey_id','=',$Question);                
             }
             })
         ->get(['questions.*','surveys.title as survey_title']);

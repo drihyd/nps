@@ -32,7 +32,7 @@
         <select  class="form-control" name="question_id" id="question_id" required="required">
           <option value="">-- Select --</option>
           @foreach($questions_data as $questions)
-            <option value="{{$questions->id}}" {{ old('question_id',$questions_options_data->question_id??'') == $questions->id ? 'selected':''}}>{{$questions->label??''}}</option>
+            <option value="{{$questions->id}}" {{ old('question_id',$questions_options_data->question_id??'') == $questions->id ? 'selected':''}}>{{$questions->label??''}} - {{$questions->survey_id??''}}</option>
           @endforeach
               
         </select>

@@ -19,13 +19,30 @@ use Config;
 
 class QuestionsOptionsController extends Controller
 {
-    public function questions_option_list()
+    public function questions_option_list(Request $request)
     {   
-        
-        $questions_options_data=QuestionOptions::join('questions', 'question_options.question_id', '=', 'questions.id')->orderBy('question_options.question_id')->get(['question_options.*','questions.label as question_label']);
+        if($request->question_id) {                    
+                $Question=$request->question_id;
+                }       
+                else{
+                $Question='';
+                
+                
+                }
+
+        $questions_options_data=QuestionOptions::join('questions', 'question_options.question_id', '=', 'questions.id')
+        ->where('questions.organization_id',Auth::user()->organization_id)
+        ->orderBy('question_options.question_id')
+        ->where(function($questions_options_data) use ($Question){   
+            if($Question){       
+                $questions_options_data->where('questions.survey_id','=',$Question);                
+            }
+            })
+        ->get(['question_options.*','questions.label as question_label']);
         $pageTitle="Question Options";      
-        $addlink=url(Config::get('constants.admin').'/questions_options/create');     
-        return view('admin.question_options.question_options_list', compact('pageTitle','questions_options_data','addlink'))
+        $addlink=url(Config::get('constants.admin').'/questions_options/create');
+        $quetion=$request->question_id??'';     
+        return view('admin.question_options.question_options_list', compact('pageTitle','questions_options_data','addlink','quetion'))
         ->with('i', (request()->input('page', 1) - 1) * 5);
         
     }
