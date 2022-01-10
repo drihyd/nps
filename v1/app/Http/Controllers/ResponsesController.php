@@ -87,7 +87,7 @@ class ResponsesController extends Controller
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 				
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])
-			->where('survey_persons.logged_user_id',auth()->user()->id??0)			
+			//->where('survey_persons.logged_user_id',auth()->user()->id??0)			
 			->where(function($Detractors) use ($from_date,$to_date){	
 			if($from_date &&  $to_date){		
 				$Detractors->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
@@ -115,7 +115,7 @@ class ResponsesController extends Controller
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			//->where('survey_answered.question_id',1)		
 			->whereIn('survey_answered.rating',[7,8])
-			->where('survey_persons.logged_user_id',auth()->user()->id??0)			
+			//->where('survey_persons.logged_user_id',auth()->user()->id??0)			
 			->where(function($Passives) use ($from_date,$to_date){	
 			if($from_date &&  $to_date){		
 				$Passives->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
@@ -144,7 +144,7 @@ class ResponsesController extends Controller
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			//->where('survey_answered.question_id',1)		
 			->whereIn('survey_answered.rating',[9,10])
-			->where('survey_persons.logged_user_id',auth()->user()->id??0)			
+			//->where('survey_persons.logged_user_id',auth()->user()->id??0)			
 			->where(function($Promoters) use ($from_date,$to_date){	
 			if($from_date &&  $to_date){		
 				$Promoters->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");

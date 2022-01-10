@@ -3,7 +3,7 @@
 									   
 									   
         
-          <table id="default-datatable" class="display table Config::get('constants.tablestriped')">
+          <table  class="display table Config::get('constants.tablestriped')">
 		  
 		  
                 <thead class="thead-dark">
