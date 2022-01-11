@@ -81,7 +81,28 @@ class DepartmentsController extends Controller
                 "department_id"=>$id??'',
                 "option_value"=>$request->department_name??'',
             ]  
+        ]);
+        QuestionOptions::insert([
+            [
+                "question_id"=>12,
+                "department_id"=>$id??'',
+                "option_value"=>$request->department_name??'',
+            ]  
         ]); 
+        QuestionOptions::insert([
+            [
+                "question_id"=>13,
+                "department_id"=>$id??'',
+                "option_value"=>$request->department_name??'',
+            ]  
+        ]);
+        QuestionOptions::insert([
+            [
+                "question_id"=>14,
+                "department_id"=>$id??'',
+                "option_value"=>$request->department_name??'',
+            ]  
+        ]);
 
 
 
@@ -142,7 +163,28 @@ class DepartmentsController extends Controller
                 // "question_id"=>2,
                 "option_value"=>$request->department_name??'',
             ]  
+        );
+        QuestionOptions::where('department_id', $request->id)->where('question_id',12)
+            ->update(
+            [
+                // "question_id"=>2,
+                "option_value"=>$request->department_name??'',
+            ]  
+        ); 
+        QuestionOptions::where('department_id', $request->id)->where('question_id',13)
+            ->update(
+            [
+                // "question_id"=>2,
+                "option_value"=>$request->department_name??'',
+            ]  
         );   
+        QuestionOptions::where('department_id', $request->id)->where('question_id',14)
+            ->update(
+            [
+                // "question_id"=>2,
+                "option_value"=>$request->department_name??'',
+            ]  
+        ); 
         return redirect(Config::get('constants.admin').'/departments')->with('success', "Success! Details are updated successfully");
     }
     public function delete_departments($id)
