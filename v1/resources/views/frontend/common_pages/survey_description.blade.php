@@ -1,7 +1,7 @@
 
 @if(Auth::user())
 @php
-$surveys_data=DB::table('surveys')->where('organization_id',Auth::user()->organization_id)->get()->first();
+$surveys_data=DB::table('surveys')->where('id',Session::get('selected_survey_id')??0)->where('organization_id',Auth::user()->organization_id)->get()->first();
 @endphp
 @endif
 

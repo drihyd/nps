@@ -261,8 +261,13 @@ public function take_person_onfo($param=false)
 		{
 		try{
 		$surveyid=Crypt::decryptString($param);
+		
+		Session::put('selected_survey_id',$surveyid);
+
+
 		$organization_id=auth()->user()->organization_id;
 		$Surveys=Surveys::select('*')->where('id',$surveyid)->get();
+		
 		$custom_fields=CustomerFieldsConfigurable::select('*')->where('organization_id',$organization_id)->where('is_display','yes')->get();
 		if($Surveys){		
 		$page=false;			
