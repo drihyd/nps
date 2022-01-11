@@ -78,7 +78,14 @@ class ResponsesController extends Controller
 				
 				}
 		
-		
+		if($request->question_id) {                    
+                $Question=$request->question_id;
+                }       
+                else{
+                $Question='';
+                
+                
+                }
 		
 		
 			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date')
@@ -117,6 +124,11 @@ class ResponsesController extends Controller
 			}
 			
 			})
+			->where(function($Detractors) use ($Question){   
+            if($Question){       
+                $Detractors->where('survey_answered.survey_id','=',$Question);                
+            }
+            })
 			
 			->orderBy('survey_persons.created_at','DESC')
 			->get();
@@ -152,6 +164,11 @@ class ResponsesController extends Controller
 			}
 			
 			})
+			->where(function($Passives) use ($Question){   
+            if($Question){       
+                $Passives->where('survey_answered.survey_id','=',$Question);                
+            }
+            })
 			
 			->orderBy('survey_persons.created_at','DESC')
 			->get(); 
@@ -189,6 +206,11 @@ class ResponsesController extends Controller
 			}
 			
 			})
+			->where(function($Promoters) use ($Question){   
+            if($Question){       
+                $Promoters->where('survey_answered.survey_id','=',$Question);                
+            }
+            })
 			
 			->orderBy('survey_persons.created_at','DESC')
 			->get();
@@ -200,8 +222,9 @@ class ResponsesController extends Controller
 		// dd($responses_data);
 		
         $pageTitle="Responses";  
-		$pickteam=$request->team??'';		
-        return view('admin.responses.responses_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam'))
+		$pickteam=$request->team??'';	
+		$quetion=$request->question_id??'';	
+        return view('admin.responses.responses_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam','quetion'))
         ->withInput('i', (request()->input('page', 1) - 1) * 5);  
     }
     public function response_view($per_id)
