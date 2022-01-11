@@ -41,8 +41,8 @@ class ResponsesController extends Controller
         $responses_data[$key]->qoptions = SurveyAnswered::select('question_options.option_value as answer','survey_answered.updated_at as last_status_updated_at')
          ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
          ->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-        ->where('survey_persons.organization_id',Auth::user()->organization_id)
-        ->where('survey_answered.question_id',1)
+        ->where('survey_persons.organization_id',Auth::user()->organization_id)      
+		->whereIn('survey_answered.question_id',[1,11])
        ->where('survey_answered.person_id',$value->id)
         ->orderBy('survey_persons.created_at','DESC')
         ->get();   
@@ -80,12 +80,15 @@ class ResponsesController extends Controller
 		
 		if($request->question_id) {                    
                 $Question=$request->question_id;
+			
                 }       
                 else{
                 $Question='';
                 
-                
+              
                 }
+		
+		
 		
 		
 			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
@@ -121,7 +124,8 @@ class ResponsesController extends Controller
 				$Detractors->where('survey_answered.answeredby_person','!=','');				
 			}	
 			else{
-			$Detractors->where('survey_answered.question_id',1);	
+			$Detractors->whereIn('survey_answered.question_id',[1,11]);
+			
 			}
 			
 			})
@@ -138,8 +142,7 @@ class ResponsesController extends Controller
 			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-			->where('survey_persons.organization_id',Auth::user()->organization_id)
-			//->where('survey_answered.question_id',1)		
+			->where('survey_persons.organization_id',Auth::user()->organization_id)			
 			->whereIn('survey_answered.rating',[7,8])
 			->where(function($Passives) use ($role){	
 			if($role==2){	
@@ -162,7 +165,7 @@ class ResponsesController extends Controller
 			   $Passives->where('survey_answered.answeredby_person','!=','');					
 			}	
 			else{
-			$Passives->where('survey_answered.question_id',1);	
+			$Passives->whereIn('survey_answered.question_id',[1,11]);	
 			}
 			
 			})
@@ -180,8 +183,7 @@ class ResponsesController extends Controller
 			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-			->where('survey_persons.organization_id',Auth::user()->organization_id)
-			//->where('survey_answered.question_id',1)		
+			->where('survey_persons.organization_id',Auth::user()->organization_id)	
 			->whereIn('survey_answered.rating',[9,10])
 			->where(function($Promoters) use ($role){	
 			if($role==2){	
@@ -205,7 +207,7 @@ class ResponsesController extends Controller
 				$Promoters->where('survey_answered.answeredby_person','!=','');				
 			}
 			else{
-				$Promoters->where('survey_answered.question_id',1);	
+				$Promoters->whereIn('survey_answered.question_id',[1,11]);	
 			}
 			
 			})
@@ -222,7 +224,7 @@ class ResponsesController extends Controller
 			
 	
 		
-		// dd($responses_data);
+	
 		
         $pageTitle="Responses";  
 		$pickteam=$request->team??'';	
@@ -266,8 +268,8 @@ class ResponsesController extends Controller
         $responses_data[$key]->qoptions = SurveyAnswered::select('question_options.option_value as answer')
          ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
          ->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-        ->where('survey_persons.logged_user_id',Auth::user()->id)
-        ->where('survey_answered.question_id',1)
+        ->where('survey_persons.logged_user_id',Auth::user()->id)   
+		->whereIn('survey_answered.question_id',[1,11])	
        ->where('survey_answered.person_id',$value->id)
         ->orderBy('survey_persons.created_at','DESC')
         ->get();   
@@ -281,11 +283,10 @@ class ResponsesController extends Controller
     { 
 	
         $person_id = Crypt::decryptString($per_id);
-        $person_data= SurveyPerson::where('logged_user_id',Auth::user()->id)->where('id',$person_id)->get()->first();
+        $person_data= SurveyPerson::where('id',$person_id)->get()->first();
         $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
-        ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
-        ->where('survey_answered.logged_user_id',Auth::user()->id)
+        ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')       
         ->where('survey_answered.person_id',$person_id)
         ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
 

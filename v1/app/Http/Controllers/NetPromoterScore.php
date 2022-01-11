@@ -25,6 +25,7 @@ use App\Mail\HodMails;
 use App\Mail\EsclationMails;
 use App\Models\Activities;
 use App\Models\Departments;
+use Log;
 
 
 class NetPromoterScore extends Controller
@@ -491,11 +492,18 @@ try{
 	
 public function surveyone_post(Request $request)
 {
-		
+
 try{
-		$Questions=Questions::select('questions.next_qustion_id as qnq','questions.sequence_order as qseq','questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$request->question_id)->get()->first();		 
+	
+	
+	
+	
+		$Questions=Questions::select('questions.next_qustion_id as qnq','questions.sequence_order as qseq','questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('id',$request->question_id)->where('survey_id',$request->survey_id??0)->get()->first();		 
+		
+		
 		$qseq=$Questions->qseq;		
-		if($request->first_questin_range){			
+		if($request->first_questin_range){	
+		
 		if($qseq!=1){		
 		$nextquestion=$Questions->qnq;
 		}
@@ -571,6 +579,7 @@ DB::table('passing_departments')->insert(
 'sorting' =>$key,
 'department_id' => $value,
 'passing_page' =>$sorting,
+'survey_id' =>$request->survey_id??0,
 
 ]
 );
@@ -588,6 +597,7 @@ DB::table('passing_departments')->insert(
 'sorting' =>30,
 'department_id' => 21,
 'passing_page' =>"no",
+'survey_id' =>$request->survey_id??0,
 
 ]
 );
@@ -774,7 +784,7 @@ $selected_departments='';
 			else{				
 				$nextquestion=5;
 			}
-		$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$nextquestion)->get();		 
+		$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$nextquestion)->where('survey_id',$request->survey_id??0)->get();		 
 		foreach ($Questions as $key => $value) {
 		$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
 		->where('question_id', $value->qid)
@@ -786,7 +796,7 @@ $selected_departments='';
 		}
 		else{
 			
-			$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$nextquestion)->get();		 
+			$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$nextquestion)->where('survey_id',$request->survey_id??0)->get();		 
 		foreach ($Questions as $key => $value) {
 		$Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
 		->where('question_id', $value->qid)
@@ -859,6 +869,8 @@ $selected_departments='';
 }
 
 catch (\Exception $exception){
+	
+	//dd($exception);
 		abort(401);
 }
 		
@@ -1255,6 +1267,11 @@ public function trigger_escal_mail($person_id=false,$organization_id=false,$repo
 	}catch (\Exception $exception) {
 	}		
 	}
+	
+}
+
+public function checkcronlog(){
+	Log::info("Test cron performance");
 	
 }
 

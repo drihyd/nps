@@ -4,6 +4,7 @@
 
 @include('admin.common_pages.dates_input')
 @include('admin.common_pages.teams',['pickteam'=>$pickteam??''])
+&nbsp;
 @include('admin.common_pages.surveys',['quetion'=>$quetion??''])
 &nbsp;
 @include('admin.common_pages.action_button')
