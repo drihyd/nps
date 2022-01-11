@@ -45,20 +45,40 @@ class NetPromoterScore extends Controller
 		try{
 
 		$organization_id=auth()->user()->organization_id;	
+		
+		$role=auth()->user()->role??0;
 
 		
 		$Promoters=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
-		->where('survey_answered.organization_id',$organization_id)
-		->where('survey_answered.question_id',1)
-		->where('survey_answered.logged_user_id',auth()->user()->id??0)
+		->where('survey_answered.organization_id',$organization_id)		
+		->whereIn('survey_answered.question_id',[1,11])
+				
+		->where(function($Promoters) use ($role){	
+		if($role==2){	
+
+		}
+		else{
+		$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
+		}	
+		})
+
 		->whereIn('question_options.option_value',[9,10])
 		->count();
 		$Neutral=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
-		->where('survey_answered.question_id',1)
-		->where('survey_answered.logged_user_id',auth()->user()->id??0)
+		->whereIn('survey_answered.question_id',[1,11])
+		
+		->where(function($Neutral) use ($role){	
+		if($role==2){	
+
+		}
+		else{
+		$Neutral->where('survey_answered.logged_user_id',auth()->user()->id??0);
+		}	
+		})
+
 		->whereIn('question_options.option_value',[7,8])
 		->count();
 		
@@ -66,8 +86,15 @@ class NetPromoterScore extends Controller
 		$Detractors=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
-		->where('survey_answered.question_id',1)
-		->where('survey_answered.logged_user_id',auth()->user()->id??0)
+		->whereIn('survey_answered.question_id',[1,11])
+		->where(function($Detractors) use ($role){	
+		if($role==2){	
+
+		}
+		else{
+		$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);
+		}	
+		})
 		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
 		->count();
 		
@@ -77,16 +104,30 @@ class NetPromoterScore extends Controller
 		$Promoters_lastweek=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
-		->where('survey_answered.question_id',1)
-		->where('survey_answered.logged_user_id',auth()->user()->id??0)
+		->whereIn('survey_answered.question_id',[1,11])
+		->where(function($Promoters_lastweek) use ($role){	
+		if($role==2){	
+
+		}
+		else{
+		$Promoters_lastweek->where('survey_answered.logged_user_id',auth()->user()->id??0);
+		}	
+		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 		->whereIn('question_options.option_value',[9,10])
 		->count();
 		$Neutral_lastweek=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
-		->where('survey_answered.question_id',1)
-		->where('survey_answered.logged_user_id',auth()->user()->id??0)
+		->whereIn('survey_answered.question_id',[1,11])
+		->where(function($Neutral_lastweek) use ($role){	
+		if($role==2){	
+
+		}
+		else{
+		$Neutral_lastweek->where('survey_answered.logged_user_id',auth()->user()->id??0);
+		}	
+		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 		->whereIn('question_options.option_value',[7,8])
 		->count();
@@ -95,8 +136,15 @@ class NetPromoterScore extends Controller
 		$Detractors_lastweek=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
-		->where('survey_answered.question_id',1)
-		->where('survey_answered.logged_user_id',auth()->user()->id??0)
+		->whereIn('survey_answered.question_id',[1,11])
+		->where(function($Detractors_lastweek) use ($role){	
+		if($role==2){	
+
+		}
+		else{
+		$Detractors_lastweek->where('survey_answered.logged_user_id',auth()->user()->id??0);
+		}	
+		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
 		->count();
@@ -1079,16 +1127,13 @@ public function trigger_escalation_mails(){
 		
 		
 		$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
-        ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
-        ->where('survey_answered.organization_id',Auth::user()->organization_id)       
+        ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')           
 		->wherenotIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied'])
+		->where('survey_answered.created_at','>=',Carbon::today())
 		->orderBy('survey_answered.created_at','asc')
         ->get(['survey_answered.*','question_options.option_value as option_value']);	
 		
-		
-		
-		
-		
+	
 		
 		
 		
@@ -1117,8 +1162,7 @@ public function trigger_escalation_mails(){
 				
 				
 				if($escllations->alias=="L3"){					
-					/** Trigger HOD Escllation mail **/
-					
+					/** Trigger HOD Escllation mail **/					
 					$this->trigger_hod_mail($value->person_id,$value->organization_id,"First Ticket Escalation");					
 				}				
 				else if($escllations->alias=="L4"){					
@@ -1271,7 +1315,7 @@ public function trigger_escal_mail($person_id=false,$organization_id=false,$repo
 }
 
 public function checkcronlog(){
-	Log::info("Test cron performance");
+	Log::info("Test cron performance - NPS");
 	
 }
 

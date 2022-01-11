@@ -4,7 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Log;
+use Illuminate\Support\Facades\Log;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -25,8 +25,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+		//everyTenMinutes
 		
-		$schedule->call('\App\Http\Controllers\NetPromoterScore@checkcronlog')->everyFiveMinutes();
+		//$schedule->call('\App\Http\Controllers\NetPromoterScore@trigger_escalation_mails')->everyTenMinutes();
     }
 
     /**
