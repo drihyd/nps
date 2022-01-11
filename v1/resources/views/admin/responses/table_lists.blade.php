@@ -30,7 +30,7 @@
                               <td><b>{{Str::title($response->firstname??'')}}</b><br>{{$response->email??''}}<br>{{$response->mobile??''}}<br><b>Gender:</b> {{Str::title($response->gender??'')}}</td>
                               <td>
 							  @if(Auth::user()->role==2)         
-							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a>
+							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}</small>
                                
                                 @elseif(Auth::user()->role==3)
 								                  <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a>

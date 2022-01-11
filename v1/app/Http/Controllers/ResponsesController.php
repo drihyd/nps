@@ -88,8 +88,9 @@ class ResponsesController extends Controller
                 }
 		
 		
-			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date')
+			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
+			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)				
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])			
 		
@@ -134,8 +135,9 @@ class ResponsesController extends Controller
 			->get();
 			
 		
-			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date')
+			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
+			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			//->where('survey_answered.question_id',1)		
 			->whereIn('survey_answered.rating',[7,8])
@@ -175,8 +177,9 @@ class ResponsesController extends Controller
 			
 			
 			
-			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date')
+			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
+			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			//->where('survey_answered.question_id',1)		
 			->whereIn('survey_answered.rating',[9,10])
