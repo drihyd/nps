@@ -610,6 +610,8 @@ try{
                 "answeredby_person"=>$request->answerdbyperson??'',
                 "person_id"=>Session::get('person_id')??0,
 				"logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
+				'created_at' =>Carbon::now(),
+				'updated_at' =>Carbon::now(),
             ]  
         ]); 
 		
@@ -628,6 +630,8 @@ DB::table('passing_departments')->insert(
 'department_id' => $value,
 'passing_page' =>$sorting,
 'survey_id' =>$request->survey_id??0,
+'created_at' =>Carbon::now(),
+'updated_at' =>Carbon::now(),
 
 ]
 );
@@ -646,6 +650,8 @@ DB::table('passing_departments')->insert(
 'department_id' => 21,
 'passing_page' =>"no",
 'survey_id' =>$request->survey_id??0,
+'created_at' =>Carbon::now(),
+'updated_at' =>Carbon::now(),
 
 ]
 );
@@ -703,6 +709,8 @@ DB::table('passing_departments')->insert(
 			 "person_id"=>Session::get('person_id')??0,
 			 "logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
 			 "department_activities"=>implode(",",$request->first_activities??[]),
+			'created_at' =>Carbon::now(),
+			'updated_at' =>Carbon::now(),
 			]  
 			]); 
 			
@@ -774,6 +782,8 @@ $getoptid = QuestionOptions::select('question_options.id as qoptionid')
                 "answeredby_person"=>$request->answerdbyperson??'',
 				 "person_id"=>Session::get('person_id')??0,
 				 "logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
+				'created_at' =>Carbon::now(),
+				'updated_at' =>Carbon::now(),
             ]  
         ]);		
 		
@@ -791,6 +801,8 @@ else{
                 "answeredby_person"=>$request->answerdbyperson??'',
 				 "person_id"=>Session::get('person_id')??0,
 				 "logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
+				'created_at' =>Carbon::now(),
+				'updated_at' =>Carbon::now(),
             ]  
         ]);	
 	
@@ -1138,6 +1150,8 @@ public function trigger_escalation_mails(){
 		
 		
 		
+
+		
 		$sno=1;
 		
 		foreach($person_responses_data as $key=>$value){
@@ -1151,6 +1165,8 @@ public function trigger_escalation_mails(){
 				$b = strtotime($now);		
 				$minutes = ceil(($b - $a) / 60);	
 				
+			
+				
 				$escllations=DB::table('group_levels')
 				->select('alias')
 				->wherenotIn('alias',['L1','L2'])
@@ -1158,12 +1174,25 @@ public function trigger_escalation_mails(){
 				->get()
 				->first();
 				
+				
+				
+				
+				
+				
+				
 				//echo $escllations->alias."---".$sno."---".$value->rating.'----'.$minutes."-----".$value->created_at."<br>";
+				
+				if($escllations){
+					
 				
 				
 				if($escllations->alias=="L3"){					
-					/** Trigger HOD Escllation mail **/					
-					$this->trigger_hod_mail($value->person_id,$value->organization_id,"First Ticket Escalation");					
+					/** Trigger HOD Escllation mail **/		
+
+					
+					$this->trigger_hod_mail($value->person_id,$value->organization_id,"First Ticket Escalation");	
+
+					
 				}				
 				else if($escllations->alias=="L4"){					
 					/** Trigger Operational Escllation mail **/
@@ -1203,6 +1232,10 @@ public function trigger_escalation_mails(){
 				
 				
 				
+			}
+				
+				
+				
 				
 			
 
@@ -1230,7 +1263,7 @@ public function trigger_hod_mail($person_id=false,$organization_id=false){
 		->get(['survey_answered.*','question_options.option_value as option_value']);
 	
 	
-	
+
 	
 	
 	foreach($person_responses_data as $key=>$value){
@@ -1242,18 +1275,33 @@ public function trigger_hod_mail($person_id=false,$organization_id=false){
 				
 				if($get_dep){
 					
+					
+						
+					
 					$reporting_hod_dep=User::select('users.email as email')                 
 					->where('users.department',$get_dep->id??0)       
 					->where('users.organization_id',$value->organization_id??0)					       
-					->get()->first();
+					->get();
+					
+				
+					
 		
 						if($get_dep->department_name==$value->option_value)
 						{
 
-							if(isset($reporting_hod_dep))
+							if($reporting_hod_dep)
 							{
 
-								if(isset($reporting_hod_dep->email)){	
+
+
+
+
+foreach($reporting_hod_dep as $key1=>$value1){
+				
+					
+
+
+								if(isset($value1->email)){	
 								try{
 									$mail_params = [
 									'Dep_name' =>$value->option_value??'',
@@ -1261,14 +1309,20 @@ public function trigger_hod_mail($person_id=false,$organization_id=false){
 									'Dep_note' =>$value->answeredby_person??'',
 									'person_data' =>$person_data??'',
 									'nps_score' =>$value->rating??'',
-									'subjectline' =>'Department Ticket Opened '.$person_data->ticker_final_number??'',
+									'subjectline' =>Str::title($value->option_value).' Department Ticket Opened '.$person_data->ticker_final_number??'',
 									'ticket_number' =>$person_data->ticker_final_number??'',
 									];
 
-									Mail::to($reporting_hod_dep->email)->send(new HodMails($mail_params));
+									Mail::to($value1->email)->send(new HodMails($mail_params));
 									}catch (\Exception $exception) {
 									}		
-								}			
+								}	
+
+}
+
+
+
+								
 							}
 						}
 
@@ -1278,7 +1332,7 @@ public function trigger_hod_mail($person_id=false,$organization_id=false){
 			}
 			
 		}
-	
+
 	
 	
 }

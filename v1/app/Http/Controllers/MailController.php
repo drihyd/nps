@@ -13,7 +13,7 @@ class MailController extends Controller
 		
 		
 
-$email = 'venkat@deepredink.com';
+$email = 'abdullahs@incor.in';
 $offer = [
 'title' => 'Test Mail',          
 ];
