@@ -45,6 +45,7 @@ use App\Http\Controllers\SendSMSController;
 Route::get('send-sms', [SendSMSController::class, 'index']);
 
 Route::get('/send-markdown-mail', [MailController::class, 'sendOfferMail']);
+Route::get('/sendTestMail', [MailController::class, 'sendTestMail']);
 Route::get('/trigger_escalation_mails', [NetPromoterScore::class, 'trigger_escalation_mails']);
 
 

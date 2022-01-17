@@ -26,18 +26,18 @@ $(".gst").change(function () {
 		  
 		  
         /* -----  Chartjs - Global Style  ----- */
-    Chart.defaults.global.defaultFontFamily = 'Muli';
-    Chart.defaults.global.defaultFontColor = '#8A98AC';
+    Chart.defaults.global.defaultFontFamily = '';
+    Chart.defaults.global.defaultFontColor = '#ee644a';
     Chart.defaults.global.defaultFontSize = 13;
     Chart.defaults.global.defaultFontStyle = 'normal';
     Chart.defaults.global.maintainAspectRatio = 0;
     Chart.defaults.global.lineWidth = 2;
-    Chart.defaults.global.tooltips.backgroundColor = '#282828';
+    Chart.defaults.global.tooltips.backgroundColor = '#25BAB8';
     Chart.defaults.global.tooltips.titleFontSize = 14;
     Chart.defaults.global.tooltips.titleFontStyle = 'normal';
     Chart.defaults.global.tooltips.bodyFontSize = 12;
     Chart.defaults.global.tooltips.bodyFontStyle = 'normal';
-    Chart.defaults.global.tooltips.bodyFontColor = '#8A98AC';
+    Chart.defaults.global.tooltips.bodyFontColor = '#00a8e8';
     Chart.defaults.global.tooltips.xPadding = 10;
     Chart.defaults.global.tooltips.yPadding = 10;
     Chart.defaults.global.tooltips.titleMarginBottom = 10;
@@ -57,7 +57,7 @@ $(".gst").change(function () {
                 datasets: [{
                     data: [{{$final_score->Promoters??1}},{{$final_score->Neutral??1}},{{$final_score->Detractors??1}}],
                     borderColor: 'transparent',
-                    backgroundColor: ["#228B22","#ffa800","#ff654d"],
+                    backgroundColor: ["#ee644a","#25BAB8","#00a8e8"],
                     label: 'Dataset 1'
                 }],
                 labels: ['Promoters : '+{{$final_score->Promoters??0}},'Passives: '+{{$final_score->Neutral??0}},'Detractors :'+{{$final_score->Detractors??0}}]
