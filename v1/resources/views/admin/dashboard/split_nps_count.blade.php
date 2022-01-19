@@ -146,7 +146,7 @@ $totalcount=$Promoters+$Passives+$Detractors;
 									</div>
 									<div class="col-md-4">
 										<div class="pull-right">
-										<table class="table table-responsive table-bordered" style="background-color: #FFF">
+										<table class="table table-responsive count-table">
 										<tr>
 										<td><p style="color:#119460">{{$Promoters??0}}</p></td>
 										<td><p style="color:#FF981F">{{$Passives??0}}</p></td>

@@ -134,7 +134,7 @@
                                             @endif
                                             
                                             <span class="feather icon-chevron-down live-icon"></span></a>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profilelink">
+                                            <div class="dropdown-menu dropdown-menu-right profile-dropdown" aria-labelledby="profilelink">
                                                 <div class="dropdown-item">
                                                     <div class="profilename">
                                                       <h6  style="text-align:initial;">{{Str::Title(auth()->user()->firstname??'')}} {{Str::Title(auth()->user()->lastname??'')}}</h6>

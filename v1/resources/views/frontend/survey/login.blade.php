@@ -20,7 +20,7 @@
 <input type="password" name="password" class="form-control" id="password" placeholder="Enter Password" required>
 </div>
 </div>
-<button type="submit" class="btn thm_btn next_tab text-transform-inherit">Next</button>
+<button type="submit" class="btn thm_btn next_tab text-transform-inherit mt-4">Next</button>
 </div>
 </form>
 </div>

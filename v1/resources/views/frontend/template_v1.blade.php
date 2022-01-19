@@ -58,10 +58,10 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 
 
 
- <div class="body_wrapper frm-vh-md-100">
+ <div class="body_wrapper frm-vh-md-100 m-0">
 
-<div class="formify_body formify_signup_fullwidth formify_signup_fullwidth_two d-flex">
-<div class="formify_left_fullwidth formify_left_top_logo frm-vh-md-100 d-flex align-items-center justify-content-center" data-bg-color="#FFEFF9">
+<div class="formify_body formify_signup_fullwidth formify_signup_fullwidth_two d-flex m-0">
+<div class="formify_left_fullwidth formify_left_top_logo frm-vh-md-100 d-flex align-items-center justify-content-center m-0" data-bg-color="#FFEFF9">
 
 @if(Auth::check())
 <a href="{{url('/')}}" class="top_logo"><img src="{{URL::to('assets/img/frontend/logo.png')}}" alt=""></a>
@@ -203,16 +203,19 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     $(document).ready(function() {
     /* -- Table - Datatable -- */
     $('#datatable').DataTable({
-        responsive: true
+        responsive: true,
+		"scrollX": true
     });
     $('#default-datatable').DataTable( {
         "order": [[ 3, "desc" ]],
-        responsive: true
+        responsive: true,
+		"scrollX": true
     } );    
     var table = $('#datatable-buttons').DataTable({
         lengthChange: false,
         responsive: true,
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+		"scrollX": true
     });
     table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
 });

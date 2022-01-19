@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NetPromoterScore;
+use App\Http\Controllers\Reports;
 
 use App\Http\Controllers\ThemeoptionsController;
 use App\Http\Controllers\OrganizationsController;
@@ -66,6 +67,11 @@ Route::any('filter.roles', [UsermanagementController::class,'department_users_li
 Route::any('filter.teams', [ActivitiesController::class,'activities_list'])->name('filter.teams');
 Route::any('filter.levels', [DesignationlevelsController::class,'designation_levels_list'])->name('filter.levels');
 Route::any('filter.designation_levels', [DesignationlevelsController::class,'designation_roles_list'])->name('filter.designation_levels');
+
+Route::any('filter.responses_reports', [Reports::class,'reports_response_list'])->name('filter.responses_reports');
+
+
+
 
 
 
@@ -192,6 +198,10 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('responses/view/{per_id}', [ResponsesController::class,'response_view']);
 	Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
 	// Route::post('responses/update_status', [ResponsesController::class,'response_update_status']);
+
+
+	Route::get('responses_reports', [Reports::class,'reports_response_list']);
+	Route::get('export', [Reports::class, 'export'])->name('export');
 
 
 	Route::get('feedback', [ResponsesController::class,'feedback_list']);

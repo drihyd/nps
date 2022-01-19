@@ -26504,7 +26504,7 @@ mark {
 }
 .vertical-menu > li.active > a {
   font-weight: 400;
-  background-color: transparent;
+  background-color: #f2f5fa;
   color: #0080ff;
   opacity: 1;
 }
@@ -26550,9 +26550,9 @@ mark {
 .vertical-menu .vertical-submenu {
   display: none;
   list-style: none;
-  padding-left: 5px;
-  padding: 5px 0 5px 5px;
-  margin: 0 1px;
+  padding-left: 0px;
+  padding: 5px 0 5px 0px;
+  margin: 0;
   background: transparent;
 }
 .vertical-menu .vertical-submenu .vertical-submenu {
@@ -26584,6 +26584,9 @@ mark {
 }
 .vertical-menu .vertical-submenu > li > a.active {
   color: #0080ff;
+}
+.vertical-menu .vertical-submenu > li.active{
+  background:  #f2f5fa;
 }
 .vertical-menu .vertical-submenu > li.active > a {
   opacity: 1;
@@ -35264,7 +35267,55 @@ input[type="checkbox"]:checked::before{
     transition: 1.1s;
 }
 
+div.dataTables_wrapper {
+        width: 100%;
+        margin: 0 auto;
+    }
 
+/*Dashboard Count table CSS BEGINS*/
 
+.count-table td{
+    border-top: 0px;
+}
 
+.dropdown-menu.profile-dropdown{
+    min-width: 11rem;
+}
+.dropdown-menu.profile-dropdown .dropdown-item{
+    padding: 0.5rem 0.8rem;
+}
 
+/*Dashboard Count table CSS ENDS*/
+
+/*Scrollbar CSS BEGINS*/
+
+::-webkit-scrollbar {
+  width: 9px !important;
+}
+::-webkit-scrollbar-track {
+  background: #ddd; 
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px !important;
+    background: rgba(0,142,216,.8) !important;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 90%) !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ddd; 
+}
+
+/*Scrollbar CSS ENDS*/
+
+/*datatable TH CSS BEGINS*/
+
+.table .thead-dark th{
+    background-color: #313d4b;
+}
+
+/*Datatable TH CSS ENDS*/
+
+.table-filter{
+    background: #F2F5FA;
+    padding: 20px;
+    border-radius: 4px;
+}

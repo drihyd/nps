@@ -1,5 +1,5 @@
-<div class="col-md-12 col-lg-12 col-xl-12">
-<form class="form-inline" action="{{route('filter.responses')}}" method="post">
+<div class="col-md-12 col-lg-12 col-xl-12 p-0">
+<form class="table-filter mb-4 form-inline" action="{{route('filter.responses')}}" method="post">
 @csrf
 
 @include('admin.common_pages.dates_input')
@@ -26,7 +26,7 @@
 
 
 <div class="card">
-<div class="card-body">
+<div class="card-body p-0">
 							
 			<!--<p class="text text-danger">Default current month data fetched on this page.</p>-->
 		<ul class="nav nav-tabs custom-tab-line mb-3" id="defaultTabLine" role="tablist">

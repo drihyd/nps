@@ -13,7 +13,7 @@
             
          
 <div class="card-body mb-2">   
-<form class="form-inline mb-4" action="{{route('filter.questions')}}" method="post">
+<form class="table-filter form-inline mb-4" action="{{route('filter.questions')}}" method="post">
 @csrf
 @include('admin.common_pages.surveys',['quetion'=>$quetion??''])
 &nbsp;

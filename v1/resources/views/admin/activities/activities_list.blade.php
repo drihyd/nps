@@ -10,7 +10,7 @@
                 <h5 class="card-title">@yield('title')</h5>
             </div>
             <div class="card-body">
-                 <form class="form-inline mb-4" action="{{route('filter.teams')}}" method="post">
+                 <form class="table-filter form-inline mb-4" action="{{route('filter.teams')}}" method="post">
 @csrf
 @include('admin.common_pages.departments',['team'=>$team??''])
 &nbsp;
