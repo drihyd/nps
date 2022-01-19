@@ -41,7 +41,7 @@
         <label>No</label>
       </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
-      <a href="{{url(Config::get('constants.admin').'/departments')}}" class="btn btn-danger btn-sm">Back</a>
+      <a href="{{url(Config::get('constants.admin').'/departments')}}" class="btn btn-default btn-sm">Back</a>
 
         </div>
         <div class="col-md-5">

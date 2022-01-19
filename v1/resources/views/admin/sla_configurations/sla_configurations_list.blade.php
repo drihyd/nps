@@ -32,8 +32,8 @@
                               <td width="50%">{{$sla_configuration->x_minutes??''}}</td>
                               
                               <td>
-							  <a href="{{url(Config::get('constants.admin').'/sla_configurations/edit/'.Crypt::encryptString($sla_configuration->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
-                                <a href="{{url(Config::get('constants.admin').'/sla_configurations/delete/'.Crypt::encryptString($sla_configuration->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
+							  <a href="{{url(Config::get('constants.admin').'/sla_configurations/edit/'.Crypt::encryptString($sla_configuration->id))}}" class="edit mr-2" title="Edit" ><i class="feather icon-edit-2"></i></a>
+                                <a href="{{url(Config::get('constants.admin').'/sla_configurations/delete/'.Crypt::encryptString($sla_configuration->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
 								
                               </td>
                           </tr>

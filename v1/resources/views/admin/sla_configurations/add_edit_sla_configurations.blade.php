@@ -42,7 +42,7 @@
             <input type="number" class="form-control" name="x_minutes" value="{{old('x_minutes',$sla_configurations_data->x_minutes??'')}}" required="required" />
           </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
-      <a href="{{url(Config::get('constants.admin').'/sla_configurations')}}" class="btn btn-danger btn-sm">Back</a>
+      <a href="{{url(Config::get('constants.admin').'/sla_configurations')}}" class="btn btn-default btn-sm">Back</a>
 
         </div>
         <div class="col-md-5">

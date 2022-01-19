@@ -56,8 +56,8 @@
                               
                               <td>
 							  
-							  <a href="{{url(Config::get('constants.admin').'/activities/edit/'.Crypt::encryptString($activity->id))}}" class="edit mr-2" title="Edit" ><i class="fa fa-edit"></i></a>
-                                <a href="{{url(Config::get('constants.admin').'/activities/delete/'.Crypt::encryptString($activity->id))}}" class="delete" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="fa fa-trash"></i></a>
+							  <a href="{{url(Config::get('constants.admin').'/activities/edit/'.Crypt::encryptString($activity->id))}}" class="edit mr-2" title="Edit" ><i class="feather icon-edit-2"></i></a>
+                                <a href="{{url(Config::get('constants.admin').'/activities/delete/'.Crypt::encryptString($activity->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
 								
                               </td>
                           </tr>

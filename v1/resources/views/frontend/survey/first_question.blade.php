@@ -212,11 +212,11 @@ else{
 	@if(auth()->user())
 	@if(auth()->user()->role==2)
 		
-	<a href="{{url(Config::get('constants.admin').'/dashboard')}}" class="btn btn-success  mt-3">Back to home</a>
+	<a href="{{url(Config::get('constants.admin').'/dashboard')}}" class="btn btn-outline-danger  mt-3">Back to home</a>
 	
 	@else
 		
-	<a href="{{url(Config::get('constants.user').'/dashboard')}}" class="btn btn-success  mt-3">Back to home</a>
+	<a href="{{url(Config::get('constants.user').'/dashboard')}}" class="btn btn-outline-danger  mt-3">Back to home</a>
 	
 	@endif
 

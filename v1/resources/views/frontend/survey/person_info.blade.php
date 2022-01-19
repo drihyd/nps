@@ -107,9 +107,9 @@
 	 
 		
 		   
-		  <button type="submit" class="btn btn-success mt-4" id="manulsurvey">Manual Survey</button>
+		  <button type="submit" class="btn btn-outline-danger mt-4" id="manulsurvey">Manual Survey</button>
 		  
-		   <button type="submit" class="btn btn-danger mt-4" id="notmanulsurvey">Send survey link to email</button>
+		   <button type="submit" class="btn btn-default mt-4" id="notmanulsurvey">Send survey link to email</button>
 	
 		  
 		 

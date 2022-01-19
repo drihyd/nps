@@ -46,7 +46,7 @@
             <textarea  name="copyright" id="title" class="form-control" value="" required="required" rows="1">@if(isset($theme_options_data->id)){{$theme_options_data->copyright??''}}@else{{ old('copyright') }}@endif</textarea>
           </div>
           <button  id="" type="submit" class="btn btn-primary submit_btn btn-sm">Submit</button>
-          <a href="{{url('admin/theme_options')}}" class="btn btn-danger btn-sm">Back</a>
+          <a href="{{url('admin/theme_options')}}" class="btn btn-default btn-sm">Back</a>
     </div>
     <div class="col-sm-5">
       </div>

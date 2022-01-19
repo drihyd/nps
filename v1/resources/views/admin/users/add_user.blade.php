@@ -50,7 +50,7 @@
           
       
       <button type="submit" class="btn btn-brand btn-sm">Save</button>
-      <a href="{{url('admin/users')}}" class="btn btn-danger btn-sm">Back</a>
+      <a href="{{url('admin/users')}}" class="btn btn-default btn-sm">Back</a>
 
         </div>
         <div class="col-md-5">

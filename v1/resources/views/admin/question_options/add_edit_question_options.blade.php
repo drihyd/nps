@@ -42,7 +42,7 @@
             <input type="text" class="form-control" name="option_value" value="{{old('option_value',$questions_options_data->option_value??'')}}" required="required" />
           </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
-      <a href="{{url(Config::get('constants.admin').'/questions_options')}}" class="btn btn-danger btn-sm">Back</a>
+      <a href="{{url(Config::get('constants.admin').'/questions_options')}}" class="btn btn-default btn-sm">Back</a>
 
         </div>
         <div class="col-md-5">

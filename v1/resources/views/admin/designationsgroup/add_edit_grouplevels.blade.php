@@ -41,7 +41,7 @@
             <input type="number" class="form-control" name="esc_minitues" required="required" value="{{old('esc_minitues',$group_level_data->esc_minitues??'')}}" />
           </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
-      <a href="{{url(Config::get('constants.admin').'/designations')}}" class="btn btn-danger btn-sm">Back</a>
+      <a href="{{url(Config::get('constants.admin').'/designations')}}" class="btn btn-default btn-sm">Back</a>
 
         </div>
         <div class="col-md-5">

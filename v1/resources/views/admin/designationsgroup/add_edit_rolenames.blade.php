@@ -48,7 +48,7 @@
             <input type="text" class="form-control" name="role_name" value="{{old('role_name',$group_level_data->role_name??'')}}" required="required" data-parsley-pattern="/^[a-z\d\-_\s]+$/i"/>
           </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
-      <a href="{{url(Config::get('constants.admin').'/designation_roles')}}" class="btn btn-danger btn-sm">Back</a>
+      <a href="{{url(Config::get('constants.admin').'/designation_roles')}}" class="btn btn-default btn-sm">Back</a>
 
         </div>
         <div class="col-md-5">

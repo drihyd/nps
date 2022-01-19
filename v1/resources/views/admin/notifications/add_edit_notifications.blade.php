@@ -62,7 +62,7 @@
             <input type="number" class="form-control" name="port_no" value="{{old('port_no',$notifications_data->port_no??'')}}" />
           </div>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
-      <a href="{{url(Config::get('constants.admin').'/questions')}}" class="btn btn-danger btn-sm">Back</a>
+      <a href="{{url(Config::get('constants.admin').'/questions')}}" class="btn btn-default btn-sm">Back</a>
 
         </div>
         <div class="col-md-5">

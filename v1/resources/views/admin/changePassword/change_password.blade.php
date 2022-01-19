@@ -54,7 +54,7 @@
 									<input type="password" class="form-control form-control-sm" name="password_confirmation" id="password" value="" required />
 									<br>
 
-									<button type="submit" class="btn btn-primary btn-danger">Change</button>
+									<button type="submit" class="btn btn-primary btn-sm">Change</button>
 									</div>
 								</div>
 								</div>
