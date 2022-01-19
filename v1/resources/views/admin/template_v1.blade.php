@@ -289,19 +289,19 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     $('#datatable').DataTable({
       
 		"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-		"scrollX": true
+		"responsive": true
 		
     });
     $('#default-datatable').DataTable( {   
        
 		"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-		"scrollX": true
+		"responsive": true
     } );    
     var table = $('#datatable-buttons').DataTable({
         lengthChange: false,
       
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-		"scrollX": true
+		"responsive": true
     });
     table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
 	
