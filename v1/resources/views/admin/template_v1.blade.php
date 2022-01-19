@@ -287,18 +287,21 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     $(document).ready(function() {
     /* -- Table - Datatable -- */
     $('#datatable').DataTable({
-        responsive: true,
-		"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+      
+		"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+		"scrollX": true
 		
     });
     $('#default-datatable').DataTable( {   
-        responsive: true,
-		"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+       
+		"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+		"scrollX": true
     } );    
     var table = $('#datatable-buttons').DataTable({
         lengthChange: false,
-        responsive: true,
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+		"scrollX": true
     });
     table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
 	

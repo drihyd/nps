@@ -73,17 +73,16 @@ html {
 
 body {
   font-family: "Poppins", sans-serif;  
-  font-display: "swap";
   margin: 0;
   background: #f2f5fa;
   font-size: 15px;
-  font-weight: 400;
+
   color: #8A98AC;
   line-height: 1.5;
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
+
   color: #263a5b;
 }
 
@@ -35272,6 +35271,7 @@ div.dataTables_wrapper {
         margin: 0 auto;
     }
 
+
 /*Dashboard Count table CSS BEGINS*/
 
 .count-table td{
@@ -35305,6 +35305,7 @@ div.dataTables_wrapper {
 }
 
 /*Scrollbar CSS ENDS*/
+
 
 /*datatable TH CSS BEGINS*/
 
