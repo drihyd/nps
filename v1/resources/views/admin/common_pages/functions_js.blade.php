@@ -26,18 +26,19 @@ $(".gst").change(function () {
 		  
 		  
         /* -----  Chartjs - Global Style  ----- */
+		/*
     Chart.defaults.global.defaultFontFamily = '';
-    Chart.defaults.global.defaultFontColor = '#ee644a';
+    Chart.defaults.global.defaultFontColor = '#119460';
     Chart.defaults.global.defaultFontSize = 13;
     Chart.defaults.global.defaultFontStyle = 'normal';
     Chart.defaults.global.maintainAspectRatio = 0;
     Chart.defaults.global.lineWidth = 2;
-    Chart.defaults.global.tooltips.backgroundColor = '#25BAB8';
+    Chart.defaults.global.tooltips.backgroundColor = '#FF981F';
     Chart.defaults.global.tooltips.titleFontSize = 14;
-    Chart.defaults.global.tooltips.titleFontStyle = 'normal';
+    Chart.defaults.global.tooltips.titleFontStyle = '';
     Chart.defaults.global.tooltips.bodyFontSize = 12;
     Chart.defaults.global.tooltips.bodyFontStyle = 'normal';
-    Chart.defaults.global.tooltips.bodyFontColor = '#00a8e8';
+    Chart.defaults.global.tooltips.bodyFontColor = '#FE4A49';
     Chart.defaults.global.tooltips.xPadding = 10;
     Chart.defaults.global.tooltips.yPadding = 10;
     Chart.defaults.global.tooltips.titleMarginBottom = 10;
@@ -46,6 +47,7 @@ $(".gst").change(function () {
     Chart.defaults.global.legend.labels.boxWidth = 15;
     Chart.defaults.global.legend.labels.fontSize = 15;
     Chart.defaults.global.legend.labels.padding = 16;
+	/*
     /* -- Chartjs - Doughnut Chart -- */
         var doughnutChartID = document.getElementById("chartjs-doughnut-chart").getContext('2d');
         var doughnutChart = new Chart(doughnutChartID, {
@@ -57,10 +59,10 @@ $(".gst").change(function () {
                 datasets: [{
                     data: [{{$final_score->Promoters??1}},{{$final_score->Neutral??1}},{{$final_score->Detractors??1}}],
                     borderColor: 'transparent',
-                    backgroundColor: ["#ee644a","#25BAB8","#00a8e8"],
+                    backgroundColor: ["#119460","#FF981F","#FE4A49"],
                     label: 'Dataset 1'
                 }],
-                labels: ['Promoters : '+{{$final_score->Promoters??0}},'Passives: '+{{$final_score->Neutral??0}},'Detractors :'+{{$final_score->Detractors??0}}]
+                labels: ['Promoters: '+{{$final_score->Promoters??0}},'Passives: '+{{$final_score->Neutral??0}},'Detractors: '+{{$final_score->Detractors??0}}]
             },
             options: {
                 responsive: true,  
