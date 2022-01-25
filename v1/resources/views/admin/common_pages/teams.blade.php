@@ -5,7 +5,7 @@ $teams=Departments::where('organization_id',Auth::user()->organization_id)->orde
 <div class="form-group mb-2">
 <label for="Teams" class="sr-only">Teams</label>
 <select  class="form-control" name="team" id="team">
-<option value="">-- All --</option>
+<option value="">-- All Teams --</option>
 @foreach($teams as $department)
 <option value="{{$department->department_name}}" {{ $pickteam == $department->department_name ? 'selected':''}}>{{$department->department_name??''}}</option>
 @endforeach

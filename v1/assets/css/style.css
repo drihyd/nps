@@ -35330,10 +35330,10 @@ div.dataTables_wrapper {
 }
 
 table.dataTable tbody tr:hover{
-  background-color: #F2F5FA !important;
+  background-color: #ddd !important;
 }
 table.dataTable tbody tr:hover td.sorting_1{
-    background-color: #F2F5FA !important;
+    background-color: #ddd !important;
 }
 table.dataTable tbody tr:hover td{
   /*color: #fff !important;*/

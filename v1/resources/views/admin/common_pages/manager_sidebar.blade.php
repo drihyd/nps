@@ -18,7 +18,7 @@
 
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses')) ? 'active' : '' }}">
 <a href="{{url(Config::get('constants.admin').'/responses')}}">
-<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>View Responses</span><i class="feather"></i>
+<i class="dripicons-article"></i><span>View Responses</span><i class="feather"></i>
 </a>
 </li>
 
@@ -26,7 +26,7 @@
 <li class="{{ (request()->is(Config::get('constants.admin').'/feedback')) ? 'active' : '' }}">
 <a href="{{URL(Config::get('constants.admin').'/survey')}}" target="_blank">
 <!--<a href="{{URL(Config::get('constants.admin').'/survey/start/'.Crypt::encryptString(1))}}" target="_blank">-->
-<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Take Feedback</span><i class="feather"></i>
+<i class="dripicons-clipboard"></i><span>Take Feedback</span><i class="feather"></i>
 </a>
 </li>
 
@@ -44,7 +44,7 @@
 
 <li>
 <a href="javaScript:void();">
-<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Teams</span><i class="feather icon-chevron-right pull-right"></i>
+<i class="dripicons-user-group"></i><span>Teams</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
 <li class="{{ (request()->is(Config::get('constants.admin').'/departments')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/departments')}}">All Teams</a></li>
@@ -53,7 +53,7 @@
 </li>
 <li>
 <a href="javaScript:void();">
-<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Designation Levels</span><i class="feather icon-chevron-right pull-right"></i>
+<i class="dripicons-network-3"></i><span>Designation Levels</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
 <li class="{{ (request()->is(Config::get('constants.admin').'/designations')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/designations')}}">Levels</a></li>
@@ -64,7 +64,7 @@
 
 <li>
 <a href="javaScript:void();">
-<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Configure</span><i class="feather icon-chevron-right pull-right"></i>
+<i class="dripicons-question"></i><span>Configure</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
 
@@ -81,7 +81,7 @@
 
 <li>
 <a href="javaScript:void();">
-<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Settings</span><i class="feather icon-chevron-right pull-right"></i>
+<img src="{{URL::to('assets/images/svg-icon/settings.svg')}}" class="img-fluid" alt="apps"><span>Settings</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
 <li class="{{ (request()->is(Config::get('constants.admin').'/notifications')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/notifications')}}">Gateway</a></li>
@@ -89,7 +89,7 @@
 </li>
 <li>
 <a href="javaScript:void();">
-<img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Reports</span><i class="feather icon-chevron-right pull-right"></i>
+<i class="dripicons-graph-pie"></i><span>Reports</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports')}}">Detractors Reports</a></li>
