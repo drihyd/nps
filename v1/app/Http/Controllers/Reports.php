@@ -240,7 +240,7 @@ class Reports extends Controller
 
 public function export(Request $request) 
     {
-    // 	dd($request);
+ 
     // 	$data = [
 				
 				// 'fd' =>$request->from_date,
