@@ -1113,7 +1113,7 @@ public function send_ticket_opened_mail($person_id=null){
 	
 		if(isset($reportingto->email)){	
 		try{
-		Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
+		//Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
 		}catch (\Exception $exception) {
 		}		
 		}
@@ -1254,7 +1254,7 @@ public function trigger_hod_mail($person_id=false,$organization_id=false){
 	
 	
 	   $person_data= SurveyPerson::where('organization_id',$organization_id)->where('id',$person_id)->get()->first();
-	
+	dd($person_data);
 
 		$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
 		->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
@@ -1313,7 +1313,7 @@ foreach($reporting_hod_dep as $key1=>$value1){
 									'ticket_number' =>$person_data->ticker_final_number??'',
 									];
 
-									Mail::to($value1->email)->send(new HodMails($mail_params));
+									//Mail::to($value1->email)->send(new HodMails($mail_params));
 									}catch (\Exception $exception) {
 									}		
 								}	
@@ -1361,7 +1361,7 @@ public function trigger_escal_mail($person_id=false,$organization_id=false,$repo
 	
 	if(isset($reportingto)){	
 	try{
-	Mail::to($reportingto)->send(new EsclationMails($mail_params));
+	//Mail::to($reportingto)->send(new EsclationMails($mail_params));
 	}catch (\Exception $exception) {
 	}		
 	}
