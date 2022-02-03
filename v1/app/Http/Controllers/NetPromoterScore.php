@@ -26,6 +26,7 @@ use App\Mail\EsclationMails;
 use App\Models\Activities;
 use App\Models\Departments;
 use Log;
+use Illuminate\Support\Collection;
 
 
 class NetPromoterScore extends Controller
@@ -1081,7 +1082,7 @@ public function send_ticket_opened_mail($person_id=null){
         ->where('survey_answered.person_id',$person_id)
         ->get(['survey_answered.*','question_options.option_value as option_value']);	
 		
-		
+	
 		$person_data= SurveyPerson::where('organization_id',Auth::user()->organization_id)->where('id',$person_id)->get()->first();
 		
 				
@@ -1113,7 +1114,7 @@ public function send_ticket_opened_mail($person_id=null){
 	
 		if(isset($reportingto->email)){	
 		try{
-		//Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
+		Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
 		}catch (\Exception $exception) {
 		}		
 		}
@@ -1249,91 +1250,67 @@ public function trigger_escalation_mails(){
 }
 
 
-public function trigger_hod_mail($person_id=false,$organization_id=false){
+public function trigger_hod_mail($person_id=false,$organization_id=false,$is_subject=false){
 	
-	
-	
-	   $person_data= SurveyPerson::where('organization_id',$organization_id)->where('id',$person_id)->get()->first();
-	dd($person_data);
+$person_data= SurveyPerson::where('organization_id',$organization_id)->where('id',$person_id)->get()->first();
+$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
+->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
+->where('survey_answered.organization_id',$organization_id)
+->where('survey_answered.person_id',$person_id)
+->wherenotIn('survey_answered.question_id',[1,11])
+->get(['survey_answered.*','question_options.option_value as option_value']);
 
-		$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
-		->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
-		->where('survey_answered.organization_id',$organization_id)
-		->where('survey_answered.person_id',$person_id)
-		->get(['survey_answered.*','question_options.option_value as option_value']);
-	
-	
-
-	
-	
-	foreach($person_responses_data as $key=>$value){
-			
-	
-				
-				$get_dep=Departments::select('id','department_name')->where("organization_id",$value->organization_id)->where("department_name",$value->option_value)->get()->first();
-	
-				
-				if($get_dep){
-					
-					
-						
-					
-					$reporting_hod_dep=User::select('users.email as email')                 
-					->where('users.department',$get_dep->id??0)       
-					->where('users.organization_id',$value->organization_id??0)					       
-					->get();
-					
-				
-					
+/** Convert mapToGroups **/
+$collection = collect($person_responses_data);
+$grouped = $collection->mapWithKeys(function ($item, $key) {
+return [ $item['option_value'] => 			
+[
+"department_name"=>$item['option_value'],
+"department_activities"=>$item['department_activities'],
+"rating"=>$item['rating'],
+"answeredby_person"=>$item['answeredby_person']
+]];
+});
+$Final_Feedback_Data=$grouped->all();
+foreach($Final_Feedback_Data as $key=>$value){
+$get_dep=Departments::select('id','department_name')->where("organization_id",$organization_id)->where("department_name",$key)->get()->first();
+if($get_dep){
+	$reporting_hod_dep=User::select('users.email as email')                 
+	->where('users.department',$get_dep->id??0)       
+	->where('users.organization_id',$organization_id??0)					       
+	->where('users.role',3)					       
+	->get();
+	if($reporting_hod_dep){				
+		foreach ($reporting_hod_dep as $recipient) {	
 		
-						if($get_dep->department_name==$value->option_value)
-						{
-
-							if($reporting_hod_dep)
-							{
-
-
-
-
-
-foreach($reporting_hod_dep as $key1=>$value1){
+			if($is_subject)
+			{
 				
-					
-
-
-								if(isset($value1->email)){	
-								try{
-									$mail_params = [
-									'Dep_name' =>$value->option_value??'',
-									'Dep_activities' =>$value->department_activities??'',
-									'Dep_note' =>$value->answeredby_person??'',
-									'person_data' =>$person_data??'',
-									'nps_score' =>$value->rating??'',
-									'subjectline' =>Str::title($value->option_value).' Department Ticket Opened '.$person_data->ticker_final_number??'',
-									'ticket_number' =>$person_data->ticker_final_number??'',
-									];
-
-									//Mail::to($value1->email)->send(new HodMails($mail_params));
-									}catch (\Exception $exception) {
-									}		
-								}	
-
-}
-
-
-
-								
-							}
-						}
-
-				}
+				$subject=Str::title($Final_Feedback_Data[$key]['department_name']).' Department '.$is_subject.' #'.$person_data->ticker_final_number??'';
 				
-				
+			}
+			else{
+				$subject=Str::title($Final_Feedback_Data[$key]['department_name']).' Department Ticket Opened #'.$person_data->ticker_final_number??'';
+			}
 			
 			
+			try{
+				$mail_params = [
+				'Dep_name' =>$Final_Feedback_Data[$key]['department_name']??'',
+				'Dep_activities' =>$Final_Feedback_Data[$key]['department_activities']??'',			
+				'Dep_note' =>$Final_Feedback_Data[$key]['answeredby_person']??'',		
+				'nps_score' =>$Final_Feedback_Data[$key]['rating']??'',
+				'person_data' =>$person_data??'',			
+				'subjectline' =>$subject??'',
+				'ticket_number' =>$person_data->ticker_final_number??'',
+				];
+				Mail::to($recipient->email)->send(new HodMails($mail_params));
+				}catch (\Exception $exception) {
+			}
 		}
-
-	
+	}
+}
+}
 	
 }
 
@@ -1361,7 +1338,7 @@ public function trigger_escal_mail($person_id=false,$organization_id=false,$repo
 	
 	if(isset($reportingto)){	
 	try{
-	//Mail::to($reportingto)->send(new EsclationMails($mail_params));
+	Mail::to($reportingto)->send(new EsclationMails($mail_params));
 	}catch (\Exception $exception) {
 	}		
 	}
