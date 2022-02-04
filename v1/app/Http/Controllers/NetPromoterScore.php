@@ -1133,12 +1133,47 @@ public function send_ticket_opened_mail($person_id=null){
 }
 
 
+public function stop_trigger_escalation_ticket($person_id=false,$organization_id=false,$subject_type=false,$escnumber=false,$gateway=false){	
+
+	DB::table('escaltion_trigger_log')->insert(
+	[
+	'person_id' => $person_id??0, 
+	'escalation_number' =>$escnumber??'',
+	'gateway_type' => 'email',
+	'esc_subject' =>$subject_type??'',
+	'organization_id' =>$organization_id??0,
+	'created_at' =>Carbon::now(),
+	'updated_at' =>Carbon::now(),
+
+	]
+	);	
+
+}
+
+
+public function verify_stop_trigger_escalation_ticket($person_id=false,$organization_id=false,$escnumber=false,$gateway=false){	
+	
+	$is_exist=DB::table('escaltion_trigger_log')
+	->where('person_id',$person_id)
+	->where('escalation_number','=',$escnumber)
+	->where('gateway_type','=',$gateway)
+	->where('organization_id','=',$organization_id)
+	->first(); 	
+	
+	if($is_exist){		
+		return true;
+	}
+	else{		
+		return false;
+	}
+	
+
+}
+
+
 public function trigger_escalation_mails(){
 	
 	
-
-		
-		
 		$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')           
 		->wherenotIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied'])
@@ -1146,22 +1181,11 @@ public function trigger_escalation_mails(){
 		->orderBy('survey_answered.created_at','asc')
         ->get(['survey_answered.*','question_options.option_value as option_value']);	
 		
-	
 		
-		
-		
-		
-
-		
-		$sno=1;
-		
+		$sno=1;		
 		foreach($person_responses_data as $key=>$value){
 			
-			
-		
-
-				
-				$now = date('Y-m-d H:i:s'); // get current time 
+				$now = date('Y-m-d H:i:s'); 
 				$a = strtotime($value->created_at); 
 				$b = strtotime($now);		
 				$minutes = ceil(($b - $a) / 60);	
@@ -1173,82 +1197,80 @@ public function trigger_escalation_mails(){
 				->wherenotIn('alias',['L1','L2'])
 				->where('esc_minitues', '<', $minutes)			
 				->get()
-				->first();
-				
-				
-				
-				
-				
-				
-				
-				//echo $escllations->alias."---".$sno."---".$value->rating.'----'.$minutes."-----".$value->created_at."<br>";
+				->first();				
+
 				
 				if($escllations){
 					
 				
 				
-				if($escllations->alias=="L3"){					
-					/** Trigger HOD Escllation mail **/		
-
+				if($escllations->alias=="L3"){
 					
-					$this->trigger_hod_mail($value->person_id,$value->organization_id,"First Ticket Escalation");	
+					/** HOD First Escllation mail **/	
 
+					$subject_type="First Ticket Escalation";
+					$gateway_type="email";
+					$esc_type="L3";
 					
-				}				
+					$IsExist=$this->verify_stop_trigger_escalation_ticket($value->person_id,$value->organization_id,$esc_type,$gateway_type);
+					if(!$IsExist){
+					$this->trigger_hod_mail($value->person_id,$value->organization_id,$subject_type);	
+					$this->stop_trigger_escalation_ticket($value->person_id,$value->organization_id,$subject_type,$esc_type,$gateway_type);
+					}
+					
+				}	
+
+				
 				else if($escllations->alias=="L4"){					
-					/** Trigger Operational Escllation mail **/
+					/** Operational Head Escllation mail **/
 					
+						$subject_type="Second Ticket Escalation";						
+						$esc_type="L4";
+						$gateway_type="email";
 					
-					$reportingto=User::select('users.email as email')                 
-					->where('users.role',5)       
-					->get(); 
-					
-					
-					foreach($reportingto as $key1=>$value1){
-					$this->trigger_escal_mail($value->person_id,$value->organization_id,$value1->email,"Second Ticket Escalation");
-					}
+						$IsExist=$this->verify_stop_trigger_escalation_ticket($value->person_id,$value->organization_id,$esc_type,$gateway_type);
+						if(!$IsExist)
+						{
+							$this->stop_trigger_escalation_ticket($value->person_id,$value->organization_id,$subject_type,$esc_type,$gateway_type);
+							$reportingto=User::select('users.email as email')                 
+							->where('users.role',5)       
+							->get(); 
+							foreach($reportingto as $key1=>$value1){
+								$this->trigger_escal_mail($value->person_id,$value->organization_id,$value1->email,$subject_type);
+							}					
+						}
 
 					
-				}				
-				else if($escllations->alias=="L5"){	
-
+				}	
+				
+				else if($escllations->alias=="L5"){
 					/** Trigger Unit Head Escllation mail **/
-					
-					
-					$reportingto=User::select('users.email as email')                 
-					->where('users.role',6)       
-					->get(); 
-					
-					
-					foreach($reportingto as $key1=>$value1){
-					$this->trigger_escal_mail($value->person_id,$value->organization_id,$value1->email,"Third Ticket Escalation");
-					}
-					
-					
-					
+					$subject_type="Third Ticket Escalation";						
+					$esc_type="L5";
+					$gateway_type="email";
+
+					$IsExist=$this->verify_stop_trigger_escalation_ticket($value->person_id,$value->organization_id,$esc_type,$gateway_type);
+					if(!$IsExist)
+					{
+						$reportingto=User::select('users.email as email')                 
+						->where('users.role',6)       
+						->get();
+						foreach($reportingto as $key1=>$value1){
+						$this->trigger_escal_mail($value->person_id,$value->organization_id,$value1->email,$subject_type);
+						}
+					}					
 				}
+				
+				
 				else{
 					
-				}
+				}			
 				
-				
-				
-			}
-				
-				
-				
-				
-			
-
-				
-				$sno++;
-			
-			
-		}		
-		
+			}			
+			$sno++;			
+		}
 	
 }
-
 
 public function trigger_hod_mail($person_id=false,$organization_id=false,$is_subject=false){
 	
@@ -1349,6 +1371,9 @@ public function checkcronlog(){
 	Log::info("Test cron performance - NPS");
 	
 }
+
+
+
 
     
     
