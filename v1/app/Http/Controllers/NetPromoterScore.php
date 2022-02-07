@@ -477,9 +477,9 @@ try{
 	$logid=Crypt::decryptString($logid);
 	$pid=Crypt::decryptString($pid);	
 	
-	Session::put('person_id',$pid);		
-	Session::put('logged_user_id',$logid);
-				
+	Session::put('person_id',$pid??0);		
+	Session::put('logged_user_id',$logid??0);
+	Session::put('survey_id',$surveyid??0);
 	
 				
 	$Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',1)->where('survey_id',$surveyid)->get();		 
