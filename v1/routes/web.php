@@ -24,6 +24,7 @@ use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\SlaConfigurationController;
 use App\Http\Controllers\CustomerFieldsConfigurableController;
 use App\Http\Controllers\SendSMSController; 
+use App\Http\Controllers\Graphs; 
 
 
 /*
@@ -120,6 +121,10 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 	Route::get('dashboard', [DashboardController::class,'dashboard_lists']);
 	Route::get('dashboard/doubtnutchart', [DashboardController::class,'doubtnutchart'])->name('dashboardcount.index');
+
+	/*Graphs*/
+
+	Route::get('graphs', [Graphs::class,'graphs_list']);
 
 	/*Admin Departments*/
 

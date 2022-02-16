@@ -39,6 +39,8 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <link href="{{URL::to('assets/plugins/slick/slick-theme.css')}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <!-- apex css -->
+    <link href="{{URL::to('assets/plugins/apexcharts/apexcharts.css')}}" rel="stylesheet">
     <!-- End css -->
      
 
@@ -220,7 +222,10 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <link href="https//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Oxygen:300' rel='stylesheet' type='text/css'>
 
+<script src="{{URL::to('assets/plugins/apexcharts/apexcharts.min.js')}}"></script>
+<script src="{{URL::to('assets/plugins/apexcharts/irregular-data-series.js')}}"></script>
 
+<script src="{{URL::to('assets/js/custom/custom-dashboard-crypto.js')}}"></script>
 
 @include('admin.common_pages.functions_js')
   <!-- End js -->
