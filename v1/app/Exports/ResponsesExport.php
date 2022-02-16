@@ -38,6 +38,7 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		$final_heading=[		
 			'Date of Consultation',
 			'Month Name',
+			'Ticket No.',
 			'Name',
 			'Email',
 			'Phone',
@@ -93,6 +94,7 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		
 		date('d-m-Y', strtotime($feedback_data->created_at)),	
 		date('M', strtotime($feedback_data->created_at)),
+		Str::title($feedback_data->ticker_final_number),
 		Str::title($feedback_data->firstname),
 		Str::title($feedback_data->email),
 		Str::title($feedback_data->mobile),

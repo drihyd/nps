@@ -20,6 +20,7 @@ use App\Models\UpdateStatusResponseLog;
 use Illuminate\Support\Facades\Crypt;
 use App\Exports\ResponsesExport;
 use App\Imports\ResponsesImport;
+use App\Exports\PerformitorExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -249,6 +250,63 @@ public function export(Request $request)
 
         return Excel::download(new ResponsesExport, 'responses_report.xlsx');
     }
+	
+	
+	
+
+public function show_performitor_reports(Request $request)
+{   
+
+
+if($request->from_date &&  $request->to_date) {
+$from_date = $request->from_date;
+$to_date = $request->to_date;			
+}		
+else{
+
+$from_date = date('Y-m-01');
+$to_date = date('Y-m-t');
+
+}
+
+$responses_data = DB::table("survey_answered")
+->select(
+"survey_answered.organization_id",
+DB::raw("
+(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (0,1,2,3,4,5,6))  as Total_Detractors,
+(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (7,8))  as Total_Passives,
+(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (9,10))  as Total_Promoters,
+(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (0,1,2,3,4,5,6,7,8,9,10) )  as Total_Feedback_Collected,
+(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.question_id in (11))  as Total_Patient_Discharged
+")
+)
+
+->where(function($responses_data) use ($from_date,$to_date){	
+if($from_date &&  $to_date){		
+$responses_data->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+$responses_data->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+}		
+})
+			
+->whereIn('survey_answered.question_id',[1,11])
+->groupBy('survey_answered.organization_id')
+->get();
+
+$role=auth()->user()->role??0;
+$pickteam=$request->team??'';	
+$quetion=$request->question_id??'';	
+$Data=[];
+return view('admin.reports.performitor_reports_list', compact('responses_data','Data'))
+->withInput('i', (request()->input('page', 1) - 1) * 5);  
+
+}
+
+
+public function _performitor_export(Request $request) 
+{
+	return Excel::download(new PerformitorExport, 'performitor_report.xlsx');
+}
+	
 
 
 

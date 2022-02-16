@@ -70,7 +70,7 @@ Route::any('filter.designation_levels', [DesignationlevelsController::class,'des
 
 Route::any('filter.responses_reports', [Reports::class,'reports_response_list'])->name('filter.responses_reports');
 
-
+Route::any('filter.performitor_reports', [Reports::class,'show_performitor_reports'])->name('filter.performitor_reports');
 
 
 
@@ -202,6 +202,9 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 	Route::get('responses_reports', [Reports::class,'reports_response_list']);
 	Route::get('export', [Reports::class, 'export'])->name('export');
+	
+	Route::get('performitor_reports', [Reports::class,'show_performitor_reports']);
+	Route::get('performitor.export', [Reports::class, '_performitor_export'])->name('performitor.export');
 
 
 	Route::get('feedback', [ResponsesController::class,'feedback_list']);

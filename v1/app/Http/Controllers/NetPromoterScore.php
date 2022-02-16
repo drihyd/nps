@@ -878,7 +878,9 @@ $selected_departments='';
 		
 				
 		if($Questions->count()==0)			
-		{			
+		{		
+
+
 			$get_person_answered=SurveyAnswered::where('person_id',Session::get('person_id'))->get();
 			
 			foreach($get_person_answered as $key=>$value){				
