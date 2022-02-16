@@ -1,5 +1,5 @@
 @extends('admin.template_v1')
-@section('title', 'Dashboard')
+@section('title', 'Open and closed actions')
 @section('content')
 
 <div class="row">
@@ -8,7 +8,7 @@
             <div class="card-header">                                
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h5 class="card-title mb-0">Investment Stack Currency Wise</h5>
+                        <h5 class="card-title mb-0">@yield('title')</h5>
                     </div>
                     <div class="col-3">
                         <div class="dropdown">
@@ -22,10 +22,84 @@
                 </div>
             </div>
             <div class="card-body py-0 pl-0">
-                <div id="apex-stacked-chart"></div>
+                <div id="open-closed-actions-chart"></div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+
+
+<script>
+  
+  
+ 
+
+$(document).ready(function() {
+ 
+  
+	  
+      /* -----  Chartistjs - Stacked Bar Chart -- */
+      var options = {
+          series: [{
+          name: 'Opened',
+          data: [44, 55, 41, 67, 22, 43]
+        }, {
+          name: 'Closed',
+          data: [13, 23, 20, 8, 13, 27]
+        }],
+          chart: {
+          type: 'bar',
+          height: 300,
+          stacked: true,
+          toolbar: {
+            show: false
+          },
+          zoom: {
+            enabled: false
+          }
+        },
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            legend: {
+              position: 'bottom',
+              offsetX: -10,
+              offsetY: 0
+            }
+          }
+        }],
+        plotOptions: {
+          bar: {
+            horizontal: false,
+          },
+        },
+        xaxis: {
+          type: 'datetime',
+          categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
+            '01/05/2011 GMT', '01/06/2011 GMT'
+          ],
+        },
+        legend: {
+          position: 'right',
+          offsetY: 0,
+          show: false
+        },
+        fill: {
+          opacity: 1
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#open-closed-actions-chart"), options);
+        chart.render();
+	  
+	  
+	          
+});
+  
+  </script>
+
+@endpush
 
