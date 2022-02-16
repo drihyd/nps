@@ -20,7 +20,7 @@
 &nbsp;
 @include('admin.common_pages.action_button')
 &nbsp;
-<a class="btn btn-warning mb-2" href="{{ route('export') }}">Export Data</a>
+<a class="btn btn-warning mb-2" href="{{ route('export')}}?ticket_status=opened">Export Data</a>
 <div class="form-group mb-2">
 @if(auth()->user())
 @if(auth()->user()->role==2)
@@ -34,7 +34,7 @@
 
 </div>
 
-<input type="text" name="ticket_status" value="{{$status}}"/>
+<input type="text" name="ticket_status" value="{{$status??''}}"/>
 
 </form>
           @include('admin.reports.table_lists',['Data'=>$Detractors,'is_action_enabled'=>'yes'])

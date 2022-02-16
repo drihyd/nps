@@ -31,7 +31,7 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 	public function __construct(array $data = [])
 	{
 
-dd($data);
+		// dd($data);
 	$this->data = $data; 
 	}
 	
@@ -65,6 +65,9 @@ dd($data);
 	
 	public function collection()
     {
+
+
+
 		$addition_params=$this->data;
 		$category_id=$addition_params['category_id']??'';
 		$from_date=$addition_params['fd']??'';
@@ -78,8 +81,8 @@ dd($data);
 		->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])  
 		->whereIn('survey_answered.question_id',[1,11]);
 
-		if ($this->ticket_status) {
-			$Detractors->where('survey_answered.ticket_status',$this->ticket_status); 
+		if ($this->data == 'opened') {
+			$Detractors->where('survey_answered.ticket_status','opened'); 
 		}
 
 		$Detractors->orderBy('survey_persons.created_at','DESC');
