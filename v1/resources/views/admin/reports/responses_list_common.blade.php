@@ -34,6 +34,8 @@
 
 </div>
 
+<input type="text" name="ticket_status" value="{{$status}}"/>
+
 </form>
           @include('admin.reports.table_lists',['Data'=>$Detractors,'is_action_enabled'=>'yes'])
 

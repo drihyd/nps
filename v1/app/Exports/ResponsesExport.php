@@ -27,8 +27,11 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
     * @return \Illuminate\Support\Collection
     */
 	private $data;
+	
 	public function __construct(array $data = [])
 	{
+
+dd($data);
 	$this->data = $data; 
 	}
 	
@@ -73,9 +76,14 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		->leftJoin('users','users.id', '=', 'survey_persons.logged_user_id')
 		->where('survey_persons.organization_id',Auth::user()->organization_id)             
 		->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])  
-		->whereIn('survey_answered.question_id',[1,11])
-		->orderBy('survey_persons.created_at','DESC')
-		->get();
+		->whereIn('survey_answered.question_id',[1,11]);
+
+		if ($this->ticket_status) {
+			$Detractors->where('survey_answered.ticket_status',$this->ticket_status); 
+		}
+
+		$Detractors->orderBy('survey_persons.created_at','DESC');
+		$Detractors->get();
 		
 		
 		

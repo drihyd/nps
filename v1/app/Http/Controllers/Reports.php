@@ -36,6 +36,8 @@ class Reports extends Controller
 	
 		$role=auth()->user()->role??0;
 
+
+		
 	
         $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)		
 		->where('survey_persons.logged_user_id',auth()->user()->id??0)
@@ -64,7 +66,7 @@ class Reports extends Controller
 		}		
 		else{
 			
-			$from_date = date('Y-m-01');
+			$from_date = date('Y-01-01');
 			$to_date = date('Y-m-t');
 			
 		}
@@ -92,6 +94,18 @@ class Reports extends Controller
                 
               
                 }
+
+
+if($request->ticket_status) {                    
+                $status=$request->ticket_status;
+			
+                }       
+                else{
+                $status='';
+                
+              
+                }
+ 
 		
 		
 		
@@ -139,11 +153,16 @@ class Reports extends Controller
                 $Detractors->where('survey_answered.survey_id','=',$Question);                
             }
             })
+            ->where(function($Detractors) use ($status){   
+            if($status){       
+                $Detractors->where('survey_answered.ticket_status','=',$status);                
+            }
+            })
 			
 			->orderBy('survey_persons.created_at','DESC')
 			->get();
 			
-		
+			// dd($Detractors);
 			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
@@ -234,7 +253,8 @@ class Reports extends Controller
         $pageTitle="Reports";  
 		$pickteam=$request->team??'';	
 		$quetion=$request->question_id??'';	
-        return view('admin.reports.responses_reports_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam','quetion'))
+		$status=$request->ticket_status??'';	
+        return view('admin.reports.responses_reports_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam','quetion','status'))
         ->withInput('i', (request()->input('page', 1) - 1) * 5);  
     }
 
@@ -248,7 +268,16 @@ public function export(Request $request)
 				// 'td' =>$request->to_date,
 				// ];
 
-        return Excel::download(new ResponsesExport, 'responses_report.xlsx');
+
+
+    	
+
+                $data=['ticket_status'=>$request->ticket_status];
+
+
+ 
+
+        return Excel::download(new ResponsesExport($data), 'responses_report.xlsx');
     }
 	
 	

@@ -206,6 +206,7 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 
 	Route::get('responses_reports', [Reports::class,'reports_response_list']);
+	Route::get('responses_reports/{value?}', [Reports::class,'reports_response_list']);
 	Route::get('export', [Reports::class, 'export'])->name('export');
 	
 	Route::get('performitor_reports', [Reports::class,'show_performitor_reports']);

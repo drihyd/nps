@@ -98,6 +98,10 @@
 </a>
 <ul class="vertical-submenu">
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports')}}">Detractors Reports</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=opened')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=opened')}}">New Cases</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports')}}">Assigned Cases</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports')}}">Closed Cases</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports')}}">Process Level Closed</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/performitor_reports')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/performitor_reports')}}">Performitors Reports</a></li>
 </ul>
 </li>
