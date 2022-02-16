@@ -2,6 +2,9 @@
 @section('title', 'Open and closed actions')
 @section('content')
 
+
+
+
 <div class="row">
     <div class="col-lg-12 col-xl-12">
         <div class="card m-b-30">
@@ -10,15 +13,7 @@
                     <div class="col-9">
                         <h5 class="card-title mb-0">@yield('title')</h5>
                     </div>
-                    <div class="col-3">
-                        <div class="dropdown">
-                            <button class="btn btn-link p-0 font-18 float-right" type="button" id="widgetPatientTypes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal-"></i></button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="widgetPatientTypes">
-                                <a class="dropdown-item font-13" href="#">Refresh</a>
-                                <a class="dropdown-item font-13" href="#">Export</a>
-                            </div>
-                        </div>
-                    </div>
+                 
                 </div>
             </div>
             <div class="card-body py-0 pl-0">
@@ -29,7 +24,10 @@
 </div>
 @endsection
 
+
+
 @push('scripts')
+
 
 
 <script>
@@ -39,20 +37,33 @@
 
 $(document).ready(function() {
  
+ console.log("@php echo $monthnames @endphp");
   
 	  
       /* -----  Chartistjs - Stacked Bar Chart -- */
       var options = {
+		  
+		  
           series: [{
           name: 'Opened',
-          data: [44, 55, 41, 67, 22, 43]
+          data: [ 
+		  {{$action_count??""}} ]
         }, {
           name: 'Closed',
-          data: [13, 23, 20, 8, 13, 27]
+          data: [ {{$closed_action_count??""}} ]
         }],
+		
+		
+		
+		 
           chart: {
           type: 'bar',
-          height: 300,
+		  
+		  
+		  
+		  
+		  
+          height: 400,
           stacked: true,
           toolbar: {
             show: false
@@ -66,26 +77,35 @@ $(document).ready(function() {
           options: {
             legend: {
               position: 'bottom',
-              offsetX: -10,
+              offsetX: -100,
               offsetY: 0
             }
           }
         }],
+		colors: ['#106b21', '#ff0000'],
+		
         plotOptions: {
           bar: {
             horizontal: false,
           },
         },
+		
+		
+		
+		
         xaxis: {
-          type: 'datetime',
-          categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
-            '01/05/2011 GMT', '01/06/2011 GMT'
-          ],
+			showLabel: true,
+         
+		 type:'string', 
+				
+          categories:   [@php echo $monthnames @endphp]
+		  
+		  
         },
         legend: {
-          position: 'right',
+          position: 'top',
           offsetY: 0,
-          show: false
+          show: true
         },
         fill: {
           opacity: 1
