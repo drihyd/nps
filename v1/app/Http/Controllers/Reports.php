@@ -45,7 +45,7 @@ class Reports extends Controller
 
 
         foreach ($responses_data as $key => $value) {
-        $responses_data[$key]->qoptions = SurveyAnswered::select('question_options.option_value as answer','survey_answered.updated_at as last_status_updated_at')
+        $responses_data[$key]->qoptions = SurveyAnswered::select('question_options.option_value as answer','survey_answered.updated_at as last_status_updated_at','survey_answered.ticket_remarks as s_ticket_remarks')
          ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
          ->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
         ->where('survey_persons.organization_id',Auth::user()->organization_id)      
