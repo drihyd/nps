@@ -19,7 +19,7 @@
 
 <h5 class="card-title mb-2">@yield('title')</h5>
 
-<form class="table-filter mb-4 form-inline" action="{{route('filter.grpahs_opened_closed_actions')}}" method="post">
+<form class="table-filter mb-4 form-inline" action="{{route('filter-grpahs-opened-closed-actions')}}" method="post">
 @csrf
 @include('admin.common_pages.dates_input')
 @include('admin.common_pages.action_button')

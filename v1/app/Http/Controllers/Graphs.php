@@ -13,6 +13,9 @@ class Graphs extends Controller
 {
     public function graphs_list(Request $request)
     {
+		
+		
+		dd($request);
 		$pageTitle="Graphs";			
 		$datareport=$this->get_monthwise_opened_closed($request);	
 		$collection = collect($datareport); 

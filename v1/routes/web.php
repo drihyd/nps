@@ -77,7 +77,6 @@ Route::any('filter.performitor_reports', [Reports::class,'show_performitor_repor
 
 
 
-
 Route::post('adminlogin-verification',[LoginController::class, 'Loginsubmit'])->name('adminlogin.verification');
 Route::get('administrator/logout', [LoginController::class,'logout'])->name('admin.logout');
 Route::get('administrator/profile/',[LoginController::class,'profile']);
@@ -125,6 +124,8 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	/*Graphs*/
 
 	Route::get('graphs', [Graphs::class,'graphs_list']);
+	Route::post('filter-grpahs-opened-closed-actions', [Graphs::class,'graphs_list'])->name('filter-grpahs-opened-closed-actions');
+
 
 	/*Admin Departments*/
 
