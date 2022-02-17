@@ -81,9 +81,13 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])  
 		->whereIn('survey_answered.question_id',[1,11])
 		->where(function($Detractors) use ($status){
-			if($status=='opened'){		
+			if($status=='new-cases'){		
 				$Detractors->where('survey_answered.ticket_status','opened');
-			}
+			}elseif($status == 'assigned-cases'){
+            	$Detractors->whereIn('survey_answered.ticket_status',['phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back']);
+            }elseif($status == 'closed-cases'){
+            	$Detractors->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied']);
+            }
 			})
 		->orderBy('survey_persons.created_at','DESC')
 		->get();
@@ -103,7 +107,7 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		Str::title($feedback_data->firstname),
 		Str::title($feedback_data->email),
 		Str::title($feedback_data->mobile),
-		"",
+		Str::title($feedback_data->survey_title),
 		"",
 		"",
 		"",
