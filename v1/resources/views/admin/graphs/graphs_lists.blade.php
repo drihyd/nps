@@ -19,7 +19,7 @@
 
 <h5 class="card-title mb-2">@yield('title')</h5>
 
-<form class="table-filter mb-4 form-inline" action="{{route('filter-grpahs-opened-closed-actions')}}" method="post">
+<form class="table-filter mb-4 form-inline graph_form" action="{{route('filter-grpahs-opened-closed-actions')}}" method="post" >
 @csrf
 @include('admin.common_pages.dates_input')
 @include('admin.common_pages.action_button')
@@ -44,20 +44,85 @@
 </div>
 </div>
 
+	<div class="row align-items-center">
 	
-        <div class="card m-b-30">
-            <div class="card-header">                                
-                <div class="row align-items-center">
-                    <div class="col-9">
-                        
+<div class="col-12">
+<div class="card m-b-30">
+<div class="card-body py-0 pl-0">
+<div id="open-closed-actions-chart"></div>
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="col-lg-12 col-xl-12">
+
+
+                        <div class="card m-b-30 dash-widget">
+                            <div class="card-header">                                
+                                <div class="row align-items-center">
+                                    <div class="col-12">
+                                        <h5 class="card-title mb-0">Stastics</h5>
+                                    </div>
+                               
+                                </div>
+                            </div>
+                            <div class="card-body py-0">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless">
+									
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Department</th>
+                                                <th>Alerts that came in</th>
+                                                <th>Alerts that are closed</th>
+                                                <th>Alerts that are assigned bu still open</th>
+                                           
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td><img class="w-25 rounded-circle" src="assets/images/crypto/bitcoin_small.png" alt="Generic placeholder image"></td>
+                                                <td>bitcoin.com</td>
+                                                <td>johncb@gmail.com</td>
+                                        
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td><img class="w-25 rounded-circle" src="assets/images/crypto/ethereum_small.png" alt="Generic placeholder image"></td>
+                                                <td>cashitnow.com</td>
+                                                <td>jameson911@gmail.com</td>
+                                         
+                                            </tr>
+                                           
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                 
-                </div>
-            </div>
-            <div class="card-body py-0 pl-0">
-                <div id="open-closed-actions-chart"></div>
-            </div>
-        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+		 
+		 
+		 
+		  </div>
+		
     </div>
 </div>
 @endsection
@@ -156,6 +221,9 @@ $(document).ready(function() {
 	  
 	          
 });
+
+
+
   
   </script>
 
