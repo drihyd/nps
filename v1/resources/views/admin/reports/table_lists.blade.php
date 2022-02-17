@@ -16,10 +16,7 @@
                         <th>Feedback Date</th>
                         <th>Last Updated</th>
                         <th>Status</th>
-                        @if($status == 'end-action-comments')
-                        <th>Comments</th>
-                        @else
-                        @endif
+                        <!-- <th>Actions</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -72,10 +69,6 @@
 							  
 							  
 							  </td>
-							  @if($status == 'end-action-comments')
-							  <td>{{$response->s_ticket_remarks??''}}</td>
-							  @else
-                        @endif
                           </tr>
                           @endforeach
                       </tbody>
