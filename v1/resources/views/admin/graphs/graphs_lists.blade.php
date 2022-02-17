@@ -37,7 +37,12 @@
 @endif
 </div>
 
+
+
 </form>
+
+
+
 
 </div>
 </div>
@@ -54,9 +59,7 @@
 </div>
 </div>
 
-
-
-
+@if($department_statistics)
 
 <div class="col-lg-12 col-xl-12">
 
@@ -76,29 +79,38 @@
 									
                                         <thead class="thead-dark">
                                             <tr>
-                                                <th>Department</th>
-                                                <th>Alerts that came in</th>
-                                                <th>Alerts that are closed</th>
-                                                <th>Alerts that are assigned bu still open</th>
+                                                <th scope="col">S.No.</th>
+                                                <th scope="col">Team/Department</th>
+                                                <th scope="col">Alerts that came in</th>
+                                                <th scope="col">Alerts that are closed</th>
+                                                <th scope="col">Alerts that are assigned bu still open</th>
                                            
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td><img class="w-25 rounded-circle" src="assets/images/crypto/bitcoin_small.png" alt="Generic placeholder image"></td>
-                                                <td>bitcoin.com</td>
-                                                <td>johncb@gmail.com</td>
+										
+										@foreach($department_statistics as $key=>$item)
+										
+@php
+$teamname = DB::table('question_options')->select('option_value')->where('id',$item->department_name_id)->get()->first();
+@endphp
+@if ($loop->iteration % 2 == 0)
+<tr class="table-danger">
+@else 
+<tr class="table-primary">
+@endif
+										
+												<td>{{$loop->iteration}}</td>
+												
+                                                <td align="left">{{$teamname->option_value??''}}</td>
+                                                <td align="center">{{$item->alerts_came_in??''}}</td>
+                                                <td align="center">{{$item->alerts_closed??''}}</td>
+                                                <td align="center">{{$item->alerts_still_opened??''}}</td>
                                         
                                             </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td><img class="w-25 rounded-circle" src="assets/images/crypto/ethereum_small.png" alt="Generic placeholder image"></td>
-                                                <td>cashitnow.com</td>
-                                                <td>jameson911@gmail.com</td>
-                                         
-                                            </tr>
-                                           
+                                     
+											
+                                           @endforeach
                                             
                                         </tbody>
                                     </table>
@@ -106,6 +118,14 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+@else
+
+@endif
+
 
 
 

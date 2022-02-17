@@ -17,7 +17,10 @@ class Graphs extends Controller
 		
 	
 		$pageTitle="Graphs";			
-		$datareport=$this->get_monthwise_opened_closed($request);	
+		$datareport=$this->get_monthwise_opened_closed($request);		
+		$department_statistics=$this->show_department_statistics($request);			
+		
+	
 		$collection = collect($datareport); 
 		
 		
@@ -28,7 +31,7 @@ class Graphs extends Controller
 		
 		$action_count=$collection->implode('action_count', ',');
 		$closed_action_count=$collection->implode('closed_action_count', ',');
-		return view('admin.graphs.graphs_lists',compact('pageTitle','monthnames','action_count','closed_action_count'));         
+		return view('admin.graphs.graphs_lists',compact('pageTitle','monthnames','action_count','closed_action_count','department_statistics'));         
     }
 	
 	function custom_array_merge($array1, $array2) {
@@ -181,14 +184,65 @@ class Graphs extends Controller
 
 $graph_data_statics=$this->custom_array_merge($userArr,$_userArr);
 return $graph_data_statics;
-
-
-
-			
-			
-
-			//return response()->json(array_values($_userArr??[]));
-		
-		
-	}
+//return response()->json(array_values($_userArr??[]));		
+	
 }
+
+
+
+public function show_department_statistics(Request $request)
+{   
+
+
+
+
+
+if($request->from_date &&  $request->to_date) {
+$from_date = $request->from_date;
+$to_date = $request->to_date;			
+}		
+else{
+
+$from_date = date('Y-01-01');
+$to_date = date('Y-12-t');
+
+}
+
+
+$responses_data = DB::table("survey_answered")
+->select(
+"survey_answered.department_name_id",
+DB::raw("
+(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.ticket_status in ('closed_satisfied','closed_unsatisfied','opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back') and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59' )  as alerts_came_in,
+(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.ticket_status in ('closed_satisfied','closed_unsatisfied') and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59' )  as alerts_closed,
+(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.ticket_status in ('opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back') and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59' )  as alerts_still_opened
+
+")
+)
+
+->where(function($responses_data) use ($from_date,$to_date){	
+if($from_date &&  $to_date){	
+$responses_data->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+$responses_data->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+}		
+})
+			
+->whereNotIn('survey_answered.question_id',[1,11])
+->whereNotIn('survey_answered.department_name_id',[21])
+->whereNotNull('survey_answered.department_name_id')
+->groupBy('survey_answered.department_name_id')
+->get();
+
+
+return $responses_data;
+
+
+}
+
+
+
+
+
+}
+
+
