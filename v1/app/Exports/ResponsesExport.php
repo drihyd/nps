@@ -51,6 +51,7 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 			'UHID',
 			'NPS Score',
 			'Status',
+			'Comments',
 			'Reasons for NPS',
 			'Known about OMNI Hospitals',
 			'Suggestions',
@@ -73,7 +74,7 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		$from_date=$addition_params['fd']??'';
 		$to_date=$addition_params['td']??'';
 		$status=$addition_params['ticket_status']??'';		
-		$Detractors = SurveyAnswered::select('users.firstname as feedbackby','survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
+		$Detractors = SurveyAnswered::select('users.firstname as feedbackby','survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.ticket_remarks as s_ticket_remarks')
 		->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 		->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 		->leftJoin('users','users.id', '=', 'survey_persons.logged_user_id')
@@ -87,6 +88,8 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
             	$Detractors->whereIn('survey_answered.ticket_status',['phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back']);
             }elseif($status == 'closed-cases'){
             	$Detractors->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied']);
+            }elseif($status == 'end-action-comments'){
+            	$Detractors->where('survey_answered.ticket_status','!=','opened');
             }
 			})
 		->orderBy('survey_persons.created_at','DESC')
@@ -113,7 +116,7 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		"",
 		Str::title($feedback_data->rating),
 		Str::title($feedback_data->ticket_status),
-		"",
+		Str::title($feedback_data->s_ticket_remarks),
 		"",
 		"",
 		Str::title($feedback_data->feedbackby),

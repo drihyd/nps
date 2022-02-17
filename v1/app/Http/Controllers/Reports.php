@@ -110,7 +110,7 @@ if($request->ticket_status) {
 		
 		
 		
-			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
+			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.ticket_remarks as s_ticket_remarks')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)				
@@ -160,6 +160,8 @@ if($request->ticket_status) {
             	$Detractors->whereIn('survey_answered.ticket_status',['phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back']);
             }elseif($status == 'closed-cases'){
             	$Detractors->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied']);
+            }elseif($status == 'end-action-comments'){
+            	$Detractors->where('survey_answered.ticket_status','!=','opened');
             }
             })
 			
