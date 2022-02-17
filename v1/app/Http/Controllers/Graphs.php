@@ -239,7 +239,15 @@ return $responses_data;
 
 }
 
-
+public function graphs_list_inpatient(Request $request)
+    {
+		
+		
+	
+		$pageTitle="Graphs- In Patient";			
+		
+		return view('admin.graphs.graphs_lists_inpatient',compact('pageTitle'));         
+    }
 
 
 

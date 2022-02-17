@@ -15,10 +15,14 @@
 <img src="{{URL::to('assets/images/svg-icon/dashboard.svg')}}" class="img-fluid" alt="widgets"><span>Dashboard</span><!--<span class="badge badge-success pull-right">New</span>-->
 </a>
 </li> 
-<li class="{{ (request()->is(Config::get('constants.admin').'/graphs')) ? 'active' : '' }}">
-<a href="{{url(Config::get('constants.admin').'/graphs')}}">
-<img src="{{URL::to('assets/images/svg-icon/chart.svg')}}" class="img-fluid" alt="widgets"><span>Graphs</span>
+<li>
+<a href="javaScript:void();">
+<img src="{{URL::to('assets/images/svg-icon/chart.svg')}}" class="img-fluid" alt="widgets"><span>Graphs</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
+<ul class="vertical-submenu">
+<li class="{{ (request()->is(Config::get('constants.admin').'/graphs')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/graphs')}}">Dashboard 1</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/graphs-in-patient')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/graphs-in-patient')}}">Dashboard 2</a></li>
+</ul>
 </li> 
 
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses')) ? 'active' : '' }}">

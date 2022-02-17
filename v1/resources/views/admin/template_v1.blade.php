@@ -41,6 +41,8 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <!-- apex css -->
     <link href="{{URL::to('assets/plugins/apexcharts/apexcharts.css')}}" rel="stylesheet">
+    <link href="{{URL::to('assets/plugins/c3/c3.min.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{URL::to('assets/plugins/chartist-js/chartist.min.css')}}">
     <!-- End css -->
      
 
@@ -226,6 +228,13 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 <script src="{{URL::to('assets/plugins/apexcharts/irregular-data-series.js')}}"></script>
 
 <script src="{{URL::to('assets/js/custom/custom-dashboard-crypto.js')}}"></script>
+
+<script src="{{URL::to('assets/plugins/d3/d3.min.js')}}"></script>
+    <script src="{{URL::to('assets/plugins/c3/c3.min.js')}}"></script>
+    <script src="{{URL::to('assets/plugins/chart.js/chart.min.js')}}"></script>
+    <script src="{{URL::to('assets/plugins/chart.js/chart-bundle.min.js')}}"></script>
+    <script src="{{URL::to('assets/plugins/chartist-js/chartist.min.js')}}"></script>
+    <script src="{{URL::to('assets/plugins/chartist-js/chartist-plugin-tooltip.min.js')}}"></script>
 
 @include('admin.common_pages.functions_js')
   <!-- End js -->
