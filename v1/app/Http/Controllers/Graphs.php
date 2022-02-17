@@ -215,7 +215,7 @@ $responses_data = DB::table("survey_answered")
 DB::raw("
 (SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.ticket_status in ('closed_satisfied','closed_unsatisfied','opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back') and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59' )  as alerts_came_in,
 (SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.ticket_status in ('closed_satisfied','closed_unsatisfied') and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59' )  as alerts_closed,
-(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.ticket_status in ('opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back') and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59' )  as alerts_still_opened
+(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.ticket_status in ('phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back') and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59' )  as alerts_still_opened
 
 ")
 )
@@ -230,7 +230,7 @@ $responses_data->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59
 ->whereNotIn('survey_answered.question_id',[1,11])
 ->whereNotIn('survey_answered.department_name_id',[21])
 ->whereNotNull('survey_answered.department_name_id')
-->groupBy('survey_answered.department_name_id','person_id')
+->groupBy('survey_answered.department_name_id')
 ->get();
 
 
