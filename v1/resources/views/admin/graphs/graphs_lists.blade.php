@@ -7,11 +7,49 @@
 
 <div class="row">
     <div class="col-lg-12 col-xl-12">
+	
+	
+	
+
+	
+	<div class="card m-b-30">
+<div class="card-header">                                
+<div class="row align-items-center">
+<div class="col-12">
+
+<h5 class="card-title mb-2">@yield('title')</h5>
+
+<form class="table-filter mb-4 form-inline" action="{{route('filter.grpahs_opened_closed_actions')}}" method="post">
+@csrf
+@include('admin.common_pages.dates_input')
+@include('admin.common_pages.action_button')
+&nbsp;
+
+<div class="form-group mb-2">
+@if(auth()->user())
+@if(auth()->user()->role==2)
+<a href="{{url(Config::get('constants.admin').'/graphs')}}">Reset</a>
+@else
+<a href="{{url(Config::get('constants.user').'/graphs')}}">Reset</a>
+@endif
+@else
+<a href="#">
+@endif
+</div>
+
+</form>
+
+</div>
+</div>
+</div>
+</div>
+
+	
         <div class="card m-b-30">
             <div class="card-header">                                
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h5 class="card-title mb-0">@yield('title')</h5>
+                        
                     </div>
                  
                 </div>
