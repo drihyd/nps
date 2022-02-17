@@ -10,17 +10,19 @@
 &nbsp;
 @include('admin.common_pages.action_button')
 &nbsp;
-<div class="form-group mb-2">
+<div class="text-sm-right mt-2" style="width: 100%;">
+<div class="mb-2">
 @if(auth()->user())
 @if(auth()->user()->role==2)
-<a href="{{url(Config::get('constants.admin').'/responses')}}">Clear filter</a>
+<a href="{{url(Config::get('constants.admin').'/responses')}}" class="btn btn-warning btn-sm mb-2">Reset</a>
 @else
-<a href="{{url(Config::get('constants.user').'/responses')}}">Clear filter</a>
+<a href="{{url(Config::get('constants.user').'/responses')}}" class="btn btn-warning btn-sm mb-2">Reset</a>
 @endif
 @else
 <a href="#">
 @endif
 
+</div>
 </div>
 
 </form>

@@ -20,13 +20,13 @@
 &nbsp;
 @include('admin.common_pages.action_button')
 &nbsp;
-<a class="btn btn-warning mb-2" href="{{ route('export')}}?ticket_status={{$status??'all'}}">Export Data</a>
-<div class="form-group mb-2">
+<div class="text-sm-right mt-2" style="width: 100%;">
+<a class="btn btn-warning btn-sm mb-2" href="{{ route('export')}}?ticket_status={{$status??'all'}}">Export Data</a>
 @if(auth()->user())
 @if(auth()->user()->role==2)
-<a href="{{url(Config::get('constants.admin').'/responses_reports')}}?ticket_status={{$status??'all'}}">Clear filter</a>
+<a class="btn btn-warning btn-sm mb-2" href="{{url(Config::get('constants.admin').'/responses_reports')}}?ticket_status={{$status??'all'}}">Reset</a>
 @else
-<a href="{{url(Config::get('constants.user').'/responses_reports')}}?ticket_status={{$status??'all'}}">Clear filter</a>
+<a class="btn btn-warning btn-sm mb-2" href="{{url(Config::get('constants.user').'/responses_reports')}}?ticket_status={{$status??'all'}}">Reset</a>
 @endif
 @else
 <a href="#">
