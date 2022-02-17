@@ -154,9 +154,11 @@ if($request->ticket_status) {
             }
             })
             ->where(function($Detractors) use ($status){   
-            if($status =='new-cases'){       
-                $Detractors->where('survey_answered.ticket_status','=','opened');                
-            }elseif($status == 'assigned-cases'){
+            if($status=='all'){		
+				$Detractors->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
+			}elseif($status=='new-cases'){		
+				$Detractors->where('survey_answered.ticket_status','opened');
+			}elseif($status == 'assigned-cases'){
             	$Detractors->whereIn('survey_answered.ticket_status',['phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back']);
             }elseif($status == 'closed-cases'){
             	$Detractors->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied']);
