@@ -710,6 +710,7 @@ DB::table('passing_departments')->insert(
 			 "person_id"=>Session::get('person_id')??0,
 			 "logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
 			 "department_activities"=>implode(",",$request->first_activities??[]),
+			 "department_name_id"=>$key??0,
 			'created_at' =>Carbon::now(),
 			'updated_at' =>Carbon::now(),
 			]  

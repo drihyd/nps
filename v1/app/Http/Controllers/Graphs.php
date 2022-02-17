@@ -15,7 +15,7 @@ class Graphs extends Controller
     {
 		
 		
-		dd($request);
+	
 		$pageTitle="Graphs";			
 		$datareport=$this->get_monthwise_opened_closed($request);	
 		$collection = collect($datareport); 
@@ -49,15 +49,15 @@ class Graphs extends Controller
 	public function get_monthwise_opened_closed($request){
 		
 		
-		
+	
 			if($request->from_date &&  $request->to_date) {
 			$from_date = $request->from_date;
 			$to_date = $request->to_date;			
 			}		
 			else{
 
-			$from_date = date('Y-01-01');
-			$to_date = date('Y-12-t');
+				$from_date = date('Y-01-01');
+				$to_date = date('Y-12-t');
 
 			}
 	
