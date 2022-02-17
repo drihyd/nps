@@ -15,13 +15,14 @@
 &nbsp;
 @include('admin.common_pages.action_button')
 &nbsp;
-<a class="btn btn-warning mb-2" href="{{ route('performitor.export') }}">Export Data</a>
+<a class="btn btn-warning btn-sm mb-2" href="{{ route('performitor.export') }}">Export Data</a>
+&nbsp;
 <div class="form-group mb-2">
 @if(auth()->user())
 @if(auth()->user()->role==2)
-<a href="{{url(Config::get('constants.admin').'/performitor_reports')}}" >Clear filter</a>
+<a href="{{url(Config::get('constants.admin').'/performitor_reports')}}" class="btn btn-warning btn-sm">Reset</a>
 @else
-<a href="{{url(Config::get('constants.user').'/performitor_reports')}}">Clear filter</a>
+<a href="{{url(Config::get('constants.user').'/performitor_reports')}}" class="btn btn-warning btn-sm">Reset</a>
 @endif
 @else
 <a href="#">
