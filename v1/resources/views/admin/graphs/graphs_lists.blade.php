@@ -28,9 +28,9 @@
 <div class="form-group mb-2">
 @if(auth()->user())
 @if(auth()->user()->role==2)
-<a href="{{url(Config::get('constants.admin').'/graphs')}}">Reset</a>
+<a href="{{url(Config::get('constants.admin').'/graphs')}}" class="btn btn-warning btn-sm ">Reset</a>
 @else
-<a href="{{url(Config::get('constants.user').'/graphs')}}">Reset</a>
+<a href="{{url(Config::get('constants.user').'/graphs')}}" class="btn btn-warning btn-sm">Reset</a>
 @endif
 @else
 <a href="#">
