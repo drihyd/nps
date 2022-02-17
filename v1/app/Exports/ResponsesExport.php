@@ -31,13 +31,13 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 	public function __construct(array $data = [])
 	{
 
-		// dd($data);
+		//dd($data);
 	$this->data = $data; 
 	}
 	
 	 public function headings(): array
     {
-        $addition_params=$this->data;
+        $addition_params=$this->data;       
 		$final_heading=[		
 			'Date of Consultation',
 			'Month Name',
@@ -72,27 +72,21 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		$category_id=$addition_params['category_id']??'';
 		$from_date=$addition_params['fd']??'';
 		$to_date=$addition_params['td']??'';
-		
+		$status=$addition_params['ticket_status']??'';		
 		$Detractors = SurveyAnswered::select('users.firstname as feedbackby','survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
 		->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 		->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 		->leftJoin('users','users.id', '=', 'survey_persons.logged_user_id')
 		->where('survey_persons.organization_id',Auth::user()->organization_id)             
 		->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])  
-		->whereIn('survey_answered.question_id',[1,11]);
-
-		if ($this->data == 'opened') {
-			$Detractors->where('survey_answered.ticket_status','opened'); 
-		}
-
-		$Detractors->orderBy('survey_persons.created_at','DESC');
-		$Detractors->get();
-		
-		
-		
-		
-		
-
+		->whereIn('survey_answered.question_id',[1,11])
+		->where(function($Detractors) use ($status){
+			if($status=='opened'){		
+				$Detractors->where('survey_answered.ticket_status','opened');
+			}
+			})
+		->orderBy('survey_persons.created_at','DESC')
+		->get();
 		return $Detractors;
 	
     }
