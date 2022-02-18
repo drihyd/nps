@@ -224,8 +224,41 @@
         }
       });
 
-     
 
+      /* -- C3 - Stacked Bar Chart -- */
+    var stackedBarChart = c3.generate({
+
+        bindto: '#c3-stacked-bar',
+        color: { pattern: ["#FEFF99", "#A7BC3A",'#CF3127', "#18d26b"] },
+        
+        data: {
+            columns: [
+                ['SeriesA', 30, 200, 200, 400, 150, 250],
+                ['SeriesB', 130, 100, 100, 200, 150, 50],
+                ['SeriesC', 230, 200, 200, 300, 250, 250],
+                ['SeriesD', 230, 200, 200, 300, 250, 250]
+            ],
+            type: 'bar',
+            groups: [
+                ['SeriesA', 'SeriesB','SeriesC']
+            ]
+        },
+        grid: {
+            y: {
+                lines: [{value:10}]
+            }
+        },
+
+
+        axis: {
+    x: {
+      type: 'category',
+      categories: ['jan', 'feb']
+    }
+  }
+
+
+    });
 
 
 });
