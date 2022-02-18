@@ -4,6 +4,8 @@
 
 
 <div class="row">
+
+<!--
     <div class="col-lg-6">
           <div class="card m-b-30">
               <div class="card-header">
@@ -14,7 +16,23 @@
               </div>
           </div>
       </div>
-    <div class="col-lg-6">
+	  -->
+	  
+	  
+	  
+	      <div class="col-lg-8">
+        <div class="card m-b-30">
+            <div class="card-header">
+                <h5 class="card-title">The Net Promoter Score (NPS)</h5>
+            </div>
+            <div class="card-body">
+                <div id="c3-stacked-bar-nps" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+	  
+	  
+    <div class="col-lg-4">
         <div class="card m-b-30">
             <div class="card-header">
                 <h5 class="card-title">Known About OMNI Hospitals</h5>
@@ -36,16 +54,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
-        <div class="card m-b-30">
-            <div class="card-header">
-                <h5 class="card-title">The Net Promoter Score (NPS)</h5>
-            </div>
-            <div class="card-body">
-                <div id="c3-stacked-bar" style="height:320px;"></div>
-            </div>
-        </div>
-    </div>
+
 </div>
 @endsection
 
@@ -55,87 +64,47 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-	  
 
-
-
-
-
-	  
-	  
-	  
-/* -- Chartjs - Stacked Bar Chart -- */
-/* -----  Chartjs - Global Style  ----- */
-
-	
-	
-        var stackedBarChartID = document.getElementById("chartjs-stacked-bar-chart").getContext('2d');
-        var stackedBarChart = new Chart(stackedBarChartID, {
+ /* -- NPS Score Bar Chart -- */ 	  
+    var stackedBarChart = c3.generate({
+        bindto: '#c3-stacked-bar-nps',
+        color: { pattern: ["{{Config::get('constants.Detractors')}}","{{Config::get('constants.Passives')}}","{{Config::get('constants.Promoters')}}","{{Config::get('constants.NPS')}}"] },
+        data: {
+            columns: [
+                ["{{Config::get('constants.Detractors-label')}}", @php echo $detractors_count??'' @endphp],
+                ["{{Config::get('constants.Passives-label')}}", @php echo $passives_count??'' @endphp],
+                ["{{Config::get('constants.Promoters-label')}}", @php echo $promotors_count??'' @endphp],
+                ["{{Config::get('constants.Nps-label')}}", @php echo $nps_count??'' @endphp],
+            ],
             type: 'bar',
-                data: {
-                    labels: [@php echo $monthnames @endphp],
-                    datasets: [{
-                        label: "{{Config::get('constants.Detractors-label')}}",
-                        backgroundColor: [
-						"{{Config::get('constants.Detractors')}}", 
-						"{{Config::get('constants.Detractors')}}",
-						"{{Config::get('constants.Detractors')}}",
-						"{{Config::get('constants.Detractors')}}",
-						"{{Config::get('constants.Detractors')}}",
-						"{{Config::get('constants.Detractors')}}",
-						"{{Config::get('constants.Detractors')}}",
-						"{{Config::get('constants.Detractors')}}",
-						"{{Config::get('constants.Detractors')}}",
-						"{{Config::get('constants.Detractors')}}",
-						"{{Config::get('constants.Detractors')}}",
-						"{{Config::get('constants.Detractors')}}"
-						
-						
-						],
-                        data: [{{$detractors_count??''}}]
-                    }, {
-                     
-						label: "{{Config::get('constants.Passives-label')}}",
-                        backgroundColor: [
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						"{{Config::get('constants.Passives')}}",
-						
-						
-						],
-                        data: [{{$passives_count??''}}]
-                    }, {         
-						label: "{{Config::get('constants.Promoters-label')}}",
-                        backgroundColor: [
-						"{{Config::get('constants.Promoters')}}",
-						"{{Config::get('constants.Promoters')}}", 
-						"{{Config::get('constants.Promoters')}}", 
-						"{{Config::get('constants.Promoters')}}", 
-						"{{Config::get('constants.Promoters')}}", 
-						"{{Config::get('constants.Promoters')}}", 
-						"{{Config::get('constants.Promoters')}}", 
-						"{{Config::get('constants.Promoters')}}", 
-						"{{Config::get('constants.Promoters')}}", 
-						"{{Config::get('constants.Promoters')}}", 
-						"{{Config::get('constants.Promoters')}}", 
-						"{{Config::get('constants.Promoters')}}", 
-						
-					
-					
-					],
-                        data: [{{$promotors_count??''}}]
-                    }]
+            groups: [
+                ["{{Config::get('constants.Detractors-label')}}","{{Config::get('constants.Passives-label')}}","{{Config::get('constants.Promoters-label')}}"]
+            ]
+        },
+  
+		
+		axis: {
+    x: {
+      type: 'category',
+      categories: [@php echo $monthnames @endphp]
+    }
+  },
+  
+  
+   options: {
+	   
+	   
+	      responsive: true,  
+                cutoutPercentage: 20,              
+                legend: {
+                    position: 'left'
                 },
-                options: {
+           
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                },
+	   
                     title: {
                         display: false,
                         text: 'NPS Score'
@@ -164,8 +133,23 @@
                         }]
                     }
                 }
-        });
+  
+			
+});
 
+
+
+
+
+	  
+	  
+	  
+/* -- Chartjs - Stacked Bar Chart -- */
+/* -----  Chartjs - Global Style  ----- */
+
+	
+	
+       
 
     /* -----  Chartistjs - Stacked Bar Chart -- */
       new Chartist.Bar('#chartist-stacked-bar', {
@@ -240,28 +224,9 @@
         }
       });
 
-      /* -- C3 - Stacked Bar Chart -- */
-    var stackedBarChart = c3.generate({
-        bindto: '#c3-stacked-bar',
-        color: { pattern: ["#FEFF99", "#A7BC3A",'#CF3127', "#18d26b"] },
-        data: {
-            columns: [
-                ['SeriesA', 30, 200, 200, 400, 150, 250],
-                ['SeriesB', 130, 100, 100, 200, 150, 50],
-                ['SeriesC', 230, 200, 200, 300, 250, 250],
-                ['SeriesD', 230, 200, 200, 300, 250, 250]
-            ],
-            type: 'bar',
-            groups: [
-                ['SeriesA', 'SeriesB','SeriesC']
-            ]
-        },
-        grid: {
-            y: {
-                lines: [{value:0}]
-            }
-        }
-    });
+     
+
+
 
 });
 

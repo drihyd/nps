@@ -38,7 +38,10 @@ class Graphs extends Controller
         // if($value['name'])
         foreach ($array2 as $key_1 => $value_2) {
             if($value_1['month'] ==  $value_2['month']) {
+				
                 $result[] = array_merge($value_1,$value_2);
+				
+				
             }
         }
 
@@ -255,12 +258,8 @@ public function graphs_list_inpatient(Request $request)
 		
 	$passives_count=$collection->implode('passives',',');
 		$promotors_count=$collection->implode('promotors',',');
-
-		
-		
-		
-		
-		return view('admin.graphs.graphs_lists_inpatient',compact('pageTitle','monthnames','detractors_count','passives_count','promotors_count'));         
+		$nps_count=$collection->implode('nps_score',',');		
+		return view('admin.graphs.graphs_lists_inpatient',compact('pageTitle','monthnames','detractors_count','passives_count','promotors_count','nps_count'));         
     }
 	
 	public function get_nps_scores($request){
@@ -358,6 +357,10 @@ public function graphs_list_inpatient(Request $request)
 			
 			
 			
+	
+			
+			
+			
 
 			$_usermcount = [];
 			$_userArr = [];
@@ -386,8 +389,10 @@ public function graphs_list_inpatient(Request $request)
 			for ($i = 1; $i <= 12; $i++) {
 			if (!empty($_usermcount[$i])) {
 			$_userArr[$i]['passives'] = $_usermcount[$i];
+			$_userArr[$i]['nps_score'] = $_usermcount[$i];
 			} else {
 			$_userArr[$i]['passives'] = 0;
+			$_userArr[$i]['nps_score'] = 0;
 			}
 			$_userArr[$i]['month'] = $month[$i - 1];
 			}
@@ -456,9 +461,100 @@ public function graphs_list_inpatient(Request $request)
 			}
 
 
+
+
+
+					/*** NPS Score actions***/
+			$___users = SurveyAnswered::select('id', 'created_at')
+			->whereIn('survey_answered.question_id',[1,11])
+			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6,7,8,9,10])
+			 
+			->where(function($___users) use ($from_date,$to_date){	
+			if($from_date &&  $to_date){		
+			$___users->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+			$___users->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+			}		
+			})
+
+			->get()
+			->groupBy(function ($date) {
+			return Carbon::parse($date->created_at)->format('m');
+			},'person_id'
+			
+			);
+			
+			
+			
+			$___usermcount = [];
+			$___userArr = [];
+
+			foreach ($___users as $key => $value) {
+			$___usermcount[(int)$key] = count($value);
+			}
+
+			$month = [
+			"'January'",
+			"'February'",
+			"'March'",
+			"'April'",
+			"'May'",
+			"'June'",
+			"'July'",
+			"'August'",
+			"'September'",
+			"'October'",
+			"'November'",
+			"'December'",
+			
+			
+			];
+
+			for ($i = 1; $i <= 12; $i++) {
+			if (!empty($___usermcount[$i])) {
+			$___userArr[$i]['nps_score'] = $___usermcount[$i];
+			} else {
+			$___userArr[$i]['nps_score'] = 0;
+			}
+			$___userArr[$i]['month'] = $month[$i - 1];
+			}
+			
+
+
 $graph_data_statics=$this->custom_array_merge($userArr,$_userArr);
 $graph_data_statics=$this->custom_array_merge($graph_data_statics,$__userArr);
-return $graph_data_statics;
+
+
+$collection = collect($graph_data_statics);
+
+$multiplied = $collection->map(function ($item, $key) {
+	
+	$tfeedback=$item['detractors']+$item['passives']+$item['promotors'];
+	if($tfeedback>0)
+	{
+		$tfeedback=$tfeedback;
+	}
+	else{
+		$tfeedback=1;
+	}
+    return 
+	[
+	
+	
+	"month"=>$item['month'],
+	"detractors"=>$item['detractors'],
+	"passives"=>$item['passives'],
+	"promotors"=>$item['promotors'],
+	"nps_score"=>round((($item['promotors']-$item['detractors'])/($tfeedback))*100),	
+	]
+	
+	;
+});
+
+
+
+
+
+return $multiplied;
 
 
 		

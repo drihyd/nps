@@ -11,10 +11,11 @@ return [
 	'Promoters'=>"#119460",
 	'Passives'=>"#FF981F",
 	'Detractors'=>"#FE4A49",
-	
+	'NPS'=>"#0594BE",	
 	'Promoters-label'=>"Promoters",
 	'Passives-label'=>"Passives",
-	'Detractors-label'=>"Detractors"
+	'Detractors-label'=>"Detractors",
+	'Nps-label'=>"NPS Score"
 	
 	
 
