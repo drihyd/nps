@@ -73,25 +73,25 @@
         var stackedBarChart = new Chart(stackedBarChartID, {
             type: 'bar',
                 data: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    labels: [@php echo $monthnames @endphp],
                     datasets: [{
-                        label: 'Series A',
-                        backgroundColor: ["#0080ff", "#0080ff", "#0080ff", "#0080ff", "#0080ff", "#0080ff", "#0080ff"],
-                        data: [70, 66, 50, 69, 9, 36, -26]
+                        label: 'Detractors',
+                        backgroundColor: ["#CF3127", "#CF3127", "#CF3127", "#CF3127", "#CF3127", "#CF3127", "#CF3127"],
+                        data: [{{$detractors_count??''}}]
                     }, {
-                        label: 'Series B',
-                        backgroundColor: ["#18d26b", "#18d26b", "#18d26b", "#18d26b", "#18d26b", "#18d26b", "#18d26b"],
-                        data: [19, -17, 67, -21, -26, 32, -29]
+                        label: 'Passives',
+                        backgroundColor: ["#FEFF99", "#FEFF99", "#FEFF99", "#FEFF99", "#FEFF99", "#FEFF99", "#FEFF99"],
+                        data: [{{$passives_count??''}}]
                     }, {
-                        label: 'Series C',
-                        backgroundColor: ["#d4d8de", "#d4d8de", "#d4d8de", "#d4d8de", "#d4d8de", "#d4d8de", "#d4d8de"],
-                        data: [92, -48, 80, 21, -90, -12, 43]
+                        label: 'Promoters',
+                        backgroundColor: ["#A7BC3A", "#A7BC3A", "#A7BC3A", "#A7BC3A", "#A7BC3A", "#A7BC3A", "#A7BC3A"],
+                        data: [{{$promotors_count??''}}]
                     }]
                 },
                 options: {
                     title: {
                         display: false,
-                        text: 'Chart.js Bar Chart - Stacked'
+                        text: 'NPS Score'
                     },
                     tooltips: {
                         mode: 'index',
@@ -102,7 +102,7 @@
                         xAxes: [{
                             stacked: true,
                             gridLines: {
-                                color: 'rgba(0,0,0,0.05)',
+                                color: 'rgba(220, 220, 220, 1)',
                                 lineWidth: 1,
                                 borderDash: [0]
                             }
@@ -110,7 +110,7 @@
                         yAxes: [{
                             stacked: true,
                             gridLines: {
-                                color: 'rgba(0,0,0,0.05)',
+                                color: 'rgba(220, 220, 220, 1)',
                                 lineWidth: 1,
                                 borderDash: [0]
                             }
