@@ -46,6 +46,7 @@
             </div>
         </div>
     </div>
+
 </div>
 @endsection
 
@@ -242,8 +243,10 @@
 
       /* -- C3 - Stacked Bar Chart -- */
     var stackedBarChart = c3.generate({
+
         bindto: '#c3-stacked-bar',
         color: { pattern: ["#FEFF99", "#A7BC3A",'#CF3127', "#18d26b"] },
+        
         data: {
             columns: [
                 ['SeriesA', 30, 200, 200, 400, 150, 250],
@@ -258,9 +261,19 @@
         },
         grid: {
             y: {
-                lines: [{value:0}]
+                lines: [{value:10}]
             }
-        }
+        },
+
+
+        axis: {
+    x: {
+      type: 'category',
+      categories: ['jan', 'feb']
+    }
+  }
+
+
     });
 
 });
