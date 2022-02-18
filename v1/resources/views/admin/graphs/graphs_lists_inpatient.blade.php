@@ -3,8 +3,6 @@
 @section('content')
 
 
-
-
 <div class="row">
     <div class="col-lg-6">
           <div class="card m-b-30">
@@ -47,44 +45,83 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+	  
+
+
+
+
+
+	  
+	  
+	  
 /* -- Chartjs - Stacked Bar Chart -- */
 /* -----  Chartjs - Global Style  ----- */
-    Chart.defaults.global.defaultFontFamily = 'Muli';
-    Chart.defaults.global.defaultFontColor = '#8A98AC';
-    Chart.defaults.global.defaultFontSize = 13;
-    Chart.defaults.global.defaultFontStyle = 'normal';
-    Chart.defaults.global.maintainAspectRatio = 0;
-    Chart.defaults.global.lineWidth = 2;
-    Chart.defaults.global.tooltips.backgroundColor = '#282828';
-    Chart.defaults.global.tooltips.titleFontSize = 14;
-    Chart.defaults.global.tooltips.titleFontStyle = 'normal';
-    Chart.defaults.global.tooltips.bodyFontSize = 12;
-    Chart.defaults.global.tooltips.bodyFontStyle = 'normal';
-    Chart.defaults.global.tooltips.bodyFontColor = '#8A98AC';
-    Chart.defaults.global.tooltips.xPadding = 10;
-    Chart.defaults.global.tooltips.yPadding = 10;
-    Chart.defaults.global.tooltips.titleMarginBottom = 10;
-    Chart.defaults.global.tooltips.bodySpacing = 8;
-    Chart.defaults.global.tooltips.cornerRadius = 5;    
-    Chart.defaults.global.legend.labels.boxWidth = 15;
-    Chart.defaults.global.legend.labels.fontSize = 15;
-    Chart.defaults.global.legend.labels.padding = 16; 
+
+	
+	
         var stackedBarChartID = document.getElementById("chartjs-stacked-bar-chart").getContext('2d');
         var stackedBarChart = new Chart(stackedBarChartID, {
             type: 'bar',
                 data: {
                     labels: [@php echo $monthnames @endphp],
                     datasets: [{
-                        label: 'Detractors',
-                        backgroundColor: ["#CF3127", "#CF3127", "#CF3127", "#CF3127", "#CF3127", "#CF3127", "#CF3127"],
+                        label: "{{Config::get('constants.Detractors-label')}}",
+                        backgroundColor: [
+						"{{Config::get('constants.Detractors')}}", 
+						"{{Config::get('constants.Detractors')}}",
+						"{{Config::get('constants.Detractors')}}",
+						"{{Config::get('constants.Detractors')}}",
+						"{{Config::get('constants.Detractors')}}",
+						"{{Config::get('constants.Detractors')}}",
+						"{{Config::get('constants.Detractors')}}",
+						"{{Config::get('constants.Detractors')}}",
+						"{{Config::get('constants.Detractors')}}",
+						"{{Config::get('constants.Detractors')}}",
+						"{{Config::get('constants.Detractors')}}",
+						"{{Config::get('constants.Detractors')}}"
+						
+						
+						],
                         data: [{{$detractors_count??''}}]
                     }, {
-                        label: 'Passives',
-                        backgroundColor: ["#FEFF99", "#FEFF99", "#FEFF99", "#FEFF99", "#FEFF99", "#FEFF99", "#FEFF99"],
+                     
+						label: "{{Config::get('constants.Passives-label')}}",
+                        backgroundColor: [
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						"{{Config::get('constants.Passives')}}",
+						
+						
+						],
                         data: [{{$passives_count??''}}]
-                    }, {
-                        label: 'Promoters',
-                        backgroundColor: ["#A7BC3A", "#A7BC3A", "#A7BC3A", "#A7BC3A", "#A7BC3A", "#A7BC3A", "#A7BC3A"],
+                    }, {         
+						label: "{{Config::get('constants.Promoters-label')}}",
+                        backgroundColor: [
+						"{{Config::get('constants.Promoters')}}",
+						"{{Config::get('constants.Promoters')}}", 
+						"{{Config::get('constants.Promoters')}}", 
+						"{{Config::get('constants.Promoters')}}", 
+						"{{Config::get('constants.Promoters')}}", 
+						"{{Config::get('constants.Promoters')}}", 
+						"{{Config::get('constants.Promoters')}}", 
+						"{{Config::get('constants.Promoters')}}", 
+						"{{Config::get('constants.Promoters')}}", 
+						"{{Config::get('constants.Promoters')}}", 
+						"{{Config::get('constants.Promoters')}}", 
+						"{{Config::get('constants.Promoters')}}", 
+						
+					
+					
+					],
                         data: [{{$promotors_count??''}}]
                     }]
                 },
@@ -130,6 +167,19 @@
         ]
       }, {
         stackBars: true,
+		
+		        xaxis: {
+            type: 'datetime',
+            categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT', '01/05/2011 GMT', '01/06/2011 GMT', '01/07/2011 GMT', '01/08/2011 GMT', '01/09/2011 GMT', '01/10/2011 GMT'],
+            axisBorder: {
+                show: true, 
+                color: 'rgba(0,0,0,0.05)'
+            },
+            axisTicks: {
+                show: true, 
+                color: 'rgba(0,0,0,0.05)'
+            }
+        },
         axisY: {
           labelInterpolationFnc: function(value) {
             return (value / 1) + '%';
@@ -145,6 +195,14 @@
           });
         }
       });
+
+
+
+
+
+
+
+
 
       /* -----  Chartistjs - Stacked Bar Chart -- */
       new Chartist.Bar('#chartist-stacked-bar-1', {

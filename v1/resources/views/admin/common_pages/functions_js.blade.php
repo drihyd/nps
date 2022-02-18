@@ -23,22 +23,24 @@ $(".gst").change(function () {
 		  
 		  
 
+
+
 		  
 		  
         /* -----  Chartjs - Global Style  ----- */
 		/*
-    Chart.defaults.global.defaultFontFamily = '';
-    Chart.defaults.global.defaultFontColor = '#119460';
+    Chart.defaults.global.defaultFontFamily = 'Muli';
+    Chart.defaults.global.defaultFontColor = '#8A98AC';
     Chart.defaults.global.defaultFontSize = 13;
     Chart.defaults.global.defaultFontStyle = 'normal';
     Chart.defaults.global.maintainAspectRatio = 0;
     Chart.defaults.global.lineWidth = 2;
-    Chart.defaults.global.tooltips.backgroundColor = '#FF981F';
+    Chart.defaults.global.tooltips.backgroundColor = '#282828';
     Chart.defaults.global.tooltips.titleFontSize = 14;
-    Chart.defaults.global.tooltips.titleFontStyle = '';
+    Chart.defaults.global.tooltips.titleFontStyle = 'normal';
     Chart.defaults.global.tooltips.bodyFontSize = 12;
     Chart.defaults.global.tooltips.bodyFontStyle = 'normal';
-    Chart.defaults.global.tooltips.bodyFontColor = '#FE4A49';
+    Chart.defaults.global.tooltips.bodyFontColor = '#8A98AC';
     Chart.defaults.global.tooltips.xPadding = 10;
     Chart.defaults.global.tooltips.yPadding = 10;
     Chart.defaults.global.tooltips.titleMarginBottom = 10;
@@ -46,7 +48,7 @@ $(".gst").change(function () {
     Chart.defaults.global.tooltips.cornerRadius = 5;    
     Chart.defaults.global.legend.labels.boxWidth = 15;
     Chart.defaults.global.legend.labels.fontSize = 15;
-    Chart.defaults.global.legend.labels.padding = 16;
+    Chart.defaults.global.legend.labels.padding = 16; 
 	/*
     /* -- Chartjs - Doughnut Chart -- */
         var doughnutChartID = document.getElementById("chartjs-doughnut-chart").getContext('2d');
@@ -62,7 +64,7 @@ $(".gst").change(function () {
                     backgroundColor: ["#119460","#FF981F","#FE4A49"],
                     label: 'Dataset 1'
                 }],
-                labels: ['Promoters: '+{{$final_score->Promoters??0}},'Passives: '+{{$final_score->Neutral??0}},'Detractors: '+{{$final_score->Detractors??0}}]
+                labels: ["{{Config::get('constants.Promoters-label')}}: "+{{$final_score->Promoters??0}},"{{Config::get('constants.Passives-label')}}: "+{{$final_score->Neutral??0}},"{{Config::get('constants.Detractors-label')}}:"  +{{$final_score->Detractors??0}}]
             },
             options: {
                 responsive: true,  
