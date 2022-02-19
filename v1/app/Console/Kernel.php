@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 		//everyTenMinutes		
-		//$schedule->call('\App\Http\Controllers\NetPromoterScore@trigger_escalation_mails')->everyMinute();
+		$schedule->call('\App\Http\Controllers\NetPromoterScore@trigger_escalation_mails')->everyMinute();
     }
 
     /**

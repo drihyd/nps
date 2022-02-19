@@ -74,7 +74,7 @@
                 ["{{Config::get('constants.Detractors-label')}}", @php echo $detractors_count??'' @endphp],
                 ["{{Config::get('constants.Passives-label')}}", @php echo $passives_count??'' @endphp],
                 ["{{Config::get('constants.Promoters-label')}}", @php echo $promotors_count??'' @endphp],
-                ["{{Config::get('constants.Nps-label')}}", @php echo $nps_count??'' @endphp],
+                ["{{Config::get('constants.Nps-label')}}", [0,0,0,0,0,0,0,0,0,0,0,0,0]],
             ],
             type: 'bar',
             groups: [

@@ -59,6 +59,8 @@
 </div>
 </div>
 
+<!--
+
 @if($department_statistics)
 
 <div class="col-lg-12 col-xl-12">
@@ -94,11 +96,7 @@
 @php
 $teamname = DB::table('question_options')->select('option_value')->where('id',$item->department_name_id)->get()->first();
 @endphp
-@if ($loop->iteration % 2 == 0)
-<tr class="table-danger">
-@else 
-<tr class="table-primary">
-@endif
+
 										
 												<td>{{$loop->iteration}}</td>
 												
@@ -125,7 +123,7 @@ $teamname = DB::table('question_options')->select('option_value')->where('id',$i
 @else
 
 @endif
-
+-->
 
 
 

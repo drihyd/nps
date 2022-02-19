@@ -2,7 +2,7 @@
 <div class="card m-b-30">
 <div class="card-header">
 <h5 class="card-title mb-2">NPS Score</h5>
-<h3 class="my-0 ">{{round($final_score->NPS??0,2)}}</h3>
+<h3 class="my-0 ">{{round($final_score->NPS??0,2)}} %</h3>
 
 
 </div>

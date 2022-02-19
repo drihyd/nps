@@ -14,7 +14,22 @@
 <a href="{{url(Config::get('constants.admin').'/dashboard')}}">
 <img src="{{URL::to('assets/images/svg-icon/dashboard.svg')}}" class="img-fluid" alt="widgets"><span>Dashboard</span><!--<span class="badge badge-success pull-right">New</span>-->
 </a>
-</li> 
+</li>
+
+<li class="{{ (request()->is(Config::get('constants.admin').'/feedback')) ? 'active' : '' }}">
+<a href="{{URL(Config::get('constants.admin').'/survey')}}" target="_blank">
+<!--<a href="{{URL(Config::get('constants.admin').'/survey/start/'.Crypt::encryptString(1))}}" target="_blank">-->
+<i class="dripicons-clipboard"></i><span>Take Feedback</span><i class="feather"></i>
+</a>
+</li>
+
+
+<li class="{{ (request()->is(Config::get('constants.admin').'/responses')) ? 'active' : '' }}">
+<a href="{{url(Config::get('constants.admin').'/responses')}}">
+<i class="dripicons-article"></i><span>View Responses</span><i class="feather"></i>
+</a>
+</li>
+ 
 <li>
 <a href="javaScript:void();">
 <img src="{{URL::to('assets/images/svg-icon/chart.svg')}}" class="img-fluid" alt="widgets"><span>Graphs</span><i class="feather icon-chevron-right pull-right"></i>
@@ -25,19 +40,10 @@
 </ul>
 </li> 
 
-<li class="{{ (request()->is(Config::get('constants.admin').'/responses')) ? 'active' : '' }}">
-<a href="{{url(Config::get('constants.admin').'/responses')}}">
-<i class="dripicons-article"></i><span>View Responses</span><i class="feather"></i>
-</a>
-</li>
 
 
-<li class="{{ (request()->is(Config::get('constants.admin').'/feedback')) ? 'active' : '' }}">
-<a href="{{URL(Config::get('constants.admin').'/survey')}}" target="_blank">
-<!--<a href="{{URL(Config::get('constants.admin').'/survey/start/'.Crypt::encryptString(1))}}" target="_blank">-->
-<i class="dripicons-clipboard"></i><span>Take Feedback</span><i class="feather"></i>
-</a>
-</li>
+
+
 
 
 
