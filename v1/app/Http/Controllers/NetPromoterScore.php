@@ -389,6 +389,9 @@ try{
 				"email"=>$request->email??0,
 				"mobile"=>$request->phone??0,
 				"gender"=>$request->gender??null,
+				"bed_name"=>$request->bed_name??null,
+				"uhid"=>$request->uhid??null,
+				"discharge_date"=>$request->discharge_date??null,
 				"organization_id"=>$request->organization_id??0,
 				"survey_id"=>$request->survey_id??'',
 				"logged_user_id"=>auth()->user()->id??0,
@@ -570,7 +573,7 @@ try{
 		$page=false;		
 	
 	
-	//dd($nextquestion);
+
 	
 	
 	if(empty($request->organization_id) || empty($request->survey_id) || empty($request->question_id))
@@ -591,8 +594,11 @@ try{
 	if(is_array($request->first_questin_range))
 	{
 		
+		
 	
 		$remove_exist_person=DB::table('passing_departments')->where('person_id',Session::get('person_id')??0)->delete();
+		$remove_exist_person=DB::table('rating_of_departments')->where('person_id',Session::get('person_id')??0)->delete();
+		
 		
 		foreach($request->first_questin_range as $key=>$value){	
 		
@@ -608,6 +614,7 @@ try{
 				"ticket_status"=>$this->checking_ticket_action(Session::get('rating')??''),
                 "question_id"=>$request->question_id??0,
                 "answerid"=>$value??0,
+				"department_name_id"=>$value??0,
                 "answeredby_person"=>$request->answerdbyperson??'',
                 "person_id"=>Session::get('person_id')??0,
 				"logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
@@ -640,11 +647,41 @@ DB::table('passing_departments')->insert(
 
 
 
+
+
+
+
+$department_name=DB::table('question_options')->where('id',$value??0)->get()->first();
+
+
+
+
+
+DB::table('rating_of_departments')->insert(
+[
+'person_id' => Session::get('person_id')??0, 
+'survey_id' =>$request->survey_id??0,
+'created_at' =>Carbon::now(),
+'updated_at' =>Carbon::now(),
+'department_name' =>$department_name->option_value??'',
+'department_id' =>$value??'',
+'rating' =>Session::get('rating')??0,
+'organization_id' =>$request->organization_id??0,
+'logged_user_id' =>auth()->user()->id??Session::get('logged_user_id')??0,
+
+]
+);
+
+
+
+
+
+
 			
 		}
 		
 		
-		DB::table('passing_departments')->insert(
+DB::table('passing_departments')->insert(
 [
 'person_id' => Session::get('person_id')??0, 
 'sorting' =>30,
@@ -689,9 +726,9 @@ DB::table('passing_departments')->insert(
 		if(is_array($request->answerdbyperson)){
 			
 			
-			
 
-			
+
+	
 			
 		foreach($request->answerdbyperson as $key=>$value){
 			
@@ -715,6 +752,39 @@ DB::table('passing_departments')->insert(
 			'updated_at' =>Carbon::now(),
 			]  
 			]); 
+			
+			
+			
+			
+		if($request->first_activities ){	
+		
+		
+		$remove_exist_person=DB::table('rating_of_dep_activities')->where('person_id',Session::get('person_id')??0)->delete();
+			
+foreach($request->first_activities as $fkey=>$fvalue){
+			
+			DB::table('rating_of_dep_activities')->insert(
+[
+'person_id' => Session::get('person_id')??0, 
+'survey_id' =>$request->survey_id??0,
+'created_at' =>Carbon::now(),
+'updated_at' =>Carbon::now(),
+'activity_name' =>$fvalue??'',
+'activity_id' =>$fkey??'',
+'rating' =>Session::get('rating')??0,
+'organization_id' =>$request->organization_id??0,
+'logged_user_id' =>auth()->user()->id??Session::get('logged_user_id')??0,
+
+]
+);
+
+}
+
+		}
+			
+			
+			
+			
 			
 			
 /* Passing departments*/		
@@ -768,7 +838,7 @@ Session::put('rating',$request->first_questin_range);
 
 $getoptid = QuestionOptions::select('question_options.id as qoptionid')
 ->where('option_value', $request->first_questin_range)
-->where('question_id',1)
+->where('question_id',$request->survey_id??0)
 ->get()->first();
 
 
@@ -780,7 +850,7 @@ $getoptid = QuestionOptions::select('question_options.id as qoptionid')
                 "rating"=>Session::get('rating')??0,
 				"ticket_status"=>$this->checking_ticket_action(Session::get('rating')??''),
                 "question_id"=>$request->question_id??0,
-                "answerid"=>$getoptid->qoptionid??0,
+                "answerid"=>$getoptid->qoptionid??0,    
                 "answeredby_person"=>$request->answerdbyperson??'',
 				 "person_id"=>Session::get('person_id')??0,
 				 "logged_user_id"=>auth()->user()->id??Session::get('logged_user_id'),
@@ -934,7 +1004,7 @@ $selected_departments='';
 
 catch (\Exception $exception){
 	
-	//dd($exception);
+//dd($exception);
 		abort(401);
 }
 		

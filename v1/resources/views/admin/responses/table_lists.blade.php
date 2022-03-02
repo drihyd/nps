@@ -1,42 +1,36 @@
-<div class="table-responsive">
-									   
-									   
-									   
-        
-          <table  id="default-datatable" class="nowrap display table Config::get('constants.tablestriped')">
-		  
-		  
-                <thead class="thead-dark">
-                    <tr>
-                         <th>S.No</th>
-                        <th>Customer</th>      
-                        <!-- <th>Gender</th> -->
-                        <th>Ticket Number</th>
-                        <th>Score</th>
-                        <th>Feedback Date</th>
-                        <th>Last Updated</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-				
+		<div class="table-responsive">
+		<table  id="default-datatable" class="nowrap display table Config::get('constants.tablestriped')">
+		<thead class="thead-dark">
+		<tr>
+		<th>S.No</th>
+		<th>Customer</th>      
+		<!-- <th>Gender</th> -->
+		<th>Ticket Number</th>
+		<th>Score</th>
+		<th>Feedback Date</th>
+		<th>Last Updated</th>
+		<th>Status</th>
+		<th>Actions</th>
+		</tr>
+		</thead>
+		<tbody>
+
 			
                   
                       @foreach ($Data as $response)  
                           <tr>
                               <td>{{$loop->iteration}}</td>
 
-                              <td><b>{{Str::title($response->firstname??'')}}</b><br>{{$response->email??''}}<br>{{$response->mobile??''}}<br>Gender: {{Str::title($response->gender??'')}}</td>
+                              <td><b>{{Str::title($response->firstname??'')}}</b><br>{{$response->email??''}}<br>{{$response->mobile??''}}<br>Gender: {{Str::title($response->gender??'')}}<br>UHID: {{Str::title($response->uhid??'')}}</td>
                               <td>
 							  @if(Auth::user()->role==2)         
-							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}</small>
+							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}<br>BED NO.: {{Str::title($response->bed_name??'')}}<br>Discharge Date: {{Str::title($response->discharge_date??'')}}</small>
                                
                                 @elseif(Auth::user()->role==3)
-								 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}</small>
+								 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}<br>BED NO.: {{Str::title($response->bed_name??'')}}<br>Discharge Date: {{Str::title($response->discharge_date??'')}}</small>
                                 
                                 @elseif(Auth::user()->role==4)
-                                <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}</small>
+                                <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}<br>BED NO.: {{Str::title($response->bed_name??'')}}<br>Discharge Date: {{Str::title($response->discharge_date??'')}}</small>
                                
                                 @else
 

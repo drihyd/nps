@@ -242,7 +242,7 @@ class ResponsesController extends Controller
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
         ->where('survey_answered.organization_id',Auth::user()->organization_id)
         ->where('survey_answered.person_id',$person_id)
-        ->get(['survey_answered.*','question_options.option_value as option_value']);
+        ->get(['survey_answered.*','question_options.option_value as option_value','survey_persons.ticker_final_number']);
         // $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         // ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
         // ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
@@ -288,7 +288,7 @@ class ResponsesController extends Controller
         ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')       
         ->where('survey_answered.person_id',$person_id)
-        ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value']);
+        ->get(['survey_answered.*','questions.label as question_label','question_options.option_value as option_value','survey_persons.ticker_final_number']);
 
         $person_responses_status_data = UpdateStatusResponseLog::where('person_id',$person_id)->orderBy('created_at','DESC')->get();
         // dd($person_responses_status_data);

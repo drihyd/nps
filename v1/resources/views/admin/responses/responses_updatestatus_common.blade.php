@@ -1,7 +1,7 @@
 @if(isset($person_responses_data[0]->ticket_status))
         <div class="card m-b-30">
             <div class="card-header">
-                <h4>Update Status to {{Str::title($person_data->firstname??'')}} </h4>
+                <h4>Update Ticket {{$person_responses_data[0]->ticker_final_number}} Status <!--to {{Str::title($person_data->firstname??'')}}--> </h4>
                
             </div>
             <div class="card-body">
@@ -25,8 +25,8 @@
 </select>
       </div>
       <div class="form-group" id="survey_id">
-        <label for="survey_id">Remarks<span class="text-red"style="color: red;">*</span></label>
-        <textarea name="ticket_remarks" class="form-control" required="required" rows="4">{{old('ticket_remarks',$person_responses_data[0]->ticket_remarks??'')}}</textarea>
+        <label for="survey_id">Remarks <small>[250 characters allowed]</small><span class="text-red"style="color: red;">*</span></label>
+        <textarea name="ticket_remarks" id="" class="form-control tikcet_remark_status_update" required="required" rows="4" min=1 max=250>{{old('ticket_remarks',$person_responses_data[0]->ticket_remarks??'')}}</textarea>
     </div>
 
        <button type="submit" class="btn btn-success btn-sm">Update</button>

@@ -19,7 +19,10 @@ class Graphs extends Controller
 		$pageTitle="Graphs";			
 			
 		
-		$department_statistics=$this->show_department_statistics($request);			
+		$department_statistics=$this->show_department_statistics($request);	
+
+
+
 		
 		$datareport=$this->get_monthwise_opened_closed($request);
 		$collection = collect($datareport);		
@@ -184,6 +187,8 @@ class Graphs extends Controller
 
 
 $graph_data_statics=$this->custom_array_merge($userArr,$_userArr);
+
+
 return $graph_data_statics;
 //return response()->json(array_values($_userArr??[]));		
 	
@@ -213,12 +218,13 @@ $to_date = date('Y-12-t');
 $responses_data = DB::table("survey_answered")
 ->select(
 "survey_answered.department_name_id",
-DB::raw("
-(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.ticket_status in ('closed_satisfied','closed_unsatisfied','opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back') and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59' )  as alerts_came_in,
-(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.ticket_status in ('closed_satisfied','closed_unsatisfied') and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59' )  as alerts_closed,
-(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.ticket_status in ('phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back') and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59' )  as alerts_still_opened
 
-")
+
+
+DB::raw('count(IF(survey_answered.ticket_status="opened", 1, NULL)) as alerts_came_in'),
+DB::raw('count(IF(survey_answered.ticket_status in ("closed_satisfied"), 1, NULL)) as alerts_closed'),
+DB::raw('count(IF(survey_answered.ticket_status in ("phone_ringing_no_response"), 1, NULL)) as alerts_still_opened'),
+
 )
 
 ->where(function($responses_data) use ($from_date,$to_date){	
@@ -228,14 +234,50 @@ $responses_data->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59
 }		
 })
 			
-->whereNotIn('survey_answered.question_id',[1,11])
-->whereNotIn('survey_answered.department_name_id',[21])
-->whereNotNull('survey_answered.department_name_id')
+->whereIn('survey_answered.question_id',[1,11])
 ->groupBy('survey_answered.department_name_id')
 ->get();
 
 
+
+
 return $responses_data;
+
+
+
+
+
+
+if($request->from_date &&  $request->to_date) {
+$from_date = $request->from_date;
+$to_date = $request->to_date;			
+}		
+else{
+$from_date = date('Y-01-01');
+$to_date = date('Y-12-t');
+}			
+
+$ViewAttendance = DB::table("rating_of_dep_activities")
+->select("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_name as departmentname",
+DB::raw('count(IF(rating_of_dep_activities.rating between 0 and 6, 1, NULL)) as detractors'),
+DB::raw('count(IF(rating_of_dep_activities.rating between 7 and 8, 1, NULL)) as passives'),
+DB::raw('count(IF(rating_of_dep_activities.rating between 9 and 10, 1, NULL)) as promotors'),
+)
+
+->where(function($ViewAttendance) use ($from_date,$to_date){	
+if($from_date &&  $to_date){	
+$ViewAttendance->whereDate('rating_of_dep_activities.created_at', '>=', "$from_date 00:00:00");
+$ViewAttendance->whereDate('rating_of_dep_activities.created_at', '<=',"$to_date 23:59:59");
+}		
+})
+->whereIn('rating_of_dep_activities.survey_id',[1,11])
+->orderBy("rating_of_dep_activities.activity_name","asc")
+->groupBy("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_id")
+->get();
+return $ViewAttendance;
+
+
+
 
 
 }
@@ -251,16 +293,128 @@ public function graphs_list_inpatient(Request $request)
 		$total_nps_scores=$this->get_nps_scores($request);
 		
 
-		$collection = collect($total_nps_scores);		
-		$monthnames=$collection->implode('month',',');	
-	
-	$detractors_count=$collection->implode('detractors',',');
+		$collection = collect($total_nps_scores);	
 		
+		$monthnames=$collection->implode('month',',');	
+	$detractors_count=$collection->implode('detractors',',');		
 	$passives_count=$collection->implode('passives',',');
 		$promotors_count=$collection->implode('promotors',',');
 		$nps_count=$collection->implode('nps_score',',');		
-		return view('admin.graphs.graphs_lists_inpatient',compact('pageTitle','monthnames','detractors_count','passives_count','promotors_count','nps_count'));         
+		
+		
+		
+		
+		
+		$total_departmentwise_scores=$this->get_departmentwise_scores($request);
+		
+		
+		
+		$collection_department_score = collect($total_departmentwise_scores);	
+		
+		$_departmentname= "'" .$collection_department_score->implode('departmentname',"', '",) . "'";
+		$_dep_detractors_count=$collection_department_score->implode('detractors',',');	
+		$_dep_passives_count=$collection_department_score->implode('passives',',');	
+		$_dep_promotors_count=$collection_department_score->implode('promotors',',');
+		
+		
+		$_dep_scors=[
+		$_departmentname,
+		$_dep_detractors_count,
+		$_dep_passives_count,
+		$_dep_promotors_count		
+		];
+	
+	
+	$activities_scores=$this->get_department_activities_scores($request);
+	
+	
+	$_dep_act_name= "'" .$activities_scores->implode('departmentname',"', '",) . "'";
+	$_dep_act_detractors_count=$activities_scores->implode('detractors',',');	
+	$_dep_act_passives_count=$activities_scores->implode('passives',',');	
+	$_dep_act_promotors_count=$activities_scores->implode('promotors',',');
+	
+
+	
+		$_dep_act_scors=[
+		$_dep_act_name,
+		$_dep_act_detractors_count,
+		$_dep_act_passives_count,
+		$_dep_act_promotors_count		
+		];
+		
+
+		
+		
+		return view('admin.graphs.graphs_lists_inpatient',compact('pageTitle','monthnames','detractors_count','passives_count','promotors_count','nps_count','total_departmentwise_scores','_dep_scors','_dep_act_scors'));         
     }
+	
+	
+	
+public function get_departmentwise_scores($request){
+if($request->from_date &&  $request->to_date) {
+$from_date = $request->from_date;
+$to_date = $request->to_date;			
+}		
+else{
+$from_date = date('Y-01-01');
+$to_date = date('Y-12-t');
+}			
+$ViewAttendance = DB::table("rating_of_departments")
+->select("rating_of_departments.department_name as departmentname",
+DB::raw('count(IF(rating_of_departments.rating between 0 and 6, 1, NULL)) as detractors'),
+DB::raw('count(IF(rating_of_departments.rating between 7 and 8, 1, NULL)) as passives'),
+DB::raw('count(IF(rating_of_departments.rating between 9 and 10, 1, NULL)) as promotors'),
+)
+->where(function($ViewAttendance) use ($from_date,$to_date){	
+if($from_date &&  $to_date){	
+$ViewAttendance->whereDate('rating_of_departments.created_at', '>=', "$from_date 00:00:00");
+$ViewAttendance->whereDate('rating_of_departments.created_at', '<=',"$to_date 23:59:59");
+}		
+})
+->whereIn('rating_of_departments.survey_id',[1,11])
+->orderBy("rating_of_departments.department_name","asc")
+->groupBy("rating_of_departments.department_id","rating_of_departments.department_name")
+->get();
+return $ViewAttendance;
+}
+
+
+public function get_department_activities_scores($request){
+	
+if($request->from_date &&  $request->to_date) {
+$from_date = $request->from_date;
+$to_date = $request->to_date;			
+}		
+else{
+$from_date = date('Y-01-01');
+$to_date = date('Y-12-t');
+}			
+
+$ViewAttendance = DB::table("rating_of_dep_activities")
+->select("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_name as departmentname",
+DB::raw('count(IF(rating_of_dep_activities.rating between 0 and 6, 1, NULL)) as detractors'),
+DB::raw('count(IF(rating_of_dep_activities.rating between 7 and 8, 1, NULL)) as passives'),
+DB::raw('count(IF(rating_of_dep_activities.rating between 9 and 10, 1, NULL)) as promotors'),
+)
+
+->where(function($ViewAttendance) use ($from_date,$to_date){	
+if($from_date &&  $to_date){	
+$ViewAttendance->whereDate('rating_of_dep_activities.created_at', '>=', "$from_date 00:00:00");
+$ViewAttendance->whereDate('rating_of_dep_activities.created_at', '<=',"$to_date 23:59:59");
+}		
+})
+->whereIn('rating_of_dep_activities.survey_id',[1,11])
+->orderBy("rating_of_dep_activities.activity_name","asc")
+->groupBy("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_id")
+->get();
+return $ViewAttendance;
+}
+	
+	
+
+	
+	
+	
 	
 	public function get_nps_scores($request){
 		

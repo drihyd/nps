@@ -28,7 +28,25 @@
                 </div>
                 
                 <div class="mt-4">
-                    <h4><span class="badge badge-danger-inverse font-14">Areas of Improvement</span></h4>
+				
+                    
+					
+					
+					@if($person_responses_data[0]->option_value<=6)
+						<h4><span class="badge badge-danger-inverse font-14">Areas of Improvement</span></h4>
+					@elseif($person_responses_data[0]->option_value>6 && $person_responses_data[0]->option_value<=8)
+						<h4><span class="badge badge-success-inverse font-14">Feedback</span></h4>
+					@else
+						<h4><span class="badge badge-success-inverse font-14">Feedback</span></h4>
+					@endif
+						
+					
+					
+					
+					
+					
+					
+					
                     <table class="responses-table  " style="width:100%">
                         <tbody>
                             @foreach($person_responses_data as $person_response)

@@ -89,6 +89,25 @@ $(".gst").change(function () {
             }
         });
     });
+	
+	
+	
+	
+	$(document).ready(function() {
+	
+	$('.tikcet_remark_status_update').bind('copy paste cut',function(e){
+		
+		
+		e.preventDefault();
+		
+		alert('cut.copy & paste options are disabled !!');
+		
+	});
+	
+	
+	});
+	
+	
   </script>
   
   

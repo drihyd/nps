@@ -59,7 +59,34 @@
           <div class="form-group">
                 <label><b>Mobile</b><span style="color: red;">*</span></label>
                 <input type="number" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" data-parsley-minlength="10" data-parsley-maxlength="10" required="required">
+          </div>  
+		  
+		  <div class="form-group">
+                <label><b>Bed Name</b></label>
+                <input type="text" name="bed_name" id="bed_name" class="form-control" value="{{old('bed_name',$users_data->bed_name??'')}}" >
+          </div>  
+		  <div class="form-group">
+                <label><b>UHID</b></label>
+                <input type="text" name="uhid" id="uhid" class="form-control" value="{{old('uhid',$users_data->uhid??'')}}" >
           </div>
+		  
+		  <div class="form-group">
+                <label><b>Discharge Date</b></label>
+				<input type="date" class="form-control form-control-sm mx-sm-3" id="discharge_date"  name="discharge_date" value="{{old('discharge_date',$users_data->discharge_date??'')}}">
+		     </div>
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+
+		  
+		  
          
           	<div class="form-group">
                 
