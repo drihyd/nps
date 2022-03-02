@@ -33,6 +33,19 @@
                     @elseif($person_responses_status->ticket_status=="closed_unsatisfied")
                     <h6 class="badge badge-success">Closed - Unsatisfied</h6>
                     <p><b>Remarks: </b>{{$person_responses_status->ticket_remarks??''}}</p>
+					
+					 @elseif($person_responses_status->ticket_status=="patient_level_closure")
+                    <h6 class="badge badge-success">Patient level Closure</h6>
+                    <p><b>Remarks: </b>{{$person_responses_status->ticket_remarks??''}}</p>
+					
+					 @elseif($person_responses_status->ticket_status=="process_level_closure")
+                    <h6 class="badge badge-success">Process level closure</h6>
+                    <p><b>Remarks:</p>
+                    <p>{{$person_responses_status->ticket_remarks??''}}</p>
+					
+					<p><b>Process level closure:</p>
+					<p>{{$person_responses_status->process_level_closure??''}}</p>
+					
                     @else
                     @endif                                          
                     

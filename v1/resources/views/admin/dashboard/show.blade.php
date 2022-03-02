@@ -16,7 +16,7 @@
 @include('admin.dashboard.admin_dashboard')
 @elseif(Auth::user()->role==3)
 
-@include('admin.dashboard.user_dashboard')
+@include('admin.dashboard.hod_dashboard')
 @elseif(Auth::user()->role==4)
 @include('admin.dashboard.user_dashboard')
 @else

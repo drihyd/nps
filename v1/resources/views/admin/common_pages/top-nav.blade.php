@@ -143,15 +143,12 @@
                                                 <div class="userbox">
                                                     <ul class="list-unstyled mb-0">
                                                         <li class="media dropdown-item">
-                                                            <a href="{{url('administrator/profile/')}}" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="user">My Profile</a>
+                                                            <a href="{{route('profile.info')}}" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="user">My Profile</a>
                                                         </li>
 														
 														 <li class="media dropdown-item">
                                                             <a href="{{route('reset.password')}}" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="user">Reset Password</a>
-                                                        </li>
-                                                        <!-- <li class="media dropdown-item">
-                                                            <a href="#" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/email.svg')}}" class="img-fluid" alt="email">Email</a>
-                                                        </li> -->                                                        
+                                                        </li>                                                                                                         
                                                         <li class="media dropdown-item">
                                                             <a href="{{route('session.logout')}}" class="profile-icon"><img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="logout">Logout</a>
                                                         </li>

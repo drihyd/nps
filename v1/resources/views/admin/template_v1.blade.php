@@ -103,11 +103,10 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 @elseif(Auth::user()->role==2)
 @include('admin.common_pages.manager_sidebar')
 @elseif(Auth::user()->role==3)
-@include('admin.common_pages.user_sidebar')
+@include('admin.common_pages.hod_sidebar')
 @elseif(Auth::user()->role==4)
 @include('admin.common_pages.user_sidebar')
 @else
-
 @endif
 
 <!-- Start Leftbar -->
@@ -136,7 +135,7 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 @elseif(Auth::user()->role==3)
 
 @include('admin.common_pages.top-nav')
-@include('admin.common_pages.breadcrump_user')
+@include('admin.common_pages.breadcrump_hod')
 
 @elseif(Auth::user()->role==4)
 

@@ -27,7 +27,7 @@
 							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}<br>BED NO.: {{Str::title($response->bed_name??'')}}<br>Discharge Date: {{Str::title($response->discharge_date??'')}}</small>
                                
                                 @elseif(Auth::user()->role==3)
-								 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}<br>BED NO.: {{Str::title($response->bed_name??'')}}<br>Discharge Date: {{Str::title($response->discharge_date??'')}}</small>
+								 <a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}<br>BED NO.: {{Str::title($response->bed_name??'')}}<br>Discharge Date: {{Str::title($response->discharge_date??'')}}</small>
                                 
                                 @elseif(Auth::user()->role==4)
                                 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}<br>BED NO.: {{Str::title($response->bed_name??'')}}<br>Discharge Date: {{Str::title($response->discharge_date??'')}}</small>
@@ -69,8 +69,8 @@
 							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>
                                 <a href="{{url(Config::get('constants.admin').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
                                 @elseif(Auth::user()->role==3)
-								                  <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>
-                                <a href="{{url(Config::get('constants.user').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
+								                  <a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>
+                                <a href="{{url(Config::get('constants.hod').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
                                 @elseif(Auth::user()->role==4)
                                 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>
                                 <a href="{{url(Config::get('constants.user').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>

@@ -30,8 +30,11 @@ class ResponsesController extends Controller
     {   
 	
 		$role=auth()->user()->role??0;
+		
+		
 
 	
+	/*
         $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)		
 		->where('survey_persons.logged_user_id',auth()->user()->id??0)
 		->get();
@@ -48,8 +51,9 @@ class ResponsesController extends Controller
         ->get();   
         }
 
+*/
       
-		
+		$responses_data="";
 		
 		
 		
@@ -68,12 +72,11 @@ class ResponsesController extends Controller
 		
 		
 				if($request->team) {					
-				$QuestionOptions=QuestionOptions::select()
-				->where('option_value',$request->team)
+				$QuestionOptions=QuestionOptions::where('option_value',$request->team)
 				->pluck('id');				
 				}		
 				else{
-				$QuestionOptions='';
+					$QuestionOptions=QuestionOptions::pluck('id');
 				
 				
 				}
@@ -91,22 +94,36 @@ class ResponsesController extends Controller
 		
 		
 		
-			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
+			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-			->where('survey_persons.organization_id',Auth::user()->organization_id)				
-			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])			
+			->where('survey_persons.organization_id',Auth::user()->organization_id)
+			
+			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
 		
-
+			
+			
 			->where(function($Detractors) use ($role){	
 			
 			
-			if($role==2){	
-				
+			if($role==2){				
+			}
+			else if($role==3){				
+				if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$Detractors->whereIn('survey_answered.department_name_id',$q_departments);	
+				}				
+							
+			}			
+			else if($role==4){				
+			$Detractors->where('survey_persons.logged_user_id',auth()->user()->id??0);
 			}
 			else{
-				$Detractors->where('survey_persons.logged_user_id',auth()->user()->id??0);
+				
 			}	
+			
+			
 			})
 			
 			
@@ -118,15 +135,15 @@ class ResponsesController extends Controller
 			}		
 			})
 
-			->where(function($Detractors) use ($QuestionOptions){	
-			if($QuestionOptions){		
-				$Detractors->whereIn('survey_answered.answerid',$QuestionOptions);				
-				$Detractors->where('survey_answered.answeredby_person','!=','');				
-			}	
-			else{
-			$Detractors->whereIn('survey_answered.question_id',[1,11]);
+			->where(function($Detractors) use ($QuestionOptions){
+
 			
-			}
+		
+				
+				$Detractors->whereIn('survey_answered.answerid',$QuestionOptions);		
+				$Detractors->where('survey_answered.answeredby_person','!=','');
+			
+			
 			
 			})
 			->where(function($Detractors) use ($Question){   
@@ -135,22 +152,39 @@ class ResponsesController extends Controller
             }
             })
 			
+			
 			->orderBy('survey_persons.created_at','DESC')
+			
 			->get();
 			
 		
-			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
+			
+		
+			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)			
 			->whereIn('survey_answered.rating',[7,8])
-			->where(function($Passives) use ($role){	
-			if($role==2){	
+		
+			->where(function($Passives) use ($role){
+
 				
+				if($role==2){				
+			}
+			else if($role==3){				
+				if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+				}				
+				$Passives->whereIn('survey_answered.department_name_id',$q_departments??0);				
+			}			
+			else if($role==4){				
+				$Passives->where('survey_persons.logged_user_id',auth()->user()->id??0);
 			}
 			else{
-				$Passives->where('survey_persons.logged_user_id',auth()->user()->id??0);
+				
 			}	
+
+			
 			})			
 			->where(function($Passives) use ($from_date,$to_date){	
 			if($from_date &&  $to_date){		
@@ -160,13 +194,10 @@ class ResponsesController extends Controller
 			})
 			
 			->where(function($Passives) use ($QuestionOptions){	
-			if($QuestionOptions){		
+			
 				$Passives->whereIn('survey_answered.answerid',$QuestionOptions);
-			   $Passives->where('survey_answered.answeredby_person','!=','');					
-			}	
-			else{
-			$Passives->whereIn('survey_answered.question_id',[1,11]);	
-			}
+			    $Passives->where('survey_answered.answeredby_person','!=','');					
+			
 			
 			})
 			->where(function($Passives) use ($Question){   
@@ -176,22 +207,36 @@ class ResponsesController extends Controller
             })
 			
 			->orderBy('survey_persons.created_at','DESC')
+			
 			->get(); 
 			
 			
 			
-			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title')
+			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)	
 			->whereIn('survey_answered.rating',[9,10])
+			
 			->where(function($Promoters) use ($role){	
-			if($role==2){	
-				
+			
+			if($role==2){				
+			}
+			else if($role==3){				
+				if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+				}				
+				$Promoters->whereIn('survey_answered.department_name_id',$q_departments??0);				
+			}			
+			else if($role==4){				
+				$Promoters->where('survey_persons.logged_user_id',auth()->user()->id??0);
 			}
 			else{
-				$Promoters->where('survey_persons.logged_user_id',auth()->user()->id??0);
+				
 			}	
+			
+			
+			
 			})		
 			->where(function($Promoters) use ($from_date,$to_date){	
 			if($from_date &&  $to_date){		
@@ -202,13 +247,10 @@ class ResponsesController extends Controller
 
 
 			->where(function($Promoters) use ($QuestionOptions){	
-			if($QuestionOptions){		
+			
 				$Promoters->whereIn('survey_answered.answerid',$QuestionOptions);	
 				$Promoters->where('survey_answered.answeredby_person','!=','');				
-			}
-			else{
-				$Promoters->whereIn('survey_answered.question_id',[1,11]);	
-			}
+
 			
 			})
 			->where(function($Promoters) use ($Question){   
@@ -216,6 +258,7 @@ class ResponsesController extends Controller
                 $Promoters->where('survey_answered.survey_id','=',$Question);                
             }
             })
+			
 			
 			->orderBy('survey_persons.created_at','DESC')
 			->get();
@@ -337,6 +380,7 @@ class ResponsesController extends Controller
                 "person_id"=>$request->id??'',
                 "ticket_status"=>$request->ticket_status??'',
                 "ticket_remarks"=>$request->ticket_remarks??'',
+                "process_level_closure"=>$request->process_level_closure??'',
             ]  
         ]);
         return redirect()->back()->with('success', "Success! Status are updated successfully"); 

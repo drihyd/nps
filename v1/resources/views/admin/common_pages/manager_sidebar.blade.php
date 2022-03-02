@@ -18,7 +18,6 @@
 
 <li class="{{ (request()->is(Config::get('constants.admin').'/feedback')) ? 'active' : '' }}">
 <a href="{{URL(Config::get('constants.admin').'/survey')}}" target="_blank">
-<!--<a href="{{URL(Config::get('constants.admin').'/survey/start/'.Crypt::encryptString(1))}}" target="_blank">-->
 <i class="dripicons-clipboard"></i><span>Take Feedback</span><i class="feather"></i>
 </a>
 </li>
@@ -52,9 +51,6 @@
 <img src="{{URL::to('assets/images/svg-icon/user.svg')}}" class="img-fluid" alt="apps"><span>Users</span><i class="feather"></i>
 </a>
 </li>
-<!-- <li class="{{ (request()->is(Config::get('constants.admin').'/questionnaire')) ? 'active' : '' }}">
-<a href="{{url(Config::get('constants.admin').'/questionnaire')}}"><img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Questionaire</span><i class="feather"></i></a>
-</li> -->
 
 
 <li>

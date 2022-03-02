@@ -12,7 +12,7 @@
               <div class="row">
                 <div class="col-sm-12">
                  @if(isset($users_data->id))
-<form id="crudTable" action="{{url('administrator/profile/update')}} " method="POST"  enctype="multipart/form-data">
+<form id="crudTable" action="{{route('profile.update.action')}} " method="POST"  enctype="multipart/form-data">
 
 @else
 @endif  
@@ -46,25 +46,10 @@
       </div>
           
       
-      <button type="submit" class="btn btn-primary btn-sm">Save</button>
-      <a href="{{url('admin/users')}}" class="btn btn-default btn-sm">Back</a>
-
-        </div>
+      <button type="submit" class="btn btn-primary btn-sm">Save</button></div>
         <div class="col-md-5">
   
-	  <!--
-	  
-          <div class="form-group">
-        <label><b>Password</b><span style="color: red;">*</span></label>
-        <input name="password" type="password" class="form-control"  id="password" @if(isset($users_data->password)) @else required @endif>
-      </div>
-	  
 
-      <div class="form-group">
-        <label><b>Confirm Password</b><span style="color: red;">*</span></label>
-        <input name="cpassword" type="password" class="form-control" data-parsley-equalto="#password"  @if(isset($users_data->password)) @else required @endif>
-      </div>
-	  -->
       
         </div>
         </div> 

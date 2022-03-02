@@ -21,12 +21,21 @@ class LoginController extends Controller
     {
    	    $user  = auth()->user();       
         if ($user && $user->role==1) {           
-            return redirect('superadmin/dashboard')->with('success', 'Successfully logged in.');
+            return redirect('superadmin/dashboard')->with('success', 'Successfully logged in as super admin.');
 
         }
         else if ($user && $user->role==2) {         
-            return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
+            return redirect('admin/dashboard')->with('success', 'Successfully logged in as administrator.');
         }
+
+		else if ($user && $user->role==3) {         
+		return redirect('hod/dashboard')->with('success', 'Successfully logged in as HOD..');
+		}
+
+		else if ($user && $user->role==4) {         
+		return redirect('user/dashboard')->with('success', 'Successfully logged in as Executive.');
+		}
+        
         
         
         else{
@@ -55,19 +64,19 @@ class LoginController extends Controller
 				switch(auth()->user()->role){
 					
 				case '1':
-				return redirect('superadmin/dashboard')->with('success', 'Successfully logged in.');
+				return redirect('superadmin/dashboard')->with('success', 'Successfully logged in as super admin.');
 				break;
 				
 				case '2':
-				return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
+				return redirect('admin/dashboard')->with('success', 'Successfully logged in as administrator.');
 				break;
 				
 				case '3':
-				return redirect('user/dashboard')->with('success', 'Successfully logged in.');
+				return redirect('hod/dashboard')->with('success', 'Successfully logged in as HOD.');
 				break;
 				
 				case '4':
-				return redirect('user/dashboard')->with('success', 'Successfully logged in.');
+				return redirect('user/dashboard')->with('success', 'Successfully logged in as Executive.');
 				break;	
 				
 				default:
@@ -143,7 +152,9 @@ class LoginController extends Controller
                 "phone"=>$request->phone??'',
             ]
             );   
-            return redirect('administrator/profile')->with('success', "Success! Details are updated successfully");
+			
+			
+            return redirect('profile.info')->with('success', "Success! Details are updated successfully");
         
             }
 }

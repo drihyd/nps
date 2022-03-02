@@ -6,6 +6,7 @@ return [
 	'superadmin' => 'superadmin',
 	'admin' => 'admin',
 	'user' => 'user',
+	'hod' => 'hod',
 	'survey' => 'survey',
 	'tablestriped' => 'table-striped',
 	'Promoters'=>"#119460",

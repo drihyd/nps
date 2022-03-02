@@ -95,7 +95,7 @@ $(".gst").change(function () {
 	
 	$(document).ready(function() {
 	
-	$('.tikcet_remark_status_update').bind('copy paste cut',function(e){
+	$('.tikcet_remark_status_update,.process_level_closure').bind('copy paste cut',function(e){
 		
 		
 		e.preventDefault();
@@ -108,7 +108,26 @@ $(".gst").change(function () {
 	});
 	
 	
+	
+	
+	
+	
+	
   </script>
+  
+  
+  <script type="text/javascript">
+    function EnableDisableTextBox(ddlModels) {
+		
+		
+        var selectedValue = ddlModels.options[ddlModels.selectedIndex].value;		
+        var txtOther = document.getElementById("txtOther");
+        txtOther.disabled = selectedValue == 'process_level_closure' ? false : true;
+        if (!txtOther.disabled) {
+            txtOther.focus();
+        }
+    }
+</script>
   
   
   

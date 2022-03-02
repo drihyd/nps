@@ -78,9 +78,10 @@ Route::any('filter.performitor_reports', [Reports::class,'show_performitor_repor
 
 
 Route::post('adminlogin-verification',[LoginController::class, 'Loginsubmit'])->name('adminlogin.verification');
+
 Route::get('administrator/logout', [LoginController::class,'logout'])->name('admin.logout');
-Route::get('administrator/profile/',[LoginController::class,'profile']);
-Route::post('administrator/profile/update',[LoginController::class,'update_profile']);
+Route::get('profile.info',[LoginController::class,'profile'])->name('profile.info');
+Route::post('profile.update.action',[LoginController::class,'update_profile'])->name('profile.update.action');
 
 Route::get('reset-password',[ChangePasswordController::class,'index'])->name('reset.password');
 Route::post('reset-password-post',[ChangePasswordController::class,'store'])->name('verifying.password');
@@ -91,6 +92,28 @@ Route::get('offlinesurvey/{sid?}/{logid?}/{pid?}', [NetPromoterScore::class,'fir
 Route::post('offline.surveyone.post', [NetPromoterScore::class,'surveyone_post'])->name('offline.surveyone.post');
 
 /* Dashbaord */
+
+
+Route::group(['prefix' => 'hod','middleware' => 'ishod'],function(){
+
+Route::get('dashboard', [DashboardController::class,'dashboard_user_lists']);
+Route::get('responses', [ResponsesController::class,'response_list']);
+Route::get('responses/view/{per_id}', [ResponsesController::class,'response_view']);
+Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
+
+
+// Route::post('responses/update_status', [ResponsesController::class,'response_update_status']);
+
+
+Route::get('responses_reports', [Reports::class,'reports_response_list']);
+Route::get('responses_reports/{value?}', [Reports::class,'reports_response_list']);
+Route::get('export', [Reports::class, 'export'])->name('export');
+	
+
+	
+
+	
+});
 
 
 
@@ -205,6 +228,8 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('responses', [ResponsesController::class,'response_list']);
 	Route::get('responses/view/{per_id}', [ResponsesController::class,'response_view']);
 	Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
+	
+	
 	// Route::post('responses/update_status', [ResponsesController::class,'response_update_status']);
 
 

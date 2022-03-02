@@ -40,6 +40,20 @@
 		</div>
 		</div>
 		</a>
+			@elseif(auth()->user()->role==3)		
+		<a href="{{url(Config::get('constants.hod').'/responses')}}">
+		<div class="card m-b-30">
+		<div class="card-body">
+		<div class="media">
+		<span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="fa fa-bar-chart"></i></span>
+		<div class="media-body">
+		<p class="mb-0">NPS Score</p>
+		<h5 class="mb-0">{{$final_score->NPS??0}}</h5>                      
+		</div>
+		</div>
+		</div>
+		</div>
+		</a>
 	@else		
 		<a href="{{url(Config::get('constants.user').'/responses')}}">
 		<div class="card m-b-30">
@@ -65,6 +79,8 @@
 @if(auth()->user())
 	@if(auth()->user()->role==2)
 	<a href="{{url(Config::get('constants.admin').'/responses')}}">
+	@elseif(auth()->user()->role==3)
+	<a href="{{url(Config::get('constants.hod').'/responses')}}">
 	@else
 	<a href="{{url(Config::get('constants.user').'/responses')}}">
 	@endif
@@ -93,6 +109,8 @@
 @if(auth()->user())
 @if(auth()->user()->role==2)
 <a href="{{url(Config::get('constants.admin').'/responses')}}">
+@elseif(auth()->user()->role==3)
+<a href="{{url(Config::get('constants.hod').'/responses')}}">
 @else
 <a href="{{url(Config::get('constants.user').'/responses')}}">
 @endif

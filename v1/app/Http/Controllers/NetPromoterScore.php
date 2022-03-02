@@ -59,6 +59,15 @@ class NetPromoterScore extends Controller
 		if($role==2){	
 
 		}
+		elseif($role==3){	
+		
+		if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$Promoters->whereIn('survey_answered.department_name_id',$q_departments);	
+				}	
+
+		}
 		else{
 		$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
 		}	
@@ -66,6 +75,7 @@ class NetPromoterScore extends Controller
 
 		->whereIn('question_options.option_value',[9,10])
 		->count();
+		
 		$Neutral=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
@@ -73,6 +83,15 @@ class NetPromoterScore extends Controller
 		
 		->where(function($Neutral) use ($role){	
 		if($role==2){	
+
+		}
+		elseif($role==3){	
+		
+		if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$Neutral->whereIn('survey_answered.department_name_id',$q_departments);	
+				}	
 
 		}
 		else{
@@ -90,6 +109,15 @@ class NetPromoterScore extends Controller
 		->whereIn('survey_answered.question_id',[1,11])
 		->where(function($Detractors) use ($role){	
 		if($role==2){	
+
+		}
+		elseif($role==3){	
+		
+		if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$Detractors->whereIn('survey_answered.department_name_id',$q_departments);	
+				}	
 
 		}
 		else{
@@ -110,6 +138,15 @@ class NetPromoterScore extends Controller
 		if($role==2){	
 
 		}
+		elseif($role==3){	
+		
+		if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$Promoters_lastweek->whereIn('survey_answered.department_name_id',$q_departments);	
+				}	
+
+		}
 		else{
 		$Promoters_lastweek->where('survey_answered.logged_user_id',auth()->user()->id??0);
 		}	
@@ -123,6 +160,16 @@ class NetPromoterScore extends Controller
 		->whereIn('survey_answered.question_id',[1,11])
 		->where(function($Neutral_lastweek) use ($role){	
 		if($role==2){	
+
+		}
+		elseif($role==3){	
+		
+		
+		if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$Neutral_lastweek->whereIn('survey_answered.department_name_id',$q_departments);	
+				}	
 
 		}
 		else{
@@ -140,6 +187,15 @@ class NetPromoterScore extends Controller
 		->whereIn('survey_answered.question_id',[1,11])
 		->where(function($Detractors_lastweek) use ($role){	
 		if($role==2){	
+
+		}
+		elseif($role==3){	
+		
+			if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$Detractors_lastweek->whereIn('survey_answered.department_name_id',$q_departments);	
+				}	
 
 		}
 		else{
