@@ -117,15 +117,22 @@ $(".gst").change(function () {
   
   
   <script type="text/javascript">
-    function EnableDisableTextBox(ddlModels) {
+  
+  
+  
+    function EnableDisableTextBox(val) {
 		
 		
-        var selectedValue = ddlModels.options[ddlModels.selectedIndex].value;		
-        var txtOther = document.getElementById("txtOther");
-        txtOther.disabled = selectedValue == 'process_level_closure' ? false : true;
-        if (!txtOther.disabled) {
-            txtOther.focus();
-        }
+
+		
+		
+		if ($(val == "process_level_closure") {
+                $("#hide_process_level_option").show();
+            } else {
+                $("#hide_process_level_option").hide();
+            }
+		
+		
     }
 </script>
   

@@ -33,7 +33,7 @@ Remarks
 
 <div class="form-group">
 <label for="survey_id">Status<span class="text-red"style="color: red;">*</span></label>
-<select name="ticket_status" class="form-control" required="required" onchange = "EnableDisableTextBox(this)">
+<select name="ticket_status" class="form-control" required="required" onchange = "EnableDisableTextBox(this.value)">
 
 
 @if(Auth::user()->role==2 ||  Auth::user()->role==4 )
@@ -51,18 +51,29 @@ Remarks
 <option value="process_level_closure" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'process_level_closure'? 'selected':''}}>Process level closure</option>
 @else
 @endif
-
-
-
 </select>
 </div>
 
 @if(Auth::user()->role==3)
+	
+<div class="hide_process_level_option">
+
 <div class="form-group" id="survey_id">
 <label for="survey_id">
 Process level closure:
 <span class="text-red"style="color: red;"></span></label>
 <textarea name="process_level_closure" id="txtOther" class="form-control process_level_closure"  rows="4" disabled="disabled">{{old('process_level_closure',$person_responses_data[0]->process_level_closure??'')}}</textarea>
+</div>
+
+<div class="form-group" id="survey_id">
+<label for="survey_id">
+Category of process:
+<select name="category_process" class="form-control" id="category_process">
+<option value="">--Pick one--</option>
+<option value="department">Department</option>
+</select>
+</div>
+
 </div>
 @else
 @endif

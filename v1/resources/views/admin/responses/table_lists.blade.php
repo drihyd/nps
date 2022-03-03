@@ -58,6 +58,10 @@
 									<span class="badge badge-success">Closed - Satisfied</span>
 									@elseif($response->ticket_status=="closed_unsatisfied")
 									<span class="badge badge-success">Closed - Unsatisfied</span>
+									@elseif($response->ticket_status=="patient_level_closure")
+									<span class="badge badge-success">Patient level Closure</span>
+									@elseif($response->ticket_status=="process_level_closure")
+									<span class="badge badge-success">Process level closure</span>
 									@else
 									@endif
 							  
