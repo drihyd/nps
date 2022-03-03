@@ -51,6 +51,10 @@
 		<a href="{{URL(Config::get('constants.admin').'/survey/start/'.Crypt::encryptString($value->id))}}">
 		<button type="button" class="btn btn-rounded btn-outline-danger mb-2 mr-2">{{$value->title}}</button>
 		</a>
+		@elseif(auth()->user()->role==3)
+		<a href="{{URL(Config::get('constants.hod').'/survey/start/'.Crypt::encryptString($value->id))}}">
+		<button type="button" class="btn btn-rounded btn-outline-danger mb-2 mr-2">{{$value->title}}</button>
+		</a>
 		@else
 		<a href="{{URL(Config::get('constants.user').'/survey/start/'.Crypt::encryptString($value->id))}}">
 		<button type="button" class="btn btn-rounded btn-outline-danger mb-2 mr-2">{{$value->title}}</button>

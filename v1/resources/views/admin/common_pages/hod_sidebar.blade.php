@@ -22,13 +22,13 @@
 </a>
 </li>
 
-<!--
+
 <li class="{{ (request()->is(Config::get('constants.hod').'/hod/survey/start')) ? 'active' : '' }}">
 <a href="{{URL(Config::get('constants.hod').'/survey')}}" target="_blank">
 <img src="{{URL::to('assets/images/svg-icon/basic.svg')}}" class="img-fluid" alt="apps"><span>Take Feedback</span><i class="feather"></i>
 </a>
 </li>
--->
+
 
 <li>
 <a href="{{route('session.logout')}}">

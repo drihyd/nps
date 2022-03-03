@@ -48,12 +48,26 @@ class NetPromoterScore extends Controller
 		$organization_id=auth()->user()->organization_id;	
 		
 		$role=auth()->user()->role??0;
+		
+		
+		
+			if(isset($request->team)) {					
+				$QuestionOptions=QuestionOptions::where('option_value',$request->team)
+				->pluck('id');				
+				}		
+				else{
+					$QuestionOptions=QuestionOptions::pluck('id');
+				
+				
+				}
+				
+		
 
 		
 		$Promoters=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)		
-		->whereIn('survey_answered.question_id',[1,11])
+		
 				
 		->where(function($Promoters) use ($role){	
 		if($role==2){	
@@ -72,14 +86,24 @@ class NetPromoterScore extends Controller
 		$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
 		}	
 		})
+		
+		->where(function($Promoters) use ($QuestionOptions){
+		$Promoters->whereIn('survey_answered.answerid',$QuestionOptions);		
+		$Promoters->where('survey_answered.answeredby_person','!=','');		
+		})
+		
+		
 
 		->whereIn('question_options.option_value',[9,10])
 		->count();
 		
+
+		
+		
 		$Neutral=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
-		->whereIn('survey_answered.question_id',[1,11])
+	
 		
 		->where(function($Neutral) use ($role){	
 		if($role==2){	
@@ -99,6 +123,11 @@ class NetPromoterScore extends Controller
 		}	
 		})
 
+
+			->where(function($Neutral) use ($QuestionOptions){
+		$Neutral->whereIn('survey_answered.answerid',$QuestionOptions);		
+		$Neutral->where('survey_answered.answeredby_person','!=','');		
+		})
 		->whereIn('question_options.option_value',[7,8])
 		->count();
 		
@@ -106,7 +135,7 @@ class NetPromoterScore extends Controller
 		$Detractors=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
-		->whereIn('survey_answered.question_id',[1,11])
+	
 		->where(function($Detractors) use ($role){	
 		if($role==2){	
 
@@ -124,16 +153,25 @@ class NetPromoterScore extends Controller
 		$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);
 		}	
 		})
+		
+		
+		->where(function($Detractors) use ($QuestionOptions){
+		$Detractors->whereIn('survey_answered.answerid',$QuestionOptions);		
+		$Detractors->where('survey_answered.answeredby_person','!=','');		
+		})
+
+		
+		
 		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
 		->count();
-		
+
 		
 		
 	
 		$Promoters_lastweek=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
-		->whereIn('survey_answered.question_id',[1,11])
+	
 		->where(function($Promoters_lastweek) use ($role){	
 		if($role==2){	
 
@@ -153,11 +191,17 @@ class NetPromoterScore extends Controller
 		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 		->whereIn('question_options.option_value',[9,10])
+		->where(function($Promoters_lastweek) use ($QuestionOptions){
+		$Promoters_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
+		$Promoters_lastweek->where('survey_answered.answeredby_person','!=','');		
+		})
+		
+		
 		->count();
 		$Neutral_lastweek=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
-		->whereIn('survey_answered.question_id',[1,11])
+		
 		->where(function($Neutral_lastweek) use ($role){	
 		if($role==2){	
 
@@ -178,13 +222,18 @@ class NetPromoterScore extends Controller
 		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 		->whereIn('question_options.option_value',[7,8])
+		
+		->where(function($Neutral_lastweek) use ($QuestionOptions){
+		$Neutral_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
+		$Neutral_lastweek->where('survey_answered.answeredby_person','!=','');		
+		})
+		
 		->count();
 		
 		
 		$Detractors_lastweek=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
-		->where('survey_answered.organization_id',$organization_id)
-		->whereIn('survey_answered.question_id',[1,11])
+		->where('survey_answered.organization_id',$organization_id)	
 		->where(function($Detractors_lastweek) use ($role){	
 		if($role==2){	
 
@@ -204,6 +253,11 @@ class NetPromoterScore extends Controller
 		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
+		
+		->where(function($Detractors_lastweek) use ($QuestionOptions){
+		$Detractors_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
+		$Detractors_lastweek->where('survey_answered.answeredby_person','!=','');		
+		})
 		->count();
 		
 		
@@ -252,8 +306,12 @@ catch (\Exception $exception){
         $page=false;
 		$user  = auth()->user();       
         if ($user && $user->role==3) {           
-            return redirect('user/dashboard')->with('success', 'Successfully logged in.');
+            return redirect('hod/dashboard')->with('success', 'Successfully logged in.');
 
+        }
+		
+		    else if ($user && $user->role==2) {         
+            return redirect('admin/dashboard')->with('success', 'Successfully logged in.');
         }
         else if ($user && $user->role==4) {         
             return redirect('user/dashboard')->with('success', 'Successfully logged in.');
@@ -497,6 +555,9 @@ else{
 		
 			if(auth()->user()->role==2){
 				return redirect(Config::get('constants.admin').'/takesurvey/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
+			}
+			elseif(auth()->user()->role==3){
+				return redirect(Config::get('constants.hod').'/takesurvey/'.Crypt::encryptString($request->survey_id))->with('info', 'Start survey');
 			}
 			else{
 				

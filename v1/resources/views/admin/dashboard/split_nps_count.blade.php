@@ -2,9 +2,22 @@
 use App\Models\Departments;
 use App\Models\QuestionOptions;
 use App\Models\SurveyAnswered;
+$role=auth()->user()->role??0;
 
 $Departments=Departments::select()
 ->where('organization_id',auth()->user()->organization_id)
+->where(function($Departments) use ($role){	
+	if($role==2){
+	}
+	else if($role==3){	
+	$Departments->where('id','=',auth()->user()->department??0);
+	}	
+	else if($role==4){	
+	}
+	else{	
+	}
+
+})
 ->Orderby('department_name','asc')
 ->get();
 
@@ -39,9 +52,21 @@ $Departments=Departments::select()
 							
 							
 							@php
+							
+							
+							
+if(isset($request->team)) {					
+$QuestionOptions=QuestionOptions::where('option_value',$request->team)
+->pluck('id');				
+}		
+else{
+$QuestionOptions=QuestionOptions::pluck('id');				
+
+}
+							
 				
 
-		$role=auth()->user()->role??0;
+		
 		
 $QuestionOptions=QuestionOptions::select()
 ->where('option_value',$item->department_name)
@@ -58,8 +83,20 @@ $Promoters=SurveyAnswered::select('id')
 if($role==2){	
 
 }
+else if($role==3){
+	
+	if(auth()->user()->department){
+	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+	$Promoters->whereIn('survey_answered.department_name_id',$q_departments);	
+	}				
+
+}	
+else if($role==4){				
+	$Promoters->where('survey_persons.logged_user_id',auth()->user()->id??0);
+}
+
 else{
-$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
+	$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
 }	
 })
 
@@ -76,8 +113,20 @@ $Passives=SurveyAnswered::select('id')
 if($role==2){	
 
 }
+else if($role==3){
+	
+	if(auth()->user()->department){
+	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+	$Passives->whereIn('survey_answered.department_name_id',$q_departments);	
+	}				
+
+}	
+else if($role==4){				
+	$Passives->where('survey_persons.logged_user_id',auth()->user()->id??0);
+}
+
 else{
-$Passives->where('survey_answered.logged_user_id',auth()->user()->id??0);
+	$Passives->where('survey_answered.logged_user_id',auth()->user()->id??0);
 }	
 })
 ->where('survey_answered.answeredby_person','!=','')
@@ -93,8 +142,20 @@ $Detractors=SurveyAnswered::select('id')
 if($role==2){	
 
 }
+else if($role==3){
+	
+	if(auth()->user()->department){
+	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+	$Detractors->whereIn('survey_answered.department_name_id',$q_departments);	
+	}				
+
+}	
+else if($role==4){				
+	$Detractors->where('survey_persons.logged_user_id',auth()->user()->id??0);
+}
+
 else{
-$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);
+	$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);
 }	
 })
 ->where('survey_answered.answeredby_person','!=','')

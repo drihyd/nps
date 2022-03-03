@@ -35,6 +35,8 @@
 @if(auth()->user())
 	@if(auth()->user()->role==2)
 	<form action="{{ route('surveyone.post.'.Config::get('constants.admin')) }}" class="signup_form" method="post">
+@elseif(auth()->user()->role==3)
+	<form action="{{ route('surveyone.post.'.Config::get('constants.hod')) }}" class="signup_form" method="post">
 	@else
 	<form action="{{ route('surveyone.post.'.Config::get('constants.user')) }}" class="signup_form" method="post">
 	@endif
@@ -212,14 +214,12 @@ else{
 	<h4 class="text text-success">Thank you for completing our survey!</h4>
 	
 	@if(auth()->user())
-	@if(auth()->user()->role==2)
-		
-	<a href="{{url(Config::get('constants.admin').'/dashboard')}}" class="btn btn-outline-danger  mt-3">Back to home</a>
-	
-	@else
-		
-	<a href="{{url(Config::get('constants.user').'/dashboard')}}" class="btn btn-outline-danger  mt-3">Back to home</a>
-	
+	@if(auth()->user()->role==2)		
+	<a href="{{url(Config::get('constants.admin').'/dashboard')}}" class="btn btn-outline-danger  mt-3">Back to home</a>	
+	@elseif(auth()->user()->role==3)		
+	<a href="{{url(Config::get('constants.hod').'/dashboard')}}" class="btn btn-outline-danger  mt-3">Back to home</a>
+	@else		
+	<a href="{{url(Config::get('constants.user').'/dashboard')}}" class="btn btn-outline-danger  mt-3">Back to home</a>	
 	@endif
 
 @else

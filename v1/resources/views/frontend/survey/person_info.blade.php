@@ -72,30 +72,11 @@
 		  
 		  <div class="form-group">
                 <label><b>Discharge Date</b></label>
-				<input type="date" class="form-control form-control-sm mx-sm-3" id="discharge_date"  name="discharge_date" value="{{old('discharge_date',$users_data->discharge_date??'')}}">
+				<input type="date" class="form-control" id="discharge_date"  name="discharge_date" value="{{old('discharge_date',$users_data->discharge_date??'')}}">
 		     </div>
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-
-		  
-		  
-         
-          	<div class="form-group">
-                
+        
+          	<div class="form-group">            
               
-
-
-
-
-
 
  @foreach($custom_fields as $custom_field)
           	@if($custom_field->input_type == 'radio')

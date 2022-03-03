@@ -1,3 +1,5 @@
+
+		
 		<div class="table-responsive">
 		<table  id="default-datatable" class="nowrap display table Config::get('constants.tablestriped')">
 		<thead class="thead-dark">
@@ -39,7 +41,7 @@
 							  
 							  
 							  </td>
-                              <td>{{$response->answer??0}}</td>
+                              <td>{{$response->rating??0}}</td>
                               <td>{{date('d M, Y', strtotime($response->created_at??''))}}</td>
 							   <td>{{date('d M, Y', strtotime($response->last_action_date??''))}}</td>                     
 							  
@@ -69,7 +71,7 @@
 							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>
                                 <a href="{{url(Config::get('constants.admin').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
                                 @elseif(Auth::user()->role==3)
-								                  <a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>
+								<a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>
                                 <a href="{{url(Config::get('constants.hod').'/responses/delete/'.Crypt::encryptString($response->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
                                 @elseif(Auth::user()->role==4)
                                 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" ><i class="feather icon-eye"></i></a>

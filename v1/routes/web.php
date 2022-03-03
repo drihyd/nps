@@ -94,6 +94,8 @@ Route::post('offline.surveyone.post', [NetPromoterScore::class,'surveyone_post']
 /* Dashbaord */
 
 
+/*** HOD ***/
+
 Route::group(['prefix' => 'hod','middleware' => 'ishod'],function(){
 
 Route::get('dashboard', [DashboardController::class,'dashboard_user_lists']);
@@ -108,6 +110,16 @@ Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_resp
 Route::get('responses_reports', [Reports::class,'reports_response_list']);
 Route::get('responses_reports/{value?}', [Reports::class,'reports_response_list']);
 Route::get('export', [Reports::class, 'export'])->name('export');
+
+
+
+Route::get('survey', [NetPromoterScore::class,'survey_names']);
+Route::get('survey/start/{type?}', [NetPromoterScore::class,'take_person_onfo']);
+Route::get('takesurvey/{type?}', [NetPromoterScore::class,'first_question']);
+Route::get('picksurveymethod/{type?}', [NetPromoterScore::class,'picksurvey_method']);
+Route::get('second', [NetPromoterScore::class,'second_question']);
+Route::any('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.hod');
+Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo.hod');
 	
 
 	

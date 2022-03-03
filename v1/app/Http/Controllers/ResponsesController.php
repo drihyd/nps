@@ -76,8 +76,7 @@ class ResponsesController extends Controller
 				->pluck('id');				
 				}		
 				else{
-					$QuestionOptions=QuestionOptions::pluck('id');
-				
+					$QuestionOptions=QuestionOptions::pluck('id');				
 				
 				}
 		
@@ -94,7 +93,7 @@ class ResponsesController extends Controller
 		
 		
 		
-			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
+			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
@@ -160,7 +159,7 @@ class ResponsesController extends Controller
 		
 			
 		
-			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
+			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)			
@@ -212,7 +211,7 @@ class ResponsesController extends Controller
 			
 			
 			
-			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
+			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->where('survey_persons.organization_id',Auth::user()->organization_id)	
