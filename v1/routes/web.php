@@ -8,6 +8,7 @@ use App\Http\Controllers\NetPromoterScore;
 use App\Http\Controllers\Reports;
 
 use App\Http\Controllers\ThemeoptionsController;
+use App\Http\Controllers\ProcessController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\UsermanagementController;
 use App\Http\Controllers\DashboardController;
@@ -303,6 +304,16 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('notifications/edit/{id}',[NotificationsController::class,'edit_notifications']);
 	Route::post('notifications/update',[NotificationsController::class,'update_notifications']);
 	Route::get('notifications/delete/{id}',[NotificationsController::class,'delete_notifications']);
+
+
+	/*Admin Process*/
+
+	Route::get('process', [ProcessController::class,'process_list']);
+	Route::get('process/create', [ProcessController::class,'create_process']);
+	Route::post('process/store', [ProcessController::class, 'store_process']);
+	Route::get('process/edit/{id}',[ProcessController::class,'edit_process']);
+	Route::post('process/update',[ProcessController::class,'update_process']);
+	Route::get('process/delete/{id}',[ProcessController::class,'delete_process']);
 
 });
 
