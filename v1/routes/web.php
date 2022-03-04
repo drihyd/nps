@@ -121,6 +121,12 @@ Route::get('picksurveymethod/{type?}', [NetPromoterScore::class,'picksurvey_meth
 Route::get('second', [NetPromoterScore::class,'second_question']);
 Route::any('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.hod');
 Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo.hod');
+
+
+
+Route::get('graphs', [Graphs::class,'graphs_list']);
+Route::post('filter-grpahs-opened-closed-actions', [Graphs::class,'graphs_list'])->name('filter-grpahs-opened-closed-actions');
+
 	
 
 	
