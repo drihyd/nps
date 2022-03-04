@@ -16,11 +16,10 @@ class Graphs extends Controller
 		
 		
 	
-		$pageTitle="Graphs";			
+		$pageTitle="Graphs";	
 			
 		
 		$department_statistics=$this->show_department_statistics($request);	
-
 
 
 		
@@ -56,6 +55,8 @@ class Graphs extends Controller
 	public function get_monthwise_opened_closed($request){
 		
 		
+			$role=auth()->user()->role??0;
+		
 	
 			if($request->from_date &&  $request->to_date) {
 			$from_date = $request->from_date;
@@ -67,12 +68,24 @@ class Graphs extends Controller
 				$to_date = date('Y-12-t');
 
 			}
+			
+			
+		if(isset($request->team)) {					
+		$QuestionOptions=QuestionOptions::select()
+		->where('option_value',$request->team)
+		->pluck('id');				
+		}		
+		else{
+		$QuestionOptions=QuestionOptions::pluck('id');				
+		}
 	
 		
 		
 		
 			$users = SurveyAnswered::select('id', 'created_at')
-			->whereIn('survey_answered.question_id',[1,11])
+			
+	
+			
 			->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back']) 
 			 
 			->where(function($users) use ($from_date,$to_date){	
@@ -81,6 +94,39 @@ class Graphs extends Controller
 			$users->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
 			}		
 			})
+			
+			
+			->where(function($users) use ($role){				
+			if($role==2){
+				
+			}
+			else if($role==3){				
+				if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					$users->whereIn('survey_answered.department_name_id',$q_departments);	
+				}				
+							
+			}			
+			else if($role==4){				
+				$users->where('survey_persons.logged_user_id',auth()->user()->id??0);
+			}
+			else{
+				
+			}
+			
+			})
+			
+			->where(function($users) use ($QuestionOptions){	
+			
+				$users->whereIn('survey_answered.answerid',$QuestionOptions);				
+				$users->where('survey_answered.answeredby_person','!=','');				
+		
+			
+			})
+			
+			
+			
+			
 
 			->get()
 			->groupBy(function ($date) {
@@ -129,14 +175,43 @@ class Graphs extends Controller
 			
 			/*** closed actions***/
 			$_users = SurveyAnswered::select('id', 'created_at')
-			->whereIn('survey_answered.question_id',[1,11])
-			->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied']) 
+		
+			->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied','patient_level_closure','process_level_closure']) 
 			 
 			->where(function($_users) use ($from_date,$to_date){	
 			if($from_date &&  $to_date){		
 			$_users->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
 			$_users->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
 			}		
+			})
+			
+			->where(function($_users) use ($QuestionOptions){	
+			
+				$_users->whereIn('survey_answered.answerid',$QuestionOptions);				
+				$_users->where('survey_answered.answeredby_person','!=','');				
+		
+			
+			})
+			
+			
+			->where(function($_users) use ($role){				
+			if($role==2){
+				
+			}
+			else if($role==3){				
+				if(auth()->user()->department){
+					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					$_users->whereIn('survey_answered.department_name_id',$q_departments);	
+				}				
+							
+			}			
+			else if($role==4){				
+				$_users->where('survey_persons.logged_user_id',auth()->user()->id??0);
+			}
+			else{
+				
+			}
+			
 			})
 
 			->get()
@@ -351,6 +426,21 @@ public function graphs_list_inpatient(Request $request)
 	
 	
 public function get_departmentwise_scores($request){
+	
+	
+	
+$role=auth()->user()->role??0;	
+
+if(isset($request->team)) {					
+$QuestionOptions=QuestionOptions::select()
+->where('option_value',$request->team)
+->pluck('id');				
+}		
+else{
+$QuestionOptions=QuestionOptions::pluck('id');				
+}
+
+
 if($request->from_date &&  $request->to_date) {
 $from_date = $request->from_date;
 $to_date = $request->to_date;			
@@ -371,6 +461,39 @@ $ViewAttendance->whereDate('rating_of_departments.created_at', '>=', "$from_date
 $ViewAttendance->whereDate('rating_of_departments.created_at', '<=',"$to_date 23:59:59");
 }		
 })
+
+
+->where(function($ViewAttendance) use ($role){				
+if($role==2){
+
+}
+else if($role==3){				
+if(auth()->user()->department){
+	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+	$ViewAttendance->whereIn('rating_of_departments.department_id',$q_departments);	
+}				
+
+}			
+else if($role==4){				
+	$ViewAttendance->where('rating_of_departments.logged_user_id',auth()->user()->id??0);
+}
+else{
+
+}
+
+})
+
+
+	->where(function($ViewAttendance) use ($QuestionOptions){	
+			
+				$ViewAttendance->whereIn('rating_of_departments.department_id',$QuestionOptions);				
+							
+		
+			
+			})
+
+
+
 ->whereIn('rating_of_departments.survey_id',[1,11])
 ->orderBy("rating_of_departments.department_name","asc")
 ->groupBy("rating_of_departments.department_id","rating_of_departments.department_name")
@@ -380,7 +503,20 @@ return $ViewAttendance;
 
 
 public function get_department_activities_scores($request){
-	
+
+
+$role=auth()->user()->role??0;
+
+if(isset($request->team)) {					
+$QuestionOptions=QuestionOptions::select()
+->where('option_value',$request->team)
+->pluck('id');				
+}		
+else{
+$QuestionOptions=QuestionOptions::pluck('id');				
+}
+
+
 if($request->from_date &&  $request->to_date) {
 $from_date = $request->from_date;
 $to_date = $request->to_date;			
@@ -397,13 +533,40 @@ DB::raw('count(IF(rating_of_dep_activities.rating between 7 and 8, 1, NULL)) as 
 DB::raw('count(IF(rating_of_dep_activities.rating between 9 and 10, 1, NULL)) as promotors'),
 )
 
+->whereIn('rating_of_dep_activities.survey_id',[1,11])
+
 ->where(function($ViewAttendance) use ($from_date,$to_date){	
 if($from_date &&  $to_date){	
 $ViewAttendance->whereDate('rating_of_dep_activities.created_at', '>=', "$from_date 00:00:00");
 $ViewAttendance->whereDate('rating_of_dep_activities.created_at', '<=',"$to_date 23:59:59");
 }		
 })
-->whereIn('rating_of_dep_activities.survey_id',[1,11])
+
+->where(function($ViewAttendance) use ($role){				
+if($role==2){
+
+}
+else if($role==3){				
+if(auth()->user()->department){
+	//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+	//$ViewAttendance->whereIn('rating_of_dep_activities.department_id',$q_departments);	
+}				
+
+}			
+else if($role==4){				
+	$ViewAttendance->where('rating_of_dep_activities.logged_user_id',auth()->user()->id??0);
+}
+else{
+
+}
+
+})
+
+
+
+
+
+
 ->orderBy("rating_of_dep_activities.activity_name","asc")
 ->groupBy("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_id")
 ->get();

@@ -45,7 +45,8 @@
 <img src="{{URL::to('assets/images/svg-icon/chart.svg')}}" class="img-fluid" alt="widgets"><span>Graphs</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
-<li class="{{ (request()->is(Config::get('constants.hod').'/graphs')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.hod').'/graphs')}}">Closure</a></li>
+<li class="{{ (request()->is(Config::get('constants.hod').'/graphs')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.hod').'/graphs')}}">Dashboard 1</a></li>
+<li class="{{ (request()->is(Config::get('constants.hod').'/graphs-in-patient')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.hod').'/graphs-in-patient')}}">Dashboard 2</a></li>
 </ul>
 </li> 
 

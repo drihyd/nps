@@ -10,40 +10,53 @@
 <!-- Start col -->
 
 
-	      <div class="col-lg-12">
-        <div class="card m-b-30">
-            <div class="card-header">
-                <h5 class="card-title">The Net Promoter Score (NPS)</h5>
-            </div>
-            <div class="card-body">
-                <div id="c3-stacked-bar-nps" style="height:400px;"></div>
-            </div>
-        </div>
-    </div>
+@if(isset(auth()->user()->role) && auth()->user()->role!=3)
+<div class="col-lg-12">
+<div class="card m-b-30">
+<div class="card-header">
+<h5 class="card-title">The Net Promoter Score (NPS)</h5>
+</div>
+<div class="card-body">
+<div id="c3-stacked-bar-nps" style="height:400px;"></div>
+</div>
+</div>
+</div>
+@endif
+
+<div class="col-lg-6">
+<div class="card m-b-30">
+<div class="card-header">
+<h5 class="card-title">Departments Statistics</h5>
+</div>
+<div class="card-body">
+<div id="c3-stacked-bar-department-nps" style="height:400px;"></div>
+</div>
+</div>
+</div>
+	  
+
+<div class="col-lg-6">
+<div class="card m-b-30">
+<div class="card-header">
+<h5 class="card-title">Department Activities Statistics</h5>
+</div>
+<div class="card-body">
+<div id="c3-stacked-bar-department-activities-nps" style="height:400px;"></div>
+</div>
+</div>
+</div>
 
 
-	      <div class="col-lg-6">
-        <div class="card m-b-30">
-            <div class="card-header">
-                <h5 class="card-title">Department Score</h5>
-            </div>
-            <div class="card-body">
-                <div id="c3-stacked-bar-department-nps" style="height:400px;"></div>
-            </div>
-        </div>
-    </div>
-	  
-	  
-	  	      <div class="col-lg-6">
-        <div class="card m-b-30">
-            <div class="card-header">
-                <h5 class="card-title">Department Activities Score</h5>
-            </div>
-            <div class="card-body">
-                <div id="c3-stacked-bar-department-activities-nps" style="height:400px;"></div>
-            </div>
-        </div>
-    </div>
+<div class="col-lg-6">
+<div class="card m-b-30">
+<div class="card-header">
+<h5 class="card-title">Patient & Process Closure Statistics</h5>
+</div>
+<div class="card-body">
+<div id="c3-stacked-bar-department-activities-nps" style="height:400px;"></div>
+</div>
+</div>
+</div>
 	  
 	  
 	  

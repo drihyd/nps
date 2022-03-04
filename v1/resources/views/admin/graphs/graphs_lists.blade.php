@@ -37,8 +37,6 @@
 @endif
 </div>
 
-
-
 </form>
 
 
@@ -49,7 +47,9 @@
 </div>
 </div>
 
-	<div class="row align-items-center">
+
+
+<div class="row align-items-center">
 	
 <div class="col-12">
 <div class="card m-b-30">
@@ -58,6 +58,8 @@
 </div>
 </div>
 </div>
+
+
 
 <!--
 

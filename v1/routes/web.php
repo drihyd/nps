@@ -126,7 +126,7 @@ Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_per
 
 Route::get('graphs', [Graphs::class,'graphs_list']);
 Route::post('filter-grpahs-opened-closed-actions', [Graphs::class,'graphs_list'])->name('filter-grpahs-opened-closed-actions');
-
+Route::get('graphs-in-patient', [Graphs::class,'graphs_list_inpatient']);
 	
 
 	
