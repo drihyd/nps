@@ -15,6 +15,12 @@
             @foreach($person_responses_status_data as $person_responses_status)
             <div class="activities-history-list">
                 <div class="activities-history-item">
+				
+				
+				
+				
+				
+				
 
                     @if($person_responses_status->ticket_status=="opened")
                     <h6 class="badge badge-danger">Opened</h6>

@@ -3,10 +3,7 @@
 @section('content')
 <div class="row">
 <div class="col-lg-12">
-<div class="card m-b-30">            
-<div class="card-header">
-<h5 class="card-title">@yield('title')</h5>
-</div>
+<div class="card m-b-30">
 <div class="card-body">
 @include('admin.responses.responses_list_common')
 </div>

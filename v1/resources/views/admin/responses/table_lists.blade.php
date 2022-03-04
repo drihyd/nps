@@ -48,22 +48,7 @@
 							  <td>
 							  <p class="font-15 mb-0">
 							  
-									@if($response->ticket_status=="opened")
-									<span class="badge badge-danger">Opened</span>
-									@elseif($response->ticket_status== "phone_ringing_no_response")
-									<span class="badge badge-primary">Phone Ringing - No Response</span>
-									@elseif($response->ticket_status=="connected_refused_to_talk")
-									<span class="badge badge-primary">Connected - Refused to talk</span>@elseif($response->ticket_status=="connected_asked_for_call_back")
-									<span class="badge badge-primary">Connected - Asked for call back</span>@elseif($response->ticket_status=="closed_satisfied")
-									<span class="badge badge-success">Closed - Satisfied</span>
-									@elseif($response->ticket_status=="closed_unsatisfied")
-									<span class="badge badge-success">Closed - Unsatisfied</span>
-									@elseif($response->ticket_status=="patient_level_closure")
-									<span class="badge badge-success">Patient level Closure</span>
-									@elseif($response->ticket_status=="process_level_closure")
-									<span class="badge badge-success">Process level closure</span>
-									@else
-									@endif
+									 @include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status])
 							  
 							  </p>
 							  

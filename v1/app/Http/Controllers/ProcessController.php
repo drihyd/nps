@@ -62,7 +62,7 @@ class ProcessController extends Controller
     public function edit_process($id)    {
         
         $ID = Crypt::decryptString($id);
-            $process_data=Departments::get()->where("id",$ID)->first();
+            $process_data=Process::get()->where("id",$ID)->first();
             $pageTitle="Edit";      
             return view('admin.process.add_edit_process',compact('process_data','pageTitle'));
         
@@ -90,14 +90,11 @@ class ProcessController extends Controller
             ); 
         return redirect(Config::get('constants.admin').'/process')->with('success', "Success! Details are updated successfully");
     }
-    public function delete_process($id)
-    {
-        $ID = Crypt::decryptString($id);
-
-            
-            $data=Process::where('id',$ID)->delete();
-
-         return redirect()->back()->with('success','Success! Details are deleted successfully');
+    public function delete_process($id)    
+	{
+		$ID = Crypt::decryptString($id);            
+		$data=Process::where('id',$ID)->delete();
+		return redirect()->back()->with('success','Success! Details are deleted successfully');
         
     }
 }

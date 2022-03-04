@@ -27,7 +27,10 @@ Remarks
 <span class="text-red"style="color: red;">*</span></label>
 
 
-<textarea name="ticket_remarks" id="" class="form-control tikcet_remark_status_update" required="required" rows="4">{{old('ticket_remarks',$person_responses_data[0]->ticket_remarks??'')}}</textarea>
+<textarea maxlength="250" name="ticket_remarks" id="ticket_remarks" class="form-control tikcet_remark_status_update" required="required" rows="4">{{old('ticket_remarks',$person_responses_data[0]->ticket_remarks??'')}}</textarea>
+<span id="rchars">250</span> Character(s) Remaining
+
+
 </div>
 
 
@@ -58,22 +61,22 @@ Remarks
 	
 <div class="hide_process_level_option">
 
-<div class="form-group" id="survey_id">
+<div class="form-group">
 <label for="survey_id">
 Process level closure:
-<span class="text-red"style="color: red;"></span></label>
-<textarea name="process_level_closure" id="txtOther" class="form-control process_level_closure"  rows="4" disabled="disabled">{{old('process_level_closure',$person_responses_data[0]->process_level_closure??'')}}</textarea>
+<span class="text-red"style="color: red;">*</span></label>
+<textarea maxlength="250" name="process_level_closure" id="process_level_closure" class="form-control process_level_closure"  rows="4">{{old('process_level_closure',$person_responses_data[0]->process_level_closure??'')}}</textarea>
+<span id="rchars_option">250</span> Character(s) Remaining
+
 </div>
 
-<div class="form-group" id="survey_id">
-<label for="survey_id">
-Category of process:
-<select name="category_process" class="form-control" id="category_process">
-<option value="">--Pick one--</option>
-<option value="department">Department</option>
-</select>
-</div>
+<div class="form-group">
+<label for="process_id">
+Category of process  [<small>Maximum 15 characters</small>]:
+<span class="text-red"style="color: red;">*</span></label>
+@include('admin.common_pages.category_process_closure')
 
+</div>
 </div>
 @else
 @endif

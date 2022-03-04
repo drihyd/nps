@@ -33,7 +33,7 @@
 							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}</small>
                                
                                 @elseif(Auth::user()->role==3)
-								 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}</small>
+								 <a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}</small>
                                 
                                 @elseif(Auth::user()->role==4)
                                 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a><br><small>{{$response->survey_title??''}}</small>
@@ -45,25 +45,14 @@
 							  
 							  
 							  </td>
-                              <td>{{$response->answer??0}}</td>
+                              <td>{{$response->rating??0}}</td>
                                <td>{{date('d M, Y', strtotime($response->created_at??''))}}</td>
 							   <td>{{date('d M, Y', strtotime($response->last_action_date??''))}}</td>   
 							  
 							  <td>
 							  <p class="font-15 mb-0">
 							  
-									@if($response->ticket_status=="opened")
-									<span class="badge badge-danger">Opened</span>
-									@elseif($response->ticket_status== "phone_ringing_no_response")
-									<span class="badge badge-primary">Phone Ringing - No Response</span>
-									@elseif($response->ticket_status=="connected_refused_to_talk")
-									<span class="badge badge-primary">Connected - Refused to talk</span>@elseif($response->ticket_status=="connected_asked_for_call_back")
-									<span class="badge badge-primary">Connected - Asked for call back</span>@elseif($response->ticket_status=="closed_satisfied")
-									<span class="badge badge-success">Closed - Satisfied</span>
-									@elseif($response->ticket_status=="closed_unsatisfied")
-									<span class="badge badge-success">Closed - Unsatisfied</span>
-									@else
-									@endif
+								 @include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status])
 							  
 							  </p>
 							  

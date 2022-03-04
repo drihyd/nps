@@ -367,6 +367,8 @@ class ResponsesController extends Controller
             [  
                 "ticket_status"=>$request->ticket_status??'',
                 "ticket_remarks"=>$request->ticket_remarks??'',
+				"category_process_level"=>$request->category_process??'',
+				"process_level_closure"=>$request->process_level_closure??'',
             ]
             ); 
 
@@ -380,6 +382,7 @@ class ResponsesController extends Controller
                 "ticket_status"=>$request->ticket_status??'',
                 "ticket_remarks"=>$request->ticket_remarks??'',
                 "process_level_closure"=>$request->process_level_closure??'',
+                "category_process_level"=>$request->category_process??'',
             ]  
         ]);
         return redirect()->back()->with('success', "Success! Status are updated successfully"); 

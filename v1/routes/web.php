@@ -110,7 +110,7 @@ Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_resp
 
 Route::get('responses_reports', [Reports::class,'reports_response_list']);
 Route::get('responses_reports/{value?}', [Reports::class,'reports_response_list']);
-Route::get('export', [Reports::class, 'export'])->name('export');
+Route::get('export', [Reports::class, 'export'])->name('hod.export');
 
 
 

@@ -126,14 +126,35 @@ $(".gst").change(function () {
 
 		
 		
-		if ($(val == "process_level_closure") {
-                $("#hide_process_level_option").show();
+		if (val == "process_level_closure") {
+			
+				$(".hide_process_level_option").show();
+				$('#process_level_closure').attr('required', true); 
+				$('#category_process').attr('required', true); 
+				  
             } else {
-                $("#hide_process_level_option").hide();
+				
+				$('#process_level_closure').attr('required', false); 
+				$('#category_process').attr('required', false);
+				$(".hide_process_level_option").hide();
+				 
             }
 		
 		
     }
+	
+	
+var maxLength = 250;
+$('textarea#ticket_remarks').keyup(function() {
+var textlen = maxLength - $(this).val().length;
+$('#rchars').text(textlen);
+});
+
+$('textarea#process_level_closure').keyup(function() {
+var textlen = maxLength - $(this).val().length;
+$('#rchars_option').text(textlen);
+});
+	
 </script>
   
   
