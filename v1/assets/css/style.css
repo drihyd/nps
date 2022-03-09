@@ -35347,3 +35347,6 @@ table.dataTable tbody tr:hover td{
 .hide_process_level_option{	
 	display:none;	
 }
+.badge {
+	font-weight:normal!important;
+}

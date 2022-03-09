@@ -1,7 +1,7 @@
 @if(isset($person_responses_data[0]->ticket_status))
 <div class="card m-b-30">
 <div class="card-header">
-<h4>Update Ticket {{$person_responses_data[0]->ticker_final_number}} Status <!--to {{Str::title($person_data->firstname??'')}}--> </h4>
+<span class="badge badge-primary-inverse font-20"><h4>Update Ticket {{$person_responses_data[0]->ticker_final_number}} Status <!--to {{Str::title($person_data->firstname??'')}}--> </span></h4>
 
 </div>
 <div class="card-body">

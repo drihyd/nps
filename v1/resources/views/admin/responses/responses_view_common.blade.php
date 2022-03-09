@@ -6,7 +6,7 @@
 <div class="col-12 mb-3">
 
 <div class="kanban-tag">
-<span class="badge badge-primary-inverse font-16"><h4>Ticket Number {{$person_data->ticker_final_number??''}}</h4></span>
+<span class="badge badge-primary-inverse font-20"><h4>Ticket Number {{$person_data->ticker_final_number??''}}</h4></span>
 </div>
 
 

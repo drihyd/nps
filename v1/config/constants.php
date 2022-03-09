@@ -16,7 +16,11 @@ return [
 	'Promoters-label'=>"Promoters",
 	'Passives-label'=>"Passives",
 	'Detractors-label'=>"Detractors",
-	'Nps-label'=>"NPS Score"
+	'Nps-label'=>"NPS Score",
+	'Patient'=>"Patient Closure",	
+	'Process'=>"Process Closure",
+	'Process-color'=>"#0594BE",
+	'Patient-color'=>"#119460",
 	
 	
 

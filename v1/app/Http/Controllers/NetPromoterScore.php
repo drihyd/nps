@@ -880,7 +880,10 @@ DB::table('passing_departments')->insert(
 			
 foreach($request->first_activities as $fkey=>$fvalue){
 			
-			DB::table('rating_of_dep_activities')->insert(
+			
+
+
+DB::table('rating_of_dep_activities')->insert(
 [
 'person_id' => Session::get('person_id')??0, 
 'survey_id' =>$request->survey_id??0,
@@ -888,6 +891,8 @@ foreach($request->first_activities as $fkey=>$fvalue){
 'updated_at' =>Carbon::now(),
 'activity_name' =>$fvalue??'',
 'activity_id' =>$fkey??'',
+'department_id' =>$key??0,
+'department_name' =>'',
 'rating' =>Session::get('rating')??0,
 'organization_id' =>$request->organization_id??0,
 'logged_user_id' =>auth()->user()->id??Session::get('logged_user_id')??0,

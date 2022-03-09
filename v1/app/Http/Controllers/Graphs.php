@@ -370,11 +370,11 @@ public function graphs_list_inpatient(Request $request)
 
 		$collection = collect($total_nps_scores);	
 		
-		$monthnames=$collection->implode('month',',');	
+	$monthnames=$collection->implode('month',',');	
 	$detractors_count=$collection->implode('detractors',',');		
 	$passives_count=$collection->implode('passives',',');
-		$promotors_count=$collection->implode('promotors',',');
-		$nps_count=$collection->implode('nps_score',',');		
+	$promotors_count=$collection->implode('promotors',',');
+	$nps_count=$collection->implode('nps_score',',');		
 		
 		
 		
@@ -386,7 +386,7 @@ public function graphs_list_inpatient(Request $request)
 		
 		$collection_department_score = collect($total_departmentwise_scores);	
 		
-		$_departmentname= "'" .$collection_department_score->implode('departmentname',"', '",) . "'";
+		$_departmentname= "'" .$collection_department_score->implode('departmentname',"','",)."'";
 		$_dep_detractors_count=$collection_department_score->implode('detractors',',');	
 		$_dep_passives_count=$collection_department_score->implode('passives',',');	
 		$_dep_promotors_count=$collection_department_score->implode('promotors',',');
@@ -403,7 +403,7 @@ public function graphs_list_inpatient(Request $request)
 	$activities_scores=$this->get_department_activities_scores($request);
 	
 	
-	$_dep_act_name= "'" .$activities_scores->implode('departmentname',"', '",) . "'";
+	$_dep_act_name= "'" .$activities_scores->implode('departmentname',"','",)."'";
 	$_dep_act_detractors_count=$activities_scores->implode('detractors',',');	
 	$_dep_act_passives_count=$activities_scores->implode('passives',',');	
 	$_dep_act_promotors_count=$activities_scores->implode('promotors',',');
@@ -420,9 +420,223 @@ public function graphs_list_inpatient(Request $request)
 
 		
 		
-		return view('admin.graphs.graphs_lists_inpatient',compact('pageTitle','monthnames','detractors_count','passives_count','promotors_count','nps_count','total_departmentwise_scores','_dep_scors','_dep_act_scors'));         
+		
+		$patient_process=$this->get_department_patient_process_closures($request);
+		
+		
+
+		$_ticket_status= "'" .$patient_process->implode('ticket_status',"','",)."'";
+		$_patient_level_closure_count=$patient_process->implode('patient_level_closure',',');	
+		$_process_level_closure_count=$patient_process->implode('process_level_closure',',');	
+	
+	
+
+	
+		$_patient_process=[
+		$_ticket_status,
+		$_patient_level_closure_count,
+		$_process_level_closure_count			
+		];
+
+		
+		
+		$process_cat_closur=$this->get_department_process_category_closures($request);
+		
+		
+		$_cat_process_status= "'" .$process_cat_closur->implode('category_process_level',"','",)."'";
+		$_cat_process_status_count=$process_cat_closur->implode('total',',');	
+
+	
+	
+
+	
+		$_category_process=[
+		$_cat_process_status,
+		$_cat_process_status_count
+			
+		];
+		
+
+		
+	
+		
+		
+		
+		return view('admin.graphs.graphs_lists_inpatient',compact('pageTitle','monthnames','detractors_count','passives_count','promotors_count','nps_count','total_departmentwise_scores','_dep_scors','_dep_act_scors','_patient_process','_category_process'));         
     }
 	
+	
+	
+public function get_department_patient_process_closures($request){
+
+
+$role=auth()->user()->role??0;
+
+if(isset($request->team)) {					
+$QuestionOptions=QuestionOptions::select()
+->where('option_value',$request->team)
+->pluck('id');				
+}		
+else{
+$QuestionOptions=QuestionOptions::pluck('id');				
+}
+
+
+if(isset($request->question_id)) {                    
+$Question=$request->question_id;
+
+}       
+else{
+$Question='';              
+}
+
+
+if($request->from_date &&  $request->to_date) {
+$from_date = $request->from_date;
+$to_date = $request->to_date;			
+}		
+else{
+$from_date = date('Y-01-01');
+$to_date = date('Y-12-t');
+}			
+
+$ViewAttendance = DB::table("survey_answered")
+->select("survey_answered.person_id","survey_answered.ticket_status",
+DB::raw('count(IF(survey_answered.ticket_status="patient_level_closure", 1, NULL)) as patient_level_closure'),
+DB::raw('count(IF(survey_answered.ticket_status="process_level_closure", 1, NULL)) as process_level_closure'),
+
+)
+
+->where(function($ViewAttendance) use ($Question){   
+if($Question){       
+	$ViewAttendance->where('survey_answered.survey_id','=',$Question);                
+}
+})
+
+->where(function($ViewAttendance) use ($from_date,$to_date){	
+if($from_date &&  $to_date){	
+$ViewAttendance->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+$ViewAttendance->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+}		
+})
+
+->where(function($ViewAttendance) use ($role){				
+if($role==2){
+
+}
+else if($role==3){				
+if(auth()->user()->department){
+	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+	$ViewAttendance->whereIn('survey_answered.department_name_id',$q_departments);	
+}				
+
+}			
+else if($role==4){				
+	$ViewAttendance->where('survey_answered.logged_user_id',auth()->user()->id??0);
+}
+else{
+
+}
+
+})
+
+->where(function($ViewAttendance) use ($QuestionOptions){			
+	$ViewAttendance->whereIn('survey_answered.department_name_id',$QuestionOptions);	
+	$ViewAttendance->where('survey_answered.answeredby_person','!=','');
+})
+
+->groupBy("survey_answered.ticket_status","survey_answered.person_id")
+->get();
+return $ViewAttendance;
+
+
+}
+
+
+
+
+public function get_department_process_category_closures($request){
+
+
+$role=auth()->user()->role??0;
+
+if(isset($request->team)) {					
+$QuestionOptions=QuestionOptions::select()
+->where('option_value',$request->team)
+->pluck('id');				
+}		
+else{
+$QuestionOptions=QuestionOptions::pluck('id');				
+}
+
+
+if(isset($request->question_id)) {                    
+$Question=$request->question_id;
+
+}       
+else{
+$Question='';              
+}
+
+
+if($request->from_date &&  $request->to_date) {
+$from_date = $request->from_date;
+$to_date = $request->to_date;			
+}		
+else{
+$from_date = date('Y-01-01');
+$to_date = date('Y-12-t');
+}			
+
+$ViewAttendance = DB::table("survey_answered")
+->select("survey_answered.person_id","survey_answered.category_process_level",DB::raw('count(*) as total') )
+
+->where(function($ViewAttendance) use ($Question){   
+if($Question){       
+	$ViewAttendance->where('survey_answered.survey_id','=',$Question);                
+}
+})
+
+->where(function($ViewAttendance) use ($from_date,$to_date){	
+if($from_date &&  $to_date){	
+$ViewAttendance->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+$ViewAttendance->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+}		
+})
+
+->where(function($ViewAttendance) use ($role){				
+if($role==2){
+
+}
+else if($role==3){				
+if(auth()->user()->department){
+	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+	$ViewAttendance->whereIn('survey_answered.department_name_id',$q_departments);	
+}				
+
+}			
+else if($role==4){				
+	$ViewAttendance->where('survey_answered.logged_user_id',auth()->user()->id??0);
+}
+else{
+
+}
+
+})
+
+->where(function($ViewAttendance) use ($QuestionOptions){			
+	$ViewAttendance->whereIn('survey_answered.department_name_id',$QuestionOptions);	
+	$ViewAttendance->where('survey_answered.answeredby_person','!=','');
+})
+
+->whereNotnull('survey_answered.category_process_level')
+->groupBy("survey_answered.category_process_level","survey_answered.person_id")
+->get();
+
+return $ViewAttendance;
+
+
+}
 	
 	
 public function get_departmentwise_scores($request){
@@ -533,7 +747,7 @@ DB::raw('count(IF(rating_of_dep_activities.rating between 7 and 8, 1, NULL)) as 
 DB::raw('count(IF(rating_of_dep_activities.rating between 9 and 10, 1, NULL)) as promotors'),
 )
 
-->whereIn('rating_of_dep_activities.survey_id',[1,11])
+
 
 ->where(function($ViewAttendance) use ($from_date,$to_date){	
 if($from_date &&  $to_date){	
@@ -548,8 +762,8 @@ if($role==2){
 }
 else if($role==3){				
 if(auth()->user()->department){
-	//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-	//$ViewAttendance->whereIn('rating_of_dep_activities.department_id',$q_departments);	
+	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+	$ViewAttendance->whereIn('rating_of_dep_activities.department_id',$q_departments);	
 }				
 
 }			
@@ -562,16 +776,26 @@ else{
 
 })
 
+->where(function($ViewAttendance) use ($QuestionOptions){
+$ViewAttendance->whereIn('rating_of_dep_activities.department_id',$QuestionOptions);				
+})
 
 
 
-
-
+->whereIn('rating_of_dep_activities.survey_id',[1,11])
 ->orderBy("rating_of_dep_activities.activity_name","asc")
 ->groupBy("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_id")
 ->get();
 return $ViewAttendance;
 }
+
+
+
+
+
+
+
+
 	
 	
 

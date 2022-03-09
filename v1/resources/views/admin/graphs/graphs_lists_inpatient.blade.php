@@ -53,7 +53,18 @@
 <h5 class="card-title">Patient & Process Closure Statistics</h5>
 </div>
 <div class="card-body">
-<div id="c3-stacked-bar-department-activities-nps" style="height:400px;"></div>
+<div id="c3-stacked-bar-patient-process-closure" style="height:400px;"></div>
+</div>
+</div>
+</div>
+
+<div class="col-lg-6">
+<div class="card m-b-30">
+<div class="card-header">
+<h5 class="card-title">Category of Process Closure Statistics</h5>
+</div>
+<div class="card-body">
+<div id="c3-stacked-bar-cat-process-closure" style="height:400px;"></div>
 </div>
 </div>
 </div>
@@ -341,6 +352,45 @@
   
 			
 });
+
+
+
+
+
+
+
+
+     new Chartist.Bar('#c3-stacked-bar-patient-process-closure', {
+        labels: [@php echo $_patient_process[0]??'' @endphp],
+        series: [@php echo $_patient_process[1]??'' @endphp]
+      }, {
+        distributeSeries: true,
+        plugins: [
+          Chartist.plugins.tooltip()
+        ]
+      });
+
+
+/* -- Chartistjs - Department Activities Horizontal Bar Chart -- */
+
+
+
+
+
+/* -- Chartistjs - Distributed Series Chart -- */
+      new Chartist.Bar('#c3-stacked-bar-cat-process-closure', {
+        labels: [@php echo $_category_process[0]??'' @endphp],
+        series: [@php echo $_category_process[1]??'' @endphp]
+      }, {
+        distributeSeries: true,
+        plugins: [
+          Chartist.plugins.tooltip()
+        ]
+      });
+
+
+
+
 
 
 </script>
