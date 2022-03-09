@@ -1613,8 +1613,18 @@ input {
 .survey-radio-btns-group{
   margin-left: -15px;
 }
-	
-	.btn-scale {
+
+.smiley-emojis ul{
+    display: flex;
+    justify-content: space-between;
+}
+.smiley-emojis ul li{
+    font-size: 20px;
+}
+.smiley-emojis ul li:nth-child(2){
+    margin-left: 52%;
+}
+.btn-scale {
     min-width: 25px;
     width: auto;
     text-align: center;

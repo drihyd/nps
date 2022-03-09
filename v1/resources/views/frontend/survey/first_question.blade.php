@@ -93,8 +93,14 @@ $departments=$departments??'';
 <!--<input type="radio" name="first_questin_range" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}-->
 @endforeach
 </datalist>
+ <div class="smiley-emojis">
+     <ul class="list-inline">
+         <li>&#128528;</li>
+         <li>&#128516;</li>
+         <li>&#128512;</li>
+     </ul>
+ </div>
 </div>
- 
  
  
 @elseif($Questions[0]->qinput_type=="checkbox")
