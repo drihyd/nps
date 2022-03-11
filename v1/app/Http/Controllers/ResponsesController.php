@@ -277,8 +277,17 @@ class ResponsesController extends Controller
     public function response_view($per_id)
     { 
 	
+	
+
         $person_id = Crypt::decryptString($per_id);
         $person_data= SurveyPerson::where('organization_id',Auth::user()->organization_id)->where('id',$person_id)->get()->first();
+        
+        
+      
+        
+        $voice_message= DB::table('persons_voice_message')->where('person_id',$person_id??0)->get();
+        
+       
 
         $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
@@ -297,7 +306,7 @@ class ResponsesController extends Controller
         //dd($person_responses_status_data);
         
         $pageTitle= Str::title($person_data->firstname??'')." Response";    
-        return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data','person_responses_status_data'))
+        return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data','person_responses_status_data','voice_message'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
     }
     public function frontend_response_list()

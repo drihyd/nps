@@ -174,6 +174,14 @@ else{
 
 	@if($value->qoptionid==21)		
 	<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" id="answerdbyperson_checkboxes"></textarea>	
+
+
+<a href="{{route('take.voice.messaage')}}">
+  <button type="button" class="btn thm_btn next_tab text-transform-inherit mt-5">  
+  <i class="fa fa-microphone"></i>  
+  </button>
+ </a>
+
 	@else
 		<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" id="answerdbyperson_checkboxes" @if(isset($value->activities) && $value->activities->count()>0)  @else required @endif></textarea>
 	@endif
@@ -203,6 +211,12 @@ else{
 
 
 <button type="submit" class="btn thm_btn next_tab text-transform-inherit mt-5">Next</button>
+
+
+
+
+
+
 
 </div>
 
@@ -271,6 +285,7 @@ else{
         }
     });
 });
+	
 	
 	
 

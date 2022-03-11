@@ -63,6 +63,8 @@ class ThemeoptionsController extends Controller
             ]  
         ]); 
         return redirect(Config::get('constants.superadmin').'/theme_options')->with('success', "Success! Details are added successfully"); 
+		
+		
     }
     public function edit_theme_options($id)    {
         

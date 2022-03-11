@@ -1135,6 +1135,63 @@ catch (\Exception $exception){
 		
 		
     }
+	
+	
+	public function take_voice_messaage()
+	{
+		
+		$Pagetitle="Voice Message";
+		
+		return view('frontend.survey.voice_message',compact('Pagetitle'));
+		
+		
+	}	
+	
+	public function post_voice_message_file(Request $request)
+	{
+		
+	
+        $fileTmpPath = $_FILES['audio_data']['tmp_name'];
+        $fileName = $_FILES['audio_data']['name'];
+        $fileSize = $_FILES['audio_data']['size'];
+        $fileType = $_FILES['audio_data']['type'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+        
+        $newFileName = md5(time().$fileName).'_PID_'.$request->person_id.'.mp3';
+        
+        
+        // directory in which the uploaded file will be moved
+        $uploadFileDir = public_path() . "/voice_record_files/";
+        $dest_path = $uploadFileDir . $newFileName;
+        
+        if(move_uploaded_file($fileTmpPath, $dest_path))
+        {
+            
+            
+            
+         DB::table('persons_voice_message')->insert(
+        [
+        'person_id' => $request->person_id??0, 
+        'survey_id' =>$request->survey_id??0,
+        'created_at' =>Carbon::now(),
+        'updated_at' =>Carbon::now(),
+        'voice_file' =>$newFileName??'',
+        'organization_id' =>$request->organization_id??0,
+        'logged_user_id' =>auth()->user()->id??Session::get('logged_user_id')??0,
+        
+        ]
+        );  
+        return response()->json(['status' =>'success','msg'=>'Successfully uploaded recorded blob'], 200);
+        }
+        else
+        {
+        return response()->json(['status' => 'fail','msg'=>'File not uploaded'], 500);
+        }
+       
+       
+		
+	}
 
 	
 	

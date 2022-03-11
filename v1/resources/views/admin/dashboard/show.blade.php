@@ -25,8 +25,6 @@
         <!-- End row -->                        
     </div>
     <!-- End col -->                    
-    <!-- Start col -->
     
-    <!-- End col -->
 </div>
 @endsection

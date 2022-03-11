@@ -70,3 +70,63 @@
 </div>
 </div>
 
+
+
+
+
+<!-- Start col -->
+
+
+@if($voice_message->count()>0)
+<div class="card m-b-30" style="min-height: 372px;">
+<div class="card-body">
+
+
+    <div class="col-lg-6">
+        <div class="card m-b-30">
+            <div class="card-header">
+                <h4 class="card-title">Listen to Audio Records</h4>
+            </div>
+            <div class="card-body">
+                
+                
+                @foreach($voice_message as $voice_file)
+                <div class="audio-record-wrapper">
+
+
+
+
+
+  <figure>
+    <figcaption>Audio track {{$loop->iteration}}</figcaption>
+    <audio
+        controls
+        src="{{url('/public/voice_record_files/'.$voice_file->voice_file)}}">
+            Your browser does not support the
+            <code>audio</code> element.
+    </audio>
+</figure>
+  
+  
+                        
+                    <div class="audio-content">
+                        <p class="mb-0">{{ date('G:i A.', strtotime($voice_file->created_at??'')) }} - {{date('M j, Y', strtotime($voice_file->created_at??''))}}</p>
+                    </div>
+                </div>
+                @endforeach
+                
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    
+    @endif
+    <!-- End col -->
+
+
+

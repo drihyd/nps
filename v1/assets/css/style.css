@@ -35350,3 +35350,21 @@ table.dataTable tbody tr:hover td{
 .badge {
 	font-weight:normal!important;
 }
+
+.audio-record-wrapper{
+    margin-bottom: 30px;
+}
+.audio-record-wrapper audio{
+    height: 35px;
+}
+.audio-content{
+    padding-left: 12px;
+}
+.audio-content h6{
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.audio-content p{
+    font-size: 12px;
+}

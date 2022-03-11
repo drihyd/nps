@@ -1905,3 +1905,22 @@ input[type=checkbox], input[type=radio] {
   color:  #fff;
 
 }
+
+.audio-record-wrapper{
+    margin-bottom: 30px;
+}
+.audio-record-wrapper audio{
+    height: 35px;
+}
+.audio-content{
+    padding-left: 20px;
+}
+.audio-content h6{
+    font-weight: bold;
+}
+.audio-content p{
+    font-size: 12px;
+}
+
+
+

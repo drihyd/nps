@@ -127,6 +127,9 @@ Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_per
 Route::get('graphs', [Graphs::class,'graphs_list']);
 Route::post('filter-grpahs-opened-closed-actions', [Graphs::class,'graphs_list'])->name('filter-grpahs-opened-closed-actions');
 Route::get('graphs-in-patient', [Graphs::class,'graphs_list_inpatient']);
+
+Route::get('take.voice.messaage', [NetPromoterScore::class,'take_voice_messaage'])->name('take.voice.messaage');	
+Route::any('post.voice.message.file', [NetPromoterScore::class,'post_voice_message_file'])->name('post.voice.message.file');	
 	
 
 	
@@ -151,6 +154,9 @@ Route::group(['prefix' => 'user','middleware' => 'isuser'],function(){
 	Route::get('responses', [ResponsesController::class,'response_list']);
 	Route::get('responses/view/{per_id}', [ResponsesController::class,'frontend_response_view']);
 	Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
+	
+	Route::get('take.voice.messaage', [NetPromoterScore::class,'take_voice_messaage'])->name('take.voice.messaage');	
+	Route::any('post.voice.message.file', [NetPromoterScore::class,'post_voice_message_file'])->name('post.voice.message.file');	
 	
 
 	
@@ -240,6 +246,10 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('picksurveymethod/{type?}', [NetPromoterScore::class,'picksurvey_method']);
 	Route::get('second', [NetPromoterScore::class,'second_question']);	
 	Route::any('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.admin');	
+	
+	
+	Route::get('take.voice.messaage', [NetPromoterScore::class,'take_voice_messaage'])->name('take.voice.messaage');	
+	Route::any('post.voice.message.file', [NetPromoterScore::class,'post_voice_message_file'])->name('post.voice.message.file');	
 	
 	
 	Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo.admin');
