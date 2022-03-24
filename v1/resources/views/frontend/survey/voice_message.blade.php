@@ -4,10 +4,6 @@
 
 <div class="formify_right_fullwidth align-items-center justify-content-center">
 
-<!-- <a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
-<img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
-</a> -->
-
 
 
 
@@ -35,7 +31,7 @@
     <h3>{{$Pagetitle}}</h3>   
   
     <div id="controls">
-  	 <button id="recordButton" class="btn btn-outline-danger  mt-3">Record</button>
+  	 <button id="recordButton" class="btn btn-outline-danger  mt-3">Start Record</button>
   	 <button id="pauseButton" disabled class="btn btn-outline-danger  mt-3">Pause</button>
   	 <button id="stopButton" disabled class="btn btn-outline-danger  mt-3">Stop</button>
     </div>
@@ -43,6 +39,30 @@
   	<p><strong>Recordings:</strong></p>
   	<ol id="recordingsList"></ol>
    
+ 
+ 
+ 
+<div class="row">
+<div class="col-md-12 text-center">
+<h5 class="text text-success">Please click here to redirect your dashboard after complete voice record.</h5>
+
+@if(auth()->user())
+	@if(auth()->user()->role==2)		
+	<a href="{{url(Config::get('constants.admin').'/dashboard')}}" class="btn btn-outline-danger  mt-3">Back to home</a>	
+	@elseif(auth()->user()->role==3)		
+	<a href="{{url(Config::get('constants.hod').'/dashboard')}}" class="btn btn-outline-danger  mt-3">Back to home</a>
+	@else		
+	<a href="{{url(Config::get('constants.user').'/dashboard')}}" class="btn btn-outline-danger  mt-3">Back to home</a>	
+	@endif
+
+@else
+
+@endif
+
+
+</div>
+</div>
+ 
  
 		  
       
