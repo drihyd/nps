@@ -92,7 +92,7 @@ else if($role==3){
 
 }	
 else if($role==4){				
-	$Promoters->where('survey_persons.logged_user_id',auth()->user()->id??0);
+	$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
 }
 
 else{
@@ -122,7 +122,7 @@ else if($role==3){
 
 }	
 else if($role==4){				
-	$Passives->where('survey_persons.logged_user_id',auth()->user()->id??0);
+	$Passives->where('survey_answered.logged_user_id',auth()->user()->id??0);
 }
 
 else{
@@ -151,7 +151,7 @@ else if($role==3){
 
 }	
 else if($role==4){				
-	$Detractors->where('survey_persons.logged_user_id',auth()->user()->id??0);
+	$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);
 }
 
 else{

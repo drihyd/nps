@@ -6,7 +6,16 @@
 <div class="col-12 mb-3">
 
 <div class="kanban-tag">
+
+@if($person_responses_data[0]->rating<=6)
 <span class="badge badge-primary-inverse font-20"><h4>Ticket Number {{$person_data->ticker_final_number??''}}</h4></span>
+@elseif($person_responses_data[0]->rating>6 && $person_responses_data[0]->rating<=8)
+<span class="badge badge-primary-inverse font-20"><h4>Ticket Number {{$person_data->ticker_final_number??''}}</h4></span>
+@else
+<span class="badge badge-primary-inverse font-20"><h4>Feedback</h4></span>
+@endif
+
+
 </div>
 
 
@@ -17,7 +26,7 @@
 <div class="row">		
 
 <div class="col-3">
-<p class="nps-score-div"><span class="nps-score">{{$person_responses_data[0]->option_value??''}}</span><br> NPS Score</p>
+<p class="nps-score-div"><span class="nps-score">{{$person_responses_data[0]->rating??''}}</span><br> NPS Score</p>
 </div>
 <div class="col-9 nps-score-details">
 <p><strong>{{Str::title($person_data->firstname??'')}}</strong></p>
@@ -32,10 +41,10 @@
 
 
 
-@if($person_responses_data[0]->option_value<=6)
+@if($person_responses_data[0]->rating<=6)
 <h4><span class="badge badge-danger-inverse font-14">Areas of Improvement</span></h4>
-@elseif($person_responses_data[0]->option_value>6 && $person_responses_data[0]->option_value<=8)
-<h4><span class="badge badge-success-inverse font-14">Feedback</span></h4>
+@elseif($person_responses_data[0]->rating>6 && $person_responses_data[0]->rating<=8)
+<h4><span class="badge badge-danger-inverse font-14">Areas of Improvement</span></h4>
 @else
 <h4><span class="badge badge-success-inverse font-14">Feedback</span></h4>
 @endif

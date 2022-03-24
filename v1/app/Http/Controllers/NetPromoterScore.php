@@ -70,8 +70,8 @@ class NetPromoterScore extends Controller
 		
 				
 		->where(function($Promoters) use ($role){	
-		if($role==2){	
-
+		if($role==2){
+			$Promoters->where('survey_answered.department_name_id','0');
 		}
 		elseif($role==3){	
 		
@@ -87,14 +87,20 @@ class NetPromoterScore extends Controller
 		}	
 		})
 		
-		->where(function($Promoters) use ($QuestionOptions){
-		$Promoters->whereIn('survey_answered.answerid',$QuestionOptions);		
-		$Promoters->where('survey_answered.answeredby_person','!=','');		
+		->where(function($Promoters) use ($QuestionOptions,$role){
+			
+				if($role==3 || $role==4) {
+					
+				$Promoters->whereIn('survey_answered.answerid',$QuestionOptions);		
+				$Promoters->where('survey_answered.answeredby_person','!=','');	
+				
+				}
+			
 		})
 		
 		
 
-		->whereIn('question_options.option_value',[9,10])
+		->whereIn('survey_answered.rating',[9,10])
 		->count();
 		
 
@@ -107,7 +113,7 @@ class NetPromoterScore extends Controller
 		
 		->where(function($Neutral) use ($role){	
 		if($role==2){	
-
+			$Neutral->where('survey_answered.department_name_id','0');
 		}
 		elseif($role==3){	
 		
@@ -124,11 +130,13 @@ class NetPromoterScore extends Controller
 		})
 
 
-			->where(function($Neutral) use ($QuestionOptions){
-		$Neutral->whereIn('survey_answered.answerid',$QuestionOptions);		
-		$Neutral->where('survey_answered.answeredby_person','!=','');		
+			->where(function($Neutral) use ($QuestionOptions,$role){
+				if($role==3 || $role==4) {
+				$Neutral->whereIn('survey_answered.answerid',$QuestionOptions);		
+				$Neutral->where('survey_answered.answeredby_person','!=','');	
+				}		
 		})
-		->whereIn('question_options.option_value',[7,8])
+		->whereIn('survey_answered.rating',[7,8])
 		->count();
 		
 		
@@ -138,6 +146,7 @@ class NetPromoterScore extends Controller
 	
 		->where(function($Detractors) use ($role){	
 		if($role==2){	
+		$Detractors->where('survey_answered.department_name_id','0');
 
 		}
 		elseif($role==3){	
@@ -155,14 +164,17 @@ class NetPromoterScore extends Controller
 		})
 		
 		
-		->where(function($Detractors) use ($QuestionOptions){
-		$Detractors->whereIn('survey_answered.answerid',$QuestionOptions);		
-		$Detractors->where('survey_answered.answeredby_person','!=','');		
+		->where(function($Detractors) use ($QuestionOptions,$role){
+				if($role==3 || $role==4) {
+				$Detractors->whereIn('survey_answered.answerid',$QuestionOptions);		
+				$Detractors->where('survey_answered.answeredby_person','!=','');
+				}
+			
 		})
 
 		
 		
-		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
+		->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])
 		->count();
 
 		
@@ -174,6 +186,8 @@ class NetPromoterScore extends Controller
 	
 		->where(function($Promoters_lastweek) use ($role){	
 		if($role==2){	
+		$Promoters_lastweek->where('survey_answered.department_name_id','0');
+		
 
 		}
 		elseif($role==3){	
@@ -190,21 +204,25 @@ class NetPromoterScore extends Controller
 		}	
 		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
-		->whereIn('question_options.option_value',[9,10])
-		->where(function($Promoters_lastweek) use ($QuestionOptions){
-		$Promoters_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
-		$Promoters_lastweek->where('survey_answered.answeredby_person','!=','');		
+		->whereIn('survey_answered.rating',[9,10])
+		->where(function($Promoters_lastweek) use ($QuestionOptions,$role){
+				if($role==3 || $role==4) {
+				$Promoters_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
+				$Promoters_lastweek->where('survey_answered.answeredby_person','!=','');	
+				}		
 		})
 		
 		
 		->count();
+		
+		
 		$Neutral_lastweek=SurveyAnswered::select('id')
 		 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
 		->where('survey_answered.organization_id',$organization_id)
 		
 		->where(function($Neutral_lastweek) use ($role){	
 		if($role==2){	
-
+$Neutral_lastweek->where('survey_answered.department_name_id','0');
 		}
 		elseif($role==3){	
 		
@@ -221,11 +239,16 @@ class NetPromoterScore extends Controller
 		}	
 		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
-		->whereIn('question_options.option_value',[7,8])
+		->whereIn('survey_answered.rating',[7,8])
 		
-		->where(function($Neutral_lastweek) use ($QuestionOptions){
-		$Neutral_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
-		$Neutral_lastweek->where('survey_answered.answeredby_person','!=','');		
+		->where(function($Neutral_lastweek) use ($QuestionOptions,$role){
+			
+			if($role==3 || $role==4) {
+			$Neutral_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
+			$Neutral_lastweek->where('survey_answered.answeredby_person','!=','');
+			}
+
+			
 		})
 		
 		->count();
@@ -236,7 +259,7 @@ class NetPromoterScore extends Controller
 		->where('survey_answered.organization_id',$organization_id)	
 		->where(function($Detractors_lastweek) use ($role){	
 		if($role==2){	
-
+$Detractors_lastweek->where('survey_answered.department_name_id','0');
 		}
 		elseif($role==3){	
 		
@@ -252,11 +275,15 @@ class NetPromoterScore extends Controller
 		}	
 		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
-		->whereIn('question_options.option_value',[0,1,2,3,4,5,6])
+		->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])
 		
-		->where(function($Detractors_lastweek) use ($QuestionOptions){
+		->where(function($Detractors_lastweek) use ($QuestionOptions,$role){
+			
+			if($role==3 || $role==4) {
 		$Detractors_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
-		$Detractors_lastweek->where('survey_answered.answeredby_person','!=','');		
+		$Detractors_lastweek->where('survey_answered.answeredby_person','!=','');
+			}
+			
 		})
 		->count();
 		
@@ -1182,7 +1209,24 @@ catch (\Exception $exception){
         
         ]
         );  
-        return response()->json(['status' =>'success','msg'=>'Successfully uploaded recorded blob'], 200);
+		
+		/*** Send Feedback Conversation mail to HOD and customer ***/
+		
+		$get_person_answered=SurveyAnswered::where('person_id',$request->person_id)->get();
+
+		foreach($get_person_answered as $key=>$value){				
+		if($value->question_id==1 && $value->rating<=6){
+			$this->send_ticket_status_emails("opened",$request->person_id);			
+		break;					
+		}
+
+		}
+		
+		/*** End ***/
+		
+		
+		
+        return response()->json(['status' =>'success','msg'=>'Successfully uploaded recorded audio'], 200);
         }
         else
         {

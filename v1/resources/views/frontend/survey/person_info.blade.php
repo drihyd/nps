@@ -62,11 +62,11 @@
           </div>  
 		  
 		  <div class="form-group">
-                <label><b>Bed Name</b></label>
+                <label><b>Bed Number</b></label>
                 <input type="text" name="bed_name" id="bed_name" class="form-control" value="{{old('bed_name',$users_data->bed_name??'')}}" >
           </div>  
 		  <div class="form-group">
-                <label><b>UHID</b></label>
+                <label><b>UHID Number</b></label>
                 <input type="text" name="uhid" id="uhid" class="form-control" value="{{old('uhid',$users_data->uhid??'')}}" >
           </div>
 		  
@@ -115,7 +115,7 @@
 	 
 		
 		   
-		  <button type="submit" class="btn btn-outline-danger mt-4" id="manulsurvey">Manual Survey</button>
+		  <button type="submit" class="btn btn-outline-danger mt-4" id="manulsurvey">Start Survey</button>
 		  
 		   <button type="submit" class="btn btn-default mt-4" id="notmanulsurvey">Send survey link to email</button>
 	

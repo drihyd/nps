@@ -51,13 +51,13 @@ class LoginController extends Controller
     {
     
    
-  
+
    
    	$credentials = $request->only('email', 'password');		
 		
         if (Auth::attempt($credentials)) {  
 		
-		
+
 		
 		
         	$user  = auth()->user();

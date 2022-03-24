@@ -99,6 +99,8 @@ class Graphs extends Controller
 			->where(function($users) use ($role){				
 			if($role==2){
 				
+				$users->where('survey_answered.department_name_id','0');
+				
 			}
 			else if($role==3){				
 				if(auth()->user()->department){
@@ -116,10 +118,11 @@ class Graphs extends Controller
 			
 			})
 			
-			->where(function($users) use ($QuestionOptions){	
-			
+			->where(function($users) use ($QuestionOptions,$role){	
+			if($role==3 || $role==4) {
 				$users->whereIn('survey_answered.answerid',$QuestionOptions);				
-				$users->where('survey_answered.answeredby_person','!=','');				
+				$users->where('survey_answered.answeredby_person','!=','');	
+			}				
 		
 			
 			})
@@ -185,10 +188,12 @@ class Graphs extends Controller
 			}		
 			})
 			
-			->where(function($_users) use ($QuestionOptions){	
+			->where(function($_users) use ($QuestionOptions,$role){	
 			
+			if($role==3 || $role==4) {
 				$_users->whereIn('survey_answered.answerid',$QuestionOptions);				
-				$_users->where('survey_answered.answeredby_person','!=','');				
+				$_users->where('survey_answered.answeredby_person','!=','');
+			}				
 		
 			
 			})
@@ -196,7 +201,7 @@ class Graphs extends Controller
 			
 			->where(function($_users) use ($role){				
 			if($role==2){
-				
+				$_users->where('survey_answered.department_name_id','0');
 			}
 			else if($role==3){				
 				if(auth()->user()->department){

@@ -99,15 +99,18 @@ class ResponsesController extends Controller
 			->where('survey_persons.organization_id',Auth::user()->organization_id)
 			
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
-		
+			
 			
 			
 			->where(function($Detractors) use ($role){	
 			
 			
-			if($role==2){				
+			if($role==2){
+
+					$Detractors->where('survey_answered.department_name_id','0');					
 			}
-			else if($role==3){				
+			else if($role==3){
+				
 				if(auth()->user()->department){
 					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
 					
@@ -115,8 +118,12 @@ class ResponsesController extends Controller
 				}				
 							
 			}			
-			else if($role==4){				
+			else if($role==4){
+				
+			
+			
 			$Detractors->where('survey_persons.logged_user_id',auth()->user()->id??0);
+			
 			}
 			else{
 				
@@ -134,13 +141,16 @@ class ResponsesController extends Controller
 			}		
 			})
 
-			->where(function($Detractors) use ($QuestionOptions){
+			->where(function($Detractors) use ($QuestionOptions,$role){
 
 			
 		
-				
+				if($role==3 || $role==4) {
+					
 				$Detractors->whereIn('survey_answered.answerid',$QuestionOptions);		
 				$Detractors->where('survey_answered.answeredby_person','!=','');
+				
+				}
 			
 			
 			
@@ -156,8 +166,12 @@ class ResponsesController extends Controller
 			
 			->get();
 			
-		
 			
+			
+			
+			
+			
+	
 		
 			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
@@ -168,7 +182,9 @@ class ResponsesController extends Controller
 			->where(function($Passives) use ($role){
 
 				
-				if($role==2){				
+				if($role==2){
+
+				$Passives->where('survey_answered.department_name_id','0');				
 			}
 			else if($role==3){				
 				if(auth()->user()->department){
@@ -192,10 +208,14 @@ class ResponsesController extends Controller
 			}		
 			})
 			
-			->where(function($Passives) use ($QuestionOptions){	
+			->where(function($Passives) use ($QuestionOptions,$role){	
 			
+				if($role==3 || $role==4) {
+					
 				$Passives->whereIn('survey_answered.answerid',$QuestionOptions);
-			    $Passives->where('survey_answered.answeredby_person','!=','');					
+			    $Passives->where('survey_answered.answeredby_person','!=','');
+				
+				}				
 			
 			
 			})
@@ -219,7 +239,9 @@ class ResponsesController extends Controller
 			
 			->where(function($Promoters) use ($role){	
 			
-			if($role==2){				
+			if($role==2){
+
+				$Promoters->where('survey_answered.department_name_id','0');				
 			}
 			else if($role==3){				
 				if(auth()->user()->department){
@@ -245,10 +267,12 @@ class ResponsesController extends Controller
 			})		
 
 
-			->where(function($Promoters) use ($QuestionOptions){	
+			->where(function($Promoters) use ($QuestionOptions,$role){	
 			
+				if($role==3 || $role==4) {
 				$Promoters->whereIn('survey_answered.answerid',$QuestionOptions);	
-				$Promoters->where('survey_answered.answeredby_person','!=','');				
+				$Promoters->where('survey_answered.answeredby_person','!=','');	
+				}				
 
 			
 			})
@@ -305,7 +329,9 @@ class ResponsesController extends Controller
         $person_responses_status_data = UpdateStatusResponseLog::where('person_id',$person_id)->orderBy('created_at','DESC')->get();
         //dd($person_responses_status_data);
         
-        $pageTitle= Str::title($person_data->firstname??'')." Response";    
+        $pageTitle= Str::title($person_data->firstname??'')." Response"; 
+
+
         return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data','person_responses_status_data','voice_message'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
     }
@@ -332,6 +358,7 @@ class ResponsesController extends Controller
     }
     public function frontend_response_view($per_id)
     { 
+	
 	
         $person_id = Crypt::decryptString($per_id);
         $person_data= SurveyPerson::where('id',$person_id)->get()->first();
