@@ -8,8 +8,12 @@
 &nbsp;
 @include('admin.common_pages.surveys',['quetion'=>$quetion??''])
 &nbsp;
+@include('admin.common_pages.action_status',['status'=>$status??'','is_required'=>'no'])
+&nbsp;
 @include('admin.common_pages.action_button')
 &nbsp;
+
+<!--
 <div class="text-sm-right mt-2" style="width: 100%;">
 <div class="mb-2">
 @if(auth()->user())
@@ -26,6 +30,7 @@
 
 </div>
 </div>
+-->
 
 </form>
 

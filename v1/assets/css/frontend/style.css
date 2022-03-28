@@ -1624,6 +1624,18 @@ input {
 .smiley-emojis ul li:nth-child(2){
     margin-left: 52%;
 }
+
+.sad-img{
+    width: 30px;
+}
+.neutral-img{
+    width: 30px;
+}
+.happy-img{
+    width: 30px;
+}
+
+
 .btn-scale {
     min-width: 25px;
     width: auto;

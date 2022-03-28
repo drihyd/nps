@@ -95,9 +95,12 @@ $departments=$departments??'';
 </datalist>
  <div class="smiley-emojis">
      <ul class="list-inline">
-         <li>&#128528;</li>
-         <li>&#128516;</li>
-         <li>&#128512;</li>
+         <!--<li>&#128528;</li>-->
+         <!--<li>&#128516;</li>-->
+         <!--<li>&#128512;</li>-->
+         <li><img src="https://deepredink.in/demos/nps/v1/assets/img/smileys/sad.jpeg" class="img-fluid sad-img"></li>
+         <li><img src="https://deepredink.in/demos/nps/v1/assets/img/smileys/neutral.jpeg" class="img-fluid neutral-img"></li>
+         <li><img src="https://deepredink.in/demos/nps/v1/assets/img/smileys/happy.jpeg" class="img-fluid happy-img"></li>
      </ul>
  </div>
 </div>
