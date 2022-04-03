@@ -1,6 +1,7 @@
 @extends('admin.template_v1')
 @section('content')
 @include('admin.alerts')
+
   <div class="row">
     <!-- Start col -->
     <div class="col-lg-12">
@@ -22,6 +23,15 @@
       @csrf
       <div class="row">
         <div class="col-md-5">
+		
+		
+			<div class="form-group">
+			
+			@include('masters.organisations',['company_id' =>$users_data->organization_id??'','is_required'=>""])
+			</div>
+
+		
+		
           <div class="form-group">
             <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
             <label><b>Designation</b><span style="color: red;">*</span></label>
@@ -54,16 +64,9 @@
 			
           </div>
 		  
-		   <div class="form-group">
-		   
-		   
-		      @include('masters.users', ['existvalue' =>$users_data->reportingto??'','is_required'=>""])
-		   
-		   
-		   
-                
-               
-          </div>
+			<div class="form-group">
+			@include('masters.users', ['existvalue' =>$users_data->reportingto??'','is_required'=>""])
+			</div>
 		  
           <div class="form-group">
             <label><b>Full Name</b><span style="color: red;">*</span></label>

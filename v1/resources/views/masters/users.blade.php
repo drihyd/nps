@@ -2,7 +2,6 @@
 use App\Models\User;
 $Users=User::select('departments.department_name as dname','users.id as uid','users.email as uemail','users.firstname as uname')
 ->leftJoin('departments','departments.id', '=', 'users.department')
-->where("users.organization_id",Auth::user()->organization_id)
 ->orderBy('users.firstname', 'ASC')
 ->get();
 ?>	

@@ -29,7 +29,7 @@ class UsermanagementController extends Controller
             ->leftjoin('user_types','user_types.id','=','users.role')       
             ->whereNotIn('users.role',[1])       
             ->get();   
-            // $addlink=url(Config::get('constants.superadmin').'/admin-user/create'); 
+           
             $pageTitle="Users";          
             return view('admin.users.users_list', compact('pageTitle','users_data'));
         
@@ -68,7 +68,7 @@ class UsermanagementController extends Controller
 
         User::insert([
             [
-                "organization_id"=>$request->id,
+                "organization_id"=>$request->company_name??0,
                 "firstname"=>$request->firstname,
                 "lastname"=>$request->lastname,
                 "role"=>$request->role,
@@ -191,6 +191,7 @@ class UsermanagementController extends Controller
                 "email"=>$request->email,
                 "phone"=>$request->phone??'',
                 "is_active_status"=>$request->is_active_status??'',
+				"organization_id"=>$request->company_name??0,
             ]
             );      
         return redirect('admin/users')->with('success', "Success! Details are updated successfully");
@@ -281,6 +282,8 @@ class UsermanagementController extends Controller
 
     public function department_users_list(Request $request)
     { 
+	
+	
         if($request->role) {    
 
                     /*    
@@ -302,7 +305,6 @@ class UsermanagementController extends Controller
             ->leftjoin('group_levels','group_levels.id','=','users.designation_id')
             ->leftJoin('departments','departments.id', '=', 'users.department')
             ->whereNotIn('users.role',[1,2])       
-            ->where('users.organization_id',auth()->user()->organization_id??0)  
             ->where(function($users_data) use ($role){   
             if($role){       
                 $users_data->where('users.role',"=",$role);            
@@ -324,7 +326,7 @@ class UsermanagementController extends Controller
         
         $pageTitle="Add User";
         $user_type_data=DB::table('user_types')->whereNotIn('user_types.id',[1,2])->get();
-        $group_level_data=GroupLevel::where('organization_id',Auth::user()->organization_id)->get();
+        $group_level_data=GroupLevel::get();
         return view('admin.department_users.add_user',compact('pageTitle','user_type_data','group_level_data')); 
             
     }
@@ -356,7 +358,7 @@ class UsermanagementController extends Controller
 
         User::insert([
             [
-                "organization_id"=>$request->organization_id,
+                "organization_id"=>$request->company_name??0,
                 // "designation_id"=>$request->designation_id,
                 "firstname"=>$request->firstname,
                 "role"=>$request->role,
@@ -443,7 +445,8 @@ $str.='</html>';
         $user_id=Crypt::decryptString($id);
 
             $users_data=User::where("id",$user_id)->get()->first();
-            $group_level_data=GroupLevel::where('organization_id',Auth::user()->organization_id)->get();
+			
+            $group_level_data=GroupLevel::get();
             
              $user_type_data=DB::table('user_types')->get();
             $pageTitle="Edit User";     
@@ -452,6 +455,8 @@ $str.='</html>';
     }
     public function department_update_user(Request $request)
     {
+		
+
         $request->validate([
          'firstname' => 'required',       
          'email' => 'required|email',        
@@ -466,7 +471,7 @@ $str.='</html>';
         User::where('id', $request->id)
             ->update(
             [
-                "organization_id"=>$request->organization_id,
+                "organization_id"=>$request->company_name??0,
                 "firstname"=>$request->firstname,
                 "role"=>$request->role,
                 // "designation_id"=>$request->designation_id,

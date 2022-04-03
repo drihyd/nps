@@ -133,6 +133,30 @@
             </div>
         </div>
     </div> 
+    <div class="col-lg-12 col-xl-6">
+        <div class="card m-b-30">
+            <div class="card-header">
+                <h4 >Update Brand Logo</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="Addnewblog" action="{{ url(Config::get('constants.superadmin').'/organizations/update_brand_logo') }}" enctype="multipart/form-data">
+                    @csrf
+<input type="hidden" name="id" value="{{$organizations_data->id}}">
+                <div class="form-group">
+        <!-- <label>Brand Logo<span style="color: red">*</span></label>        -->
+        <input type="file"  name="brand_logo" class="file-input" @if(isset($organizations_data->brand_logo)) @else required @endif  />
+      </div>
+      <div class="form-group">
+        @if(isset($organizations_data->brand_logo) && !empty($organizations_data->brand_logo))
+        <img src="{{ asset('assets/uploads/' . $organizations_data->brand_logo) }}" width="100"   />
+        @else
+        @endif
+      </div>
+      <button  id="" type="submit" class="btn btn-primary submit_btn btn-sm">Submit</button>
+  </form>
+            </div>
+        </div>
+    </div>
 
 
     

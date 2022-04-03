@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+		\App\Http\Middleware\AutoLogout::class,
     ];
 
     /**
@@ -67,6 +68,8 @@ class Kernel extends HttpKernel
         'issuperadmin' => \App\Http\Middleware\IsSuperAdmin::class,
         'isuser' => \App\Http\Middleware\IsUser::class,
         'ishod' => \App\Http\Middleware\IsHOD::class,
+        'isoperationalhead' => \App\Http\Middleware\IsOperantionaHead::class,
+        'iscoo' => \App\Http\Middleware\IsCOO::class,
 		'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
         'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',
         'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',

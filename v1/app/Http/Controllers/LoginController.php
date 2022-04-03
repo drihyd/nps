@@ -19,7 +19,10 @@ class LoginController extends Controller
         
     public function auth_login(Request $request)
     {
-   	    $user  = auth()->user();       
+   	    $user  = auth()->user();  
+
+		Session::put('companyID', auth()->user()->organization_id??'');
+		
         if ($user && $user->role==1) {           
             return redirect('superadmin/dashboard')->with('success', 'Successfully logged in as super admin.');
 
@@ -35,6 +38,12 @@ class LoginController extends Controller
 		else if ($user && $user->role==4) {         
 		return redirect('user/dashboard')->with('success', 'Successfully logged in as Executive.');
 		}
+		else if ($user && $user->role==5) {         
+		return redirect('operantionalhead/dashboard')->with('success', 'Successfully logged in as Operational Head.');
+		}
+        else if ($user && $user->role==6) {         
+        return redirect('coo/dashboard')->with('success', 'Successfully logged in as COO.');
+        }
         
         
         
@@ -61,6 +70,10 @@ class LoginController extends Controller
 		
 		
         	$user  = auth()->user();
+			
+				Session::put('companyID', auth()->user()->organization_id??'');	
+				
+				
 				switch(auth()->user()->role){
 					
 				case '1':
@@ -77,7 +90,13 @@ class LoginController extends Controller
 				
 				case '4':
 				return redirect('user/dashboard')->with('success', 'Successfully logged in as Executive.');
-				break;	
+				break;		
+				case '5':
+				return redirect('operantionalhead/dashboard')->with('success', 'Successfully logged in as Operational Head.');
+				break;
+                case '6':
+                return redirect('coo/dashboard')->with('success', 'Successfully logged in as COO.');
+                break;	
 				
 				default:
 				Auth::logout();

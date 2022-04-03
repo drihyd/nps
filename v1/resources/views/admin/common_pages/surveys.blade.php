@@ -1,6 +1,6 @@
 @php
 use App\Models\Surveys;
-$surveys_data=Surveys::where('organization_id',Auth::user()->organization_id)->get();
+$surveys_data=Surveys::get();
 @endphp
 <div class="form-group mb-2">
 <select id='question_id' name="question_id" class="form-control form-control-sm mx-sm-1">

@@ -34,14 +34,14 @@ class QuestionsController extends Controller
 
 
         $questions_data=Questions::leftjoin('surveys', 'questions.survey_id', '=', 'surveys.id')
-        ->where('questions.organization_id',Auth::user()->organization_id)
+        
         ->where(function($questions_data) use ($Question){   
             if($Question){       
                 $questions_data->where('questions.survey_id','=',$Question);                
             }
             })
         ->get(['questions.*','surveys.title as survey_title']);
-        $surveys_data=Surveys::where('organization_id',Auth::user()->organization_id)->get();
+        $surveys_data=Surveys::get();
         $pageTitle="Questions";      
         $addlink=url(Config::get('constants.admin').'/questions/create'); 
         $quetion=$request->question_id??'';    
@@ -69,6 +69,7 @@ class QuestionsController extends Controller
             'active' => 'sometimes|nullable',
             
         ]);
+		
         Questions::insert([
             [
                 "survey_id"=>$request->survey_id??'',
@@ -118,9 +119,9 @@ class QuestionsController extends Controller
     }
     public function delete_questions($id)
     {
-        $ID = Crypt::decryptString($id);
-            $data=Questions::where('id',$ID)->delete();   
-         return redirect()->back()->with('success','Success! Details are deleted successfully');
+		$ID = Crypt::decryptString($id);
+		$data=Questions::where('id',$ID)->delete();   
+		return redirect()->back()->with('success','Success! Details are deleted successfully');
         
     }
 }

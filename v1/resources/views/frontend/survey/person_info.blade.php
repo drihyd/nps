@@ -39,8 +39,11 @@
 
 <div class="background-white">
 @if(auth()->user()->role==2)
-
 <form action="{{ route('post.survey.personinfo.'.Config::get('constants.admin')) }}" class="" method="post">
+@elseif(auth()->user()->role==4)
+<form action="{{ route('post.survey.personinfo.'.Config::get('constants.hod')) }}" class="" method="post">
+@elseif(auth()->user()->role==5)
+<form action="{{ route('post.survey.personinfo.'.Config::get('constants.operantionalhead')) }}" class="" method="post">
 @else
 	<form action="{{ route('post.survey.personinfo.'.Config::get('constants.user')) }}" class="" method="post">
 @endif
@@ -48,16 +51,22 @@
 <div class="row">
         <div class="col-md-12 pl-sm-0">
           
+		  	<div class="form-group">
+                <label><b>Feedback Date</b><span class="text text-danger">*</span></label>
+				<input type="date" class="form-control" id="feedback_date"  name="feedback_date" value="{{old('feedback_date',$users_data->feedback_date??date('Y-m-d'))}}" required="required">
+		     </div>
+		  
+		  
           <div class="form-group">
-            <label><b>Full Name</b><span style="color: red;">*</span></label>
+            <label><b>Full Name</b><span class="text text-danger">*</span></label>
             <input type="text" class="form-control" name="firstname" value="{{old('firstname',$users_data->firstname??'')}}" required="required" />
           </div>
           <div class="form-group">
-            <label><b>Email</b><span style="color: red;">*</span></label>
+            <label><b>Email</b><span class="text text-danger">*</span></label>
             <input type="email" name="email" class="form-control" required="required" value="{{old('email',$users_data->email??'')}}">
           </div>
           <div class="form-group">
-                <label><b>Mobile</b><span style="color: red;">*</span></label>
+                <label><b>Mobile</b><span class="text text-danger">*</span></label>
                 <input type="number" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" data-parsley-minlength="10" data-parsley-maxlength="10" required="required">
           </div>  
 		  
@@ -65,15 +74,30 @@
                 <label><b>Bed Number</b></label>
                 <input type="text" name="bed_name" id="bed_name" class="form-control" value="{{old('bed_name',$users_data->bed_name??'')}}" >
           </div>  
+          
+           @include('masters.wards',['is_required'=>"is_required"])
+          
 		  <div class="form-group">
-                <label><b>UHID Number</b></label>
-                <input type="text" name="uhid" id="uhid" class="form-control" value="{{old('uhid',$users_data->uhid??'')}}" >
+                <label><b>UHID Number</b><span class="text text-danger">*</span></label>
+                <input type="text" name="uhid" id="uhid" class="form-control" value="{{old('uhid',$users_data->uhid??'')}}" required>
+          </div>		 
+
+		  <div class="form-group">
+                <label><b>IP #</b></label>
+                <input type="text" name="inpatient_id" id="inpatient_id" class="form-control" value="{{old('inpatient_id',$users_data->inpatient_id??'')}}">
           </div>
 		  
 		  <div class="form-group">
                 <label><b>Discharge Date</b></label>
-				<input type="date" class="form-control" id="discharge_date"  name="discharge_date" value="{{old('discharge_date',$users_data->discharge_date??'')}}">
+				<input type="date" class="form-control" id="discharge_date"  name="discharge_date" value="{{old('discharge_date',$users_data->discharge_date??date('Y-m-d'))}}">
 		     </div>
+			 
+			 
+			 @include('masters.doctors',['is_required'=>"is_required"])
+			 
+			
+			 
+			 
         
           	<div class="form-group">            
               
@@ -85,7 +109,7 @@
   <table>
     <tbody>
       <tr>
-        <td><strong>{{Str::title($custom_field->label??'')}}<span style="color: red;">*</span></strong></td>
+        <td><strong>{{Str::title($custom_field->label??'')}}<span class="text text-danger">*</span></strong></td>
         <td width="5"></td>
 		<td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="male" required></td>
         <td>Male</td>
@@ -99,6 +123,31 @@
 </div>
 
 </div>
+
+
+
+ @include('masters.feedbackby',['is_required'=>"required"])
+ 
+
+ 
+ 
+ 
+ 
+<div class="hide_patient_attender" style="display:none;">
+
+<div class="form-group">
+<label for="patient_attender_name"><b>Patient Attender Name</b>
+</label>
+<input type="text" name="patient_attender_name" id="patient_attender_name" class="form-control process_level_closure">
+</div>
+
+</div>
+ 
+ 
+
+ 
+ @include('masters.howtoknoworg',['is_required'=>"required"])
+
 
 @else
 @endif
@@ -117,7 +166,7 @@
 		   
 		  <button type="submit" class="btn btn-outline-danger mt-4" id="manulsurvey">Start Survey</button>
 		  
-		   <button type="submit" class="btn btn-default mt-4" id="notmanulsurvey">Send survey link to email</button>
+		   <button type="submit" class="btn btn-default mt-4" id="notmanulsurvey">Send survey link</button>
 	
 		  
 		 

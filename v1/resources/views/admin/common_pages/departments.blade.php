@@ -1,6 +1,6 @@
 @php
 use App\Models\Departments;
-$Departments=Departments::where("organization_id",Auth::user()->organization_id)->orderBy('department_name', 'ASC')->get();
+$Departments=Departments::orderBy('department_name', 'ASC')->get();
 @endphp
 <div class="form-group mb-2">
 <label><b>Teams</b><span style="color: red;">*</span></label>

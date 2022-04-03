@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\ActiveOrgaization;
+
 
 class SurveyPerson extends Model
 {
@@ -24,6 +26,23 @@ class SurveyPerson extends Model
 	'bed_name',
 	'uhid',
 	'discharge_date',
+	'feedback_date',
+	'ward_id',
+	'doctor_id',
+	'inpatient_id',
+	'feedback_was_givenby',
+	'know_about_hospital',
+	'patient_attender_name',
+	'rating',
 	
 	);
+	
+protected static function boot()
+{
+parent::boot();  
+static::addGlobalScope(new ActiveOrgaization('survey_persons'));
+}
+	
+
+	
 }

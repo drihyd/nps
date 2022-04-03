@@ -18,18 +18,7 @@ use App\Models\User;
                         @include('admin.common_pages.roles',['role'=>$role??''])
                         &nbsp;
                         @include('admin.common_pages.action_button')
-                        &nbsp;
-                        <div class="form-group mb-2">
-                        @if(auth()->user())
-                        @if(auth()->user()->role==2)
-                        <a href="{{url(Config::get('constants.admin').'/users')}}">Clear filter</a>
-                        @else
-                        <a href="{{url(Config::get('constants.user').'/users')}}">Clear filter</a>
-                        @endif
-                        @else
-                        <a href="#">
-                        @endif
-                        </div>
+                        
                     </form>
 
 			
@@ -46,7 +35,7 @@ use App\Models\User;
                         <th>Designation</th>
                         <th>Team</th>
                         <th>Reporting To</th>
-                        <th>Is Active</th>
+                        <!--<th>Is Active</th>-->
                       
                         <th>Actions</th>
                     </tr>
@@ -73,12 +62,15 @@ use App\Models\User;
 
                               @endphp
 
-                              <td>{{ucwords($Report_person->uname??'')}}-{{ucwords($Report_person->uemail??'')}}-{{ucwords($Report_person->dname??'')}}</td>
-                              @if($user->is_active_status??'' == 1)
+                              <td>{{ucwords($Report_person->uname??'')}}</td>
+                             
+<!--
+							 @if($user->is_active_status??'' == 1)
                            <td>Yes</td>
                            @else
                             <td>No</td>
                            @endif
+						   -->
                               
                               <td>
 

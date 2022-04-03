@@ -220,5 +220,26 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
 });
 </script>
+
+
+
+
+
+
+
+<script type="text/javascript">
+function EnaDis_fdwasgivenby(val) {
+	if (val == "patient_attender") {			
+	$(".hide_patient_attender").show();				
+	$('#patient_attender_name').attr('required', true);
+
+	} else {				
+	$('#patient_attender_name').attr('required', false); 			
+	$(".hide_patient_attender").hide();				 
+	}
+}
+</script>
+
+
 </body>
 </html>

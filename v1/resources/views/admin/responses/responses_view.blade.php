@@ -9,9 +9,17 @@
     <div class="col-lg-5">
 	
 
-	
-        @include('admin.responses.responses_updatestatus_common')
-        @include('admin.responses.responses_status_activities_common')
+	@if(Auth::user()->role==2) 
+	@include('admin.responses.responses_updatestatus_common')
+	@include('admin.responses.responses_status_activities_common')
+	@elseif(Auth::user()->role==3)
+	@include('admin.responses.responses_updatestatus_common')
+	@include('admin.responses.responses_status_activities_common')
+	@elseif(Auth::user()->role==4)
+
+	@else
+	@endif
+
 		
 	
 		

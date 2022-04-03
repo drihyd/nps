@@ -1,6 +1,6 @@
 @php
 use App\Models\GroupLevel;
-$group_level_data=GroupLevel::where('organization_id',Auth::user()->organization_id)->get();
+$group_level_data=GroupLevel::get();
 @endphp
 <div class="form-group mb-2">
 <label><b>Level</b><span style="color: red;">*</span></label>

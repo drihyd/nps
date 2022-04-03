@@ -24,7 +24,8 @@ class DepartmentsController extends Controller
     public function departments_list()
     {   
         
-            $departments_data=Departments::where('organization_id',Auth::user()->organization_id)->get();
+            $departments_data=Departments::get();
+			
             $pageTitle="Teams";      
             $addlink=url(Config::get('constants.admin').'/departments/create');     
             return view('admin.departments.departments_list', compact('pageTitle','departments_data','addlink'))

@@ -3,27 +3,13 @@
 <div class="card-header">
 <h5 class="card-title mb-2">NPS Score</h5>
 <h3 class="my-0 ">100</h3>
-
-
 </div>
 <div class="card-body" >
-
 <canvas id="chartjs-doughnut-chart" class="chartjs-chart"></canvas>
-
-
-
-
 </div>
 <div class="col-md-4 col-lg-4 mb-5">
-
 <div class="widgetbar">
-
-</div> 
-
-
-
-
+</div>
 </div> 
 </div>
 </div>
-

@@ -11,6 +11,181 @@ use Illuminate\Support\Facades\DB;
 
 class Graphs extends Controller
 {
+	
+	
+	 public function _nps_graph(Request $request)
+    {
+
+		
+		try {
+	
+			
+			$pageTitle="Net Promoter Score (NPS)";
+			$total_nps_scores=$this->get_nps_scores($request);
+			
+		
+			$collection = collect($total_nps_scores);		
+			$monthnames=$collection->implode('month',',');	
+			$detractors_count=$collection->implode('detractors',',');		
+			$passives_count=$collection->implode('passives',',');
+			$promotors_count=$collection->implode('promotors',',');
+			$nps_count=$collection->implode('nps_score',',');		
+			return view('admin.graphs.nps-graph',compact('pageTitle','monthnames','detractors_count','passives_count','promotors_count','nps_count'));         
+    
+	
+			}		
+		catch (RequestException $exception) {		
+			// Catch all 4XX errors 
+			// To catch exactly error 400 use 
+			if ($exception->hasResponse()){
+			if ($exception->getResponse()->getStatusCode() == '400') {
+			}			
+			}			
+			// You can check for whatever error status code you need 
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+		}
+		catch (\Exception $exception) {		
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??''); 
+		}
+	
+	}  
+	
+	public function _feedback_composition(Request $request)
+    {
+
+		
+		try {
+	
+			
+			$pageTitle="Feedback Composition";
+			$total_nps_scores=$this->get_nps_scores($request);
+			
+		
+			$collection = collect($total_nps_scores);		
+			$monthnames=$collection->implode('month',',');	
+			$detractors_count=$collection->implode('detractors',',');		
+			$passives_count=$collection->implode('passives',',');
+			$promotors_count=$collection->implode('promotors',',');
+			$nps_count=$collection->implode('nps_score',',');		
+			return view('admin.graphs.feedback-composition',compact('pageTitle','monthnames','detractors_count','passives_count','promotors_count','nps_count'));         
+    
+	
+			}		
+		catch (RequestException $exception) {		
+			// Catch all 4XX errors 
+			// To catch exactly error 400 use 
+			if ($exception->hasResponse()){
+			if ($exception->getResponse()->getStatusCode() == '400') {
+			}			
+			}			
+			// You can check for whatever error status code you need 
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+		}
+		catch (\Exception $exception) {		
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??''); 
+		}
+	
+	} 
+	
+	public function _primary_drivers(Request $request)
+    {
+
+		
+		try {
+	
+			
+			$pageTitle="Drivers NPS Process (Primary)";
+			
+			
+		$total_departmentwise_scores=$this->get_departmentwise_scores($request);
+		
+	
+		$collection_department_score = collect($total_departmentwise_scores);	
+		
+		$_departmentname= "'" .$collection_department_score->implode('departmentname',"','",)."'";
+		$_dep_detractors_count=$collection_department_score->implode('detractors',',');	
+		$_dep_passives_count=$collection_department_score->implode('passives',',');	
+		$_dep_promotors_count=$collection_department_score->implode('promotors',',');
+		
+		
+		$_dep_scors=[
+		$_departmentname,
+		$_dep_detractors_count,
+		$_dep_passives_count,
+		$_dep_promotors_count		
+		];
+
+		
+			return view('admin.graphs.graphs_primary_drivers',compact('pageTitle','_dep_scors'));         
+    
+	
+			}		
+		catch (RequestException $exception) {		
+			// Catch all 4XX errors 
+			// To catch exactly error 400 use 
+			if ($exception->hasResponse()){
+			if ($exception->getResponse()->getStatusCode() == '400') {
+			}			
+			}			
+			// You can check for whatever error status code you need 
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+		}
+		catch (\Exception $exception) {		
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??''); 
+		}
+	
+	}
+	
+	
+	public function _secondary_drivers(Request $request)
+    {
+
+		
+		try {
+	
+			
+			$pageTitle="Drivers NPS Process (Secondary)";
+			
+			
+		$activities_scores=$this->get_department_activities_scores($request);
+	
+	
+	$_dep_act_name= "'" .$activities_scores->implode('departmentname',"','",)."'";
+	$_dep_act_detractors_count=$activities_scores->implode('detractors',',');	
+	$_dep_act_passives_count=$activities_scores->implode('passives',',');	
+	$_dep_act_promotors_count=$activities_scores->implode('promotors',',');
+	
+
+	
+		$_dep_act_scors=[
+		$_dep_act_name,
+		$_dep_act_detractors_count,
+		$_dep_act_passives_count,
+		$_dep_act_promotors_count		
+		];
+
+		
+			return view('admin.graphs.graphs_secondary_drivers',compact('pageTitle','_dep_act_scors'));         
+    
+	
+			}		
+		catch (RequestException $exception) {		
+			// Catch all 4XX errors 
+			// To catch exactly error 400 use 
+			if ($exception->hasResponse()){
+			if ($exception->getResponse()->getStatusCode() == '400') {
+			}			
+			}			
+			// You can check for whatever error status code you need 
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+		}
+		catch (\Exception $exception) {		
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??''); 
+		}
+	
+	}
+	
+	
     public function graphs_list(Request $request)
     {
 		
@@ -715,7 +890,7 @@ else{
 
 ->whereIn('rating_of_departments.survey_id',[1,11])
 ->orderBy("rating_of_departments.department_name","asc")
-->groupBy("rating_of_departments.department_id","rating_of_departments.department_name")
+->groupBy("rating_of_departments.department_name")
 ->get();
 return $ViewAttendance;
 }
@@ -789,7 +964,7 @@ $ViewAttendance->whereIn('rating_of_dep_activities.department_id',$QuestionOptio
 
 ->whereIn('rating_of_dep_activities.survey_id',[1,11])
 ->orderBy("rating_of_dep_activities.activity_name","asc")
-->groupBy("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_id")
+->groupBy("rating_of_dep_activities.activity_name")
 ->get();
 return $ViewAttendance;
 }
@@ -1074,6 +1249,18 @@ $collection = collect($graph_data_statics);
 
 $multiplied = $collection->map(function ($item, $key) {
 	
+	$NPS=round($item['promotors']-$item['detractors']);
+	
+	/*
+	if($NPS<=0){
+		
+		$NPS=0;
+	}
+	else{
+		$NPS=$NPS;
+	}
+	*/
+	
 	$tfeedback=$item['detractors']+$item['passives']+$item['promotors'];
 	if($tfeedback>0)
 	{
@@ -1090,7 +1277,10 @@ $multiplied = $collection->map(function ($item, $key) {
 	"detractors"=>$item['detractors'],
 	"passives"=>$item['passives'],
 	"promotors"=>$item['promotors'],
-	"nps_score"=>round((($item['promotors']-$item['detractors'])/($tfeedback))*100),	
+	//"nps_score"=>round((($item['promotors']-$item['detractors'])/($tfeedback))*100),
+	
+	"nps_score"=>$NPS,	
+	
 	]
 	
 	;
@@ -1106,6 +1296,214 @@ return $multiplied;
 		
 		
 	}
+
+
+	public function graphs_nps_grpah(Request $request)
+    {
+		
+		
+	
+		$pageTitle="Graphs- In Patient";	
+		
+		
+		$total_nps_scores=$this->get_nps_scores($request);
+		
+
+		$collection = collect($total_nps_scores);	
+		
+	$monthnames=$collection->implode('month',',');	
+	$detractors_count=$collection->implode('detractors',',');		
+	$passives_count=$collection->implode('passives',',');
+	$promotors_count=$collection->implode('promotors',',');
+	$nps_count=$collection->implode('nps_score',',');		
+		
+		
+		
+		
+		
+		$total_departmentwise_scores=$this->get_departmentwise_scores($request);
+		
+		
+		
+		$collection_department_score = collect($total_departmentwise_scores);	
+		
+		$_departmentname= "'" .$collection_department_score->implode('departmentname',"','",)."'";
+		$_dep_detractors_count=$collection_department_score->implode('detractors',',');	
+		$_dep_passives_count=$collection_department_score->implode('passives',',');	
+		$_dep_promotors_count=$collection_department_score->implode('promotors',',');
+		
+		
+		$_dep_scors=[
+		$_departmentname,
+		$_dep_detractors_count,
+		$_dep_passives_count,
+		$_dep_promotors_count		
+		];
+	
+	
+	$activities_scores=$this->get_department_activities_scores($request);
+	
+	
+	$_dep_act_name= "'" .$activities_scores->implode('departmentname',"','",)."'";
+	$_dep_act_detractors_count=$activities_scores->implode('detractors',',');	
+	$_dep_act_passives_count=$activities_scores->implode('passives',',');	
+	$_dep_act_promotors_count=$activities_scores->implode('promotors',',');
+	
+
+	
+		$_dep_act_scors=[
+		$_dep_act_name,
+		$_dep_act_detractors_count,
+		$_dep_act_passives_count,
+		$_dep_act_promotors_count		
+		];
+		
+
+		
+		
+		
+		$patient_process=$this->get_department_patient_process_closures($request);
+		
+		
+
+		$_ticket_status= "'" .$patient_process->implode('ticket_status',"','",)."'";
+		$_patient_level_closure_count=$patient_process->implode('patient_level_closure',',');	
+		$_process_level_closure_count=$patient_process->implode('process_level_closure',',');	
+	
+	
+
+	
+		$_patient_process=[
+		$_ticket_status,
+		$_patient_level_closure_count,
+		$_process_level_closure_count			
+		];
+
+		
+		
+		$process_cat_closur=$this->get_department_process_category_closures($request);
+		
+		
+		$_cat_process_status= "'" .$process_cat_closur->implode('category_process_level',"','",)."'";
+		$_cat_process_status_count=$process_cat_closur->implode('total',',');	
+
+	
+	
+
+	
+		$_category_process=[
+		$_cat_process_status,
+		$_cat_process_status_count
+			
+		];
+		
+		return view('admin.graphs.nps-graph',compact('pageTitle','monthnames','detractors_count','passives_count','promotors_count','nps_count','total_departmentwise_scores','_dep_scors','_dep_act_scors','_patient_process','_category_process'));         
+    }
+
+
+
+	public function graphs_primary_drivers(Request $request)
+    {
+		
+		
+	
+		$pageTitle="Graphs- In Patient";	
+		
+		
+		$total_nps_scores=$this->get_nps_scores($request);
+		
+
+		$collection = collect($total_nps_scores);	
+		
+	$monthnames=$collection->implode('month',',');	
+	$detractors_count=$collection->implode('detractors',',');		
+	$passives_count=$collection->implode('passives',',');
+	$promotors_count=$collection->implode('promotors',',');
+	$nps_count=$collection->implode('nps_score',',');		
+		
+		
+		
+		
+		
+		$total_departmentwise_scores=$this->get_departmentwise_scores($request);
+		
+		
+		
+		$collection_department_score = collect($total_departmentwise_scores);	
+		
+		$_departmentname= "'" .$collection_department_score->implode('departmentname',"','",)."'";
+		$_dep_detractors_count=$collection_department_score->implode('detractors',',');	
+		$_dep_passives_count=$collection_department_score->implode('passives',',');	
+		$_dep_promotors_count=$collection_department_score->implode('promotors',',');
+		
+		
+		$_dep_scors=[
+		$_departmentname,
+		$_dep_detractors_count,
+		$_dep_passives_count,
+		$_dep_promotors_count		
+		];
+	
+	
+	$activities_scores=$this->get_department_activities_scores($request);
+	
+	
+	$_dep_act_name= "'" .$activities_scores->implode('departmentname',"','",)."'";
+	$_dep_act_detractors_count=$activities_scores->implode('detractors',',');	
+	$_dep_act_passives_count=$activities_scores->implode('passives',',');	
+	$_dep_act_promotors_count=$activities_scores->implode('promotors',',');
+	
+
+	
+		$_dep_act_scors=[
+		$_dep_act_name,
+		$_dep_act_detractors_count,
+		$_dep_act_passives_count,
+		$_dep_act_promotors_count		
+		];
+		
+
+		
+		
+		
+		$patient_process=$this->get_department_patient_process_closures($request);
+		
+		
+
+		$_ticket_status= "'" .$patient_process->implode('ticket_status',"','",)."'";
+		$_patient_level_closure_count=$patient_process->implode('patient_level_closure',',');	
+		$_process_level_closure_count=$patient_process->implode('process_level_closure',',');	
+	
+	
+
+	
+		$_patient_process=[
+		$_ticket_status,
+		$_patient_level_closure_count,
+		$_process_level_closure_count			
+		];
+
+		
+		
+		$process_cat_closur=$this->get_department_process_category_closures($request);
+		
+		
+		$_cat_process_status= "'" .$process_cat_closur->implode('category_process_level',"','",)."'";
+		$_cat_process_status_count=$process_cat_closur->implode('total',',');	
+
+	
+	
+
+	
+		$_category_process=[
+		$_cat_process_status,
+		$_cat_process_status_count
+			
+		];
+		
+		return view('admin.graphs.graphs_primary_drivers',compact('pageTitle','monthnames','detractors_count','passives_count','promotors_count','nps_count','total_departmentwise_scores','_dep_scors','_dep_act_scors','_patient_process','_category_process'));         
+    }
+
 
 
 

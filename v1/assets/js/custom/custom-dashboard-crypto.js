@@ -342,11 +342,9 @@ $(document).ready(function() {
 
         var chart = new ApexCharts(document.querySelector("#apex-circle-chart"), options);
         chart.render();
+
         /* -- Apex Stacked Chart -- */
-		
-		
-		/* -----  Chartistjs - Stacked Bar Chart -- */
-      var options = {
+        var options = {
           series: [{
           name: 'PRODUCT A',
           data: [44, 55, 41, 67, 22, 43]
@@ -401,5 +399,4 @@ $(document).ready(function() {
 
         var chart = new ApexCharts(document.querySelector("#apex-stacked-chart"), options);
         chart.render();
-        
 });

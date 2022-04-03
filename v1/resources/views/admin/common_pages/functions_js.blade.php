@@ -61,10 +61,17 @@ $(".gst").change(function () {
                 datasets: [{
                     data: [{{$final_score->Promoters??1}},{{$final_score->Neutral??1}},{{$final_score->Detractors??1}}],
                     borderColor: 'transparent',
-                    backgroundColor: ["#119460","#FF981F","#FE4A49"],
+                    backgroundColor: [
+					                    "{{Config::get('constants.Promoters')}}",
+					                    "{{Config::get('constants.Passives')}}",
+					                    "{{Config::get('constants.Detractors')}}",
+				                    ],
                     label: 'Dataset 1'
                 }],
-                labels: ["{{Config::get('constants.Promoters-label')}}: "+{{$final_score->Promoters??0}},"{{Config::get('constants.Passives-label')}}: "+{{$final_score->Neutral??0}},"{{Config::get('constants.Detractors-label')}}:"  +{{$final_score->Detractors??0}}]
+                labels: ["{{Config::get('constants.Promoters-label')}} ",
+                		 "{{Config::get('constants.Passives-label')}} ",
+                		 "{{Config::get('constants.Detractors-label')}}",
+                		 ]
             },
             options: {
                 responsive: true,  

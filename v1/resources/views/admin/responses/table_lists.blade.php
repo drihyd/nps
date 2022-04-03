@@ -10,7 +10,7 @@
 		<th>Ticket Number</th>
 		<th>Score</th>
 		<th>Feedback Date</th>
-		<th>Last Updated</th>
+
 		<th>Status</th>
 		<th>Actions</th>
 		</tr>
@@ -42,8 +42,19 @@
 							  
 							  </td>
                               <td>{{$response->rating??0}}</td>
-                              <td>{{date('d M, Y', strtotime($response->created_at??''))}}</td>
-							   <td>{{date('d M, Y', strtotime($response->last_action_date??''))}}</td>                     
+                              <td>
+							  
+							  {{date('d M, Y', strtotime($response->created_at??''))}}
+							  
+							  
+							  @if($response->last_action_date)
+								  <br>
+							<p>Last Actity Date: {{date('d M, Y', strtotime($response->last_action_date??''))}}</p>
+							
+							@endif
+							
+							
+							</td>                     
 							  
 							  <td>
 							  <p class="font-15 mb-0">

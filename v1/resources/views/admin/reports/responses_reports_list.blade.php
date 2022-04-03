@@ -1,5 +1,5 @@
 @extends('admin.template_v1')
-@section('title', 'Reports')
+@section('title', $pageTitle)
 @section('content')
 <div class="row">
     <!-- Start col -->

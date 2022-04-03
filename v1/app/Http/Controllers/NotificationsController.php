@@ -21,7 +21,7 @@ class NotificationsController extends Controller
     public function notifications_list()
     {   
         
-        $notifications_data=Notifications::where('organization_id',Auth::user()->organization_id)->get();
+        $notifications_data=Notifications::get();
         $pageTitle="Notifications";      
         $addlink=url(Config::get('constants.admin').'/notifications/create');     
         return view('admin.notifications.notifications_list', compact('pageTitle','notifications_data','addlink'))

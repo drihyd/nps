@@ -26,8 +26,18 @@
       @csrf
       <div class="row">
         <div class="col-md-5">
-          <input type="hidden" name="organization_id" value="{{auth()->user()->organization_id??''}}">
+		
+        
+		  
+		  
           <input type="hidden" name="admin_user_id" value="{{auth()->user()->id??''}}">
+		  
+		  
+		<div class="form-group">			
+		@include('masters.organisations',['company_id' =>$surveys_data->organization_id??'','is_required'=>"required"])
+		</div>
+		  
+		  
           <div class="form-group">
             <label><b>Title</b><span style="color: red;">*</span></label>
             <input type="text" class="form-control" name="title" value="{{old('title',$surveys_data->title??'')}}" required="required" data-parsley-pattern="/^[a-z\d\-_\s]+$/i" />

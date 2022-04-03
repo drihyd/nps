@@ -31,7 +31,6 @@ class QuestionsOptionsController extends Controller
                 }
 
         $questions_options_data=QuestionOptions::join('questions', 'question_options.question_id', '=', 'questions.id')
-        ->where('questions.organization_id',Auth::user()->organization_id)
         ->orderBy('question_options.question_id')
         ->where(function($questions_options_data) use ($Question){   
             if($Question){       
@@ -66,6 +65,7 @@ class QuestionsOptionsController extends Controller
             [
                 "question_id"=>$request->question_id??'',
                 "option_value"=>$request->option_value??'',
+                "organization_id"=>$request->organization_id??'',
             ]  
         ]); 
         return redirect(Config::get('constants.admin').'/questions_options')->with('success', "Success! Details are added successfully"); 
@@ -93,6 +93,8 @@ class QuestionsOptionsController extends Controller
                 
                 "question_id"=>$request->question_id??'',
                 "option_value"=>$request->option_value??'',
+                "option_value"=>$request->option_value??'',
+                "organization_id"=>$request->organization_id??'',
             ]
             );      
         return redirect(Config::get('constants.admin').'/questions_options')->with('success', "Success! Details are updated successfully");

@@ -21,7 +21,7 @@ class SurveysController extends Controller
     public function surveys_list()
     {   
         
-        $surveys_data=Surveys::where('organization_id',Auth::user()->organization_id)->get();
+        $surveys_data=Surveys::get();
         $pageTitle="Questionnaire";      
         $addlink=url(Config::get('constants.admin').'/questionnaire/create');     
         return view('admin.surveys.surveys_list', compact('pageTitle','surveys_data','addlink'))
@@ -51,7 +51,7 @@ class SurveysController extends Controller
                 "title"=>$request->title??'',
                 "description"=>$request->description??'',
                 "isopen"=>$request->isopen??'',
-                "organization_id"=>$request->organization_id??'',
+                "organization_id"=>$request->company_name??0,
                 "admin_user_id"=>$request->admin_user_id??'',
             ]  
         ]); 
@@ -81,7 +81,7 @@ class SurveysController extends Controller
                 "title"=>$request->title??'',
                 "description"=>$request->description??'',
                 "isopen"=>$request->isopen??'',
-                "organization_id"=>$request->organization_id??'',
+                "organization_id"=>$request->company_name??0,
                 "admin_user_id"=>$request->admin_user_id??'',
             ]
             );      

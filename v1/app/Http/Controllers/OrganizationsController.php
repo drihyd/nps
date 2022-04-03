@@ -70,16 +70,37 @@ class OrganizationsController extends Controller
         
         $request->validate([
             'company_name' => 'required', 
-            'short_name' => 'sometimes|nullable',
+            'short_name' => 'required',
             'is_group' => 'sometimes|nullable',
+            'company_url' => 'sometimes|nullable',
+            'brand_logo' => 'required|mimes:png,jpg,jpeg,svg,html',
             
         ]);
 
+        if ($request->hasFile('brand_logo')) {      
+        $header_filename=uniqid().'_'.time().'.'.$request->brand_logo->extension();
+        $request->brand_logo->move(('assets/uploads'),$header_filename); 
+        }
+        else{
+            $header_filename="";
+        }
+
         
+        if ($request->company_url) {
+            $domain = parse_url($request->company_url)['host'];
+            $favicon_url = 'https://www.google.com/s2/favicons?domain=' . $domain;
+        }else{
+            $favicon_url='';
+        }
+
         $id = Organizations::insertGetId(array(
         "company_name"=>$request->company_name??'',
                 "short_name"=>$request->short_name??'',
+                "slug"=> Str::slug($request->short_name??''),
                 "is_group"=>$request->is_group??'no',
+                "company_url"=>$request->company_url??'',
+                "brand_logo"=>$header_filename,
+                "favicon_url"=>$favicon_url,
 ));
 
 
@@ -294,6 +315,7 @@ class OrganizationsController extends Controller
             ->update(
             [
                 'company_name' =>$request->value??'',
+
             ]
             );
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Company Name']);
@@ -306,6 +328,7 @@ class OrganizationsController extends Controller
             ->update(
             [
                 'short_name' =>$request->value??'',
+                "slug"=> Str::slug($request->value??''),
             ]
             );
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Short Name']);
@@ -540,18 +563,22 @@ public function update_gst(Request $request)
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated License Period year']);
         }
     }
-    public function update_license_period_month(Request $request)
+    public function update_brand_logo(Request $request)
     {
-        if($request->ajax()){
-
-            Organizations::where('id', $request->pk)
-            ->update(
-            [
-                'license_period_month' =>$request->value??'',
-            ]
-            );
-            return response()->json(['statsCode'=>200,'success' => 'Successfully Updated License Period year']);
+        $request->validate([
+            'brand_logo' => 'mimes:png,jpg,jpeg,svg,html',
+        ]);  
+        if ($request->hasFile('brand_logo')) {      
+        $brand_logo=uniqid().'_'.time().'.'.$request->brand_logo->extension();
+        $request->brand_logo->move(('assets/uploads'),$brand_logo);
+        Organizations::where('id', $request->id)
+        ->update(["brand_logo"=>$brand_logo]);
         }
+        else{
+            $brand_logo="";
+        }
+              
+        return redirect()->back()->with('success','Success! Logo Updated successfully');
     }
 
 

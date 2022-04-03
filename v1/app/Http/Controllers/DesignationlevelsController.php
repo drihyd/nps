@@ -23,7 +23,7 @@ class DesignationlevelsController extends Controller
     public function designations_list()
     {   
         
-        $group_level_data=GroupLevel::where('organization_id',Auth::user()->organization_id)->get();
+        $group_level_data=GroupLevel::get();
         $pageTitle="Designations";      
         $addlink=url(Config::get('constants.admin').'/designations/create');     
         return view('admin.designationsgroup.grouplevel_list', compact('pageTitle','group_level_data','addlink'))
@@ -109,7 +109,7 @@ class DesignationlevelsController extends Controller
                 
                 }
         
-        $group_level_data=RoleLevel::join('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')->orderBy('role_levels.designation_id')->where('role_levels.organization_id',Auth::user()->organization_id)
+        $group_level_data=RoleLevel::join('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')->orderBy('role_levels.designation_id')
         ->where(function($group_level_data) use ($level){   
             if($level){       
                 $group_level_data->where('role_levels.designation_id',"=",$level);            
@@ -129,7 +129,7 @@ class DesignationlevelsController extends Controller
     {
          
             $pageTitle="Add New";
-            $designations_data=GroupLevel::where('organization_id',Auth::user()->organization_id)->get();
+            $designations_data=GroupLevel::get();
             return view('admin.designationsgroup.add_edit_rolelevels',compact('pageTitle','designations_data'));   
          
     }
@@ -154,7 +154,7 @@ class DesignationlevelsController extends Controller
     public function edit_designation_levels($id)    {
         
         $ID = Crypt::decryptString($id);
-        $designations_data=GroupLevel::where('organization_id',Auth::user()->organization_id)->get();
+        $designations_data=GroupLevel::get();
             $group_level_data=RoleLevel::get()->where("id",$ID)->first();
             $pageTitle="Edit";      
             return view('admin.designationsgroup.add_edit_rolelevels',compact('pageTitle','designations_data','group_level_data'));
@@ -201,7 +201,6 @@ class DesignationlevelsController extends Controller
 
         $group_level_data=RoleNames::leftjoin('role_levels', 'role_names.designation_role_id', '=', 'role_levels.id')
         ->leftjoin('group_levels', 'role_levels.designation_id', '=', 'group_levels.id')
-        ->where('role_names.organization_id',Auth::user()->organization_id)
         ->where(function($group_level_data) use ($level){   
             if($level){       
                 $group_level_data->where('role_levels.designation_id',"=",$level);            
@@ -221,7 +220,7 @@ class DesignationlevelsController extends Controller
     {
          
             $pageTitle="Add New";
-            $designations_data=GroupLevel::where('organization_id',Auth::user()->organization_id)->get();
+            $designations_data=GroupLevel::get();
             return view('admin.designationsgroup.add_edit_rolenames',compact('pageTitle','designations_data'));   
          
     }
@@ -252,7 +251,7 @@ class DesignationlevelsController extends Controller
     public function edit_designation_roles($id)    {
         
         $ID = Crypt::decryptString($id);
-        $designations_data=GroupLevel::where('organization_id',Auth::user()->organization_id)->get();
+        $designations_data=GroupLevel::get();
             $group_level_data=RoleNames::get()->where("id",$ID)->first();
             $pageTitle="Edit";      
             return view('admin.designationsgroup.add_edit_rolenames',compact('pageTitle','designations_data','group_level_data'));

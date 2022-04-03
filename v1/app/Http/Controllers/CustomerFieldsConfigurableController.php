@@ -21,7 +21,7 @@ class CustomerFieldsConfigurableController extends Controller
     public function customer_fields_configurables_list()
     {   
         
-        $customer_fields_configurables_data=CustomerFieldsConfigurable::where('organization_id',Auth::user()->organization_id)->get();
+        $customer_fields_configurables_data=CustomerFieldsConfigurable::get();
         $pageTitle="Customer Fields Configurables";      
         $addlink=url(Config::get('constants.admin').'/customer_fields_configurables/create');     
         return view('admin.customer_fields_configurables.customer_fields_configurables_list', compact('pageTitle','customer_fields_configurables_data','addlink'))

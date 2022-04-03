@@ -26,6 +26,9 @@ use App\Http\Controllers\SlaConfigurationController;
 use App\Http\Controllers\CustomerFieldsConfigurableController;
 use App\Http\Controllers\SendSMSController; 
 use App\Http\Controllers\Graphs; 
+use App\Http\Controllers\SpecificationsController; 
+use App\Http\Controllers\DoctorsController; 
+use App\Http\Controllers\WardsController; 
 
 
 /*
@@ -93,6 +96,92 @@ Route::get('offlinesurvey/{sid?}/{logid?}/{pid?}', [NetPromoterScore::class,'fir
 Route::post('offline.surveyone.post', [NetPromoterScore::class,'surveyone_post'])->name('offline.surveyone.post');
 
 /* Dashbaord */
+
+/*** COO Head***/
+Route::group(['prefix' => 'coo','middleware' => 'iscoo'],function(){
+
+Route::get('dashboard', [DashboardController::class,'dashboard_user_lists']);
+Route::get('responses', [ResponsesController::class,'response_list']);
+Route::get('responses/view/{per_id}', [ResponsesController::class,'response_view']);
+Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
+
+
+// Route::post('responses/update_status', [ResponsesController::class,'response_update_status']);
+
+
+Route::get('responses_reports', [Reports::class,'reports_response_list']);
+Route::get('responses_reports/{value?}', [Reports::class,'reports_response_list']);
+Route::get('export', [Reports::class, 'export'])->name('operantionalhead.export');
+
+
+
+Route::get('survey', [NetPromoterScore::class,'survey_names']);
+Route::get('survey/start/{type?}', [NetPromoterScore::class,'take_person_onfo']);
+Route::get('takesurvey/{type?}', [NetPromoterScore::class,'first_question']);
+Route::get('picksurveymethod/{type?}', [NetPromoterScore::class,'picksurvey_method']);
+Route::get('second', [NetPromoterScore::class,'second_question']);
+Route::any('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.operantionalhead');
+Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo.operantionalhead');
+
+
+
+Route::get('graphs', [Graphs::class,'graphs_list']);
+Route::post('filter-grpahs-opened-closed-actions', [Graphs::class,'graphs_list'])->name('filter-grpahs-opened-closed-actions');
+Route::get('graphs-in-patient', [Graphs::class,'graphs_list_inpatient']);
+
+Route::get('take.voice.messaage', [NetPromoterScore::class,'take_voice_messaage'])->name('take.voice.messaage');	
+Route::any('post.voice.message.file', [NetPromoterScore::class,'post_voice_message_file'])->name('post.voice.message.file');	
+	
+
+	
+
+	
+});
+
+
+
+
+/*** Operational Head***/
+Route::group(['prefix' => 'operantionalhead','middleware' => 'isoperationalhead'],function(){
+
+Route::get('dashboard', [DashboardController::class,'dashboard_user_lists']);
+Route::get('responses', [ResponsesController::class,'response_list']);
+Route::get('responses/view/{per_id}', [ResponsesController::class,'response_view']);
+Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
+
+
+// Route::post('responses/update_status', [ResponsesController::class,'response_update_status']);
+
+
+Route::get('responses_reports', [Reports::class,'reports_response_list']);
+Route::get('responses_reports/{value?}', [Reports::class,'reports_response_list']);
+Route::get('export', [Reports::class, 'export'])->name('operantionalhead.export');
+
+
+
+Route::get('survey', [NetPromoterScore::class,'survey_names']);
+Route::get('survey/start/{type?}', [NetPromoterScore::class,'take_person_onfo']);
+Route::get('takesurvey/{type?}', [NetPromoterScore::class,'first_question']);
+Route::get('picksurveymethod/{type?}', [NetPromoterScore::class,'picksurvey_method']);
+Route::get('second', [NetPromoterScore::class,'second_question']);
+Route::any('surveyintiate', [NetPromoterScore::class,'surveyone_post'])->name('surveyone.post.operantionalhead');
+Route::post('post.survey.personinfo', [NetPromoterScore::class,'store_survey_personinfo'])->name('post.survey.personinfo.operantionalhead');
+
+
+
+Route::get('graphs', [Graphs::class,'graphs_list']);
+Route::post('filter-grpahs-opened-closed-actions', [Graphs::class,'graphs_list'])->name('filter-grpahs-opened-closed-actions');
+Route::get('graphs-in-patient', [Graphs::class,'graphs_list_inpatient']);
+
+Route::get('take.voice.messaage', [NetPromoterScore::class,'take_voice_messaage'])->name('take.voice.messaage');	
+Route::any('post.voice.message.file', [NetPromoterScore::class,'post_voice_message_file'])->name('post.voice.message.file');	
+	
+
+	
+
+	
+});
+
 
 
 /*** HOD ***/
@@ -170,11 +259,26 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('dashboard/doubtnutchart', [DashboardController::class,'doubtnutchart'])->name('dashboardcount.index');
 
 	/*Graphs*/
-
+	
+	Route::get('nps-graph', [Graphs::class,'_nps_graph']);
+	Route::any('filter-nps-graph', [Graphs::class,'_nps_graph'])->name('filter.nps.graph');	
+	
+	Route::get('feedback-composition', [Graphs::class,'_feedback_composition']);
+	Route::any('filter-feedback-composition', [Graphs::class,'_feedback_composition'])->name('filter.feedback.composition');	
+	
+	Route::get('graph-primary-drivers', [Graphs::class,'_primary_drivers']);
+	Route::any('filter-primary-drivers', [Graphs::class,'_primary_drivers'])->name('filter.primary.drivers');	
+	
+	
+	
+	Route::get('graph-secondary-drivers', [Graphs::class,'_secondary_drivers']);
+	Route::any('filter-secondary-drivers', [Graphs::class,'_secondary_drivers'])->name('filter.secondary.drivers');	
+	
 	Route::get('graphs', [Graphs::class,'graphs_list']);
 	Route::post('filter-grpahs-opened-closed-actions', [Graphs::class,'graphs_list'])->name('filter-grpahs-opened-closed-actions');
 
 	Route::get('graphs-in-patient', [Graphs::class,'graphs_list_inpatient']);
+	Route::get('graphs-primary-drivers', [Graphs::class,'graphs_primary_drivers']);
 
 
 	/*Admin Departments*/
@@ -185,6 +289,32 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 	Route::get('departments/edit/{id}',[DepartmentsController::class,'edit_departments']);
 	Route::post('departments/update',[DepartmentsController::class,'update_departments']);
 	Route::get('departments/delete/{id}',[DepartmentsController::class,'delete_departments']);
+
+	/*Admin Specifications*/
+
+	Route::get('specifications', [SpecificationsController::class,'specifications_list']);
+	Route::get('specifications/create', [SpecificationsController::class,'create_specifications']);
+	Route::post('specifications/store', [SpecificationsController::class, 'store_specifications']);
+	Route::get('specifications/edit/{id}',[SpecificationsController::class,'edit_specifications']);
+	Route::post('specifications/update',[SpecificationsController::class,'update_specifications']);
+	Route::get('specifications/delete/{id}',[SpecificationsController::class,'delete_specifications']);
+	/*Admin Doctors*/
+
+	Route::get('doctors', [DoctorsController::class,'doctors_list']);
+	Route::get('doctors/create', [DoctorsController::class,'create_doctors']);
+	Route::post('doctors/store', [DoctorsController::class, 'store_doctors']);
+	Route::get('doctors/edit/{id}',[DoctorsController::class,'edit_doctors']);
+	Route::post('doctors/update',[DoctorsController::class,'update_doctors']);
+	Route::get('doctors/delete/{id}',[DoctorsController::class,'delete_doctors']);
+
+	/*Admin Wards*/
+
+	Route::get('wards', [WardsController::class,'wards_list']);
+	Route::get('wards/create', [WardsController::class,'create_wards']);
+	Route::post('wards/store', [WardsController::class, 'store_wards']);
+	Route::get('wards/edit/{id}',[WardsController::class,'edit_wards']);
+	Route::post('wards/update',[WardsController::class,'update_wards']);
+	Route::get('wards/delete/{id}',[WardsController::class,'delete_wards']);
 
 	/*Admin users*/
 	Route::get('users',[UsermanagementController::class,'department_users_list']);
@@ -337,6 +467,16 @@ Route::post('responses/update_status', [ResponsesController::class,'response_upd
 
 Route::group( ['prefix' => 'superadmin','middleware' => 'issuperadmin'],function(){
 
+/*** Switch COO to all comapnies data ***/
+
+
+	Route::get('switch/{param1?}/{param2?}', ['as' => 'company.switch', 'uses' => 'App\Http\Controllers\CompanySwitchController@switchLang']);
+	Route::get('company/{param1?}', [DashboardController::class,'company_dashboard']);
+	
+	
+	/*** End ***/
+
+	
 	Route::get('dashboard', [DashboardController::class,'dashboard_lists']);
 	Route::get('organizations', [OrganizationsController::class,'organizations_lists'])->name('organizations_lists.index');
 
@@ -381,6 +521,7 @@ Route::post('organizations/update_admin_alt_mobile', [OrganizationsController::c
 Route::post('organizations/update_license_startdate', [OrganizationsController::class,'update_license_startdate'])->name('update_license_startdate');
 Route::post('organizations/update_license_period_year', [OrganizationsController::class,'update_license_period_year'])->name('update_license_period_year');
 Route::post('organizations/update_license_period_month', [OrganizationsController::class,'update_license_period_month'])->name('update_license_period_month');
+Route::post('organizations/update_brand_logo', [OrganizationsController::class,'update_brand_logo'])->name('update_brand_logo');
 
 
 /*Admin Theme options*/

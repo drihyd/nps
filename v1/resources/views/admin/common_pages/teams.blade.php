@@ -1,6 +1,6 @@
 @php
 use App\Models\Departments;
-$teams=Departments::where('organization_id',Auth::user()->organization_id)->orderBy('department_name','asc')->get();
+$teams=Departments::orderBy('department_name','asc')->get();
 @endphp
 
 

@@ -19,6 +19,9 @@
 @include('admin.dashboard.hod_dashboard')
 @elseif(Auth::user()->role==4)
 @include('admin.dashboard.user_dashboard')
+
+@elseif(Auth::user()->role==5)
+@include('admin.dashboard.otphead_dashboard')
 @else
 
 @endif

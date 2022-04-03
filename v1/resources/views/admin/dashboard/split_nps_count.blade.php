@@ -4,6 +4,10 @@ use App\Models\QuestionOptions;
 use App\Models\SurveyAnswered;
 $role=auth()->user()->role??0;
 
+
+
+
+
 $Departments=Departments::select()
 ->where('organization_id',auth()->user()->organization_id)
 ->where(function($Departments) use ($role){	

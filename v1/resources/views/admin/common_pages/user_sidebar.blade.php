@@ -2,10 +2,7 @@
 <!-- Start Sidebar -->
 <div class="sidebar">
 <!-- Start Logobar -->
-<div class="logobar">
-<a href="{{url(Config::get('constants.user').'/dashboard')}}" class="logo logo-large"><img src="{{URL::to('assets/uploads/'.$theme_options_data->header_logo??'')}}" class="img-fluid" alt="logo"></a>
-<a href="{{url(Config::get('constants.user').'/dashboard')}}" class="logo logo-small"><img src="{{URL::to('assets/uploads/'.$theme_options_data->favicon??'')}}" class="img-fluid" alt="logo"></a>
-</div>
+@include('admin.common_pages.header_logos')
 <!-- End Logobar -->
 <!-- Start Navigationbar -->
 <div class="navigationbar">

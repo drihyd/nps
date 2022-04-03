@@ -22,7 +22,7 @@ class SlaConfigurationController extends Controller
     public function sla_configurations_list()
     {   
         
-        $sla_configurations_data=SlaConfiguration::join('group_levels', 'sla_configurations.level_id', '=', 'group_levels.id')->where('sla_configurations.organization_id',Auth::user()->organization_id)->get(['sla_configurations.*','group_levels.alias as group_levels_alias','group_levels.name as group_levels_name']);
+        $sla_configurations_data=SlaConfiguration::join('group_levels', 'sla_configurations.level_id', '=', 'group_levels.id')->get(['sla_configurations.*','group_levels.alias as group_levels_alias','group_levels.name as group_levels_name']);
         $pageTitle="SLA Configuration";      
         $addlink=url(Config::get('constants.admin').'/sla_configurations/create');     
         return view('admin.sla_configurations.sla_configurations_list', compact('pageTitle','sla_configurations_data','addlink'))

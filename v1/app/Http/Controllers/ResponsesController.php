@@ -28,11 +28,7 @@ class ResponsesController extends Controller
 	  }
     public function response_list(Request $request)
     {   
-	
-		$role=auth()->user()->role??0;
-		
-		
-
+			$role=auth()->user()->role??0;
 	
 	/*
         $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)		
@@ -96,11 +92,12 @@ class ResponsesController extends Controller
 			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-			->where('survey_persons.organization_id',Auth::user()->organization_id)
+			
 			
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
 			
-			
+	
+
 			
 			->where(function($Detractors) use ($role){	
 			
@@ -118,8 +115,7 @@ class ResponsesController extends Controller
 				}				
 							
 			}			
-			else if($role==4){
-				
+			else if($role==4){				
 			
 			
 			$Detractors->where('survey_persons.logged_user_id',auth()->user()->id??0);
@@ -167,18 +163,19 @@ class ResponsesController extends Controller
 			->get();
 			
 			
-			
-			
+			$myCollection = collect($Detractors);
+			$uniqueCollection = $myCollection->unique('id');
+			$uniqueCollection->all();
+			$Detractors=$uniqueCollection;
+
 			
 			
 	
 		
 			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-			->where('survey_persons.organization_id',Auth::user()->organization_id)			
-			->whereIn('survey_answered.rating',[7,8])
-		
+			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')		
+			->whereIn('survey_answered.rating',[7,8])		
 			->where(function($Passives) use ($role){
 
 				
@@ -231,12 +228,16 @@ class ResponsesController extends Controller
 			
 			
 			
+			$myCollection = collect($Passives);
+			$uniqueCollection = $myCollection->unique('id');
+			$uniqueCollection->all();
+			$Passives=$uniqueCollection;
+			
+			
 			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-			->where('survey_persons.organization_id',Auth::user()->organization_id)	
-			->whereIn('survey_answered.rating',[9,10])
-			
+			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')	
+			->whereIn('survey_answered.rating',[9,10])			
 			->where(function($Promoters) use ($role){	
 			
 			if($role==2){
@@ -287,8 +288,11 @@ class ResponsesController extends Controller
 			->get();
 			
 			
-			
-	
+
+	$myCollection = collect($Promoters);
+	$uniqueCollection = $myCollection->unique('id');
+	$uniqueCollection->all();
+	$Promoters=$uniqueCollection;
 		
 	
 		
@@ -300,22 +304,11 @@ class ResponsesController extends Controller
     }
     public function response_view($per_id)
     { 
-	
-	
-
-        $person_id = Crypt::decryptString($per_id);
-        $person_data= SurveyPerson::where('organization_id',Auth::user()->organization_id)->where('id',$person_id)->get()->first();
-        
-        
-      
-        
+        $person_id = Crypt::decryptString($per_id);		
+        $person_data= SurveyPerson::where('id',$person_id)->get()->first();
         $voice_message= DB::table('persons_voice_message')->where('person_id',$person_id??0)->get();
-        
-       
-
         $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
-        ->where('survey_answered.organization_id',Auth::user()->organization_id)
         ->where('survey_answered.person_id',$person_id)
         ->get(['survey_answered.*','question_options.option_value as option_value','survey_persons.ticker_final_number']);
         // $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')

@@ -46,7 +46,7 @@
 @elseif($person_responses_data[0]->rating>6 && $person_responses_data[0]->rating<=8)
 <h4><span class="badge badge-danger-inverse font-14">Areas of Improvement</span></h4>
 @else
-<h4><span class="badge badge-success-inverse font-14">Feedback</span></h4>
+<h4><span class="badge badge-success-inverse font-14">Doing Well</span></h4>
 @endif
 
 
@@ -86,7 +86,7 @@
 <!-- Start col -->
 
 
-@if($voice_message->count()>0)
+@if(isset($voice_message) && $voice_message->count()>0)
 <div class="card m-b-30" style="min-height: 372px;">
 <div class="card-body">
 

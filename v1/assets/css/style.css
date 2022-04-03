@@ -33651,7 +33651,7 @@ input[type=range]:focus {
   vertical-align: middle;
   border-top: 1px solid rgba(0, 0, 0, 0.03);
   padding: 0.6rem;
-  font-size:  13px;
+  font-size:  14px;
 }
 .table thead th {
   vertical-align: bottom;
@@ -35367,4 +35367,81 @@ table.dataTable tbody tr:hover td{
 }
 .audio-content p{
     font-size: 12px;
+}
+.mailbox .message-center {
+    overflow: auto;
+    position: relative
+}
+
+.mailbox .message-center .message-item {
+    border-bottom: 1px solid rgba(120, 130, 140, .13);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 9px 15px
+}
+
+.mailbox .message-center .message-item:hover {
+    background: #f7fafc
+}
+
+.mailbox .message-center .message-item .message-title {
+    color: #212529;
+    font-weight: 400
+}
+
+.mailbox .message-center .message-item .user-img {
+    width: 40px;
+    position: relative
+}
+
+.mailbox .message-center .message-item .user-img img {
+    width: 100%
+}
+
+.mailbox .message-center .message-item .user-img .profile-status {
+    border: 2px solid #fff;
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    left: 30px;
+    position: absolute;
+    top: 1px;
+    width: 10px
+}
+
+.mailbox .message-center .message-item .user-img .online {
+    background: #2cd07e
+}
+
+.mailbox .message-center .message-item .user-img .busy {
+    background: #ff5050
+}
+
+.mailbox .message-center .message-item .user-img .away {
+    background: #ffc107
+}
+
+.mailbox .message-center .message-item .user-img .offline {
+    background: #ffc107
+}
+
+.mailbox .message-center .message-item .mail-contnet {
+    width: 85%;
+    vertical-align: middle;
+    padding-left: 15px
+}
+
+.mailbox .message-center .message-item .mail-contnet .message-title {
+    margin: 5px 0 0
+}
+
+.mailbox .message-center .message-item .mail-contnet .mail-desc,
+.mailbox .message-center .message-item .mail-contnet .time {
+    font-size: 12px;
+    display: block;
+    margin: 1px 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
 }

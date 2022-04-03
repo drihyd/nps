@@ -38,20 +38,25 @@ class ActivitiesController extends Controller
                 
                 }
         
-        $activities_data=Activities::join('departments', 'activities.department_id', '=', 'departments.id')
-        ->where('activities.organization_id',Auth::user()->organization_id)
+        $activities_data=Activities::join('departments', 'activities.department_id', '=', 'departments.id')       
         ->where(function($activities_data) use ($team){   
+		
             if($team){       
                 $activities_data->where('activities.department_id',"=",$team);            
             }
             })
         ->orderBy('activities.activity_name','ASC')
         ->get(['activities.*', 'departments.department_name']);
+		
+		
+		
         $pageTitle="Activities";      
         $addlink=url(Config::get('constants.admin').'/activities/create');  
         $team=$request->team??'';    
         return view('admin.activities.activities_list', compact('pageTitle','activities_data','addlink','team'))
         ->with('i', (request()->input('page', 1) - 1) * 5); 
+		
+		
     }
     public function create_activities()
     {

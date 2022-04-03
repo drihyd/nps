@@ -21,7 +21,7 @@ class ProcessController extends Controller
     public function process_list()
     {   
         
-            $process_data=Process::where('organization_id',Auth::user()->organization_id)->get();
+            $process_data=Process::get();
             $pageTitle="Process";      
             $addlink=url(Config::get('constants.admin').'/process/create');     
             return view('admin.process.process_list', compact('pageTitle','process_data','addlink'))

@@ -42,7 +42,7 @@
         serverSide: true,
         ajax: "{{ route('organizations_lists.index') }}",
         columns: [
-            {data: 'company_name', name: 'company_name'},
+            {data: 'short_name', name: 'short_name'},
             {data: 'entity_group', name: 'entity_group'},
             {data: 'city', name: 'city'},
             {data: 'gst_no', name: 'gst_no'},

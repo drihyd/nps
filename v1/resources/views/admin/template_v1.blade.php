@@ -1,6 +1,3 @@
-@php
-$theme_options_data=DB::table('themeoptions')->get()->first();
-@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +8,13 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
     <meta name="keywords" content="">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-      <title>{{env('APP_NAME')}} - @yield('title')</title>
+	
+      <title>{{env('APP_NAME')}} - {{$company_name}} @yield('title')</title>
       <!-- Fevicon -->
-    <link rel="shortcut icon" href="{{URL::to('assets/uploads/'.$theme_options_data->favicon??'')}}">
+	  
+    <link rel="shortcut icon" href="{{$favicon_url??''}}">
+	
+	
     <!-- Start css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Switchery css -->
@@ -106,6 +107,10 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 @include('admin.common_pages.hod_sidebar')
 @elseif(Auth::user()->role==4)
 @include('admin.common_pages.user_sidebar')
+@elseif(Auth::user()->role==5)
+@include('admin.common_pages.operantionalhead_sidebar')
+@elseif(Auth::user()->role==6)
+@include('admin.common_pages.coo_sidebar')
 @else
 @endif
 
@@ -141,6 +146,17 @@ $theme_options_data=DB::table('themeoptions')->get()->first();
 
 @include('admin.common_pages.top-nav')
 @include('admin.common_pages.breadcrump_user')
+
+
+@elseif(Auth::user()->role==5)
+
+@include('admin.common_pages.top-nav')
+@include('admin.common_pages.breadcrump_opthead')
+
+@elseif(Auth::user()->role==6)
+
+@include('admin.common_pages.top-nav')
+@include('admin.common_pages.breadcrump_coo')
 
 @else
 
