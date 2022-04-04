@@ -465,8 +465,56 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 Route::post('responses/update_status', [ResponsesController::class,'response_update_status']);
 
+/** Fr COOO ***/
 
-Route::get('superadmin/company/{param1?}/{param2?}', [DashboardController::class,'company_dashboard']);
+Route::get('admin/responses', [ResponsesController::class,'response_list'])->middleware('issuperadmin');
+Route::get('admin/responses/view/{per_id}', [ResponsesController::class,'response_view'])->middleware('issuperadmin');
+Route::get('admin/responses/delete/{per_id}', [ResponsesController::class,'delete_responses'])->middleware('issuperadmin');
+
+
+/*Graphs*/
+	
+Route::get('admin/nps-graph', [Graphs::class,'_nps_graph']);
+Route::any('admin/filter-nps-graph', [Graphs::class,'_nps_graph'])->name('filter.nps.graph');	
+
+Route::get('admin/feedback-composition', [Graphs::class,'_feedback_composition']);
+Route::any('admin/filter-feedback-composition', [Graphs::class,'_feedback_composition'])->name('filter.feedback.composition');	
+
+Route::get('admin/graph-primary-drivers', [Graphs::class,'_primary_drivers']);
+Route::any('admin/filter-primary-drivers', [Graphs::class,'_primary_drivers'])->name('filter.primary.drivers');	
+
+
+
+Route::get('admin/graph-secondary-drivers', [Graphs::class,'_secondary_drivers']);
+Route::any('admin/filter-secondary-drivers', [Graphs::class,'_secondary_drivers'])->name('filter.secondary.drivers');	
+
+Route::get('admin/graphs', [Graphs::class,'graphs_list']);
+Route::post('admin/filter-grpahs-opened-closed-actions', [Graphs::class,'graphs_list'])->name('filter-grpahs-opened-closed-actions');
+
+Route::get('admin/graphs-in-patient', [Graphs::class,'graphs_list_inpatient']);
+Route::get('admin/graphs-primary-drivers', [Graphs::class,'graphs_primary_drivers']);
+
+/** Departments */
+
+Route::get('admin/departments', [DepartmentsController::class,'departments_list']);
+Route::get('admin/departments/create', [DepartmentsController::class,'create_departments']);
+Route::post('admin/departments/store', [DepartmentsController::class, 'store_departments']);
+Route::get('admin/departments/edit/{id}',[DepartmentsController::class,'edit_departments']);
+Route::post('admin/departments/update',[DepartmentsController::class,'update_departments']);
+Route::get('admin/departments/delete/{id}',[DepartmentsController::class,'delete_departments']);
+
+
+
+/*Admin Activities*/
+	Route::get('admin/activities', [ActivitiesController::class,'activities_list']);
+	Route::get('admin/activities/create', [ActivitiesController::class,'create_activities']);
+	Route::post('admin/activities/store', [ActivitiesController::class, 'store_activities']);
+	Route::get('admin/activities/edit/{id}',[ActivitiesController::class,'edit_activities']);
+	Route::post('admin/activities/update',[ActivitiesController::class,'update_activities']);
+	Route::get('admin/activities/delete/{id}',[ActivitiesController::class,'delete_activities']);
+
+/*** End ***/
+
 
 
 Route::group( ['prefix' => 'superadmin','middleware' => 'issuperadmin'],function(){
@@ -475,8 +523,7 @@ Route::group( ['prefix' => 'superadmin','middleware' => 'issuperadmin'],function
 
 
 	Route::get('switch/{param1?}/{param2?}', ['as' => 'company.switch', 'uses' => 'App\Http\Controllers\CompanySwitchController@switchLang']);
-	
-
+	Route::get('company/{param1?}/{param2?}', [DashboardController::class,'company_dashboard']);
 	
 	
 	/*** End ***/

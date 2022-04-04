@@ -7,11 +7,9 @@
         <!-- Start row -->
         @if(Auth::user()->role==1)
     
-
 @include('admin.dashboard.superadmin_dashboard')
 
 @elseif(Auth::user()->role==2)
-
 
 @include('admin.dashboard.admin_dashboard')
 @elseif(Auth::user()->role==3)

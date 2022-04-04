@@ -10,24 +10,21 @@ use App\Http\Controllers\NetPromoterScore;
 use Auth;
 use Crypt;
 use Illuminate\Support\Str;
+use App\Scopes\ActiveOrgaization;
+use DB;
+use Session;
 
 class DashboardController extends Controller
 {
     public function company_dashboard(Request $request)
     {
-		
-
-		
+	
+	
 		try {
 
-
 			
-				$_CompanyID=Crypt::decryptString($request->CID);
-
-				
-						
+				$_CompanyID=Crypt::decryptString($request->CID);						
 				$Single_Com_Name=Organizations::select('id','company_name')->where('id',$_CompanyID)->get()->first();
-				
 				if(isset($Single_Com_Name))
 				{
 					
@@ -78,6 +75,9 @@ class DashboardController extends Controller
 	
 	public function dashboard_lists(Request $request)
     {
+		
+		
+
 		$nps_score= new NetPromoterScore();
 		$npsscore=$nps_score->nps_score_factor_count();
 		$final_score = json_decode($npsscore);
@@ -88,7 +88,19 @@ class DashboardController extends Controller
 		$all_admin_departments = Departments::get()->count();
 		$all_admin_users = User::whereNotIn('role',[1,2])->get()->count();
 		$all_admin_surveys = SurveyPerson::get()->count();
-		$organizations_data = Organizations::get();
+		
+		
+		if(auth()->user()->role==1){
+
+			Session::forget('companyID');
+			$organizations_data = DB::table('organizations')->get();
+		}
+		else{
+			$organizations_data = Organizations::get();
+		}
+		
+		
+		
 		
         return view('admin.dashboard.show',compact('pageTitle','all_organizations','all_group','all_single','all_admin_departments','all_admin_users','all_admin_surveys','final_score','organizations_data'));
     }

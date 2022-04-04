@@ -50,15 +50,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 	
-	
-	 protected static function boot()
+	/*
+		protected static function boot()
     {
         parent::boot();
-
         static::addGlobalScope(new ActiveOrgaization('users'));
     }
 	
-	
+	*/
 
 	
 }

@@ -23,7 +23,7 @@ class LoginController extends Controller
 		
 		$user  = auth()->user();  
 
-		if(auth()->user()->role==6){
+		if(auth()->user()->role==1){
 
 		}
 		else{
@@ -83,7 +83,7 @@ class LoginController extends Controller
 			
 			
 			
-				if(auth()->user()->role==6){
+				if(auth()->user()->role==1){
 				
 				}
 				else{

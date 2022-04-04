@@ -6,7 +6,7 @@
 
 
 </div>
-@if($final_score->Promoters>0 || $final_score->Neutral>0 || $final_score->Detractors>0 )
+@if($final_score->Promoters>=0 || $final_score->Neutral>=0 || $final_score->Detractors>=0 )
 
 <div class="card-body" >
 <canvas id="chartjs-doughnut-chart" class="chartjs-chart"></canvas>

@@ -25,7 +25,7 @@ class CompanySwitchController extends Controller
 				{
 					if (array_key_exists($_CompanyID,$orgs)) {						
 						Session::put('companyID', $_CompanyID);			
-						return redirect(Config::get('constants.superadmin').'/company/?CID='.Crypt::encryptString($companyID))->with('success', "Switch to ".Str::upper($Single_Com_Name->company_name??''));
+						return redirect(Config::get('constants.superadmin').'/company/?CID='.Crypt::encryptString($_CompanyID))->with('success', "Switch to ".Str::upper($Single_Com_Name->company_name??''));
 					}
 					else{
 						return Redirect::back()->with('error', "Something went wrong. Please try again.");
