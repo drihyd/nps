@@ -1,10 +1,10 @@
 <div class="row">
-<div class="col-md-8">
+<div class="col-md-10">
 	
 	<div class="card">
-		<div class="card-body p-0 text-center">
+		<div class="card-body p-0">
 			<div class="row no-gutters align-items-top">
-				<div class="col-auto bg-omni-black">						
+				<div class="col-auto bg-omni-black text-center">						
 					<span class="cus-head" style="width:100px">Score</span>
 				</div>
 				<div class="col bg-omni-blue">
