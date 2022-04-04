@@ -465,13 +465,18 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 Route::post('responses/update_status', [ResponsesController::class,'response_update_status']);
 
+
+Route::get('superadmin/company/{param1?}/{param2?}', [DashboardController::class,'company_dashboard']);
+
+
 Route::group( ['prefix' => 'superadmin','middleware' => 'issuperadmin'],function(){
 
 /*** Switch COO to all comapnies data ***/
 
 
 	Route::get('switch/{param1?}/{param2?}', ['as' => 'company.switch', 'uses' => 'App\Http\Controllers\CompanySwitchController@switchLang']);
-	Route::get('company/{param1?}', [DashboardController::class,'company_dashboard']);
+	
+
 	
 	
 	/*** End ***/

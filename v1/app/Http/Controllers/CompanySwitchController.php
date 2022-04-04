@@ -12,25 +12,20 @@ class CompanySwitchController extends Controller
 {
 	public function switchLang($Company=false,$companyID=false)
     {	
-	
-		try {		
+
+		try {
+
+				Session::forget('companyID');			
 				$_CompanyID=Crypt::decryptString($companyID);		
 				$orgs=Organizations::all('id')->keyBy('id')->toarray();				
 				$Single_Com_Name=Organizations::select('id','company_name')->where('id',$_CompanyID)->get()->first();
 				
+				
 				if(isset($Single_Com_Name))
 				{
-					if (array_key_exists($_CompanyID,$orgs)) {
-
-						
-						Session::put('companyID', $_CompanyID);	
-						
-						
-						return redirect(Config::get('constants.superadmin').'/company/?CID='.$companyID)->with('success', "Switch to ".Str::upper($Single_Com_Name->company_name??''));
-						
-						
-					
-					
+					if (array_key_exists($_CompanyID,$orgs)) {						
+						Session::put('companyID', $_CompanyID);			
+						return redirect(Config::get('constants.superadmin').'/company/?CID='.Crypt::encryptString($companyID))->with('success', "Switch to ".Str::upper($Single_Com_Name->company_name??''));
 					}
 					else{
 						return Redirect::back()->with('error', "Something went wrong. Please try again.");

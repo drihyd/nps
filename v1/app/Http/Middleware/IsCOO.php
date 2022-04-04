@@ -14,7 +14,7 @@ class IsCOO
      */
     public function handle(Request $request, Closure $next)
     {
-		if (Auth::user() &&  (Auth::user()->role == 6) ) {
+		if (Auth::user() &&  Auth::user()->role == 6 ) {
         return $next($request);
 		}
 		 return redirect('/')->with('error','You have not permission to access dashboard');

@@ -19,9 +19,19 @@ class LoginController extends Controller
         
     public function auth_login(Request $request)
     {
-   	    $user  = auth()->user();  
+		Session::forget('companyID');
+		
+		$user  = auth()->user();  
 
+		if(auth()->user()->role==6){
+
+		}
+		else{
 		Session::put('companyID', auth()->user()->organization_id??'');
+		}
+
+
+		
 		
         if ($user && $user->role==1) {           
             return redirect('superadmin/dashboard')->with('success', 'Successfully logged in as super admin.');
@@ -60,7 +70,7 @@ class LoginController extends Controller
     {
     
    
-
+		Session::forget('companyID');
    
    	$credentials = $request->only('email', 'password');		
 		
@@ -71,7 +81,14 @@ class LoginController extends Controller
 		
         	$user  = auth()->user();
 			
-				Session::put('companyID', auth()->user()->organization_id??'');	
+			
+			
+				if(auth()->user()->role==6){
+				
+				}
+				else{
+					Session::put('companyID', auth()->user()->organization_id??'');	
+				}
 				
 				
 				switch(auth()->user()->role){

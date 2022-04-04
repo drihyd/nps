@@ -16,14 +16,15 @@ class DashboardController extends Controller
     public function company_dashboard(Request $request)
     {
 		
-		
-		
+
 		
 		try {
 
 
 			
-				$_CompanyID=Crypt::decryptString($request->CID);		
+				$_CompanyID=Crypt::decryptString($request->CID);
+
+				
 						
 				$Single_Com_Name=Organizations::select('id','company_name')->where('id',$_CompanyID)->get()->first();
 				
@@ -50,7 +51,7 @@ class DashboardController extends Controller
 				}
 				
 				else{
-					return Redirect::back()->with('error', "Something went wrong. Please try again.");
+					return redirect()->back()->with('error', "Something went wrong. Please try again.");
 				}
 				
 		
