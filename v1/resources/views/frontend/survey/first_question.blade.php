@@ -151,7 +151,7 @@ else{
 	<div>
 	
 	
-	@if($value->qoptionid==21)		
+	@if($value->qoptionid==21 || $value->qoptionid==154)		
 	{{$value->qpvalue??''}}	(Optional)	
 	@else
 		<label >{{str_replace("*teamname*",$value->qpvalue??'',$Questions[0]->qlabel??'')}}</label>	
@@ -178,7 +178,7 @@ else{
 		<input type="hidden" name="first_questin_range"  value="{{$value->qoptionid}}">
 
 
-	@if($value->qoptionid==21)		
+	@if($value->qoptionid==21 || $value->qoptionid==154)		
 	<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" id="answerdbyperson_checkboxes"></textarea>	
 
 

@@ -27,7 +27,8 @@ class UsermanagementController extends Controller
     
             $users_data=User::select('users.*','user_types.name as ut_name')
             ->leftjoin('user_types','user_types.id','=','users.role')       
-            ->whereNotIn('users.role',[1])       
+            ->whereNotIn('users.role',[1]) 
+			->where('users.organization_id',Session::get('companyID')??0) 			
             ->get();   
            
             $pageTitle="Users";          
@@ -304,7 +305,8 @@ class UsermanagementController extends Controller
             $users_data=User::leftjoin('user_types','user_types.id','=','users.role')       
             ->leftjoin('group_levels','group_levels.id','=','users.designation_id')
             ->leftJoin('departments','departments.id', '=', 'users.department')
-            ->whereNotIn('users.role',[1,2])       
+            ->whereNotIn('users.role',[1,2])  
+			->where('users.organization_id',Session::get('companyID')??0) 			
             ->where(function($users_data) use ($role){   
             if($role){       
                 $users_data->where('users.role',"=",$role);            

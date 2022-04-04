@@ -29,6 +29,7 @@ class ResponsesController extends Controller
     public function response_list(Request $request)
     {   
 			$role=auth()->user()->role??0;
+		
 	
 	/*
         $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)		

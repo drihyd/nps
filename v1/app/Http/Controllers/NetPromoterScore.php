@@ -75,7 +75,7 @@ class NetPromoterScore extends Controller
 	
 
 	
-	->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
+	->whereIn('survey_persons.rating',[0,1,2,3,4,5,6])	
 	
 		->where(function($Detractors) use ($role){	
 		
@@ -86,6 +86,8 @@ class NetPromoterScore extends Controller
 			
 			$Detractors->where('survey_answered.department_name_id','0');
 		}
+		
+	
 		elseif($role==3){		
 		if(auth()->user()->department){			
 					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
@@ -134,7 +136,7 @@ class NetPromoterScore extends Controller
 			
 			
 			
-			->whereIn('survey_answered.rating',[7,8])
+			->whereIn('survey_persons.rating',[7,8])
 	
 		
 		->where(function($Neutral) use ($role){	
@@ -179,7 +181,7 @@ class NetPromoterScore extends Controller
 
 			
 			
-			->whereIn('survey_answered.rating',[9,10])
+			->whereIn('survey_persons.rating',[9,10])
 				
 		->where(function($Promoters) use ($role){	
 		if($role==2 || $role==1){
@@ -237,7 +239,7 @@ class NetPromoterScore extends Controller
 	
 	
 	
-	->whereIn('survey_answered.rating',[9,10])
+	->whereIn('survey_persons.rating',[9,10])
 	
 		->where(function($Promoters_lastweek) use ($role){	
 		if($role==2 || $role==1){
@@ -260,7 +262,7 @@ class NetPromoterScore extends Controller
 		}	
 		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
-		->whereIn('survey_answered.rating',[9,10])
+		->whereIn('survey_persons.rating',[9,10])
 		->where(function($Promoters_lastweek) use ($QuestionOptions,$role){
 				if($role==3 || $role==4) {
 				$Promoters_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
@@ -285,7 +287,7 @@ $Promoters_lastweek=$uniqueCollection4->count();
 
 
 
-	->whereIn('survey_answered.rating',[7,8])
+	->whereIn('survey_persons.rating',[7,8])
 		
 		->where(function($Neutral_lastweek) use ($role){
 			
@@ -341,7 +343,7 @@ $Promoters_lastweek=$uniqueCollection4->count();
 			
 			
 			
-			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
+			->whereIn('survey_persons.rating',[0,1,2,3,4,5,6])	
 		
 		
 		
@@ -950,11 +952,25 @@ DB::table('rating_of_departments')->insert(
 		}
 		
 		
+		
+if(auth()->user()->organization_id==23) {
+	
+	$qoptiondepid=21;
+	
+}
+
+else if(auth()->user()->organization_id==36) {
+	
+	$qoptiondepid=154;
+}
+else{
+	$qoptiondepid=0;
+}
 DB::table('passing_departments')->insert(
 [
 'person_id' => Session::get('person_id')??0, 
 'sorting' =>30,
-'department_id' => 21,
+'department_id' =>$qoptiondepid,
 'passing_page' =>"no",
 'survey_id' =>$request->survey_id??0,
 'created_at' =>Carbon::now(),
@@ -1307,7 +1323,7 @@ $selected_departments='';
 
 catch (\Exception $exception){
 	
-//dd($exception);
+dd($exception);
 		abort(401);
 }
 		

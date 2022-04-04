@@ -9,18 +9,16 @@ $role=auth()->user()->role??0;
 
 
 $Departments=Departments::select()
-->where('organization_id',auth()->user()->organization_id)
 ->where(function($Departments) use ($role){	
-	if($role==2){
-	}
-	else if($role==3){	
-	$Departments->where('id','=',auth()->user()->department??0);
-	}	
-	else if($role==4){	
-	}
-	else{	
-	}
-
+if($role==2){
+}
+else if($role==3){	
+$Departments->where('id','=',auth()->user()->department??0);
+}	
+else if($role==4){	
+}
+else{	
+}
 })
 ->Orderby('department_name','asc')
 ->get();
@@ -32,7 +30,7 @@ $Departments=Departments::select()
 
 <div class="col-lg-6 col-xl-6">
 
-@if($final_score->Promoters>0 || $final_score->Neutral>0 || $final_score->Detractors>0 )
+@if($final_score->Promoters>=0 || $final_score->Neutral>=0 || $final_score->Detractors>=0 )
 
 <div class="card m-b-30" style="min-height:372px">
 						
@@ -76,11 +74,8 @@ $QuestionOptions=QuestionOptions::select()
 ->where('option_value',$item->department_name)
 ->pluck('id');
 
-
-
 $Promoters=SurveyAnswered::select('id')
 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
-->where('survey_answered.organization_id',auth()->user()->organization_id)
 ->whereIn('survey_answered.answerid',$QuestionOptions)
 
 ->where(function($Promoters) use ($role){	
@@ -99,9 +94,15 @@ else if($role==4){
 	$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
 }
 
+else if($role==1){				
+	
+}
+
 else{
 	$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
-}	
+}
+
+	
 })
 
 ->where('survey_answered.answeredby_person','!=','')
@@ -111,7 +112,6 @@ else{
 
 $Passives=SurveyAnswered::select('id')
 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
-->where('survey_answered.organization_id',auth()->user()->organization_id)
 ->whereIn('survey_answered.answerid',$QuestionOptions)
 ->where(function($Passives) use ($role){	
 if($role==2){	
@@ -128,6 +128,9 @@ else if($role==3){
 else if($role==4){				
 	$Passives->where('survey_answered.logged_user_id',auth()->user()->id??0);
 }
+else if($role==1){				
+	
+}
 
 else{
 	$Passives->where('survey_answered.logged_user_id',auth()->user()->id??0);
@@ -140,7 +143,6 @@ else{
 
 $Detractors=SurveyAnswered::select('id')
 ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
-->where('survey_answered.organization_id',auth()->user()->organization_id)
 ->whereIn('survey_answered.answerid',$QuestionOptions)
 ->where(function($Detractors) use ($role){	
 if($role==2){	
@@ -154,6 +156,11 @@ else if($role==3){
 	}				
 
 }	
+
+else if($role==1){				
+	
+}
+
 else if($role==4){				
 	$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);
 }
@@ -201,7 +208,8 @@ $totalcount=$Promoters+$Passives+$Detractors;
 									</div>
 									<div class="col-md-6">
 										
-                                        <a href="{{route('filter.responses',['team'=>$item->department_name])}}">										
+                                        <!--<a href="{{route('filter.responses',['team'=>$item->department_name])}}">-->
+                                        <a href="#">										
                                         	<h5 class="mb-0 " style="text-align: center;padding-top:10px;">										
 											{{Str::title($item->department_name)}}											
 											</h5> 
