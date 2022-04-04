@@ -37,6 +37,7 @@
 </ul>
 </li>
 
+<!--
 <li>
 <a href="javaScript:void();">
 <img src="{{URL::to('assets/images/svg-icon/chart.svg')}}" class="img-fluid" alt="widgets"><span>Graphs</span><i class="feather icon-chevron-right pull-right"></i>
@@ -46,6 +47,7 @@
 <li class="{{ (request()->is(Config::get('constants.hod').'/graphs-in-patient')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.hod').'/graphs-in-patient')}}">Dashboard 2</a></li>
 </ul>
 </li> 
+-->
 
 
 

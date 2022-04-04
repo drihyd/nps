@@ -340,7 +340,7 @@ class ResponsesController extends Controller
          ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
          ->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
         ->where('survey_persons.logged_user_id',Auth::user()->id)   
-		->whereIn('survey_answered.question_id',[1,11])	
+		
        ->where('survey_answered.person_id',$value->id)
         ->orderBy('survey_persons.created_at','DESC')
         ->get();   

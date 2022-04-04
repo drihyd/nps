@@ -513,6 +513,13 @@ Route::get('admin/departments/delete/{id}',[DepartmentsController::class,'delete
 	Route::post('admin/activities/update',[ActivitiesController::class,'update_activities']);
 	Route::get('admin/activities/delete/{id}',[ActivitiesController::class,'delete_activities']);
 
+
+
+	/*** Voice ****/ 
+	Route::get('take.voice.messaage', [NetPromoterScore::class,'take_voice_messaage'])->name('take.voice.messaage');	
+	Route::any('post.voice.message.file', [NetPromoterScore::class,'post_voice_message_file'])->name('post.voice.message.file');
+
+
 /*** End ***/
 
 

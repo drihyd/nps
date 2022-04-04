@@ -6,6 +6,8 @@ use App\Models\QuestionOptions;
 use App\Models\SurveyAnswered;
 use App\Models\Surveys;
 use App\Models\SurveyPerson;
+use App\Models\RatingOfDepartment;
+use App\Models\RatingOfDepActivity;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -98,6 +100,8 @@ class Graphs extends Controller
 			
 			
 		$total_departmentwise_scores=$this->get_departmentwise_scores($request);
+		
+	
 		
 	
 		$collection_department_score = collect($total_departmentwise_scores);	
@@ -470,8 +474,7 @@ $to_date = date('Y-12-t');
 }
 
 
-$responses_data = DB::table("survey_answered")
-->select(
+$responses_data = SurveyAnswered::select(
 "survey_answered.department_name_id",
 
 
@@ -512,8 +515,7 @@ $from_date = date('Y-01-01');
 $to_date = date('Y-12-t');
 }			
 
-$ViewAttendance = DB::table("rating_of_dep_activities")
-->select("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_name as departmentname",
+$ViewAttendance = RatingOfDepActivity::select("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_name as departmentname",
 DB::raw('count(IF(rating_of_dep_activities.rating between 0 and 6, 1, NULL)) as detractors'),
 DB::raw('count(IF(rating_of_dep_activities.rating between 7 and 8, 1, NULL)) as passives'),
 DB::raw('count(IF(rating_of_dep_activities.rating between 9 and 10, 1, NULL)) as promotors'),
@@ -525,7 +527,7 @@ $ViewAttendance->whereDate('rating_of_dep_activities.created_at', '>=', "$from_d
 $ViewAttendance->whereDate('rating_of_dep_activities.created_at', '<=',"$to_date 23:59:59");
 }		
 })
-->whereIn('rating_of_dep_activities.survey_id',[1,11])
+
 ->orderBy("rating_of_dep_activities.activity_name","asc")
 ->groupBy("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_id")
 ->get();
@@ -680,8 +682,7 @@ $from_date = date('Y-01-01');
 $to_date = date('Y-12-t');
 }			
 
-$ViewAttendance = DB::table("survey_answered")
-->select("survey_answered.person_id","survey_answered.ticket_status",
+$ViewAttendance = SurveyAnswered::select("survey_answered.person_id","survey_answered.ticket_status",
 DB::raw('count(IF(survey_answered.ticket_status="patient_level_closure", 1, NULL)) as patient_level_closure'),
 DB::raw('count(IF(survey_answered.ticket_status="process_level_closure", 1, NULL)) as process_level_closure'),
 
@@ -768,8 +769,7 @@ $from_date = date('Y-01-01');
 $to_date = date('Y-12-t');
 }			
 
-$ViewAttendance = DB::table("survey_answered")
-->select("survey_answered.person_id","survey_answered.category_process_level",DB::raw('count(*) as total') )
+$ViewAttendance = SurveyAnswered::select("survey_answered.person_id","survey_answered.category_process_level",DB::raw('count(*) as total') )
 
 ->where(function($ViewAttendance) use ($Question){   
 if($Question){       
@@ -843,8 +843,7 @@ else{
 $from_date = date('Y-01-01');
 $to_date = date('Y-12-t');
 }			
-$ViewAttendance = DB::table("rating_of_departments")
-->select("rating_of_departments.department_name as departmentname",
+$ViewAttendance = RatingOfDepartment::select("rating_of_departments.department_name as departmentname",
 DB::raw('count(IF(rating_of_departments.rating between 0 and 6, 1, NULL)) as detractors'),
 DB::raw('count(IF(rating_of_departments.rating between 7 and 8, 1, NULL)) as passives'),
 DB::raw('count(IF(rating_of_departments.rating between 9 and 10, 1, NULL)) as promotors'),
@@ -861,6 +860,7 @@ $ViewAttendance->whereDate('rating_of_departments.created_at', '<=',"$to_date 23
 if($role==2){
 
 }
+
 else if($role==3){				
 if(auth()->user()->department){
 	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
@@ -878,17 +878,17 @@ else{
 })
 
 
-	->where(function($ViewAttendance) use ($QuestionOptions){	
-			
-				$ViewAttendance->whereIn('rating_of_departments.department_id',$QuestionOptions);				
-							
-		
-			
-			})
+->where(function($ViewAttendance) use ($QuestionOptions){	
+
+$ViewAttendance->whereIn('rating_of_departments.department_id',$QuestionOptions);				
 
 
 
-->whereIn('rating_of_departments.survey_id',[1,11])
+})
+
+
+
+
 ->orderBy("rating_of_departments.department_name","asc")
 ->groupBy("rating_of_departments.department_name")
 ->get();
@@ -920,8 +920,7 @@ $from_date = date('Y-01-01');
 $to_date = date('Y-12-t');
 }			
 
-$ViewAttendance = DB::table("rating_of_dep_activities")
-->select("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_name as departmentname",
+$ViewAttendance = RatingOfDepActivity::select("rating_of_dep_activities.activity_name","rating_of_dep_activities.activity_name as departmentname",
 DB::raw('count(IF(rating_of_dep_activities.rating between 0 and 6, 1, NULL)) as detractors'),
 DB::raw('count(IF(rating_of_dep_activities.rating between 7 and 8, 1, NULL)) as passives'),
 DB::raw('count(IF(rating_of_dep_activities.rating between 9 and 10, 1, NULL)) as promotors'),
@@ -962,7 +961,7 @@ $ViewAttendance->whereIn('rating_of_dep_activities.department_id',$QuestionOptio
 
 
 
-->whereIn('rating_of_dep_activities.survey_id',[1,11])
+
 ->orderBy("rating_of_dep_activities.activity_name","asc")
 ->groupBy("rating_of_dep_activities.activity_name")
 ->get();
@@ -1002,7 +1001,7 @@ return $ViewAttendance;
 		
 		/*** detractors count****/
 			$users = SurveyAnswered::select('id', 'created_at')
-			->whereIn('survey_answered.question_id',[1,11])
+			->whereIn('survey_answered.question_id',[1,11,33,40])
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6]) 
 			 
 			->where(function($users) use ($from_date,$to_date){	
@@ -1059,7 +1058,7 @@ return $ViewAttendance;
 			
 			/*** passives actions***/
 			$_users = SurveyAnswered::select('id', 'created_at')
-			->whereIn('survey_answered.question_id',[1,11])
+			->whereIn('survey_answered.question_id',[1,11,33,40])
 			->whereIn('survey_answered.rating',[7,8])
 			 
 			->where(function($_users) use ($from_date,$to_date){	
@@ -1123,7 +1122,7 @@ return $ViewAttendance;
 			
 			/*** promotors actions***/
 			$__users = SurveyAnswered::select('id', 'created_at')
-			->whereIn('survey_answered.question_id',[1,11])
+			->whereIn('survey_answered.question_id',[1,11,33,40])
 			->whereIn('survey_answered.rating',[9,10])
 			 
 			->where(function($__users) use ($from_date,$to_date){	
@@ -1187,7 +1186,7 @@ return $ViewAttendance;
 
 					/*** NPS Score actions***/
 			$___users = SurveyAnswered::select('id', 'created_at')
-			->whereIn('survey_answered.question_id',[1,11])
+			->whereIn('survey_answered.question_id',[1,11,33,40])
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6,7,8,9,10])
 			 
 			->where(function($___users) use ($from_date,$to_date){	

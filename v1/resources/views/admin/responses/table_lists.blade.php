@@ -71,15 +71,15 @@
 @if(Auth::user()->role==2) 
 
 
-<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >
 
 @elseif(Auth::user()->role==3)
 
-<a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+<a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >
 
 @elseif(Auth::user()->role==4)
 
-<a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+<a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >
 
 @else
 	

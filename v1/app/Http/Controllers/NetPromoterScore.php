@@ -1489,10 +1489,10 @@ public function checking_ticket_action($score=false) {
 		$status='opened';
 		break;  
 		case '7':
-		$status=null;
+		$status='opened';
 		break;	
 		case '8':
-		$status=null;
+		$status='opened';
 		break;
 		case '9':
 		$status=null;

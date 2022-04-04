@@ -33,19 +33,18 @@
 @if($Questions->count()>0)
 
 @if(auth()->user())
+	
 	@if(auth()->user()->role==2)
 	<form action="{{ route('surveyone.post.'.Config::get('constants.admin')) }}" class="signup_form" method="post">
-@elseif(auth()->user()->role==3)
+	@elseif(auth()->user()->role==3)
 	<form action="{{ route('surveyone.post.'.Config::get('constants.hod')) }}" class="signup_form" method="post">
 	@elseif(auth()->user()->role==5)
 	<form action="{{ route('surveyone.post.'.Config::get('constants.operantionalhead')) }}" class="signup_form" method="post">
-	
 	@else
 	<form action="{{ route('surveyone.post.'.Config::get('constants.user')) }}" class="signup_form" method="post">
 	@endif
-
 @else
-	<form action="{{ route('offline.surveyone.post') }}" class="signup_form" method="post">
+<form action="{{ route('offline.surveyone.post') }}" class="signup_form" method="post">
 @endif
 
 @php

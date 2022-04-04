@@ -19,7 +19,7 @@ class LoginController extends Controller
         
     public function auth_login(Request $request)
     {
-		Session::forget('companyID');
+		//Session::forget('companyID');
 		
 		$user  = auth()->user();  
 
