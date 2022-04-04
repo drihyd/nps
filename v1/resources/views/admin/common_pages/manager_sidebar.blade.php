@@ -114,8 +114,10 @@
 <!-- <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=all')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=all')}}">Detractors Reports</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=new-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=new-cases')}}">New Cases</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=assigned-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=assigned-cases')}}">Assigned Cases</a></li>
-<li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=closed-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=closed-cases')}}">Closed Cases</a></li> -->
+<li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=closed-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=closed-cases')}}">Closed Cases</a></li> 
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=end-action-comments')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=end-action-comments')}}">Comments</a></li>
+
+-->
 <li class="{{ (request()->is(Config::get('constants.admin').'/performitor_reports')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/performitor_reports')}}">Performitors Reports</a></li>
 </ul>
 </li>

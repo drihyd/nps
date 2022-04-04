@@ -29,6 +29,8 @@ class ResponsesController extends Controller
     public function response_list(Request $request)
     {   
 			$role=auth()->user()->role??0;
+			
+			
 		
 	
 	/*

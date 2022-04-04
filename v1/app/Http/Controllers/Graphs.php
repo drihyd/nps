@@ -492,7 +492,7 @@ $responses_data->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59
 }		
 })
 			
-->whereIn('survey_answered.question_id',[1,11])
+->whereIn('survey_answered.question_id',[1,11,33,40])
 ->groupBy('survey_answered.department_name_id')
 ->get();
 

@@ -520,6 +520,19 @@ Route::get('admin/departments/delete/{id}',[DepartmentsController::class,'delete
 	Route::any('post.voice.message.file', [NetPromoterScore::class,'post_voice_message_file'])->name('post.voice.message.file');
 
 
+
+Route::get('admin/responses', [ResponsesController::class,'response_list']);
+	Route::get('admin/responses/view/{per_id}', [ResponsesController::class,'response_view']);
+	Route::get('admin/responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
+
+Route::get('admin/responses', [ResponsesController::class,'response_list']);
+Route::get('admin/responses/view/{per_id}', [ResponsesController::class,'response_view']);
+Route::get('admin/responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
+
+
+Route::get('admin/performitor_reports', [Reports::class,'show_performitor_reports']);
+	Route::get('admin/performitor.export', [Reports::class, '_performitor_export'])->name('performitor.export');
+
 /*** End ***/
 
 

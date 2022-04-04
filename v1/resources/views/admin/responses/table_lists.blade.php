@@ -47,7 +47,9 @@
 @elseif(Auth::user()->role==4)
 
 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+@elseif(Auth::user()->role==1)
 
+<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
 @else
 	
 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >#
@@ -80,6 +82,9 @@
 @elseif(Auth::user()->role==4)
 
 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >
+@elseif(Auth::user()->role==1)
+
+<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >
 
 @else
 	
