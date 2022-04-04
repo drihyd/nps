@@ -562,7 +562,6 @@ public function picksurvey_method($param=false)
 public function take_person_onfo($param=false)
 {
 
-	
 	try{
 		
 		if(auth()->user())
@@ -626,6 +625,7 @@ public function getNextTicketNumber()
 public function store_survey_personinfo(Request $request){
 
 
+	
 try{
 	
 	if($request){	
@@ -661,7 +661,7 @@ try{
 				"survey_id"=>$request->survey_id??'',
 				"logged_user_id"=>auth()->user()->id??0,
 				"ticket_series_number"=>0,
-				"ticker_final_number"=>'',
+				"ticker_final_number"=>'#',
 				];
 
 				$user = SurveyPerson::create($input);

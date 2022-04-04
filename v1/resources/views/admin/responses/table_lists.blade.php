@@ -1,5 +1,7 @@
 <div class="row">
 <div class="col-md-8">
+
+@if($Data)
 	
 	<div class="card">
 		<div class="card-body p-0 text-center">
@@ -21,24 +23,80 @@
 		<div class="card-body p-0">
 			<div class="row no-gutters align-items-top">
 				<div class="col-sm-auto col-12">
-					<div class="cus-score">
-						<h1>5</h1>
-						@if(Auth::user()->role==2)         
-							  <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a>
-					  @elseif(Auth::user()->role==3)
-						 <a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a>
-						 @elseif(Auth::user()->role==4)
-              <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}</a>
-              @else
-              @endif
-					</div>
+				
+		
+			<div class="cus-score">
+			
+			<h1>
+			{{$response->rating??0}}
+			
+			
+			</h1>
+@if(Auth::user()->role==2) 
+
+
+<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+
+@elseif(Auth::user()->role==3)
+
+<a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+
+@elseif(Auth::user()->role==4)
+
+<a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+
+@else
+	
+<a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >#
+@endif
+		
+			
+			
+			
+			</a>
+		
+			</div>
+					
+					
+					
 				</div>
 				<div class="col-sm col-12 bg-omni-blue-light">
-					<div class="cus-info">						
-						<span><b>{{Str::title($response->firstname??'')}}</b></span><br>
+					<div class="cus-info">	
+
+
+
+@if(Auth::user()->role==2) 
+
+
+<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+
+@elseif(Auth::user()->role==3)
+
+<a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+
+@elseif(Auth::user()->role==4)
+
+<a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+
+@else
+	
+<a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >#
+@endif
+					
+						<span>
+						
+						<b>{{Str::title($response->firstname??'')}}</b>
+						
+						
+						
+						</span>
+						
+						</a>
+						
+						<br>
 						<span>UHID No: {{Str::title($response->uhid??'')}}</span><br>
 						<span>Bed No: {{Str::title($response->bed_name??'')}}</span><br>
-						<span><a href="mailto:{{$response->email??''}}" title="{{$response->email??''}}"><i class="fa fa-envelope"></i></a></span>
+						<span><a href="mailto:{{$response->email??''}}" title="{{$response->email??''}}"><i class="fa fa-envelope "></i></a></span>
 						<span><a href="telto:{{$response->mobile??''}}" title="{{$response->mobile??''}}"><i class="fa fa-phone-square"></i></a> </span>
 					</div>
 				</div>
@@ -60,6 +118,9 @@
 		</div>
 	</div>
 	@endforeach
+	
+	
+	@endif
 
 </div>
 </div>

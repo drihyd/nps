@@ -2,6 +2,13 @@
 @section('title', 'Survey Step-1')
 @section('content')
 
+@php
+
+
+dd(auth()->user()->role);
+@endphp
+	
+
 <div class="formify_right_fullwidth align-items-center justify-content-center">
 
 <!-- <a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
@@ -40,12 +47,12 @@
 <div class="background-white">
 @if(auth()->user()->role==2)
 <form action="{{ route('post.survey.personinfo.'.Config::get('constants.admin')) }}" class="" method="post">
-@elseif(auth()->user()->role==4)
+@elseif(auth()->user()->role==3)
 <form action="{{ route('post.survey.personinfo.'.Config::get('constants.hod')) }}" class="" method="post">
 @elseif(auth()->user()->role==5)
 <form action="{{ route('post.survey.personinfo.'.Config::get('constants.operantionalhead')) }}" class="" method="post">
 @else
-	<form action="{{ route('post.survey.personinfo.'.Config::get('constants.user')) }}" class="" method="post">
+<form action="{{ route('post.survey.personinfo.'.Config::get('constants.user')) }}" class="" method="post">
 @endif
 @csrf
 <div class="row">
