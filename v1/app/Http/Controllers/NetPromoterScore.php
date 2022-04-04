@@ -75,7 +75,7 @@ class NetPromoterScore extends Controller
 	
 
 	
-	->whereIn('survey_persons.rating',[0,1,2,3,4,5,6])	
+	->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
 	
 		->where(function($Detractors) use ($role){	
 		
@@ -136,7 +136,7 @@ class NetPromoterScore extends Controller
 			
 			
 			
-			->whereIn('survey_persons.rating',[7,8])
+			->whereIn('survey_answered.rating',[7,8])
 	
 		
 		->where(function($Neutral) use ($role){	
@@ -181,7 +181,7 @@ class NetPromoterScore extends Controller
 
 			
 			
-			->whereIn('survey_persons.rating',[9,10])
+			->whereIn('survey_answered.rating',[9,10])
 				
 		->where(function($Promoters) use ($role){	
 		if($role==2 || $role==1){
@@ -239,7 +239,7 @@ class NetPromoterScore extends Controller
 	
 	
 	
-	->whereIn('survey_persons.rating',[9,10])
+	->whereIn('survey_answered.rating',[9,10])
 	
 		->where(function($Promoters_lastweek) use ($role){	
 		if($role==2 || $role==1){
@@ -287,7 +287,7 @@ $Promoters_lastweek=$uniqueCollection4->count();
 
 
 
-	->whereIn('survey_persons.rating',[7,8])
+	->whereIn('survey_answered.rating',[7,8])
 		
 		->where(function($Neutral_lastweek) use ($role){
 			
@@ -343,7 +343,7 @@ $Promoters_lastweek=$uniqueCollection4->count();
 			
 			
 			
-			->whereIn('survey_persons.rating',[0,1,2,3,4,5,6])	
+			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
 		
 		
 		
@@ -631,6 +631,9 @@ try{
 	if($request){	
 		
 		
+		
+			$ticketnumber=$this->getNextTicketNumber();
+		 
 			if($request->survey_id){			
 				
 
@@ -640,6 +643,9 @@ try{
 		
 	
 				$Organizations=Organizations::select('*')->where('id',$request->organization_id??0)->get();	
+				
+				
+				
 				
 
 				$input = [
@@ -660,8 +666,8 @@ try{
 				"organization_id"=>$request->organization_id??0,
 				"survey_id"=>$request->survey_id??'',
 				"logged_user_id"=>auth()->user()->id??0,
-				"ticket_series_number"=>0,
-				"ticker_final_number"=>'#',
+				"ticket_series_number"=>$ticketnumber,
+                "ticker_final_number"=>"#".Carbon::now()->format('y')."".sprintf ("%02d",$ticketnumber)
 				];
 
 				$user = SurveyPerson::create($input);
@@ -675,7 +681,7 @@ try{
 
 if($request->sendlink_email){
 
-	$ticketnumber=uniqid();	
+
 	
 	if(auth()->user()->role==2){
 		$prefix=Config::get('constants.admin');
@@ -1134,6 +1140,8 @@ $update_rating=DB::table('survey_persons')->where('id',Session::get('person_id')
 'rating'=>$request->first_questin_range??0
 ));
 if(isset($request->first_questin_range)){
+	
+	/*
         if($request->first_questin_range<=8) {
                 $ticketnumber=$this->getNextTicketNumber();
                 $update_ticket_Number=DB::table('survey_persons')->where('id',Session::get('person_id')??0)->update(array(
@@ -1141,6 +1149,8 @@ if(isset($request->first_questin_range)){
                 "ticker_final_number"=>"#".Carbon::now()->format('y')."".sprintf ("%02d",$ticketnumber)
                 ));
         }
+		
+		*/
 }
 /*** End ****/
 

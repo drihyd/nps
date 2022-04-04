@@ -2,11 +2,6 @@
 @section('title', 'Survey Step-1')
 @section('content')
 
-@php
-
-
-dd(auth()->user()->role);
-@endphp
 	
 
 <div class="formify_right_fullwidth align-items-center justify-content-center">
