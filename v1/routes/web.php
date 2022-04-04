@@ -467,9 +467,9 @@ Route::post('responses/update_status', [ResponsesController::class,'response_upd
 
 /** Fr COOO ***/
 
-Route::get('admin/responses', [ResponsesController::class,'response_list'])->middleware('issuperadmin');
-Route::get('admin/responses/view/{per_id}', [ResponsesController::class,'response_view'])->middleware('issuperadmin');
-Route::get('admin/responses/delete/{per_id}', [ResponsesController::class,'delete_responses'])->middleware('issuperadmin');
+Route::get('admin/responses', [ResponsesController::class,'response_list']);
+Route::get('admin/responses/view/{per_id}', [ResponsesController::class,'response_view']);
+Route::get('admin/responses/delete/{per_id}', [ResponsesController::class,'delete_responses']);
 
 
 /*Graphs*/

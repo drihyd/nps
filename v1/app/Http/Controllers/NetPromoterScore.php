@@ -952,11 +952,25 @@ DB::table('rating_of_departments')->insert(
 		}
 		
 		
+		
+if(auth()->user()->organization_id==23) {
+	
+	$qoptiondepid=21;
+	
+}
+
+else if(auth()->user()->organization_id==36) {
+	
+	$qoptiondepid=154;
+}
+else{
+	$qoptiondepid=0;
+}
 DB::table('passing_departments')->insert(
 [
 'person_id' => Session::get('person_id')??0, 
 'sorting' =>30,
-'department_id' => 21,
+'department_id' =>$qoptiondepid,
 'passing_page' =>"no",
 'survey_id' =>$request->survey_id??0,
 'created_at' =>Carbon::now(),
@@ -1309,7 +1323,7 @@ $selected_departments='';
 
 catch (\Exception $exception){
 	
-//dd($exception);
+dd($exception);
 		abort(401);
 }
 		
