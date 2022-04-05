@@ -138,6 +138,10 @@ $(".gst").change(function () {
 				$(".hide_process_level_option").show();
 				$('#process_level_closure').attr('required', true); 
 				$('#category_process').attr('required', true); 
+				
+				
+				$(".hide_assigned_option").hide();
+				$(".hide_transferred_option").hide();	
 				  
             }			
 			
@@ -149,7 +153,26 @@ $(".gst").change(function () {
 
 				$('#process_level_closure').attr('required', false); 
 				$('#category_process').attr('required', false);	
+				$('#hod_user').attr('required', false);
+				
 				$(".hide_process_level_option").hide();				
+				$(".hide_transferred_option").hide();				
+			
+				  
+            }
+			
+			else if (val == "transferred") {
+			
+				$(".hide_transferred_option").show();				
+				$('#hod_user').attr('required', true);
+				
+				$('#process_level_closure').attr('required', false); 
+				$('#category_process').attr('required', false);
+				$('#assigned').attr('required', false);	
+				
+				$(".hide_process_level_option").hide();	
+				$(".hide_assigned_option").hide();
+				
 			
 				  
             }
@@ -161,8 +184,12 @@ $(".gst").change(function () {
 				$('#process_level_closure').attr('required', false); 
 				$('#category_process').attr('required', false);
 				$('#assigned').attr('required', false); 
+				$('#hod_user').attr('required', false);
+				
+				
 				$(".hide_process_level_option").hide();
 				$(".hide_assigned_option").hide();
+				$(".hide_transferred_option").hide();
 				 
             }
 		

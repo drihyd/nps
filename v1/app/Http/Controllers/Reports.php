@@ -198,6 +198,10 @@ class Reports extends Controller
             	$Detractors->wherein('survey_answered.ticket_status',['patient_level_closure','process_level_closure']);				
             }
 			
+			elseif($status == 'transferred-cases'){			
+            	$Detractors->wherein('survey_answered.ticket_status',['transferred']);	
+            }
+			
 			else{
 				
 				$Detractors->where('survey_answered.ticket_status','=',$status);
@@ -295,6 +299,11 @@ class Reports extends Controller
             	$Passives->wherein('survey_answered.ticket_status',['patient_level_closure','process_level_closure']);				
             }
 			
+			elseif($status == 'transferred-cases'){	
+			
+            	$Passives->wherein('survey_answered.ticket_status',['transferred']);				
+            }
+			
 			else{
 				
 				$Passives->where('survey_answered.ticket_status','=',$status);
@@ -386,6 +395,11 @@ class Reports extends Controller
 			elseif($status == 'patient-process-closer-cases'){	
 			
             	$Promoters->wherein('survey_answered.ticket_status',['patient_level_closure','process_level_closure']);				
+            }
+			
+			elseif($status == 'transferred-cases'){	
+			
+            	$Promoters->wherein('survey_answered.ticket_status',['transferred']);				
             }
 			
 			else{

@@ -54,6 +54,10 @@
 						 
 					@elseif($person_responses_status->ticket_status=="assigned")
 					<h6 class="badge badge-success">Assigned</h6>
+                    <p><b>Remarks: </b>{{$person_responses_status->ticket_remarks??''}}</p>	
+					
+					@elseif($person_responses_status->ticket_status=="transferred")
+					<h6 class="badge badge-success">Transferred</h6>
                     <p><b>Remarks: </b>{{$person_responses_status->ticket_remarks??''}}</p>
                     @else
                     @endif                                          

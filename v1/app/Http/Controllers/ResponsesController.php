@@ -18,7 +18,14 @@ use App\Models\Surveys;
 use App\Models\SurveyPerson;
 use App\Models\UpdateStatusResponseLog;
 use App\Models\User;
+use App\Models\RatingOfDepartment;
+use App\Models\RatingOfDepActivity;
+use App\Models\Departments;
+
 use Illuminate\Support\Facades\Crypt;
+
+
+
 
 class ResponsesController extends Controller
 {
@@ -407,9 +414,25 @@ $request->validate([
 ]); 
 
 if(isset($request)) {
+	
+if($request->ticket_status=="assigned")
+{
 $this->assigned_ticket_support_team($request);
+
+}
+else if($request->ticket_status=="transferred")
+{
+	$this->transferred_ticket($request);
+
+}
+else{	
+
+}
+/* Ticket status and log update */
 $this->ticket_status_update($request);
 $this->ticket_status_logging($request);
+
+/*** End ***/
 return redirect()->back()->with('success', "Success! Status are updated successfully."); 
 }
 else{
@@ -417,6 +440,88 @@ return redirect()->back()->with('error', "Something went wrong.");
 }
         
 }
+
+
+
+public function transferred_ticket($request=false){
+try{
+	
+	
+$logged_user_data= User::select('firstname','department')->where('id',auth()->user()->id??0)->get()->first();
+$transferred_user_data= User::select('firstname','department')->where('id',$request->hod_user??0)->get()->first();
+$Departments=Departments::where('id',$transferred_user_data->department??0)->get('department_name')->first();
+$old_department_id=$logged_user_data->department??0;
+$new_department_id=$transferred_user_data->department??0;
+$ticket_id=$request->id??0;
+$new_department_name=$Departments->department_name??'';
+$old_q_departments=QuestionOptions::where('department_id',$old_department_id??0)->get()->pluck('id');
+$new_q_departments=QuestionOptions::where('department_id',$new_department_id??0)->get()->pluck('id');
+
+
+
+
+
+
+/*** Update HOD User Id after transferred ***/
+
+
+$Transferred_Ticket=SurveyPerson::where('id',$request->id??0)
+->update(
+[  
+"transferred_ticket"=>$request->hod_user??0,
+]
+);
+
+
+
+
+foreach($old_q_departments as $key=>$value){
+
+
+$SurveyAnswered=SurveyAnswered::where('department_name_id',$value??0)->where('person_id',$request->id??0)
+->update(
+	[  
+		"answerid"=>$new_q_departments[$key]??0,
+		"department_name_id"=>$new_q_departments[$key]??0,
+	]
+);
+
+
+$RatingOfDepartment=RatingOfDepartment::where('department_id',$value??0)->where('person_id',$request->id??0)
+->update(
+	[  
+		"department_id"=>$new_q_departments[$key]??0,
+		"department_name"=>$new_department_name??0,
+	]
+);
+
+
+$RatingOfDepActivity=RatingOfDepActivity::where('department_id',$value??0)->where('person_id',$request->id??0)
+->update(
+	[  
+		"department_id"=>$new_q_departments[$key]??0,
+		
+	]
+);
+
+
+
+}
+
+
+
+
+
+
+}catch (RequestException $exception) {
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+catch (\Exception $exception) {		
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+}
+
+
 	
 	
 	
@@ -426,8 +531,15 @@ try{
 
 if($request->ticket_status=="assigned")
 {
-	$user_data= User::where('id',$request->assigned)->get('firstname')->first();
+	$user_data= User::where('id',$request->assigned??0)->get('firstname')->first();
 	$remarks=$request->ticket_remarks." (Assigned to ".$user_data->firstname.")";
+	
+}
+
+else if($request->ticket_status=="transferred")
+{
+	$user_data= User::where('id',$request->hod_user??0)->get('firstname')->first();
+	$remarks=$request->ticket_remarks." (Transferred to ".$user_data->firstname.")";
 	
 }
 else{	
