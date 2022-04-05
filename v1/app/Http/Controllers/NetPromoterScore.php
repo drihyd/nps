@@ -94,6 +94,12 @@ class NetPromoterScore extends Controller
 					$Detractors->whereIn('survey_answered.department_name_id',$q_departments);	
 				}	
 		}
+		
+		elseif($role==7){		
+			$Detractors->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
+		}
+		
+		
 		else{			
 			$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);			
 		
@@ -152,6 +158,11 @@ class NetPromoterScore extends Controller
 				}	
 
 		}
+		
+		elseif($role==7){		
+			$Neutral->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
+		}
+		
 		else{
 		$Neutral->where('survey_answered.logged_user_id',auth()->user()->id??0);
 		}	
@@ -195,6 +206,12 @@ class NetPromoterScore extends Controller
 				}	
 
 		}
+		
+		
+		elseif($role==7){		
+			$Promoters->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
+		}
+		
 		else{
 		$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
 		}	
@@ -257,6 +274,12 @@ class NetPromoterScore extends Controller
 				}	
 
 		}
+		
+		elseif($role==7){		
+			$Promoters_lastweek->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
+		}
+		
+		
 		else{
 		$Promoters_lastweek->where('survey_answered.logged_user_id',auth()->user()->id??0);
 		}	
@@ -303,6 +326,10 @@ $Promoters_lastweek=$uniqueCollection4->count();
 					$Neutral_lastweek->whereIn('survey_answered.department_name_id',$q_departments);	
 				}	
 
+		}
+		
+		elseif($role==7){		
+		$Neutral_lastweek->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
 		}
 		else{
 		$Neutral_lastweek->where('survey_answered.logged_user_id',auth()->user()->id??0);
@@ -363,6 +390,11 @@ $Promoters_lastweek=$uniqueCollection4->count();
 			$Detractors_lastweek->where('survey_persons.logged_user_id',auth()->user()->id??0);
 			
 			}
+			
+		else if($role==7){		
+			$Detractors_lastweek->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
+		}
+
 		
 		else{
 		$Detractors_lastweek->where('survey_answered.logged_user_id',auth()->user()->id??0);

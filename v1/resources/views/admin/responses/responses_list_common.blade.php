@@ -5,10 +5,15 @@
 @include('admin.common_pages.dates_input')
 @include('admin.common_pages.teams',['pickteam'=>$pickteam??''])
 &nbsp;
+@if(auth()->user()->role!=7)
 &nbsp;
 @include('admin.common_pages.surveys',['quetion'=>$quetion??''])
+@endif
+@if(auth()->user()->role!=7)
 &nbsp;
 @include('admin.common_pages.action_status',['status'=>$status??'','is_required'=>'no'])
+@endif
+
 &nbsp;
 @include('admin.common_pages.action_button')
 &nbsp;

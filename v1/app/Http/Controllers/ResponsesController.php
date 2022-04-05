@@ -17,6 +17,7 @@ use App\Models\SurveyAnswered;
 use App\Models\Surveys;
 use App\Models\SurveyPerson;
 use App\Models\UpdateStatusResponseLog;
+use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 
 class ResponsesController extends Controller
@@ -28,11 +29,9 @@ class ResponsesController extends Controller
 	  }
     public function response_list(Request $request)
     {   
-			$role=auth()->user()->role??0;
-			
-			
 		
-	
+		$role=auth()->user()->role??0;
+
 	/*
         $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)		
 		->where('survey_persons.logged_user_id',auth()->user()->id??0)
@@ -119,9 +118,12 @@ class ResponsesController extends Controller
 							
 			}			
 			else if($role==4){				
+				$Detractors->where('survey_persons.logged_user_id',auth()->user()->id??0);
 			
+			}
 			
-			$Detractors->where('survey_persons.logged_user_id',auth()->user()->id??0);
+			else if($role==7){				
+				$Detractors->where('survey_persons.assigned_ticket',auth()->user()->id??0);
 			
 			}
 			else{
@@ -195,6 +197,12 @@ class ResponsesController extends Controller
 			else if($role==4){				
 				$Passives->where('survey_persons.logged_user_id',auth()->user()->id??0);
 			}
+			
+			else if($role==7){				
+				$Passives->where('survey_persons.assigned_ticket',auth()->user()->id??0);			
+			}
+			
+			
 			else{
 				
 			}	
@@ -255,6 +263,10 @@ class ResponsesController extends Controller
 			}			
 			else if($role==4){				
 				$Promoters->where('survey_persons.logged_user_id',auth()->user()->id??0);
+			}
+			
+			else if($role==7){				
+				$Promoters->where('survey_persons.assigned_ticket',auth()->user()->id??0);			
 			}
 			else{
 				
@@ -386,38 +398,103 @@ class ResponsesController extends Controller
         return view('admin.feedback.feedback_list', compact('pageTitle'));  
     }
 
-    public function response_update_status(Request $request)
-    { 
-        $request->validate([
-            'ticket_status' => 'required', 
-            'ticket_remarks' => 'required',        
-        ]); 
+public function response_update_status(Request $request)
+{ 
 
+$request->validate([
+'ticket_status' => 'required', 
+'ticket_remarks' => 'required',        
+]); 
+
+if(isset($request)) {
+$this->assigned_ticket_support_team($request);
+$this->ticket_status_update($request);
+$this->ticket_status_logging($request);
+return redirect()->back()->with('success', "Success! Status are updated successfully."); 
+}
+else{
+return redirect()->back()->with('error', "Something went wrong."); 
+}
         
-        SurveyAnswered::where('person_id', $request->id)
-            ->update(
-            [  
-                "ticket_status"=>$request->ticket_status??'',
-                "ticket_remarks"=>$request->ticket_remarks??'',
-				"category_process_level"=>$request->category_process??'',
-				"process_level_closure"=>$request->process_level_closure??'',
-            ]
-            ); 
+}
+	
+	
+	
+public function ticket_status_logging($request=false){
+try{
+	
+
+if($request->ticket_status=="assigned")
+{
+	$user_data= User::where('id',$request->assigned)->get('firstname')->first();
+	$remarks=$request->ticket_remarks." (Assigned to ".$user_data->firstname.")";
+	
+}
+else{	
+	$remarks=$request->ticket_remarks??'';	
+}
 
 
-       	UpdateStatusResponseLog::insert([
-            [
-                "organization_id"=>$request->organization_id??'',
-                "logged_user_id"=>$request->logged_user_id??'',
-                "survey_id"=>$request->survey_id??'',
-                "person_id"=>$request->id??'',
-                "ticket_status"=>$request->ticket_status??'',
-                "ticket_remarks"=>$request->ticket_remarks??'',
-                "process_level_closure"=>$request->process_level_closure??'',
-                "category_process_level"=>$request->category_process??'',
-            ]  
-        ]);
-        return redirect()->back()->with('success', "Success! Status are updated successfully"); 
-    }
+$Ticket_Logging=UpdateStatusResponseLog::insert([
+		[
+			"organization_id"=>$request->organization_id??'',
+			"logged_user_id"=>$request->logged_user_id??'',
+			"survey_id"=>$request->survey_id??'',
+			"person_id"=>$request->id??'',
+			"ticket_status"=>$request->ticket_status??'',
+			"ticket_remarks"=>$remarks??'',
+			"process_level_closure"=>$request->process_level_closure??'',
+			"category_process_level"=>$request->category_process??'',
+			"assigned_user_id"=>$request->assigned??0,
+		]  
+	]);
+
+}catch (RequestException $exception) {
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+catch (\Exception $exception) {		
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+}
+public function ticket_status_update($request=false){
+try{
+	
+
+$Ticket_Status=SurveyAnswered::where('person_id', $request->id)
+	->update(
+	[  
+		"ticket_status"=>$request->ticket_status??'',
+		"ticket_remarks"=>$request->ticket_remarks??'',
+		"category_process_level"=>$request->category_process??'',
+		"process_level_closure"=>$request->process_level_closure??'',
+	]
+	); 
+
+}catch (RequestException $exception) {
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+catch (\Exception $exception) {		
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+}
+	
+public function assigned_ticket_support_team($request=false){
+try{
+$Assigned_Ticket=SurveyPerson::where('id',$request->id??0)
+->update(
+[  
+"assigned_ticket"=>$request->assigned??0,
+]
+);
+
+}catch (RequestException $exception) {
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+catch (\Exception $exception) {		
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+}
+		
+		
 
 }

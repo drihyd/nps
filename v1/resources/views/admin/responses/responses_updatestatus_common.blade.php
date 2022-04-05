@@ -47,19 +47,27 @@ Remarks
 <option value="connected_asked_for_call_back" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'connected_asked_for_call_back'? 'selected':''}}>Connected - Asked for call back</option>
 <option value="closed_satisfied" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'closed_satisfied'? 'selected':''}}> Closed - Satisfied</option>
 <option value="closed_unsatisfied" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'closed_unsatisfied'? 'selected':''}}>Closed - Unsatisfied</option>
-
+<option value="assigned" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'assigned'? 'selected':''}}>Assigned Ticket</option>
 @elseif(Auth::user()->role==3)
 <option value="">--Pick one--</option>
 <option value="patient_level_closure" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'patient_level_closure'? 'selected':''}}>Patient level Closure</option>
 <option value="process_level_closure" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'process_level_closure'? 'selected':''}}>Process level closure</option>
+<option value="assigned" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'assigned'? 'selected':''}}>Assigned Ticket</option>
+
+@elseif(Auth::user()->role==7)
+<option value="">--Pick one--</option>
+<option value="closed_satisfied" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'closed_satisfied'? 'selected':''}}> Closed - Satisfied</option>
+<option value="closed_unsatisfied" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'closed_unsatisfied'? 'selected':''}}>Closed - Unsatisfied</option>
+
 @else
+
 @endif
 </select>
 </div>
 
-@if(Auth::user()->role==3)
+
 	
-<div class="hide_process_level_option">
+<div class="hide_process_level_option" style="display:none;">
 
 <div class="form-group">
 <label for="survey_id">
@@ -78,8 +86,17 @@ Category of process  [<small>Maximum 15 characters</small>]:
 
 </div>
 </div>
-@else
-@endif
+
+
+
+
+
+<div class="hide_assigned_option" style="display:none;">
+<div class="form-group">
+@include('masters.support_users',['is_required'=>''])
+</div>
+</div>
+
 
 
 <button type="submit" class="btn btn-success btn-sm">Submit</button>

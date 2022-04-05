@@ -14,5 +14,7 @@
 <span class="badge badge-success">Patient level Closure</span>
 @elseif($ticket_status=="process_level_closure")
 <span class="badge badge-success">Process level closure</span>
+@elseif($ticket_status=="assigned")
+<span class="badge badge-success">Assigned</span>
 @else
 @endif

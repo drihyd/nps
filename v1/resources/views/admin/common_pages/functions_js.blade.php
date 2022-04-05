@@ -139,11 +139,30 @@ $(".gst").change(function () {
 				$('#process_level_closure').attr('required', true); 
 				$('#category_process').attr('required', true); 
 				  
-            } else {
+            }			
+			
+			
+			else if (val == "assigned") {
+			
+				$(".hide_assigned_option").show();				
+				$('#assigned').attr('required', true);
+
+				$('#process_level_closure').attr('required', false); 
+				$('#category_process').attr('required', false);	
+				$(".hide_process_level_option").hide();				
+			
+				  
+            }
+
+
+
+			else {
 				
 				$('#process_level_closure').attr('required', false); 
 				$('#category_process').attr('required', false);
+				$('#assigned').attr('required', false); 
 				$(".hide_process_level_option").hide();
+				$(".hide_assigned_option").hide();
 				 
             }
 		

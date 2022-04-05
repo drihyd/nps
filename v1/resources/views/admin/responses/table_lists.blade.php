@@ -48,8 +48,9 @@
 
 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
 @elseif(Auth::user()->role==1)
-
 <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
+@elseif(Auth::user()->role==7)
+<a href="{{url(Config::get('constants.support').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >{{Str::title($response->ticker_final_number??'')}}
 @else
 	
 <a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="btn btn-primary btn-sm" title="Edit" >#
@@ -85,6 +86,8 @@
 @elseif(Auth::user()->role==1)
 
 <a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >
+@elseif(Auth::user()->role==7)
+<a href="{{url(Config::get('constants.support').'/responses/view/'.Crypt::encryptString($response->id))}}" title="Edit" >
 
 @else
 	
@@ -118,6 +121,8 @@
 	<a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status])</a>
 	@elseif(Auth::user()->role==1)
 	<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status])</a>
+	@elseif(Auth::user()->role==7)
+	<a href="{{url(Config::get('constants.support').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status])</a>
 	@else
 
 	@endif

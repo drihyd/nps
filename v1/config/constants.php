@@ -8,6 +8,7 @@ return [
 	'user' => 'user',
 	'hod' => 'hod',
 	'coo' => 'coo',
+	'support' => 'support',
 	'optlhead' => 'operantionalhead',
 	'survey' => 'survey',
 	'tablestriped' => 'table-striped',

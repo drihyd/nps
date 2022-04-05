@@ -16,8 +16,8 @@
 		</div>
 		</div>
 		</a>
-			@elseif(auth()->user()->role==3)		
-		<a href="{{url(Config::get('constants.hod').'/responses')}}">
+		@elseif(auth()->user()->role==3)		
+		<a href="#">
 		<div class="card m-b-30">
 		<div class="card-body">
 		<div class="media">
@@ -31,7 +31,7 @@
 		</div>
 		</a>
 	@else		
-		<a href="{{url(Config::get('constants.user').'/responses')}}">
+		<a href="#">
 		<div class="card m-b-30">
 		<div class="card-body">
 		<div class="media">
@@ -57,6 +57,8 @@
 	<a href="{{url(Config::get('constants.admin').'/responses')}}">
 	@elseif(auth()->user()->role==3)
 	<a href="{{url(Config::get('constants.hod').'/responses')}}">
+	@elseif(auth()->user()->role==7)
+	<a href="{{url(Config::get('constants.support').'/responses')}}">
 	@else
 	<a href="{{url(Config::get('constants.user').'/responses')}}">
 	@endif
@@ -87,6 +89,8 @@
 <a href="{{url(Config::get('constants.admin').'/responses')}}">
 @elseif(auth()->user()->role==3)
 <a href="{{url(Config::get('constants.hod').'/responses')}}">
+@elseif(auth()->user()->role==7)
+<a href="{{url(Config::get('constants.support').'/responses')}}">
 @else
 <a href="{{url(Config::get('constants.user').'/responses')}}">
 @endif

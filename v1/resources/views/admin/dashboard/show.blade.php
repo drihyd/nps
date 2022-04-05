@@ -20,6 +20,9 @@
 
 @elseif(Auth::user()->role==5)
 @include('admin.dashboard.otphead_dashboard')
+
+@elseif(Auth::user()->role==7)
+@include('admin.dashboard.support_dashboard')
 @else
 
 @endif

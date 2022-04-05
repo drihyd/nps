@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'isuser' => \App\Http\Middleware\IsUser::class,
         'ishod' => \App\Http\Middleware\IsHOD::class,
         'isoperationalhead' => \App\Http\Middleware\IsOperantionaHead::class,
+        'issupport' => \App\Http\Middleware\IsSupport::class,
         'iscoo' => \App\Http\Middleware\IsCOO::class,
 		'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
         'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',

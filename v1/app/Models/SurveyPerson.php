@@ -34,6 +34,8 @@ class SurveyPerson extends Model
 	'know_about_hospital',
 	'patient_attender_name',
 	'rating',
+	'assigned_ticket',
+	'transferred_ticket',
 	
 	);
 	

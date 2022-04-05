@@ -54,6 +54,10 @@ class LoginController extends Controller
         else if ($user && $user->role==6) {         
         return redirect('coo/dashboard')->with('success', 'Successfully logged in as COO.');
         }
+		
+		 else if ($user && $user->role==7) {         
+        return redirect('support/dashboard')->with('success', 'Successfully logged in as COO.');
+        }
         
         
         
@@ -114,6 +118,9 @@ class LoginController extends Controller
                 case '6':
                 return redirect('coo/dashboard')->with('success', 'Successfully logged in as COO.');
                 break;	
+				case '7':
+                return redirect('support/dashboard')->with('success', 'Successfully logged.');
+                break;
 				
 				default:
 				Auth::logout();

@@ -111,6 +111,8 @@
 @include('admin.common_pages.operantionalhead_sidebar')
 @elseif(Auth::user()->role==6)
 @include('admin.common_pages.coo_sidebar')
+@elseif(Auth::user()->role==7)
+@include('admin.common_pages.support_sidebar')
 @else
 @endif
 
@@ -157,6 +159,11 @@
 
 @include('admin.common_pages.top-nav')
 @include('admin.common_pages.breadcrump_coo')
+
+@elseif(Auth::user()->role==7)
+
+@include('admin.common_pages.top-nav')
+@include('admin.common_pages.breadcrump_support')
 
 @else
 

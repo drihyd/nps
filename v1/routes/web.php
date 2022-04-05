@@ -623,6 +623,20 @@ Route::get('admin-user/delete/{id}',[UsermanagementController::class,'delete_use
 
 
 
+Route::group(['prefix' => 'support','middleware' => 'issupport'],function(){
+	
+Route::get('dashboard', [DashboardController::class,'dashboard_user_lists']);
+Route::get('responses', [ResponsesController::class,'response_list']);	
+Route::get('responses/view/{per_id}', [ResponsesController::class,'frontend_response_view']);
+
+});
+
+
+
+
+
+
+
 
 
 
