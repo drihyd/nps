@@ -27,11 +27,10 @@ class UsermanagementController extends Controller
     
             $users_data=User::select('users.*','user_types.name as ut_name')
             ->leftjoin('user_types','user_types.id','=','users.role')       
-            ->whereNotIn('users.role',[1]) 
-			->where('users.organization_id',Session::get('companyID')??0) 			
-            ->get();   
+            ->whereIn('users.role',[2])				
+            ->get();  
            
-            $pageTitle="Users";          
+            $pageTitle="Company Users";          
             return view('admin.users.users_list', compact('pageTitle','users_data'));
         
     }

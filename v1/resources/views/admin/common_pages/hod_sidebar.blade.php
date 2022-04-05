@@ -32,8 +32,8 @@
 <i class="dripicons-graph-pie"></i><span>Reports</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
-<li class="{{ (request()->is(Config::get('constants.hod').'/responses_reports/?ticket_status=patient_level_closure')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.hod').'/responses_reports/?ticket_status=patient_level_closure')}}">Patient Closure</a></li>
-<li class="{{ (request()->is(Config::get('constants.hod').'/responses_reports/?ticket_status=process_level_closure')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.hod').'/responses_reports/?ticket_status=process_level_closure')}}">Process Closure</a></li>
+<li class="{{ (request()->is(Config::get('constants.hod').'/responses_reports/?ticket_status=patient_level_closure')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.hod').'/responses_reports/?ticket_status=patient_level_closure')}}">Process Pending</a></li>
+<li class="{{ (request()->is(Config::get('constants.hod').'/responses_reports/?ticket_status=process_level_closure')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.hod').'/responses_reports/?ticket_status=process_level_closure')}}">Process Closed</a></li>
 </ul>
 </li>
 

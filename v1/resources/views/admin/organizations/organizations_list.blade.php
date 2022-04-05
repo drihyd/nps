@@ -15,8 +15,7 @@
                             <tr>
                                 <th>Company Name</th>
                                 <th>Entity Type</th>
-								<th>City</th>
-                                <th>GSTIN</th>
+								<th>City</th>                            
                                 <th>Activation Date</th>
                                 <!-- <th>License Expiry Date</th> -->
 								<th>Status</th>
@@ -44,8 +43,7 @@
         columns: [
             {data: 'short_name', name: 'short_name'},
             {data: 'entity_group', name: 'entity_group'},
-            {data: 'city', name: 'city'},
-            {data: 'gst_no', name: 'gst_no'},
+            {data: 'city', name: 'city'},          
             {data: 'license_startdate', name: 'license_startdate'},
             // {data: 'license_startdate', name: 'license_startdate'},
             {data: 'status', name: 'status'},
