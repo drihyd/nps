@@ -183,7 +183,7 @@ class Reports extends Controller
 			}elseif($status=='new-cases'){		
 				$Detractors->where('survey_answered.ticket_status','opened');
 			}elseif($status == 'assigned-cases'){
-            	$Detractors->whereIn('survey_answered.ticket_status',['phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back']);
+            	$Detractors->whereIn('survey_answered.ticket_status',['assigned']);
             }elseif($status == 'closed-cases'){
             	$Detractors->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied']);
             }
