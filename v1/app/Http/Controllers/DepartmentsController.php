@@ -60,7 +60,7 @@ class DepartmentsController extends Controller
             
                 "department_name"=>$request->department_name??'',
                 "is_display"=>$request->is_display??'',
-                "organization_id"=>$request->organization_id??'',
+                "organization_id"=>Session::get('companyID')??'',
             ));
         QuestionOptions::insert([
             [
@@ -139,7 +139,7 @@ class DepartmentsController extends Controller
                 
                 "department_name"=>$request->department_name??'',
                 "is_display"=>$request->is_display??'',
-                "organization_id"=>$request->organization_id??'',
+                "organization_id"=>Session::get('companyID')??'',
             ]
             );  
 

@@ -51,7 +51,7 @@ class DoctorsController extends Controller
                 "doctor_name"=>$request->doctor_name??'',
                 "specification_id"=>$request->specification_id??'',
                 "admin_user_id"=>$request->admin_user_id??'',
-                "organization_id"=>auth()->user()->organization_id??0,
+                "organization_id"=>Session::get('companyID')??0,
             ]  
         ]); 
         return redirect(Config::get('constants.admin').'/doctors')->with('success', "Success! Details are added successfully"); 
@@ -79,7 +79,7 @@ class DoctorsController extends Controller
                 "doctor_name"=>$request->doctor_name??'',
                 "specification_id"=>$request->specification_id??'',
                 "admin_user_id"=>$request->admin_user_id??'',
-                "organization_id"=>auth()->user()->organization_id??0,
+                "organization_id"=>Session::get('companyID')??0,
             ]
             );      
         return redirect(Config::get('constants.admin').'/doctors')->with('success', "Success! Details are updated successfully");

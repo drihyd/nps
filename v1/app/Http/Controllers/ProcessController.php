@@ -50,7 +50,7 @@ class ProcessController extends Controller
             [
                 "name"=>$request->name??'',
                 "slug"=>$request->slug??'',
-                "organization_id"=>$request->organization_id??'',
+                "organization_id"=>Session::get('companyID')??'',
             ]  
         ]);
 
@@ -85,7 +85,7 @@ class ProcessController extends Controller
                 
                 "name"=>$request->name??'',
                 "slug"=>$request->slug??'',
-                "organization_id"=>$request->organization_id??'',
+                "organization_id"=>Session::get('companyID')??'',
             ]
             ); 
         return redirect(Config::get('constants.admin').'/process')->with('success', "Success! Details are updated successfully");

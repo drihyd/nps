@@ -47,7 +47,7 @@ class WardsController extends Controller
             [
                 "name"=>$request->name??'',
                 "admin_user_id"=>$request->admin_user_id??'',
-                "organization_id"=>auth()->user()->organization_id??0,
+                "organization_id"=>Session::get('companyID')??0,
             ]  
         ]); 
         return redirect(Config::get('constants.admin').'/wards')->with('success', "Success! Details are added successfully"); 
@@ -72,7 +72,7 @@ class WardsController extends Controller
             [ 
                 "name"=>$request->name??'',
                 "admin_user_id"=>$request->admin_user_id??'',
-                "organization_id"=>auth()->user()->organization_id??0,
+                "organization_id"=>Session::get('companyID')??0,
             ]
             );      
         return redirect(Config::get('constants.admin').'/wards')->with('success', "Success! Details are updated successfully");

@@ -57,6 +57,10 @@ Remarks
 
 @elseif(Auth::user()->role==7)
 <option value="">--Pick one--</option>
+
+<option value="phone_ringing_no_response" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'phone_ringing_no_response'? 'selected':''}}>Phone Ringing - No Response</option>
+<option value="connected_refused_to_talk" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'connected_refused_to_talk'? 'selected':''}}>Connected - Refused to talk</option>
+<option value="connected_asked_for_call_back" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'connected_asked_for_call_back'? 'selected':''}}>Connected - Asked for call back</option>
 <option value="closed_satisfied" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'closed_satisfied'? 'selected':''}}> Closed - Satisfied</option>
 <option value="closed_unsatisfied" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'closed_unsatisfied'? 'selected':''}}>Closed - Unsatisfied</option>
 

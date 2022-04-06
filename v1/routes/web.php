@@ -531,6 +531,46 @@ Route::get('admin/responses/delete/{per_id}', [ResponsesController::class,'delet
 Route::get('admin/performitor_reports', [Reports::class,'show_performitor_reports']);
 	Route::get('admin/performitor.export', [Reports::class, '_performitor_export'])->name('performitor.export');
 
+
+	/*Admin Process*/
+
+	Route::get('admin/process', [ProcessController::class,'process_list']);
+	Route::get('admin/process/create', [ProcessController::class,'create_process']);
+	Route::post('admin/process/store', [ProcessController::class, 'store_process']);
+	Route::get('admin/process/edit/{id}',[ProcessController::class,'edit_process']);
+	Route::post('admin/process/update',[ProcessController::class,'update_process']);
+	Route::get('admin/process/delete/{id}',[ProcessController::class,'delete_process']);
+
+
+
+
+/*Admin Specifications*/
+
+	Route::get('admin/specifications', [SpecificationsController::class,'specifications_list']);
+	Route::get('admin/specifications/create', [SpecificationsController::class,'create_specifications']);
+	Route::post('admin/specifications/store', [SpecificationsController::class, 'store_specifications']);
+	Route::get('admin/specifications/edit/{id}',[SpecificationsController::class,'edit_specifications']);
+	Route::post('admin/specifications/update',[SpecificationsController::class,'update_specifications']);
+	Route::get('admin/specifications/delete/{id}',[SpecificationsController::class,'delete_specifications']);
+	/*Admin Doctors*/
+
+	Route::get('admin/doctors', [DoctorsController::class,'doctors_list']);
+	Route::get('admin/doctors/create', [DoctorsController::class,'create_doctors']);
+	Route::post('admin/doctors/store', [DoctorsController::class, 'store_doctors']);
+	Route::get('admin/doctors/edit/{id}',[DoctorsController::class,'edit_doctors']);
+	Route::post('admin/doctors/update',[DoctorsController::class,'update_doctors']);
+	Route::get('admin/doctors/delete/{id}',[DoctorsController::class,'delete_doctors']);
+
+	/*Admin Wards*/
+
+	Route::get('admin/wards', [WardsController::class,'wards_list']);
+	Route::get('admin/wards/create', [WardsController::class,'create_wards']);
+	Route::post('admin/wards/store', [WardsController::class, 'store_wards']);
+	Route::get('admin/wards/edit/{id}',[WardsController::class,'edit_wards']);
+	Route::post('admin/wards/update',[WardsController::class,'update_wards']);
+	Route::get('admin/wards/delete/{id}',[WardsController::class,'delete_wards']);
+
+
 /*** End ***/
 
 

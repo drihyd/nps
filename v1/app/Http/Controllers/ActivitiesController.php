@@ -62,7 +62,7 @@ class ActivitiesController extends Controller
     {
          
         $pageTitle="Add New";
-        $departments_data=Departments::where('organization_id',Auth::user()->organization_id)->get();
+        $departments_data=Departments::get();
         return view('admin.activities.add_edit_activities',compact('pageTitle','departments_data'));   
          
     }
@@ -77,7 +77,7 @@ class ActivitiesController extends Controller
         ]);
         Activities::insert([
             [
-                "organization_id"=>$request->organization_id??'',
+                "organization_id"=>Session::get('companyID')??'',
                 "department_id"=>$request->department_id??'',
                 "activity_name"=>$request->activity_name??'',
             ]  
@@ -88,7 +88,7 @@ class ActivitiesController extends Controller
         
         $ID = Crypt::decryptString($id);
             $activities_data=Activities::get()->where("id",$ID)->first();
-            $departments_data=Departments::where('organization_id',Auth::user()->organization_id)->get();
+            $departments_data=Departments::get();
             $pageTitle="Edit";      
             return view('admin.activities.add_edit_activities',compact('departments_data','pageTitle','activities_data'));
         
@@ -106,7 +106,7 @@ class ActivitiesController extends Controller
             [
                 
                 
-                "organization_id"=>$request->organization_id??'',
+                "organization_id"=>Session::get('companyID')??'',
                 "department_id"=>$request->department_id??'',
                 "activity_name"=>$request->activity_name??'',
             ]

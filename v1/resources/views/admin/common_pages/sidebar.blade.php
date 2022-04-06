@@ -66,7 +66,7 @@
                         @endif
 						
 						
-												@if(Auth::check() &&  auth()->user()->role == 1)
+												@if(Auth::check() &&  auth()->user()->role == 1 && Session::get('companyID')>0)
                         <li>
                             <a href="javaScript:void();">
                               <img src="{{URL::to('assets/images/svg-icon/maps.svg')}}" class="img-fluid" alt="apps"><span>Masters</span><i class="feather icon-chevron-right pull-right"></i>
@@ -77,8 +77,15 @@
 							<li class="{{ (request()->is(Config::get('constants.admin').'/departments')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/departments')}}">All Teams</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/activities')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/activities')}}">All Activities</a></li>
 							
-                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/theme_options')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/theme_options')}}">Theme Options</a></li>
+
                                 <!-- <li class="{{ (request()->is('users')) ? 'active' : '' }}"><a href="{{url('users')}}">Users</a></li>  -->
+								
+								<li class="{{ (request()->is(Config::get('constants.admin').'/process')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/process')}}">Process</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/specifications')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/specifications')}}">Specialities</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/doctors')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/doctors')}}">Doctors</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/wards')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/wards')}}">Wards</a></li>
+
+                                <li class="{{ (request()->is(Config::get('constants.superadmin').'/theme_options')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.superadmin').'/theme_options')}}">Theme Options</a></li>
                             </ul>
                         </li>
                         @else
