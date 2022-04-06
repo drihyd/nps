@@ -30,17 +30,6 @@
 &nbsp;
 <div class="text-sm-right mt-2" style="width: 100%;">
 <a class="btn btn-warning btn-sm mb-2" href="{{route('hod.export')}}?ticket_status={{$status??'all'}}">Export Data</a>
-@if(auth()->user())
-@if(auth()->user()->role==2)
-<a class="btn btn-warning btn-sm mb-2" href="{{url(Config::get('constants.admin').'/responses_reports')}}?ticket_status={{$status??'all'}}">Reset</a>
-@elseif(auth()->user()->role==3)
-<a class="btn btn-warning btn-sm mb-2" href="{{url(Config::get('constants.hod').'/responses_reports')}}?ticket_status={{$status??'all'}}">Reset</a>
-@else
-<a class="btn btn-warning btn-sm mb-2" href="{{url(Config::get('constants.user').'/responses_reports')}}?ticket_status={{$status??'all'}}">Reset</a>
-@endif
-@else
-<a href="#">
-@endif
 </div>
 <input type="hidden" name="ticket_status" value="{{$status??'all'}}"/>
 </form>
