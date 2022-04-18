@@ -244,6 +244,7 @@ class DesignationlevelsController extends Controller
             [
                 "name"=>$request->role_name??'',
                 "role_name_id"=> $role_id,
+                "code"=> '',
             ]  
         ]);
         return redirect(Config::get('constants.admin').'/designation_roles')->with('success', "Success! Details are added successfully"); 
