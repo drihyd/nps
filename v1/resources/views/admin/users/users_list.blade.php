@@ -17,6 +17,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
+                        <th>Organization</th>
                         <th>Name</th>
                         <th>Email/Username</th>
                        <th>Password</th>
@@ -32,6 +33,7 @@
                           <tr>
                               
                               <td>{{$loop->iteration}}</td>
+                              <td>{{Str::title($user->org_short_name??'')}}</td>
                               <td>{{Str::title($user->firstname??'')}} {{Str::title($user->lastname??'')}}</td>
                               <td>{{$user->email??''}}</td>
                              <td>{{$user->decrypt_password??''}}</td>

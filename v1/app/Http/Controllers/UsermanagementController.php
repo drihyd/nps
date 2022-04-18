@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Organizations;
 use App\Models\GroupLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,8 +26,9 @@ class UsermanagementController extends Controller
     public function index()
     {	
     
-            $users_data=User::select('users.*','user_types.name as ut_name')
+            $users_data=User::select('users.*','user_types.name as ut_name','organizations.short_name as org_short_name')
             ->leftjoin('user_types','user_types.id','=','users.role')       
+            ->leftjoin('organizations','organizations.id','=','users.organization_id')       
             ->whereIn('users.role',[2])				
             ->get();  
            
@@ -443,15 +445,37 @@ $str.='</html>';
     }
     public function department_edit_user($id){
 
-        $user_id=Crypt::decryptString($id);
 
-            $users_data=User::where("id",$user_id)->get()->first();
-			
-            $group_level_data=GroupLevel::get();
-            
-             $user_type_data=DB::table('user_types')->get();
-            $pageTitle="Edit User";     
-            return view('admin.department_users.add_user',compact('pageTitle','users_data','user_type_data','group_level_data'));
+		try {
+		$user_id=Crypt::decryptString($id);
+		$users_data=User::where("id",$user_id)->get()->first();
+		
+			if(isset($users_data)){			
+				$group_level_data=GroupLevel::get();
+				$user_type_data=DB::table('user_types')->get();
+				$pageTitle="Edit User";     
+				return view('admin.department_users.add_user',compact('pageTitle','users_data','user_type_data','group_level_data'));
+			}
+			else{
+				return redirect()->back()->with('error', "Something went wrong/Organization is not found.");
+			}
+		
+		}		
+		catch (RequestException $exception) {		
+		// Catch all 4XX errors 
+		// To catch exactly error 400 use 
+		if ($exception->hasResponse()){
+		if ($exception->getResponse()->getStatusCode() == '400') {
+		}			
+		}			
+		// You can check for whatever error status code you need 
+		return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+		}
+		catch (\Exception $exception) {		
+		return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??''); 
+		}
+		
+		
 
     }
     public function department_update_user(Request $request)

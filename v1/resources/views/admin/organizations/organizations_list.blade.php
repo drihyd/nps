@@ -2,35 +2,42 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="row">
-    <!-- Start col -->
-    <div class="col-lg-12">
-        <div class="card m-b-30">
-            <div class="card-header">
-                <h5 class="card-title">List of all the organizations</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table  class="table table-bordered  data-table">
-                        <thead class="bg-dark text-white">
-                            <tr>
-                                <th>Company Name</th>
-                                <th>Entity Type</th>
-								<th>City</th>                            
-                                <th>Activation Date</th>
-                                <!-- <th>License Expiry Date</th> -->
-								<th>Status</th>
-								<th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+
+                    <div class="col-md-10">
+                        <div class="mailbox mb-5">
+                            <div class="message-center message-body row">
+                                <!-- Message -->          
+                                @foreach($data as $organization)           
+                                <div class="col-12 col-md-6 mb-4">
+                                    <div class="card rounded-1">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <a href="{{url(Config::get('constants.superadmin').'/organizations/edit/'.Crypt::encryptString($organization->id) )}}" class="message-item border-0">                                            
+                                            <span class="user-img">
+                                                @if(isset($organization->brand_logo) && !empty($organization->brand_logo))
+                                                <img src="{{URL::to('assets/uploads/'.$organization->brand_logo??'')}}" alt="" class="rounded-circle">
+                                                @else
+                                                    <img src="{{URL::to('assets/img/dummylogo.png')}}" alt="" class="rounded-circle">
+                                                @endif  
+                                            </span>
+                                            <span class="mail-contnet">
+                                                <h5 class="message-title">{{$organization->short_name??''}}</h5> <span class="mail-desc text-muted">{{$organization->company_name??''}}</span> </span>
+                                        </a>
+                                            </div>
+                                
+                                        </div>
+                                        
+                                           
+                                    </div>
+                                </div>
+                                @endforeach
+                                <!-- Message -->
+                                
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- End col -->
-</div>
 @endsection
 @push('scripts')
 <script type="text/javascript">
@@ -51,23 +58,7 @@
         ]
     });
 
-    $(document).on("click",".nddelete",function(e){
-    var id = $(this).attr('data-id');
-        if (confirm("Are you Sure want to Delete?") == true) {
-          var id = id;
-          // ajax
-          $.ajax({
-            type:"POST",
-            url: "{{ route('organizations.delete') }}",
-            data: {_token: "{{ csrf_token() }}", id: id },
-            dataType: 'json',
-            success: function(res){
-              var oTable = $('.data-table').dataTable();
-              oTable.fnDraw(false);
-            }
-          });
-        }
-    });
+    
     
   });
 </script>

@@ -68,9 +68,9 @@ $(".gst").change(function () {
 				                    ],
                     label: 'Dataset 1'
                 }],
-                labels: ["{{Config::get('constants.Promoters-label')}} ",
-                		 "{{Config::get('constants.Passives-label')}} ",
-                		 "{{Config::get('constants.Detractors-label')}}",
+                labels: ["{{Config::get('constants.Promoters-label')}}: "+ {{$final_score->Promoters??1}},
+                		 "{{Config::get('constants.Passives-label')}}: "+ {{$final_score->Neutral??1}},
+                		 "{{Config::get('constants.Detractors-label')}}: "+ {{$final_score->Detractors??1}},
                 		 ]
             },
             options: {

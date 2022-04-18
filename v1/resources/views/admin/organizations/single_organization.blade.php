@@ -10,18 +10,19 @@
                
             </div>
             <div class="card-body">
-                <b>Company name</b>&ensp;
+                
                 <form action="" method="post">
                     <input type="hidden" name="id" value="{{$organizations_data->id}}">
   {{csrf_field()}}
+                <b>Company name</b>&ensp;
                 <a href="#" id="xeditable-company_name" data-pk="{{ $organizations_data->id }}">{{$organizations_data->company_name??''}}</a>
                 <br>
                 <b>Short name</b>&ensp;
                 <a href="#" id="xeditable-shortname" data-pk="{{ $organizations_data->id }}">{{$organizations_data->short_name??''}}</a><br>
 
                 
-                <b>Entity type</b>&ensp;
-                <a href="#" id="xeditable-entitytype" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->is_group}}">@if($organizations_data->is_group == 'yes')Group Company @else Single Entity @endif</a><br>
+                <!-- <b>Entity type</b>&ensp;
+                <a href="#" id="xeditable-entitytype" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->is_group}}">@if($organizations_data->is_group == 'yes')Group Company @else Single Entity @endif</a><br> -->
 
                 </form>
                 &nbsp;
@@ -126,6 +127,7 @@
                 <br>
 
                 <b>License Period</b>&ensp;
+                <small><b>Years</b></small>&ensp;
                 <a href="#" id="xeditable-license_period_year" data-pk="{{ $organizations_data->id }}" data-value="{{ $organizations_data->license_period_year}}">{{$organizations_data->license_period_year??''}}</a>
                 &ensp;&ensp;&ensp;
                 <small><b>Months</b></small>&ensp;
@@ -133,6 +135,24 @@
             </div>
         </div>
     </div> 
+    <div class="col-lg-12 col-xl-6">
+        <div class="card m-b-30">
+            <div class="card-header">
+                <h4 >Change Password</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="Addnewblog" action="{{ url(Config::get('constants.superadmin').'/organizations/update_password') }}" enctype="multipart/form-data">
+                    @csrf
+<input type="hidden" name="id" value="{{$organizations_data->id}}">
+                <div class="form-group">
+        <!-- <label>Brand Logo<span style="color: red">*</span></label>        -->
+        <input type="password" class="form-control form-control-sm" name="password" id="" value="" required />
+      </div>
+      <button  id="" type="submit" class="btn btn-primary submit_btn btn-sm">Submit</button>
+  </form>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-12 col-xl-6">
         <div class="card m-b-30">
             <div class="card-header">
@@ -174,8 +194,10 @@
     </div>  --> 
     <!-- End col -->
 </div>
-<div class=" pb-5"> 
-<a href="{{url(Config::get('constants.superadmin').'/organizations')}}" class="btn btn-danger btn-sm">Back</a>
+<div class=" pb-5">
+
+<a href="{{url(Config::get('constants.superadmin').'/organizations')}}" class="btn btn-default btn-sm">Back</a>
+<a href="{{url(Config::get('constants.superadmin').'/organizations/delete/'.Crypt::encryptString($organizations_data->id))}}" class="delete btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you sure to delete this?')" >Delete</i></a>
 </div>
 @endsection
 
@@ -668,12 +690,12 @@ $(document).ready(function() {
                else{
                    
                 var inputvalues = value;                
-                var comapyformat = new RegExp(/^[a-z\d\-_\s]+$/i);    
+                var comapyformat = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');    
                 if (comapyformat.test(inputvalues)) {    
                       
                 } else {  
     
-                    return 'Please Enter Alpha numeric only';               
+                    return 'Please Enter valid Email';               
                             
                 } 
                    

@@ -30,7 +30,7 @@ use App\Models\User;
                         <th>S.No</th>
                         <th>User Details</th>
                         <!-- <th>Email/Username</th> -->
-                        <!--<th>Decrypt Password</th>-->
+                        <th>Decrypt Password</th>
                         <!-- <th>Phone</th> -->
                         <th>Designation</th>
                         <th>Team</th>
@@ -49,7 +49,7 @@ use App\Models\User;
                               <td>{{$loop->iteration}}</td>
                               <td><b>{{Str::title($user->firstname??'')}} {{Str::title($user->lastname??'')}}</b><br>{{$user->email??''}}<br>{{$user->phone??''}}</td>
                               <!-- <td></td> -->
-                              <!--<td>{{$user->decrypt_password??''}}</td>-->
+                              <td>{{$user->decrypt_password??''}}</td>
                               <!-- <td></td> -->
                               <td>{{$user->ut_name??''}}</td>
                               <td>{{$user->dname??''}}</td>

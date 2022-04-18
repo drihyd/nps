@@ -607,7 +607,8 @@ Route::any('organizations/get_permanent_address', [OrganizationsController::clas
 
 Route::get('organizations/edit/{id}', [OrganizationsController::class,'edit_organization']);
 
-Route::post('organizations/delete',[OrganizationsController::class,'delete_organization'])->name('organizations.delete');
+// Route::post('organizations/delete',[OrganizationsController::class,'delete_organization'])->name('organizations.delete');
+Route::get('organizations/delete/{id}',[OrganizationsController::class,'delete_organization']);
 
 Route::post('organizations/update_company', [OrganizationsController::class,'update_company'])->name('update_company');
 Route::post('organizations/update_shortname', [OrganizationsController::class,'update_shortname'])->name('update_shortname');
@@ -632,6 +633,7 @@ Route::post('organizations/update_license_startdate', [OrganizationsController::
 Route::post('organizations/update_license_period_year', [OrganizationsController::class,'update_license_period_year'])->name('update_license_period_year');
 Route::post('organizations/update_license_period_month', [OrganizationsController::class,'update_license_period_month'])->name('update_license_period_month');
 Route::post('organizations/update_brand_logo', [OrganizationsController::class,'update_brand_logo'])->name('update_brand_logo');
+Route::post('organizations/update_password', [OrganizationsController::class,'update_password'])->name('update_password');
 
 
 /*Admin Theme options*/

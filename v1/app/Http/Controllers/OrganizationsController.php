@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Organizations;
 use App\Models\User;
+use App\Scopes\ActiveOrgaization;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Crypt;
@@ -20,7 +21,10 @@ class OrganizationsController extends Controller
 
     public function organizations_lists(Request $request)
     {
+		
+
         $pageTitle = 'Organizations';
+        $data = Organizations::withoutGlobalScope(new ActiveOrgaization)->Orderby('created_at','ASC')->get();
 
         if ($request->ajax()) {			
 	
@@ -56,7 +60,7 @@ class OrganizationsController extends Controller
         }
 
 
-        return view('admin.organizations.organizations_list',compact('pageTitle'));
+        return view('admin.organizations.organizations_list',compact('pageTitle','data'));
     }
 
 
@@ -285,27 +289,58 @@ class OrganizationsController extends Controller
     }
 
 
-    public function delete_organization(Request $request)
+    public function delete_organization($id)
     {		
 	
-          $Organizations=Organizations::where('id',$request->id)->delete(); 		  
-		  $User=User::where('organization_id',$request->id)->delete(); 
+        $ID = Crypt::decryptString($id);
+          $Organizations=Organizations::where('id',$ID)->delete(); 		  
+		  $User=User::where('organization_id',$ID)->delete(); 
 
-		  if($Organizations){
-			 return Response()->json(['success'=>"Organization deleted successfully."]);  
-		  }
-		  else{
-			   return Response()->json(['error'=>"Record not deleted."]);
-		  }
+		  // if($Organizations){
+			 // return Response()->json(['success'=>"Organization deleted successfully."]);  
+		  // }
+		  // else{
+			 //   return Response()->json(['error'=>"Record not deleted."]);
+		  // }
         
+        return redirect(Config::get('constants.superadmin').'/organizations')->with('success', "Success! Details are deleted successfully");
+
         
     }
     public function edit_organization($id)    {
-        $pageTitle="Edit"; 
-        $ID = Crypt::decryptString($id);
-            $organizations_data=Organizations::get()->where("id",$ID)->first();
-                 
-            return view('admin.organizations.single_organization',compact('organizations_data','pageTitle'));
+		
+		
+		try {
+			
+		$pageTitle="Edit Organization"; 
+		$ID = Crypt::decryptString($id);
+		
+		$organizations_data=Organizations::get()->where("id",$ID)->first();
+		
+		if(isset($organizations_data)) {
+			return view('admin.organizations.single_organization',compact('organizations_data','pageTitle'));
+		}
+		else{
+			return redirect()->back()->with('error', "Something went wrong/Organization is not found.");
+		}
+		
+		
+		}		
+		catch (RequestException $exception) {		
+		// Catch all 4XX errors 
+		// To catch exactly error 400 use 
+		if ($exception->hasResponse()){
+		if ($exception->getResponse()->getStatusCode() == '400') {
+		}			
+		}			
+		// You can check for whatever error status code you need 
+		return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+		}
+		catch (\Exception $exception) {		
+		return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??''); 
+		}
+
+
     }
 
     public function update_company(Request $request)
@@ -495,6 +530,13 @@ public function update_gst(Request $request)
                 'admin_name' =>$request->value??'',
             ]
             );
+            User::where('organization_id', $request->pk)
+            ->where('role',2)
+            ->update(
+            [
+                'firstname' =>$request->value??'',
+            ]
+            );
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Name']);
         }
     }
@@ -503,9 +545,17 @@ public function update_gst(Request $request)
         if($request->ajax()){
 
             Organizations::where('id', $request->pk)
-            ->update(
+            ->update( 
+
             [
                 'admin_email' =>$request->value??'',
+            ]
+            );
+            User::where('organization_id', $request->pk)
+            ->where('role',2)
+            ->update(
+            [
+                'email' =>$request->value??'',
             ]
             );
             return response()->json(['statsCode'=>200,'success' => 'Successfully Updated Admin Email']);
@@ -579,6 +629,24 @@ public function update_gst(Request $request)
         }
               
         return redirect()->back()->with('success','Success! Logo Updated successfully');
+    }
+    public function update_password(Request $request)
+    {
+        $request->validate([
+            'password' => 'required',
+        ]);
+
+            
+            User::where('organization_id', $request->id)
+            ->where('role',2)
+            ->update(
+            [
+                "password"=> Hash::make($request->password),
+                "decrypt_password"=>$request->password,
+            ]
+            );
+            return redirect()->back()->with('success','Success! Password Updated successfully');
+        
     }
 
 
