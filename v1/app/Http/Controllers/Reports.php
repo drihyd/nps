@@ -37,6 +37,8 @@ class Reports extends Controller
 		$role=auth()->user()->role??0;
 		
 	
+		
+	
 	/*
         $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)		
 		->where('survey_persons.logged_user_id',auth()->user()->id??0)
@@ -104,10 +106,10 @@ class Reports extends Controller
 
 			}
 			
-			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
+			$Detractors = SurveyAnswered::select('users.firstname as assigned_user','survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-			
+			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')
 			
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
 			
@@ -200,6 +202,12 @@ class Reports extends Controller
 			
 			elseif($status == 'transferred-cases'){			
             	$Detractors->wherein('survey_answered.ticket_status',['transferred']);	
+            }		
+			elseif($status == 'process-closure'){			
+            	$Detractors->wherein('survey_answered.ticket_status',['process_level_closure']);	
+            }	
+			elseif($status == 'process-pending'){			
+            	$Detractors->wherein('survey_answered.ticket_status',['patient_level_closure']);	
             }
 			
 			else{
@@ -221,12 +229,14 @@ class Reports extends Controller
 			$Detractors=$uniqueCollection;
 
 			
-			
+		
+
 	
 		
-			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
+			$Passives = SurveyAnswered::select('users.firstname as assigned_user','survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')		
+			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
+			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')			
 			->whereIn('survey_answered.rating',[7,8])		
 			->where(function($Passives) use ($role){
 
@@ -325,9 +335,10 @@ class Reports extends Controller
 			$Passives=$uniqueCollection;
 			
 			
-			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
+			$Promoters = SurveyAnswered::select('users.firstname as assigned_user','survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')	
+			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
+			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')			
 			->whereIn('survey_answered.rating',[9,10])			
 			->where(function($Promoters) use ($role){	
 			
@@ -437,11 +448,8 @@ class Reports extends Controller
 
 public function export(Request $request) 
 { 
-	$data=['ticket_status'=>$request->ticket_status];
-	
-	
-	
-	return Excel::download(new ResponsesExport($data), 'responses_report.xlsx');
+	$data=['ticket_status'=>$request->ticket_status];		
+	return Excel::download(new ResponsesExport($data), $request->ticket_status.'-tickets.xlsx');
 }
 	
 	

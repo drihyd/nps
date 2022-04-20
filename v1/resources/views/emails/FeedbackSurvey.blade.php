@@ -9,8 +9,10 @@ Thank you for your help!<br>
 @php
 $linkurl = URL::to('offlinesurvey/'.$content['surveyid'].'/'.$content['loggedid'].'/'.$content['personid']);
 @endphp
-Select and copy the following URL to give your feedback.
-{{$linkurl}}
+
+@component('mail::button', ['url' => $linkurl])
+{{__('Start Survey')}}
+@endcomponent
 
 <br><br>
 Thanks,<br>

@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class UpdateStatusResponseLog extends Model
 {
-    use HasFactory;
+
+	
+	use HasFactory;
+	protected $table = 'update_status_response_logs';
+	public $timestamps = true;
 }

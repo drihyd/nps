@@ -102,10 +102,15 @@
 			 
         
           	<div class="form-group">            
-              
+         
+
+		 
 
  @foreach($custom_fields as $custom_field)
           	@if($custom_field->input_type == 'radio')
+				
+			
+			
 
 <div>
   <table>
@@ -113,10 +118,10 @@
       <tr>
         <td><strong>{{Str::title($custom_field->label??'')}}<span class="text text-danger">*</span></strong></td>
         <td width="5"></td>
-		<td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="male" required></td>
+		<td><input @if(old($custom_field->input_name)=='male')  checked @else @endif type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="male" required></td>
         <td>Male</td>
 		<td width="10"></td>
-        <td><input type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="female" required></td>
+        <td><input @if(old($custom_field->input_name)=='female')  checked @else @endif type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="female" required></td>
         <td>Female</td>
 
       </tr>
@@ -140,7 +145,7 @@
 <div class="form-group">
 <label for="patient_attender_name"><b>Patient Attender Name</b>
 </label>
-<input type="text" name="patient_attender_name" id="patient_attender_name" class="form-control process_level_closure">
+<input value="{{old('patient_attender_name',$users_data->patient_attender_name??'')}}" type="text" name="patient_attender_name" id="patient_attender_name" class="form-control process_level_closure">
 </div>
 
 </div>

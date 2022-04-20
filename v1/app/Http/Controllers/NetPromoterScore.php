@@ -707,7 +707,7 @@ try{
 				Session::put('survey_id', $request->survey_id??0);
 				Session::put('comapny_name',$Organizations[0]->company_name??'');
 		
-		
+	
 		
 
 
@@ -740,7 +740,13 @@ if($request->sendlink_email){
 		} 
 		
 		
-		return redirect()->back()->with('success', 'Feedback survey url sent to entered email id.');
+		
+		
+		
+	
+		
+		
+		return redirect()->back()->with('success', 'Feedback survey url sent to entered email id.')->withInput($request->all());
 				
 }
 else{
@@ -989,15 +995,15 @@ DB::table('rating_of_departments')->insert(
 			
 		}
 		
+$offlineorgid=auth()->user()->organization_id??$request->organization_id;
 		
-		
-if(auth()->user()->organization_id==23) {
+if($offlineorgid==23) {
 	
 	$qoptiondepid=21;
 	
 }
 
-else if(auth()->user()->organization_id==36) {
+else if($offlineorgid==36) {
 	
 	$qoptiondepid=154;
 }
@@ -1586,12 +1592,12 @@ public function send_ticket_opened_mail($person_id=null){
 		
 		$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
-        ->where('survey_answered.organization_id',Auth::user()->organization_id)
+   
         ->where('survey_answered.person_id',$person_id)
         ->get(['survey_answered.*','question_options.option_value as option_value']);	
 		
 	
-		$person_data= SurveyPerson::where('organization_id',Auth::user()->organization_id)->where('id',$person_id)->get()->first();
+		$person_data= SurveyPerson::where('id',$person_id)->get()->first();
 		
 				
 		$users_data=User::select('users.reportingto as reportingto')                 
@@ -1628,7 +1634,7 @@ public function send_ticket_opened_mail($person_id=null){
 		}
 		
 		/** Trigger HOD mail **/
-		$this->trigger_hod_mail($person_id,Auth::user()->organization_id);
+		$this->trigger_hod_mail($person_id,$person_data->organization_id);
 		
 		
 		

@@ -15,7 +15,7 @@
 @elseif($ticket_status=="process_level_closure")
 <span class="badge badge-success">Process level closure</span>
 @elseif($ticket_status=="assigned")
-<span class="badge badge-success">Assigned</span>
+<span class="badge badge-success">Assigned - {{$assigned_user??''}}</span>
 @elseif($ticket_status=="transferred")
 <span class="badge badge-success">Transferred</span>
 @else

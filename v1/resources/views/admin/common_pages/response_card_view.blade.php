@@ -114,21 +114,18 @@
 				<div class="col-sm col-12 bg-omni-green-light">
 					<div class="cus-status">
 	@if(Auth::user()->role==2)         
-	<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status])</a>
+	<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status??'','assigned_user'=>$response->assigned_user??''])</a>
 	@elseif(Auth::user()->role==3)
-	<a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status])</a>
+	<a href="{{url(Config::get('constants.hod').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status??'','assigned_user'=>$response->assigned_user??''])</a>
 	@elseif(Auth::user()->role==4)
-	<a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status])</a>
+	<a href="{{url(Config::get('constants.user').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status??'','assigned_user'=>$response->assigned_user??''])</a>
 	@elseif(Auth::user()->role==1)
-	<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status])</a>
+	<a href="{{url(Config::get('constants.admin').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status??'','assigned_user'=>$response->assigned_user??''])</a>
 	@elseif(Auth::user()->role==7)
-	<a href="{{url(Config::get('constants.support').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status])</a>
+	<a href="{{url(Config::get('constants.support').'/responses/view/'.Crypt::encryptString($response->id))}}" class="text-primary mr-2" title="Edit" >@include('admin.common_pages.status_of_ticket',['ticket_status'=>$response->ticket_status??'','assigned_user'=>$response->assigned_user??''])</a>
 	@else
-
 	@endif
-				  
-				  <br>
-						<span>Updated on: {{date('d M, Y', strtotime($response->last_action_date??''))}}</span>
+<p class='mb-0 mt-0'><small>Updated on: {{date('d M, Y', strtotime($response->last_action_date??''))}}</small></p>
 					</div>
 				</div>
 			</div>

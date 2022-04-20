@@ -98,18 +98,12 @@ class ResponsesController extends Controller
 		
 		
 		
-			$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
+			$Detractors = SurveyAnswered::select('users.firstname as assigned_user','survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-			
-			
+			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')			
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
-			
-	
-
-			
-			->where(function($Detractors) use ($role){	
-			
+			->where(function($Detractors) use ($role){				
 			
 			if($role==2){
 
@@ -184,9 +178,10 @@ class ResponsesController extends Controller
 			
 	
 		
-			$Passives = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
+			$Passives = SurveyAnswered::select('users.firstname as assigned_user','survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')		
+			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
+			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')			
 			->whereIn('survey_answered.rating',[7,8])		
 			->where(function($Passives) use ($role){
 
@@ -252,9 +247,10 @@ class ResponsesController extends Controller
 			$Passives=$uniqueCollection;
 			
 			
-			$Promoters = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
+			$Promoters = SurveyAnswered::select('users.firstname as assigned_user','survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')	
+			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
+			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')
 			->whereIn('survey_answered.rating',[9,10])			
 			->where(function($Promoters) use ($role){	
 			
@@ -326,13 +322,20 @@ class ResponsesController extends Controller
     }
     public function response_view($per_id)
     { 
+	
+	try{
+		
         $person_id = Crypt::decryptString($per_id);		
         $person_data= SurveyPerson::where('id',$person_id)->get()->first();
+	
+		
+		if(isset($person_data)) {
+		
         $voice_message= DB::table('persons_voice_message')->where('person_id',$person_id??0)->get();
         $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
         ->where('survey_answered.person_id',$person_id)
-        ->get(['survey_answered.*','question_options.option_value as option_value','survey_persons.ticker_final_number']);
+        ->get(['survey_answered.*','question_options.option_value as option_value','survey_persons.ticker_final_number','survey_persons.assigned_ticket']);
         // $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         // ->join('questions', 'survey_answered.question_id', '=', 'questions.id')
         // ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
@@ -349,6 +352,22 @@ class ResponsesController extends Controller
 
         return view('admin.responses.responses_view', compact('pageTitle','person_responses_data','person_data','person_responses_status_data','voice_message'))
         ->with('i', (request()->input('page', 1) - 1) * 5);  
+		
+		}
+		else{
+			return redirect()->back()->with('error', "Something went wrong.");
+		}
+		
+		
+		}catch (RequestException $exception) {
+		return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+		}
+		catch (\Exception $exception) {		
+		return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+		}
+		
+		
+		
     }
     public function frontend_response_list()
     {   
@@ -558,6 +577,8 @@ $Ticket_Logging=UpdateStatusResponseLog::insert([
 			"process_level_closure"=>$request->process_level_closure??'',
 			"category_process_level"=>$request->category_process??'',
 			"assigned_user_id"=>$request->assigned??0,
+			"created_at"=>Carbon::now(),
+			"updated_at"=>Carbon::now(),
 		]  
 	]);
 

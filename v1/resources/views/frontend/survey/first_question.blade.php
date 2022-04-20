@@ -114,7 +114,7 @@ $departments=$departments??'';
 
 @foreach($Questions[0]->qoptions as $key=>$value)
 <div class="col-md-12">
-<input required type="checkbox" name="first_questin_range[]" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
+<input required id="departments" type="checkbox" name="first_questin_range[]" class="btn btn-scale btn-scale-asc-2" value="{{$value->qoptionid}}">{{$value->qpvalue}}
 </div>
 @endforeach
 
@@ -161,14 +161,14 @@ else{
 		
 		@foreach($value->activities as $akey=>$avalue)
 <div class="mt-3">
-<input  id="option_checkboxes" type="checkbox" name="first_activities[{{$avalue->activityid??''}}]" class="btn btn-scale btn-scale-asc-2" value="{{$avalue->activity_name}}">{{$avalue->activity_name}}
+<input   id="option_checkboxes" type="checkbox" name="first_activities[{{$avalue->activityid??''}}]" class="btn btn-scale btn-scale-asc-2" value="{{$avalue->activity_name}}">{{$avalue->activity_name}}
 </div>
 @endforeach
 
 
 @if(isset($value->activities) && $value->activities->count()>0)
 	<div class="mt-3">
-<input type="checkbox" id="option_checkboxes" name="first_activities[{{$avalue->activityid??''}}]" class="btn btn-scale btn-scale-asc-2" value="Any Other">Any Other
+<input  type="checkbox" id="option_checkboxes" name="first_activities[{{$avalue->activityid??''}}]" class="btn btn-scale btn-scale-asc-2" value="Any Other">Any Other
 </div>	
 
 @endif
@@ -190,7 +190,7 @@ Take Voice Conversation:
  </a>
 
 	@else
-		<textarea name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" id="answerdbyperson_checkboxes" @if(isset($value->activities) && $value->activities->count()>0)  @else required @endif></textarea>
+		<textarea required name="answerdbyperson[{{$value->qoptionid}}]" class="form form-control" id="answerdbyperson_checkboxes" @if(isset($value->activities) && $value->activities->count()>0)  @else required @endif></textarea>
 	@endif
 		
 		
@@ -296,10 +296,12 @@ Take Voice Conversation:
 });
 	
 	
-	
+
 
 
 </script>
+
+
 
 
 @endpush

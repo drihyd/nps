@@ -111,7 +111,7 @@ Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_resp
 
 Route::get('responses_reports', [Reports::class,'reports_response_list']);
 Route::get('responses_reports/{value?}', [Reports::class,'reports_response_list']);
-Route::get('export', [Reports::class, 'export'])->name('operantionalhead.export');
+Route::get('export', [Reports::class, 'export'])->name('data.export');
 
 
 
@@ -155,7 +155,7 @@ Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_resp
 
 Route::get('responses_reports', [Reports::class,'reports_response_list']);
 Route::get('responses_reports/{value?}', [Reports::class,'reports_response_list']);
-Route::get('export', [Reports::class, 'export'])->name('operantionalhead.export');
+Route::get('export', [Reports::class, 'export'])->name('data.export');
 
 
 
@@ -199,7 +199,7 @@ Route::get('responses/delete/{per_id}', [ResponsesController::class,'delete_resp
 
 Route::get('responses_reports', [Reports::class,'reports_response_list']);
 Route::get('responses_reports/{value?}', [Reports::class,'reports_response_list']);
-Route::get('export', [Reports::class, 'export'])->name('hod.export');
+Route::get('export', [Reports::class, 'export'])->name('data.export');
 
 
 
@@ -394,7 +394,7 @@ Route::group( ['prefix' => 'admin','middleware' => 'isadmin'],function(){
 
 	Route::get('responses_reports', [Reports::class,'reports_response_list']);
 	Route::get('responses_reports/{value?}', [Reports::class,'reports_response_list']);
-	Route::get('export', [Reports::class, 'export'])->name('export');
+	Route::get('export', [Reports::class, 'export'])->name('data.export');
 	
 	Route::get('performitor_reports', [Reports::class,'show_performitor_reports']);
 	Route::get('performitor.export', [Reports::class, '_performitor_export'])->name('performitor.export');
@@ -673,6 +673,8 @@ Route::get('responses/view/{per_id}', [ResponsesController::class,'frontend_resp
 
 });
 
+
+Route::get('export', [Reports::class, 'export'])->name('data.export');
 
 
 

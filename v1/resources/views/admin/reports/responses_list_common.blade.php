@@ -28,9 +28,13 @@
 &nbsp;
 @include('admin.common_pages.action_button')
 &nbsp;
-<div class="text-sm-right mt-2" style="width: 100%;">
-<a class="btn btn-warning btn-sm mb-2" href="{{route('hod.export')}}?ticket_status={{$status??'all'}}">Export Data</a>
-</div>
+
+
+
+<a class="btn btn-warning btn-sm mb-2" href="{{route('data.export')}}?ticket_status={{$status??'all'}}">Export Data</a>
+
+
+
 <input type="hidden" name="ticket_status" value="{{$status??'all'}}"/>
 </form>
 @include('admin.reports.table_lists',['Data'=>$Detractors,'is_action_enabled'=>'yes'])

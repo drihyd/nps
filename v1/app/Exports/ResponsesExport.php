@@ -45,10 +45,12 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 			'Name',
 			'Email',
 			'Phone',
-			'Process',
-			'Department',
+			'Process',	
 			'Doctor',
+			'Bed Name',
+			'Ward Name',
 			'UHID',
+			'IP#',
 			'NPS Score',
 			'Status',
 			'Comments',
@@ -59,7 +61,8 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 			'Completed Date',
 			'Filled By',
 			'History/log',
-			'Final Action'
+			'Final Action',
+			'Assigned',
 		];
         return $final_heading;
     }
@@ -96,11 +99,14 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		$from_date=$addition_params['fd']??'';
 		$to_date=$addition_params['td']??'';
 		$status=$addition_params['ticket_status']??'';		
-		$Detractors = SurveyAnswered::select('users.firstname as feedbackby','survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.ticket_remarks as s_ticket_remarks')
+		$Detractors = SurveyAnswered::select('wards.name as w_name','doctors.doctor_name as doctor_name','users.firstname as assigned_user','users.firstname as feedbackby','survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.ticket_remarks as s_ticket_remarks')
 		->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 		->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-		->leftJoin('users','users.id', '=', 'survey_persons.logged_user_id')
-		->where('survey_persons.organization_id',Auth::user()->organization_id)   
+		->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')
+		->leftJoin('doctors','survey_persons.doctor_id', '=', 'doctors.id')
+		->leftJoin('wards','survey_persons.ward_id', '=', 'wards.id')
+	
+
 
 		->where(function($Detractors) use ($role){	
 			
@@ -141,7 +147,7 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 			}elseif($status=='new-cases'){		
 				$Detractors->where('survey_answered.ticket_status','opened');
 			}elseif($status == 'assigned-cases'){
-            	$Detractors->whereIn('survey_answered.ticket_status',['phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back']);
+            	$Detractors->whereIn('survey_answered.ticket_status',['assigned']);
             }elseif($status == 'closed-cases'){
             	$Detractors->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied']);
             }elseif($status == 'end-action-comments'){
@@ -149,7 +155,8 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
             }			
 			elseif($status == 'patient-process-closer-cases'){			
             	$Detractors->wherein('survey_answered.ticket_status',['patient_level_closure','process_level_closure']);			
-            }
+            }	
+	
 			else{
 				
 				$Detractors->where('survey_answered.ticket_status','=',$status);
@@ -175,6 +182,13 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 			
 		->orderBy('survey_persons.created_at','DESC')
 		->get();
+		
+			$myCollection = collect($Detractors);
+			$uniqueCollection = $myCollection->unique('id');
+			$uniqueCollection->all();
+			$Detractors=$uniqueCollection;
+		
+		
 		return $Detractors;
 	
     }
@@ -192,23 +206,58 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		Str::title($feedback_data->email),
 		Str::title($feedback_data->mobile),
 		Str::title($feedback_data->survey_title),
-		"",
-		"",
-		"",
+		Str::title($feedback_data->doctor_name),
+		Str::title($feedback_data->bed_name),
+		Str::title($feedback_data->w_name),
+		Str::title($feedback_data->uhid),
+		Str::title($feedback_data->inpatient_id),
 		Str::title($feedback_data->rating),
 		Str::title($feedback_data->ticket_status),
 		Str::title($feedback_data->s_ticket_remarks),
 		"",
-		"",
-		Str::title($feedback_data->feedbackby),
+		Str::title($this->howtoknowhospital($feedback_data->know_about_hospital)),
 		"",		
+		Str::title($feedback_data->feedback_was_givenby),
+	
 		"",
 		"",
-		""
+		"",
+		"",
+		Str::title($feedback_data->assigned_user),
+		
 		];
 
 	
     }
+	
+	public function howtoknowhospital($value=false){
+		
+
+		switch ($value) {
+		case 1:
+		$restuls="I'm an existing patient and am happy with the hospital";
+		break;
+		case 2:
+		$restuls="I was referred here by family/friend";
+		break;
+		case 3:
+		$restuls="I heard/read good things about the hospital in my community/social media";
+		break;		
+		case 4:
+		$restuls="My doctor referred me to this hospital";
+		break;		
+		case 5:
+		$restuls="It was an emergency and this was the nearest hospital";
+		break;
+		default:
+		$restuls="";
+		}
+		
+		return $restuls;
+		
+		
+		
+	}
     
 	
 	
