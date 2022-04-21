@@ -76,7 +76,7 @@ Route::any('filter.designation_levels', [DesignationlevelsController::class,'des
 Route::any('filter.responses_reports', [Reports::class,'reports_response_list'])->name('filter.responses_reports');
 
 Route::any('filter.performitor_reports', [Reports::class,'show_performitor_reports'])->name('filter.performitor_reports');
-
+Route::any('escalation_matrix', [Reports::class,'_escalation_matrix'])->name('escalation_matrix');
 
 
 

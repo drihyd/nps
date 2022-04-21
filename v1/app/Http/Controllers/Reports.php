@@ -18,6 +18,7 @@ use App\Models\Surveys;
 use App\Models\SurveyPerson;
 use App\Models\UpdateStatusResponseLog;
 use Illuminate\Support\Facades\Crypt;
+use App\Exports\EscalationMatrixExport;
 use App\Exports\ResponsesExport;
 use App\Imports\ResponsesImport;
 use App\Exports\PerformitorExport;
@@ -457,7 +458,8 @@ public function export(Request $request)
 
 public function show_performitor_reports(Request $request)
 {   
-
+	$Post_DischargeID=Surveys::select('id')->pluck('id')->last();
+	$Post_DischargeID=$Post_DischargeID??0;
 
 if($request->from_date &&  $request->to_date) {
 $from_date = $request->from_date;
@@ -471,15 +473,15 @@ $to_date = date('Y-m-t');
 }
 
 $responses_data = SurveyAnswered::select(
-"survey_answered.organization_id",
-DB::raw("
-(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (0,1,2,3,4,5,6) and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59')  as Total_Detractors,
-(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (7,8) and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59')  as Total_Passives,
-(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (9,10) and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59')  as Total_Promoters,
-(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (0,1,2,3,4,5,6,7,8,9,10) and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59')  as Total_Feedback_Collected,
-(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.question_id in (11) and survey_answered.created_at >='$from_date 00:00:00' and survey_answered.created_at<='$to_date 23:59:59')  as Total_Patient_Discharged
-")
-)
+		"survey_answered.organization_id",
+		DB::raw("
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6))  as Total_Detractors,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (7,8))  as Total_Passives,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (9,10))  as Total_Promoters,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6,7,8,9,10) )  as Total_Feedback_Collected,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.survey_id in ($Post_DischargeID))  as Total_Patient_Discharged
+		")
+		)
 
 ->where(function($responses_data) use ($from_date,$to_date){	
 if($from_date &&  $to_date){		
@@ -488,7 +490,7 @@ $responses_data->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59
 }		
 })
 			
-->whereIn('survey_answered.question_id',[1,11,33,40])
+
 
 ->groupBy('survey_answered.organization_id')
 ->get();
@@ -512,7 +514,12 @@ public function _performitor_export(Request $request)
 	return Excel::download(new PerformitorExport, 'performitor_report.xlsx');
 }
 	
-
+public function _escalation_matrix(Request $request) 
+{
+	
+	$data=['requests'=>$request];
+	return Excel::download(new EscalationMatrixExport(), 'escalation_matrix.xlsx');
+}
 
 
 }

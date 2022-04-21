@@ -424,8 +424,148 @@ class ResponsesController extends Controller
         return view('admin.feedback.feedback_list', compact('pageTitle'));  
     }
 
+
+
+public function ticket_status_update($request=false){
+try{
+	
+
+$Ticket_Status=SurveyAnswered::where('person_id', $request->id)
+	->update(
+	[  
+		"ticket_status"=>$request->ticket_status??'',
+		"ticket_remarks"=>$request->ticket_remarks??'',
+		"category_process_level"=>$request->category_process??'',
+		"process_level_closure"=>$request->process_level_closure??'',
+	]
+	); 
+
+}catch (RequestException $exception) {
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+catch (\Exception $exception) {		
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+}
+
+
+	
+public function ticket_status_logging($request=false){
+try{
+	
+
+if($request->ticket_status=="assigned")
+{
+	$user_data= User::where('id',$request->assigned??0)->get('firstname')->first();
+	if($user_data){
+		$remarks=$request->ticket_remarks." (Assigned to ".$user_data->firstname.")";
+	}
+	
+}
+
+else if($request->ticket_status=="transferred")
+{
+	$user_data= User::where('id',$request->hod_user??0)->get('firstname')->first();
+	if($user_data){
+		$remarks=$request->ticket_remarks." (Transferred to ".$user_data->firstname.")";
+	}
+	
+}
+else{	
+
+	$user_data= User::where('id',Auth::user()->id??0)->get('firstname')->first();
+	if($user_data){
+		$remarks=$request->ticket_remarks." (Updated by ".$user_data->firstname.")";
+	}
+}
+
+
+$Ticket_Logging=UpdateStatusResponseLog::insert([
+		[
+			"organization_id"=>$request->organization_id??'',
+			"logged_user_id"=>$request->logged_user_id??'',
+			"survey_id"=>$request->survey_id??'',
+			"person_id"=>$request->id??'',
+			"ticket_status"=>$request->ticket_status??'',
+			"ticket_remarks"=>$remarks??'',
+			"process_level_closure"=>$request->process_level_closure??'',
+			"category_process_level"=>$request->category_process??'',
+			"assigned_user_id"=>$request->assigned??0,
+			"created_at"=>Carbon::now(),
+			"updated_at"=>Carbon::now(),
+		]  
+	]);
+
+}catch (RequestException $exception) {
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+catch (\Exception $exception) {		
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+}
+
+
+public function ticket_department_status_update($request=false,$QuestionOptions=false){
+try{
+	
+
+$Ticket_Status=SurveyAnswered::where('person_id', $request->id)->whereIn('department_name_id',$QuestionOptions)
+	->update(
+	[  
+		"department_status"=>$request->ticket_status??'',
+		"ticket_remarks"=>$request->ticket_remarks??'',
+		"category_process_level"=>$request->category_process??'',
+		"process_level_closure"=>$request->process_level_closure??'',
+	]
+	); 
+
+}catch (RequestException $exception) {
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+catch (\Exception $exception) {		
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+}
+public function verify_all_department_taken_action($request=false){
+try{
+	
+	
+$NotNull=SurveyAnswered::where('person_id', $request->id)->whereNotIn('department_name_id', [0,21,154])->whereNotNull('department_status')->count();
+$AllDepartments=SurveyAnswered::where('person_id', $request->id)->whereNotIn('department_name_id', [0,21,154])->count();
+
+if($AllDepartments==$NotNull){
+$Ticket_Status=SurveyAnswered::where('person_id', $request->id)
+	->update(
+	[  
+		"ticket_status"=>'closed_satisfied',
+		"ticket_remarks"=>$request->ticket_remarks??'',
+		"category_process_level"=>$request->category_process??'',
+		"process_level_closure"=>$request->process_level_closure??'',
+	]
+	); 
+	
+}
+else{
+	return redirect()->back()->with('warning', "Still pending action of other departments for close ticket.");
+}
+
+}catch (RequestException $exception) {
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+catch (\Exception $exception) {		
+return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+}
+}
+
 public function response_update_status(Request $request)
 { 
+
+
+
+
+
+
+
 
 $request->validate([
 'ticket_status' => 'required', 
@@ -436,20 +576,45 @@ if(isset($request)) {
 	
 if($request->ticket_status=="assigned")
 {
-$this->assigned_ticket_support_team($request);
+	$this->assigned_ticket_support_team($request);
+	$this->ticket_status_update($request);
+	$this->ticket_status_logging($request);
 
 }
 else if($request->ticket_status=="transferred")
 {
 	$this->transferred_ticket($request);
+	$this->ticket_status_update($request);
+	$this->ticket_status_logging($request);
 
 }
+
+else if($request->ticket_status=="process_level_closure")
+{
+	$QuestionOptions=QuestionOptions::where('department_id',Auth::user()->department)->pluck('id');
+	$this->ticket_department_status_update($request,$QuestionOptions);
+	$this->ticket_status_logging($request);
+	$this->verify_all_department_taken_action($request);
+}
+
+else if($request->ticket_status=="patient_level_closure")
+{
+	$QuestionOptions=QuestionOptions::where('department_id',Auth::user()->department)->pluck('id');
+	$this->ticket_department_status_update($request,$QuestionOptions);
+	$this->ticket_status_logging($request);	
+	$this->verify_all_department_taken_action($request);
+}
+
+
 else{	
 
+	$this->ticket_status_update($request);
+	$this->ticket_status_logging($request);
 }
 /* Ticket status and log update */
-$this->ticket_status_update($request);
-$this->ticket_status_logging($request);
+
+
+
 
 /*** End ***/
 return redirect()->back()->with('success', "Success! Status are updated successfully."); 
@@ -543,73 +708,8 @@ return redirect()->back()->with('error', "Something went wrong.". $exception->ge
 
 	
 	
-	
-public function ticket_status_logging($request=false){
-try{
-	
-
-if($request->ticket_status=="assigned")
-{
-	$user_data= User::where('id',$request->assigned??0)->get('firstname')->first();
-	$remarks=$request->ticket_remarks." (Assigned to ".$user_data->firstname.")";
-	
-}
-
-else if($request->ticket_status=="transferred")
-{
-	$user_data= User::where('id',$request->hod_user??0)->get('firstname')->first();
-	$remarks=$request->ticket_remarks." (Transferred to ".$user_data->firstname.")";
-	
-}
-else{	
-	$remarks=$request->ticket_remarks??'';	
-}
 
 
-$Ticket_Logging=UpdateStatusResponseLog::insert([
-		[
-			"organization_id"=>$request->organization_id??'',
-			"logged_user_id"=>$request->logged_user_id??'',
-			"survey_id"=>$request->survey_id??'',
-			"person_id"=>$request->id??'',
-			"ticket_status"=>$request->ticket_status??'',
-			"ticket_remarks"=>$remarks??'',
-			"process_level_closure"=>$request->process_level_closure??'',
-			"category_process_level"=>$request->category_process??'',
-			"assigned_user_id"=>$request->assigned??0,
-			"created_at"=>Carbon::now(),
-			"updated_at"=>Carbon::now(),
-		]  
-	]);
-
-}catch (RequestException $exception) {
-return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
-}
-catch (\Exception $exception) {		
-return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
-}
-}
-public function ticket_status_update($request=false){
-try{
-	
-
-$Ticket_Status=SurveyAnswered::where('person_id', $request->id)
-	->update(
-	[  
-		"ticket_status"=>$request->ticket_status??'',
-		"ticket_remarks"=>$request->ticket_remarks??'',
-		"category_process_level"=>$request->category_process??'',
-		"process_level_closure"=>$request->process_level_closure??'',
-	]
-	); 
-
-}catch (RequestException $exception) {
-return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
-}
-catch (\Exception $exception) {		
-return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
-}
-}
 	
 public function assigned_ticket_support_team($request=false){
 try{

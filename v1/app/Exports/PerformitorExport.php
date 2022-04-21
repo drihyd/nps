@@ -49,25 +49,35 @@ class PerformitorExport implements FromCollection,WithMapping, WithHeadings
 	
 	public function collection()
     {
+		
+		$Post_DischargeID=Surveys::select('id')->pluck('id')->last();
+		$Post_DischargeID=$Post_DischargeID??0;
+
 		$addition_params=$this->data;
 		$category_id=$addition_params['category_id']??'';
 		$from_date=$addition_params['fd']??'';
 		$to_date=$addition_params['td']??'';
 		
-		$responses_data = DB::table("survey_answered")
-		->select(
+		$responses_data = SurveyAnswered::select(
 		"survey_answered.organization_id",
 		DB::raw("
-		(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (0,1,2,3,4,5,6))  as Total_Detractors,
-		(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (7,8))  as Total_Passives,
-		(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (9,10))  as Total_Promoters,
-		(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.rating in (0,1,2,3,4,5,6,7,8,9,10) )  as Total_Feedback_Collected,
-		(SELECT count(survey_answered.id) FROM survey_answered WHERE survey_answered.question_id in (11))  as Total_Patient_Discharged
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6))  as Total_Detractors,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (7,8))  as Total_Passives,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (9,10))  as Total_Promoters,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6,7,8,9,10) )  as Total_Feedback_Collected,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.survey_id in ($Post_DischargeID))  as Total_Patient_Discharged
 		")
 		)
-		->whereIn('survey_answered.question_id',[1,11])
+		
+		->where(function($responses_data) use ($from_date,$to_date){	
+		if($from_date &&  $to_date){		
+		$responses_data->whereDate('survey_persons.created_at', '>=', "$from_date 00:00:00");
+		$responses_data->whereDate('survey_persons.created_at', '<=',"$to_date 23:59:59");
+		}		
+		})
+
 		->groupBy('survey_answered.organization_id')
-		->get();
+		->get();				
 		return $responses_data;
 	
     }

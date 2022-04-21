@@ -67,6 +67,13 @@
 <td><b>{{$person_response->option_value??''}}</b></td>
 <td>{{Str::title($person_response->department_activities??'')}}</td>
 <td>{{Str::title($person_response->answeredby_person??'')}}</td>
+<td>
+
+@if($person_response->department_status)
+
+<small class="text text-success">HOD taken action: {{Str::title(Str::replace("_"," ",$person_response->department_status??''))}}</small>
+@endif
+</td>
 </tr>					
 @endif
 

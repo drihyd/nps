@@ -51,7 +51,7 @@
 
 <li class="{{ (request()->is(Config::get('constants.admin').'/graph-primary-drivers')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/graph-primary-drivers')}}">Primary Drivers</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/graph-secondary-drivers')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/graph-secondary-drivers')}}">Secondary Drivers</a></li>
-	
+
 <!-- 
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=all')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=all')}}">Detractors Reports</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=new-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=new-cases')}}">New Cases</a></li>
