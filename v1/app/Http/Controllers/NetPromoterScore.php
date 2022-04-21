@@ -1318,16 +1318,12 @@ $selected_departments='';
 		if($Questions->count()==0)			
 		{		
 
-
-			$get_person_answered=SurveyAnswered::where('person_id',Session::get('person_id'))->get();
-			
-			foreach($get_person_answered as $key=>$value){				
-				if($value->question_id==1 && $value->rating<=6){
+			$get_person_answered=SurveyPerson::where('id',Session::get('person_id'))->get('rating')->first();
+			if($get_person_answered->rating<=8){			
 				$this->send_ticket_status_emails("opened",Session::get('person_id'));			
-				break;					
-				}
+			}
 				
-			}		
+				
 			
 		}
 		
@@ -1429,16 +1425,14 @@ dd($exception);
         );  
 		
 		/*** Send Feedback Conversation mail to HOD and customer ***/
-		
-		$get_person_answered=SurveyAnswered::where('person_id',$request->person_id)->get();
-
-		foreach($get_person_answered as $key=>$value){				
-		if($value->question_id==1 && $value->rating<=6){
+	
+		$get_person_answered=SurveyPerson::where('id',$request->person_id)->get('rating')->first();
+		if($get_person_answered->rating<=8){			
 			$this->send_ticket_status_emails("opened",$request->person_id);			
-		break;					
 		}
-
-		}
+		
+		
+		
 		
 		/*** End ***/
 		
@@ -1589,7 +1583,7 @@ public function send_ticket_status_emails($status=false,$person_id=false) {
 public function send_ticket_opened_mail($person_id=null){
 	
 	if($person_id){		
-		
+	
 		$person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
         ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
    
@@ -1612,15 +1606,9 @@ public function send_ticket_opened_mail($person_id=null){
 		->where('users.id',$users_data->reportingto??0)       
 		->get()->first(); 
 			
+
 		
-		
-		
-		$mail_params = [
-		'data' =>$person_responses_data??'',
-		'person_data' =>$person_data??'',
-		'subjectline' =>'Ticket Opened '.$person_data->ticker_final_number??'',
-		'ticket_number' =>$person_data->ticker_final_number??'',
-		];
+
 		
 		
 	
@@ -1628,12 +1616,20 @@ public function send_ticket_opened_mail($person_id=null){
 	
 		if(isset($reportingto->email)){	
 		try{
-		Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
+				$mail_params = [
+				'data' =>$person_responses_data??'',
+				'person_data' =>$person_data??'',
+				'subjectline' =>'Ticket Opened '.$person_data->ticker_final_number??'',
+				'ticket_number' =>$person_data->ticker_final_number??'',
+				];
+				Mail::to($reportingto->email)->send(new TicketOpened($mail_params));
 		}catch (\Exception $exception) {
 		}		
 		}
 		
 		/** Trigger HOD mail **/
+		
+		
 		$this->trigger_hod_mail($person_id,$person_data->organization_id);
 		
 		
@@ -1788,12 +1784,11 @@ public function trigger_escalation_mails(){
 
 public function trigger_hod_mail($person_id=false,$organization_id=false,$is_subject=false){
 	
-$person_data= SurveyPerson::where('organization_id',$organization_id)->where('id',$person_id)->get()->first();
+$person_data= SurveyPerson::where('id',$person_id)->get()->first();
 $person_responses_data=SurveyAnswered::join('survey_persons', 'survey_answered.person_id', '=', 'survey_persons.id')
 ->join('question_options', 'survey_answered.answerid', '=', 'question_options.id')
 ->where('survey_answered.organization_id',$organization_id)
 ->where('survey_answered.person_id',$person_id)
-->wherenotIn('survey_answered.question_id',[1,11])
 ->get(['survey_answered.*','question_options.option_value as option_value']);
 
 /** Convert mapToGroups **/
@@ -1808,25 +1803,35 @@ return [ $item['option_value'] =>
 ]];
 });
 $Final_Feedback_Data=$grouped->all();
+
+
 foreach($Final_Feedback_Data as $key=>$value){
 $get_dep=Departments::select('id','department_name')->where("organization_id",$organization_id)->where("department_name",$key)->get()->first();
+
+
+
+
 if($get_dep){
+	
 	$reporting_hod_dep=User::select('users.email as email')                 
 	->where('users.department',$get_dep->id??0)       
 	->where('users.organization_id',$organization_id??0)					       
 	->where('users.role',3)					       
 	->get();
+	
+	
+	
 	if($reporting_hod_dep){				
 		foreach ($reporting_hod_dep as $recipient) {	
 		
 			if($is_subject)
 			{
 				
-				$subject=Str::title($Final_Feedback_Data[$key]['department_name']).' Department '.$is_subject.' #'.$person_data->ticker_final_number??'';
+				$subject=Str::title($Final_Feedback_Data[$key]['department_name']).' Department '.$is_subject.' '.$person_data->ticker_final_number??'';
 				
 			}
 			else{
-				$subject=Str::title($Final_Feedback_Data[$key]['department_name']).' Department Ticket Opened #'.$person_data->ticker_final_number??'';
+				$subject=Str::title($Final_Feedback_Data[$key]['department_name']).' Department Ticket Opened '.$person_data->ticker_final_number??'';
 			}
 			
 			
@@ -1840,7 +1845,9 @@ if($get_dep){
 				'subjectline' =>$subject??'',
 				'ticket_number' =>$person_data->ticker_final_number??'',
 				];
+								
 				Mail::to($recipient->email)->send(new HodMails($mail_params));
+				
 				}catch (\Exception $exception) {
 			}
 		}
