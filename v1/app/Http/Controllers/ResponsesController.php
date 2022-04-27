@@ -21,6 +21,7 @@ use App\Models\User;
 use App\Models\RatingOfDepartment;
 use App\Models\RatingOfDepActivity;
 use App\Models\Departments;
+use App\Models\Departments_Users;
 
 use Illuminate\Support\Facades\Crypt;
 
@@ -112,7 +113,12 @@ class ResponsesController extends Controller
 			else if($role==3){
 				
 				if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
+									
+					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
 					
 					$Detractors->whereIn('survey_answered.department_name_id',$q_departments);	
 				}				
@@ -191,9 +197,12 @@ class ResponsesController extends Controller
 				$Passives->where('survey_answered.department_name_id','0');				
 			}
 			else if($role==3){				
-				if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-				}				
+		
+
+				$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
+				$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+
+				
 				$Passives->whereIn('survey_answered.department_name_id',$q_departments??0);				
 			}			
 			else if($role==4){				
@@ -259,9 +268,8 @@ class ResponsesController extends Controller
 				$Promoters->where('survey_answered.department_name_id','0');				
 			}
 			else if($role==3){				
-				if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-				}				
+				$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
+				$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');			
 				$Promoters->whereIn('survey_answered.department_name_id',$q_departments??0);				
 			}			
 			else if($role==4){				
@@ -591,7 +599,12 @@ else if($request->ticket_status=="transferred")
 
 else if($request->ticket_status=="process_level_closure")
 {
-	$QuestionOptions=QuestionOptions::where('department_id',Auth::user()->department)->pluck('id');
+	//$QuestionOptions=QuestionOptions::where('department_id',Auth::user()->department)->pluck('id');
+	
+$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
+$QuestionOptions=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+	
+	
 	$this->ticket_department_status_update($request,$QuestionOptions);
 	$this->ticket_status_logging($request);
 	$this->verify_all_department_taken_action($request);
@@ -599,7 +612,10 @@ else if($request->ticket_status=="process_level_closure")
 
 else if($request->ticket_status=="patient_level_closure")
 {
-	$QuestionOptions=QuestionOptions::where('department_id',Auth::user()->department)->pluck('id');
+	//$QuestionOptions=QuestionOptions::where('department_id',Auth::user()->department)->pluck('id');
+	$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
+	$QuestionOptions=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+	
 	$this->ticket_department_status_update($request,$QuestionOptions);
 	$this->ticket_status_logging($request);	
 	$this->verify_all_department_taken_action($request);

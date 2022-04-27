@@ -24,7 +24,7 @@
 		<span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="fa fa-bar-chart"></i></span>
 		<div class="media-body">
 		<p class="mb-0">NPS Score</p>
-		<h5 class="mb-0">{{$final_score->NPS??0}}</h5>                      
+		<h5 class="mb-0">{{round($final_score->NPS??0,2)}}</h5>                      
 		</div>
 		</div>
 		</div>
@@ -38,7 +38,7 @@
 		<span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="fa fa-bar-chart"></i></span>
 		<div class="media-body">
 		<p class="mb-0">NPS Score</p>
-		<h5 class="mb-0">{{$final_score->NPS??0}}</h5>                      
+		<h5 class="mb-0">{{round($final_score->NPS??0,2)}}</h5>                      
 		</div>
 		</div>
 		</div>
@@ -105,7 +105,7 @@
 			<div class="media">
 			<span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="fa fa-sticky-note-o"></i></span>
 			<div class="media-body">
-			<p class="mb-0">Customer feedback in last 7 days</p>
+			<p class="mb-0">Feedback in last 7 days</p>
 			<h5 class="mb-0">{{$final_score->lastoneweek??0}}</h5>                      
 			</div>
 			</div>

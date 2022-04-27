@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Organizations;
 use App\Models\GroupLevel;
+use App\Models\Departments_Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -335,7 +336,7 @@ class UsermanagementController extends Controller
     }
     public function department_store_user(Request $request)
     {
-        
+		
         $request->validate([
          'firstname' => 'required|min:1|max:100',       
          'email' => 'required|email|unique:users,email',        
@@ -348,18 +349,11 @@ class UsermanagementController extends Controller
         ]);
 		
 		
-		 $decrypt_password=Str::random(8);
-		 
-		    
-     
-
-        $isexistemail = User::select('id')->where('email',$request->admin_email)->get();
-            if($isexistemail->count()==0){
-           
-
-
-
-        User::insert([
+	$decrypt_password=Str::random(8);	
+	$isexistemail = User::select('id')->where('email',$request->admin_email)->get();
+	if($isexistemail->count()==0){
+		
+        $userdata=User::insert([
             [
                 "organization_id"=>$request->company_name??0,
                 // "designation_id"=>$request->designation_id,
@@ -370,7 +364,7 @@ class UsermanagementController extends Controller
                 "decrypt_password"=>$decrypt_password,
                 "phone"=>$request->phone??'',
                "reportingto"=>$request->reportingto??0,
-                "department"=>$request->department??0,
+                "department"=>$request->department[0]??0,
                 'created_at' =>Carbon\Carbon::now(),    
                 'updated_at' =>Carbon\Carbon::now(), 
                 'email_verified_at' =>Carbon\Carbon::now(), 
@@ -381,53 +375,19 @@ class UsermanagementController extends Controller
         ]); 
 
 
+	$LastInserID=$userdata->id??0;
+	$DepartmentSelected=$request->department;
+	if($LastInserID){
+	$this->mapping_departments_users($DepartmentSelected,$LastInserID);
+	}
         
-        
- 
-		
-         	try{
-				
-	/*			
-$str='';
-$str.='<!DOCTYPE html>';
-$str.='<html>';
-$str.='<head>';
-$str.='<title>NPS</title>';
-$str.='</head>';
-$str.='<body style="font-family:Arial, sans-serif;font-size:13px;color:#000;background: #f4f4f4;line-height:1.5;padding: 30px;">';
-$str.='<div style="background: #fff;max-width:550px;display: block;margin: 15px auto;padding: 30px;border-bottom: 6px solid #F2BD55;">';
-$str.='<h1 style="font-size: 21px;display:block;margin-bottom: 0;">Login Credentials<br></h1>';	
-$str.='<div style="font-size: 13px;color: #333;display:block;margin: 15px 0 15px;max-width:360px;">';
-
-$str.='<p style="margin: 0 0 6px;"><strong>Login URL: </strong>'.URL('/').'</p>';		
-$str.='<p style="margin: 0 0 6px;"><strong>Username: </strong>'.$request->email.'</p>';
-$str.='<p style="margin: 0 0 6px;"><strong>Password: </strong>'.$decrypt_password.'</p>';
-$str.='</div>';	
-$str.='<p style="margin-bottom: 0px;">Thanks,<br><strong>Admin</strong></p>';
-$str.='</div>';
-$str.='</body>';
-$str.='</html>';	
-				
-				
-				
-				
-		 $to = $request->email;
-         $subject = "NPS - Login Credentials";         
-         $message = $str;         
-         $header = "From:noreply@deepredink.com \r\n";
-     
-         $header .= "MIME-Version: 1.0\r\n";
-         $header .= "Content-type: text/html\r\n";         
-         $retval = mail ($to,$subject,$message,$header);
-		 
-		 */
-		 
-		 $offer = [
-            'token' => $decrypt_password,
-			 'password' =>$decrypt_password,
-			  'name' =>$request->firstname,
-			  'email' =>$request->email
-        ];
+try{
+		$offer = [
+		'token' => $decrypt_password,
+		'password' =>$decrypt_password,
+		'name' =>$request->firstname,
+		'email' =>$request->email
+		];
 		 
 		 Mail::to($request->email)->send(new ResetPassword($offer));
 			}
@@ -443,6 +403,76 @@ $str.='</html>';
      }
 
     }
+	
+	
+	
+	
+	
+	public function mapping_departments_users($DepartmentSelected,$LastInserID){
+	
+	
+	
+	
+		if(isset($LastInserID) && $LastInserID>0)
+		{
+			
+		$User = User::select('id')->where('id',$LastInserID)->get()->count();
+		
+			if($User>0){				
+				$remove_data=Departments_Users::where('user_id',$LastInserID)->delete(); 
+				foreach($DepartmentSelected as $key=>$value){
+					
+				$checking_exist=Departments_Users::where("department_id",$value)->where("user_id",$LastInserID)->get()->count();
+					
+						if($checking_exist==0) {
+							
+							if($value>0) {
+								$Dep_Users=Departments_Users::insert(
+									[				
+										[
+											"department_id"=>$value,
+											"user_id"=>$LastInserID,
+											'created_at' =>Carbon\Carbon::now(),    
+											'updated_at' =>Carbon\Carbon::now(),			
+										]
+									]
+									);
+								
+							}
+							
+						}
+						else{
+							
+							
+							if($value>0) {
+								$Dep_Users=Departments_Users::where('department_id',$value)->where('user_id',$LastInserID)
+								->update(
+										[
+										"department_id"=>$value,
+										"user_id"=>$LastInserID,
+										'updated_at' =>Carbon\Carbon::now(),			
+										]
+								); 
+							
+							}
+							
+							
+						}
+				
+				}
+				
+				
+				
+				
+				
+			}
+		}
+		else{
+			
+		}
+			
+	}
+	
     public function department_edit_user($id){
 
 
@@ -454,7 +484,9 @@ $str.='</html>';
 				$group_level_data=GroupLevel::get();
 				$user_type_data=DB::table('user_types')->get();
 				$pageTitle="Edit User";     
-				return view('admin.department_users.add_user',compact('pageTitle','users_data','user_type_data','group_level_data'));
+				
+				$Departments_Users=Departments_Users::where('user_id',$user_id)->pluck('department_id')->toArray();
+				return view('admin.department_users.add_user',compact('pageTitle','users_data','user_type_data','group_level_data','Departments_Users'));
 			}
 			else{
 				return redirect()->back()->with('error', "Something went wrong/Organization is not found.");
@@ -505,13 +537,20 @@ $str.='</html>';
                 // "decrypt_password"=>$decrypt_password,
                 "phone"=>$request->phone??'',
                 "reportingto"=>$request->reportingto??0,
-                "department"=>$request->department??0,
+                "department"=>$request->department[0]??0,
                 'email_verified_at' =>Carbon\Carbon::now(), 
                 'is_email_verified' =>1, 
                 'is_active_status' =>$request->is_active_status??'', 
                 'ip' =>request()->ip()??0,
             ]
             );      
+			
+			
+			$DepartmentSelected=$request->department??[0];
+			$LastInserID=$request->id;
+			$update_departments=$this->mapping_departments_users($DepartmentSelected,$LastInserID);
+			
+			
         return redirect('admin/users')->with('success', "Success! Details are updated successfully");
             
         

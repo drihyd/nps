@@ -198,17 +198,17 @@ class Reports extends Controller
 			
 			elseif($status == 'patient-process-closer-cases'){	
 			
-            	$Detractors->wherein('survey_answered.ticket_status',['patient_level_closure','process_level_closure']);				
+            	$Detractors->wherein('survey_answered.department_status',['patient_level_closure','process_level_closure']);				
             }
 			
 			elseif($status == 'transferred-cases'){			
             	$Detractors->wherein('survey_answered.ticket_status',['transferred']);	
             }		
 			elseif($status == 'process-closure'){			
-            	$Detractors->wherein('survey_answered.ticket_status',['process_level_closure']);	
+            	$Detractors->wherein('survey_answered.department_status',['process_level_closure']);	
             }	
 			elseif($status == 'process-pending'){			
-            	$Detractors->wherein('survey_answered.ticket_status',['patient_level_closure']);	
+            	$Detractors->wherein('survey_answered.department_status',['patient_level_closure']);	
             }
 			
 			else{
@@ -472,14 +472,17 @@ $to_date = date('Y-m-t');
 
 }
 
-$responses_data = SurveyAnswered::select(
+
+$responses_data=Surveys::get();
+ foreach ($responses_data as $key => $value) {
+        $responses_data[$key]->all_category_data=SurveyAnswered::select(
 		"survey_answered.organization_id",
 		DB::raw("
-		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6))  as Total_Detractors,
-		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (7,8))  as Total_Passives,
-		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (9,10))  as Total_Promoters,
-		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6,7,8,9,10) )  as Total_Feedback_Collected,
-		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.survey_id in ($Post_DischargeID))  as Total_Patient_Discharged
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6) and survey_id=$value->id)  as Total_Detractors,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (7,8) and survey_id=$value->id)  as Total_Passives,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (9,10) and survey_id=$value->id)  as Total_Promoters,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6,7,8,9,10) and survey_id=$value->id)  as Total_Feedback_Collected,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.survey_id in ($Post_DischargeID) and survey_id=$value->id)  as Total_Patient_Discharged
 		")
 		)
 
@@ -490,10 +493,12 @@ $responses_data->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59
 }		
 })
 			
-
-
+->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
+->where("survey_answered.survey_id",$value->id)
 ->groupBy('survey_answered.organization_id')
 ->get();
+
+ }
 
 
 

@@ -1,5 +1,6 @@
 <?php
 use App\Models\User;
+use App\Models\Departments_Users;
 ?>
 @extends('admin.template_v1')
 @section('title', 'Users')
@@ -30,10 +31,10 @@ use App\Models\User;
                         <th>S.No</th>
                         <th>User Details</th>
                         <!-- <th>Email/Username</th> -->
-                        <th>Decrypt Password</th>
+                        <!--<th>Decrypt Password</th>-->
                         <!-- <th>Phone</th> -->
                         <th>Designation</th>
-                        <th>Team</th>
+                        <th>Team/Department</th>
                         <th>Reporting To</th>
                         <!--<th>Is Active</th>-->
                       
@@ -49,10 +50,21 @@ use App\Models\User;
                               <td>{{$loop->iteration}}</td>
                               <td><b>{{Str::title($user->firstname??'')}} {{Str::title($user->lastname??'')}}</b><br>{{$user->email??''}}<br>{{$user->phone??''}}</td>
                               <!-- <td></td> -->
-                              <td>{{$user->decrypt_password??''}}</td>
+                              <!--<td>{{$user->decrypt_password??''}}</td>-->
                               <!-- <td></td> -->
                               <td>{{$user->ut_name??''}}</td>
-                              <td>{{$user->dname??''}}</td>
+                              <td>
+							  
+							@php
+							$Departments_Users=Departments_Users::select(DB::raw('group_concat(departments.department_name) as department_name'))
+							 ->leftjoin('departments','departments.id','=','mapping_depatemnts_to_users.department_id')
+							->where("user_id",$user->id)
+							->groupBy('mapping_depatemnts_to_users.user_id')
+							->get()->first();
+							@endphp
+							  
+							  {{$Departments_Users->department_name??''}}
+							  </td>
                               @php
                               $Report_person=User::select('departments.department_name as dname','users.id as uid','users.email as uemail','users.firstname as uname')
                                 ->leftJoin('departments','departments.id', '=', 'users.department')

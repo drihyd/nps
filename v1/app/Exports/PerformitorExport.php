@@ -37,6 +37,7 @@ class PerformitorExport implements FromCollection,WithMapping, WithHeadings
         $addition_params=$this->data;
 		$final_heading=[		
 			'Unit Name',
+			'Category',
 			'No. of Patients Discharged',
 			'No. of Feedbacks Collected',
 			'Promoters',
@@ -58,14 +59,19 @@ class PerformitorExport implements FromCollection,WithMapping, WithHeadings
 		$from_date=$addition_params['fd']??'';
 		$to_date=$addition_params['td']??'';
 		
-		$responses_data = SurveyAnswered::select(
+		
+		   $responses_data=Surveys::get();
+		
+	
+	 foreach ($responses_data as $key => $value) {
+        $responses_data[$key]->all_category_data=SurveyAnswered::select(
 		"survey_answered.organization_id",
 		DB::raw("
-		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6))  as Total_Detractors,
-		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (7,8))  as Total_Passives,
-		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (9,10))  as Total_Promoters,
-		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6,7,8,9,10) )  as Total_Feedback_Collected,
-		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.survey_id in ($Post_DischargeID))  as Total_Patient_Discharged
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6) and survey_id=$value->id)  as Total_Detractors,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (7,8) and survey_id=$value->id)  as Total_Passives,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (9,10) and survey_id=$value->id)  as Total_Promoters,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.rating in (0,1,2,3,4,5,6,7,8,9,10) and survey_id=$value->id)  as Total_Feedback_Collected,
+		(SELECT count(survey_persons.id) FROM survey_persons WHERE survey_persons.survey_id in ($Post_DischargeID) and survey_id=$value->id)  as Total_Patient_Discharged
 		")
 		)
 		
@@ -76,8 +82,18 @@ class PerformitorExport implements FromCollection,WithMapping, WithHeadings
 		}		
 		})
 
+->where("survey_answered.survey_id",$value->id)
+	 ->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 		->groupBy('survey_answered.organization_id')
-		->get();				
+		->get();
+		
+		
+	 }
+	 
+	 
+
+
+		
 		return $responses_data;
 	
     }
@@ -87,17 +103,20 @@ class PerformitorExport implements FromCollection,WithMapping, WithHeadings
 
 		/* Payment data get from the collection function */
 		
+		
+		
 		$orgname = DB::table('organizations')->select('company_name')->where('id',$feedback_data->organization_id)->get()->first();
 		return [
 		
 
-		Str::title($orgname->company_name??'')	,
-		Str::title($feedback_data->Total_Patient_Discharged),
-		Str::title($feedback_data->Total_Feedback_Collected),
-		Str::title($feedback_data->Total_Promoters),
-		Str::title($feedback_data->Total_Passives),
-		Str::title($feedback_data->Total_Detractors),
-		Str::title($feedback_data->Total_Patient_Discharged+$feedback_data->Total_Feedback_Collected+$feedback_data->Total_Promoters+$feedback_data->Total_Passives+$feedback_data->Total_Detractors),
+		Str::title($orgname->company_name??''),
+		Str::title($feedback_data->title??''),
+		Str::title($feedback_data->all_category_data[0]->Total_Patient_Discharged),
+		Str::title($feedback_data->all_category_data[0]->Total_Feedback_Collected),
+		Str::title($feedback_data->all_category_data[0]->Total_Promoters),
+		Str::title($feedback_data->all_category_data[0]->Total_Passives),
+		Str::title($feedback_data->all_category_data[0]->Total_Detractors),
+		Str::title($feedback_data->all_category_data[0]->Total_Patient_Discharged+$feedback_data->all_category_data[0]->Total_Feedback_Collected+$feedback_data->all_category_data[0]->Total_Promoters+$feedback_data->all_category_data[0]->Total_Passives+$feedback_data->all_category_data[0]->Total_Detractors),
 	
 		];
 

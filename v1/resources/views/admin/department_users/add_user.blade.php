@@ -58,7 +58,7 @@
 		  <div class="form-group">
              
 			
-			@include('masters.departments', ['department' =>$users_data->department??'','is_required'=>""])
+			@include('masters.departments', ['department' =>$Departments_Users??'','is_required'=>"","multipleselect"=>"yes"])
 			
 			
 			

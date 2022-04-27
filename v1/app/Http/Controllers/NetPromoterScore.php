@@ -25,6 +25,7 @@ use App\Mail\HodMails;
 use App\Mail\EsclationMails;
 use App\Models\Activities;
 use App\Models\Departments;
+use App\Models\Departments_Users;
 use Log;
 use Illuminate\Support\Collection;
 
@@ -89,10 +90,15 @@ class NetPromoterScore extends Controller
 		
 	
 		elseif($role==3){		
-		if(auth()->user()->department){			
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+				
+					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
+					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+					
+					
 					$Detractors->whereIn('survey_answered.department_name_id',$q_departments);	
-				}	
+				
 		}
 		
 		elseif($role==7){		
@@ -151,11 +157,14 @@ class NetPromoterScore extends Controller
 		}
 		elseif($role==3){	
 		
-		if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+		
+					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
 					
+					
+					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
+					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
 					$Neutral->whereIn('survey_answered.department_name_id',$q_departments);	
-				}	
+					
 
 		}
 		
@@ -200,10 +209,13 @@ class NetPromoterScore extends Controller
 		}
 		elseif($role==3){	
 		
-		if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+		
+					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
+					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+					
 					$Promoters->whereIn('survey_answered.department_name_id',$q_departments);	
-				}	
+			
 
 		}
 		
@@ -267,11 +279,14 @@ class NetPromoterScore extends Controller
 		}
 		elseif($role==3){	
 		
-		if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+		
+					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
 					
+					
+					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
+					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
 					$Promoters_lastweek->whereIn('survey_answered.department_name_id',$q_departments);	
-				}	
+				
 
 		}
 		
@@ -320,11 +335,15 @@ $Promoters_lastweek=$uniqueCollection4->count();
 		elseif($role==3){	
 		
 		
-		if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+	
+					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
+					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+					
 					
 					$Neutral_lastweek->whereIn('survey_answered.department_name_id',$q_departments);	
-				}	
+					
 
 		}
 		
@@ -380,10 +399,14 @@ $Promoters_lastweek=$uniqueCollection4->count();
 		}
 		elseif($role==3){	
 		
-			if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+			
+					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
+					
+					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
+					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+					
 					$Detractors_lastweek->whereIn('survey_answered.department_name_id',$q_departments);	
-				}	
+					
 
 		}
 		else if($role==4){			

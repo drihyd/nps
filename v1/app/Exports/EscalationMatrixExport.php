@@ -7,6 +7,7 @@ use App\Models\Surveys;
 use App\Models\SurveyPerson;
 use App\Models\UpdateStatusResponseLog;
 use App\Models\User;
+use App\Models\Departments_Users;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
@@ -48,6 +49,9 @@ class EscalationMatrixExport implements FromCollection,WithMapping, WithHeadings
 			'Email ids -Level1',
 			'Email ids -Level2',
 			'Email ids -Level3',
+			'Phone Number -Level1',
+			'Phone Number -Level2',
+			'Phone Number -Level3',
 			],
 			
 		
@@ -68,16 +72,30 @@ class EscalationMatrixExport implements FromCollection,WithMapping, WithHeadings
 		->where('users.organization_id',Session::get('companyID')??0)
 		->where('role',2)->get()->first();
 		*/		
-		$responses_data = User::select('firstname','email','department','department_name')->whereNotNull('department')->where('department','>',0)
-		->leftjoin('departments','users.department','=','departments.id')
-		->orderby('departments.department_name','asc')
-		->where('users.organization_id',Session::get('companyID')??0)		
-		->get();
+		
+		
+
+
+		
+		
+	$responses_data = User::select('users.firstname as firstname','users.email as email','departments.department_name as department_name','users.phone as phone')
+
+	->leftJoin('mapping_depatemnts_to_users','mapping_depatemnts_to_users.user_id', '=', 'users.id')
+	->leftJoin('departments','departments.id', '=', 'mapping_depatemnts_to_users.department_id')
+
+	->whereNotNull('department')->where('department','>',0)
+	->where('users.organization_id',Session::get('companyID')??0)	
+	->where('users.role',3)
+	->orderby('departments.department_name','asc')		
+	->get();
+		
+
 		return $responses_data;	
     }
 	
    public function map($result_data=null): array
     {
+		
 		
 		
 		return [
@@ -88,7 +106,10 @@ class EscalationMatrixExport implements FromCollection,WithMapping, WithHeadings
 			Str::title($this->getOPD()->firstname??''),
 			Str::title($result_data->email??''),
 			Str::title($this->getunithead()->email??''),
-			Str::title($this->getOPD()->email??''),
+			Str::title($this->getOPD()->email??''),			
+			Str::title($result_data->phone??''),
+			Str::title($this->getunithead()->phone??''),
+			Str::title($this->getOPD()->phone??''),
 
 			],
 	
@@ -96,6 +117,8 @@ class EscalationMatrixExport implements FromCollection,WithMapping, WithHeadings
 		]
 		
 		;	
+		
+		
     }	
 	
 	
@@ -103,7 +126,7 @@ class EscalationMatrixExport implements FromCollection,WithMapping, WithHeadings
 	public function getunithead()
     {
 	
-		$unithead = User::select('firstname','email','department')
+		$unithead = User::select('firstname','email','department','phone')
 		->where('users.organization_id',Session::get('companyID')??0)
 		->where('role',2)->get()->first();			
 		return $unithead;	
@@ -112,7 +135,7 @@ class EscalationMatrixExport implements FromCollection,WithMapping, WithHeadings
 		public function getOPD()
     {
 	
-		$unitOPD = User::select('firstname','email','department')
+		$unitOPD = User::select('firstname','email','department','phone')
 		->where('users.organization_id',Session::get('companyID')??0)
 		->where('role',5)->get()->first();			
 		return $unitOPD;	
