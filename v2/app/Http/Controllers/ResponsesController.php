@@ -733,6 +733,20 @@ else if($request->ticket_status=="transferred")
 	$this->ticket_status_logging($request);
 
 }
+else if($request->ticket_status=="process_closure_req")
+{
+	//$QuestionOptions=QuestionOptions::where('department_id',Auth::user()->department)->pluck('id');
+	
+$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
+$QuestionOptions=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+	
+	
+	$this->ticket_department_status_update($request,$user_mapped_departments);
+	$this->ticket_status_logging($request);
+
+}
+
+
 
 else if($request->ticket_status=="process_level_closure")
 {

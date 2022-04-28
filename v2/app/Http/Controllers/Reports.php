@@ -23,6 +23,8 @@ use App\Exports\ResponsesExport;
 use App\Imports\ResponsesImport;
 use App\Exports\PerformitorExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Departments;
+use App\Models\Departments_Users;
 
 
 class Reports extends Controller
@@ -36,6 +38,7 @@ class Reports extends Controller
     {   
 
 		$role=auth()->user()->role??0;
+		$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
 		
 	
 		
@@ -111,38 +114,19 @@ class Reports extends Controller
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')
-			
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
-			
-	
-
-			
-			->where(function($Detractors) use ($role){	
-			
-			
+			->where(function($Detractors) use ($role,$user_mapped_departments){	
 			if($role==2){
-
-					$Detractors->where('survey_answered.department_name_id','0');					
+					//$Detractors->where('survey_answered.department_name_id','0');					
 			}
-			else if($role==3){
-				
-				if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-					
-					$Detractors->whereIn('survey_answered.department_name_id',$q_departments);	
-				}				
-							
+			else if($role==3){			
+					$Detractors->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
 			}			
-			else if($role==4){				
-			
-			
+			else if($role==4){			
 			$Detractors->where('survey_persons.logged_user_id',auth()->user()->id??0);
-			
 			}
-			else{
-				
-			}	
-			
+			else{				
+			}				
 			
 			})
 			
@@ -155,20 +139,6 @@ class Reports extends Controller
 			}		
 			})
 
-			->where(function($Detractors) use ($QuestionOptions,$role){
-
-			
-		
-				if($role==3 || $role==4) {
-					
-				$Detractors->whereIn('survey_answered.answerid',$QuestionOptions);		
-				$Detractors->where('survey_answered.answeredby_person','!=','');
-				
-				}
-			
-			
-			
-			})
 			->where(function($Detractors) use ($Question){   
             if($Question){       
                 $Detractors->where('survey_answered.survey_id','=',$Question);                
@@ -207,8 +177,10 @@ class Reports extends Controller
 			elseif($status == 'process-closure'){			
             	$Detractors->wherein('survey_answered.department_status',['process_level_closure']);	
             }	
-			elseif($status == 'process-pending'){			
-            	$Detractors->wherein('survey_answered.department_status',['patient_level_closure']);	
+			elseif($status == 'process-pending'){	
+
+	
+            	$Detractors->wherein('survey_answered.department_status',['process_closure_req']);	
             }
 			
 			else{
@@ -239,18 +211,14 @@ class Reports extends Controller
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')			
 			->whereIn('survey_answered.rating',[7,8])		
-			->where(function($Passives) use ($role){
+			->where(function($Passives) use ($role,$user_mapped_departments){
 
-				
-				if($role==2){
+			if($role==2){
 
-				$Passives->where('survey_answered.department_name_id','0');				
+				//$Passives->where('survey_answered.department_name_id','0');				
 			}
-			else if($role==3){				
-				if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-				}				
-				$Passives->whereIn('survey_answered.department_name_id',$q_departments??0);				
+			else if($role==3){	
+				$Passives->whereIn('survey_answered.department_name_id',$user_mapped_departments);				
 			}			
 			else if($role==4){				
 				$Passives->where('survey_persons.logged_user_id',auth()->user()->id??0);
@@ -267,18 +235,7 @@ class Reports extends Controller
 				$Passives->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
 			}		
 			})
-			
-			->where(function($Passives) use ($QuestionOptions,$role){	
-			
-				if($role==3 || $role==4) {
-					
-				$Passives->whereIn('survey_answered.answerid',$QuestionOptions);
-			    $Passives->where('survey_answered.answeredby_person','!=','');
-				
-				}				
-			
-			
-			})
+
 			->where(function($Passives) use ($Question){   
             if($Question){       
                 $Passives->where('survey_answered.survey_id','=',$Question);                
@@ -314,6 +271,11 @@ class Reports extends Controller
 			
             	$Passives->wherein('survey_answered.ticket_status',['transferred']);				
             }
+	elseif($status == 'process-pending'){	
+
+	
+            	$Passives->wherein('survey_answered.department_status',['process_closure_req']);	
+            }
 			
 			else{
 				
@@ -341,17 +303,14 @@ class Reports extends Controller
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')			
 			->whereIn('survey_answered.rating',[9,10])			
-			->where(function($Promoters) use ($role){	
+			->where(function($Promoters) use ($role,$user_mapped_departments){	
 			
 			if($role==2){
 
-				$Promoters->where('survey_answered.department_name_id','0');				
+				//$Promoters->where('survey_answered.department_name_id','0');				
 			}
-			else if($role==3){				
-				if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-				}				
-				$Promoters->whereIn('survey_answered.department_name_id',$q_departments??0);				
+			else if($role==3){					
+				$Promoters->whereIn('survey_answered.department_name_id',$user_mapped_departments);				
 			}			
 			else if($role==4){				
 				$Promoters->where('survey_persons.logged_user_id',auth()->user()->id??0);
@@ -368,18 +327,8 @@ class Reports extends Controller
 				$Promoters->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
 				$Promoters->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
 			}		
-			})		
-
-
-			->where(function($Promoters) use ($QuestionOptions,$role){	
-			
-				if($role==3 || $role==4) {
-				$Promoters->whereIn('survey_answered.answerid',$QuestionOptions);	
-				$Promoters->where('survey_answered.answeredby_person','!=','');	
-				}				
-
-			
 			})
+
 			->where(function($Promoters) use ($Question){   
             if($Question){       
                 $Promoters->where('survey_answered.survey_id','=',$Question);                
@@ -406,12 +355,17 @@ class Reports extends Controller
 			
 			elseif($status == 'patient-process-closer-cases'){	
 			
-            	$Promoters->wherein('survey_answered.ticket_status',['patient_level_closure','process_level_closure']);				
+            	$Promoters->wherein('survey_answered.ticket_status',['patient_level_closure','process_closure_req','process_closure_notreq']);				
             }
 			
 			elseif($status == 'transferred-cases'){	
 			
             	$Promoters->wherein('survey_answered.ticket_status',['transferred']);				
+            }
+	elseif($status == 'process-pending'){	
+
+	
+            	$Promoters->wherein('survey_answered.department_status',['process_closure_req']);	
             }
 			
 			else{

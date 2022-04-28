@@ -18,5 +18,9 @@
 <span class="badge badge-success">Assigned - {{$assigned_user??''}}</span>
 @elseif($ticket_status=="transferred")
 <span class="badge badge-success">Transferred</span>
+@elseif($ticket_status=="process_closure_req")
+<span class="badge badge-success">Process closure required</span>
+@elseif($ticket_status=="process_closure_notreq")
+<span class="badge badge-success">Process closure not required</span>
 @else
 @endif

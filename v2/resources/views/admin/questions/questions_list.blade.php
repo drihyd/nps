@@ -58,8 +58,8 @@
                               
                               <td>{{$loop->iteration}}</td>
                               <!-- <td>{{Str::title($question->survey_title??'')}}</td> -->
-                              <td>{{Str::title($question->label??'')}}</td>
-                              <td>{{Str::title($question->active??'')}}</td>
+                              <td>{{$question->label??''}}</td>
+                              <td>{{$question->active??''}}</td>
                               
                            
                               

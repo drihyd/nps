@@ -10,6 +10,8 @@ use App\Models\RatingOfDepartment;
 use App\Models\RatingOfDepActivity;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\Departments;
+use App\Models\Departments_Users;
 
 class Graphs extends Controller
 {
@@ -235,7 +237,7 @@ class Graphs extends Controller
 		
 		
 			$role=auth()->user()->role??0;
-		
+			$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
 	
 			if($request->from_date &&  $request->to_date) {
 			$from_date = $request->from_date;
@@ -275,17 +277,16 @@ class Graphs extends Controller
 			})
 			
 			
-			->where(function($users) use ($role){				
+			->where(function($users) use ($role,$user_mapped_departments){				
 			if($role==2){
 				
 				$users->where('survey_answered.department_name_id','0');
 				
 			}
 			else if($role==3){				
-				if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-					$users->whereIn('survey_answered.department_name_id',$q_departments);	
-				}				
+				
+					$users->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
+						
 							
 			}			
 			else if($role==4){				
@@ -378,15 +379,15 @@ class Graphs extends Controller
 			})
 			
 			
-			->where(function($_users) use ($role){				
+			->where(function($_users) use ($role,$user_mapped_departments){				
 			if($role==2){
 				$_users->where('survey_answered.department_name_id','0');
 			}
 			else if($role==3){				
-				if(auth()->user()->department){
-					$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-					$_users->whereIn('survey_answered.department_name_id',$q_departments);	
-				}				
+				
+					
+					$_users->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
+							
 							
 			}			
 			else if($role==4){				
@@ -653,6 +654,7 @@ public function get_department_patient_process_closures($request){
 
 
 $role=auth()->user()->role??0;
+$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
 
 if(isset($request->team)) {					
 $QuestionOptions=QuestionOptions::select()
@@ -701,15 +703,15 @@ $ViewAttendance->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59
 }		
 })
 
-->where(function($ViewAttendance) use ($role){				
+->where(function($ViewAttendance) use ($role,$user_mapped_departments){				
 if($role==2){
 
 }
 else if($role==3){				
-if(auth()->user()->department){
-	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-	$ViewAttendance->whereIn('survey_answered.department_name_id',$q_departments);	
-}				
+
+	
+	$ViewAttendance->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
+				
 
 }			
 else if($role==4){				
@@ -740,6 +742,7 @@ public function get_department_process_category_closures($request){
 
 
 $role=auth()->user()->role??0;
+$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
 
 if(isset($request->team)) {					
 $QuestionOptions=QuestionOptions::select()
@@ -784,15 +787,15 @@ $ViewAttendance->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59
 }		
 })
 
-->where(function($ViewAttendance) use ($role){				
+->where(function($ViewAttendance) use ($role,$user_mapped_departments){				
 if($role==2){
 
 }
 else if($role==3){				
-if(auth()->user()->department){
-	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-	$ViewAttendance->whereIn('survey_answered.department_name_id',$q_departments);	
-}				
+
+	
+	$ViewAttendance->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
+			
 
 }			
 else if($role==4){				
@@ -824,6 +827,7 @@ public function get_departmentwise_scores($request){
 	
 	
 $role=auth()->user()->role??0;	
+$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
 
 if(isset($request->team)) {					
 $QuestionOptions=QuestionOptions::select()
@@ -856,16 +860,16 @@ $ViewAttendance->whereDate('rating_of_departments.created_at', '<=',"$to_date 23
 })
 
 
-->where(function($ViewAttendance) use ($role){				
+->where(function($ViewAttendance) use ($role,$user_mapped_departments){				
 if($role==2){
 
 }
 
 else if($role==3){				
-if(auth()->user()->department){
-	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-	$ViewAttendance->whereIn('rating_of_departments.department_id',$q_departments);	
-}				
+
+	
+	$ViewAttendance->whereIn('rating_of_departments.department_id',$user_mapped_departments);	
+			
 
 }			
 else if($role==4){				
@@ -878,13 +882,6 @@ else{
 })
 
 
-->where(function($ViewAttendance) use ($QuestionOptions){	
-
-$ViewAttendance->whereIn('rating_of_departments.department_id',$QuestionOptions);				
-
-
-
-})
 
 
 
@@ -892,6 +889,8 @@ $ViewAttendance->whereIn('rating_of_departments.department_id',$QuestionOptions)
 ->orderBy("rating_of_departments.department_name","asc")
 ->groupBy("rating_of_departments.department_name")
 ->get();
+
+
 return $ViewAttendance;
 }
 
@@ -900,6 +899,7 @@ public function get_department_activities_scores($request){
 
 
 $role=auth()->user()->role??0;
+$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
 
 if(isset($request->team)) {					
 $QuestionOptions=QuestionOptions::select()
@@ -935,15 +935,15 @@ $ViewAttendance->whereDate('rating_of_dep_activities.created_at', '<=',"$to_date
 }		
 })
 
-->where(function($ViewAttendance) use ($role){				
+->where(function($ViewAttendance) use ($role,$user_mapped_departments){				
 if($role==2){
 
 }
 else if($role==3){				
-if(auth()->user()->department){
-	$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-	$ViewAttendance->whereIn('rating_of_dep_activities.department_id',$q_departments);	
-}				
+
+	
+	$ViewAttendance->whereIn('rating_of_dep_activities.department_id',$user_mapped_departments);	
+			
 
 }			
 else if($role==4){				
@@ -955,9 +955,7 @@ else{
 
 })
 
-->where(function($ViewAttendance) use ($QuestionOptions){
-$ViewAttendance->whereIn('rating_of_dep_activities.department_id',$QuestionOptions);				
-})
+
 
 
 

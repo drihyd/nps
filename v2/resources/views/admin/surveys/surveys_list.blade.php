@@ -29,7 +29,7 @@
                           <tr>
                               
                               <td>{{$loop->iteration}}</td>
-                              <td>{{Str::title($survey->title??'')}}</td>
+                              <td>{{$survey->title??''}}</td>
                               <td width="50%">{{$survey->description??''}}</td>
                               <td><input data-id="{{$survey->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $survey->isopen =='yes'?'checked' : '' }}></td>
                               <td>

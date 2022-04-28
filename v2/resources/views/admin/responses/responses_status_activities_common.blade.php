@@ -63,6 +63,12 @@
 					@elseif($person_responses_status->ticket_status=="transferred")
 					<h6 class="badge badge-success">Transferred</h6>
                     <p><b>Remarks: </b>{{$person_responses_status->ticket_remarks??''}}</p>
+					@elseif($person_responses_status->ticket_status=="process_closure_req")
+					<h6 class="badge badge-danger">Process closure required</h6>
+                    <p><b>Remarks: </b>{{$person_responses_status->ticket_remarks??''}}</p>
+					@elseif($person_responses_status->ticket_status=="process_closure_notreq")
+					<h6 class="badge badge-warning">Process closure not required</h6>
+                    <p><b>Remarks: </b>{{$person_responses_status->ticket_remarks??''}}</p>
                     @else
                     @endif                                          
                     

@@ -979,6 +979,7 @@ if(is_array($request->first_questin_range))
 
 
 
+$departments = Departments::where('id',$value)->get('department_name')->first();
 
 DB::table('rating_of_departments')->insert(
 [
@@ -986,7 +987,7 @@ DB::table('rating_of_departments')->insert(
 'survey_id' =>$request->survey_id??0,
 'created_at' =>Carbon::now(),
 'updated_at' =>Carbon::now(),
-'department_name' =>$department_name->option_value??'',
+'department_name' =>$departments->department_name??'',
 'department_id' =>$value??'',
 'rating' =>Session::get('rating')??0,
 'organization_id' =>$request->organization_id??0,

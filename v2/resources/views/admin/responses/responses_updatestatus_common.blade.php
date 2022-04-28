@@ -73,6 +73,7 @@ Remarks
 <option value="closed_satisfied" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'closed_satisfied'? 'selected':''}}> Closed - Satisfied</option>
 <option value="closed_unsatisfied" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'closed_unsatisfied'? 'selected':''}}>Closed - Unsatisfied</option>
 <option value="assigned" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'assigned'? 'selected':''}}>Assign Ticket</option>
+<option value="process_level_closure" {{ old('ticket_status',$person_responses_data[0]->ticket_status??'') == 'process_level_closure'? 'selected':''}}>Process level closure</option>
 @elseif(Auth::user()->role==3)
 <!--
 <option value="">--Pick one--</option>
@@ -83,11 +84,13 @@ Remarks
 -->
 
 <option value="">--Pick one--</option>
-<option value="opened">Opened</option>
 <option value="patient_level_closure">Patient level Closure</option>
-<option value="process_level_closure">Process level closure</option>
+<option value="process_closure_req" >Process closure required</option>
+<option value="process_closure_notreq">Process closure not required</option>
 <option value="assigned">Assign Ticket</option>
 <option value="transferred">Transferred</option>
+
+
 
 @elseif(Auth::user()->role==7)
 <option value="">--Pick one--</option>
