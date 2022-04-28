@@ -106,17 +106,25 @@ class PerformitorExport implements FromCollection,WithMapping, WithHeadings
 		
 		
 		$orgname = DB::table('organizations')->select('company_name')->where('id',$feedback_data->organization_id)->get()->first();
-		return [
+		
+
+$Total_Patient_Discharged=$feedback_data->all_category_data[0]->Total_Patient_Discharged??0;
+$Total_Feedback_Collected=$feedback_data->all_category_data[0]->Total_Feedback_Collected??0;
+$Total_Promoters=$feedback_data->all_category_data[0]->Total_Promoters??0;
+$Total_Passives=$feedback_data->all_category_data[0]->Total_Passives??0;
+$Total_Detractors=$feedback_data->all_category_data[0]->Total_Detractors??0;
+
+return [
 		
 
 		Str::title($orgname->company_name??''),
 		Str::title($feedback_data->title??''),
-		Str::title($feedback_data->all_category_data[0]->Total_Patient_Discharged),
-		Str::title($feedback_data->all_category_data[0]->Total_Feedback_Collected),
-		Str::title($feedback_data->all_category_data[0]->Total_Promoters),
-		Str::title($feedback_data->all_category_data[0]->Total_Passives),
-		Str::title($feedback_data->all_category_data[0]->Total_Detractors),
-		Str::title($feedback_data->all_category_data[0]->Total_Patient_Discharged+$feedback_data->all_category_data[0]->Total_Feedback_Collected+$feedback_data->all_category_data[0]->Total_Promoters+$feedback_data->all_category_data[0]->Total_Passives+$feedback_data->all_category_data[0]->Total_Detractors),
+		Str::title($Total_Patient_Discharged??0),
+		Str::title($Total_Feedback_Collected??0),
+		Str::title($Total_Promoters??0),
+		Str::title($Total_Passives??0),
+		Str::title($Total_Detractors??0),
+		Str::title($Total_Patient_Discharged+$Total_Feedback_Collected+$Total_Promoters+$Total_Passives+$Total_Detractors),
 	
 		];
 

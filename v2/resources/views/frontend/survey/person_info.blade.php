@@ -2,6 +2,10 @@
 @section('title', 'Survey Step-1')
 @section('content')
 
+
+@php
+$survey_slug=$Surveys[0]->slug??'';
+@endphp
 	
 
 <div class="formify_right_fullwidth align-items-center justify-content-center">
@@ -74,13 +78,30 @@
                 <input type="text" name="uhid" id="uhid" class="form-control" value="{{old('uhid',$users_data->uhid??'')}}" required>
           </div>		 
 
-		  <div class="form-group">
-                <label><b>IP #</b></label>
-                <input type="text" name="inpatient_id" id="inpatient_id" class="form-control" value="{{old('inpatient_id',$users_data->inpatient_id??'')}}">
-          </div>
+@if($survey_slug=="opd")
+
+<input type="hidden" name="inpatient_id" id="inpatient_id" class="form-control" value="">
+
+@else
+
+<div class="form-group">
+<label><b>IP #</b></label>
+<input type="text" name="inpatient_id" id="inpatient_id" class="form-control" value="{{old('inpatient_id',$users_data->inpatient_id??'')}}">
+</div>
+
+@endif
 		  
 		  <div class="form-group">
-                <label><b>Discharge Date</b></label>
+                <label><b>
+@if($survey_slug=="opd")
+
+Consultant Date
+
+@else
+Discharge Date
+@endif
+
+</b></label>
 				<input type="date" class="form-control" id="discharge_date"  name="discharge_date" value="{{old('discharge_date',$users_data->discharge_date??date('Y-m-d'))}}">
 		     </div>
 			 

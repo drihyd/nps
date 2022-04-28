@@ -71,9 +71,6 @@ class NetPromoterScore extends Controller
 	$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 	->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 	->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-	
-	
-	
 
 	
 	->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
@@ -94,7 +91,7 @@ class NetPromoterScore extends Controller
 					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
 					
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+
 					
 				
 					$Detractors->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
@@ -115,14 +112,6 @@ class NetPromoterScore extends Controller
 		
 		})
 		
-		
-		->where(function($Detractors) use ($QuestionOptions,$role){
-				if($role==3 || $role==4) {
-				//$Detractors->whereIn('survey_answered.answerid',$QuestionOptions);		
-				//$Detractors->where('survey_answered.answeredby_person','!=','');
-				}
-			
-		})
 
 		
 
@@ -162,7 +151,7 @@ class NetPromoterScore extends Controller
 					
 					
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+					
 					$Neutral->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
 					
 
@@ -178,13 +167,6 @@ class NetPromoterScore extends Controller
 		})
 
 
-			->where(function($Neutral) use ($QuestionOptions,$role){
-				if($role==3 || $role==4) {
-				//$Neutral->whereIn('survey_answered.answerid',$QuestionOptions);		
-				//$Neutral->where('survey_answered.answeredby_person','!=','');	
-				}		
-		})
-	
 		->get();
 
 		$myCollection = collect($Neutral);
@@ -212,7 +194,7 @@ class NetPromoterScore extends Controller
 		
 					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+					
 					
 					$Promoters->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
 			
@@ -229,18 +211,7 @@ class NetPromoterScore extends Controller
 		}	
 		})
 		
-		->where(function($Promoters) use ($QuestionOptions,$role){
-			
-				if($role==3 || $role==4) {
-					
-				//$Promoters->whereIn('survey_answered.answerid',$QuestionOptions);		
-				//$Promoters->where('survey_answered.answeredby_person','!=','');	
-				
-				}
-			
-		})
-		
-		
+
 
 	
 		->get();
@@ -284,7 +255,7 @@ class NetPromoterScore extends Controller
 					
 					
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+					
 					$Promoters_lastweek->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
 				
 
@@ -301,13 +272,7 @@ class NetPromoterScore extends Controller
 		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 		->whereIn('survey_persons.rating',[9,10])
-		->where(function($Promoters_lastweek) use ($QuestionOptions,$role){
-				if($role==3 || $role==4) {
-				//$Promoters_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
-				//$Promoters_lastweek->where('survey_answered.answeredby_person','!=','');	
-				}		
-		})
-		
+
 		
 		->get();
 		
@@ -339,7 +304,7 @@ $Promoters_lastweek=$uniqueCollection4->count();
 					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
 					
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+					
 					
 					
 					$Neutral_lastweek->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
@@ -356,17 +321,7 @@ $Promoters_lastweek=$uniqueCollection4->count();
 		})
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 
-		
-		->where(function($Neutral_lastweek) use ($QuestionOptions,$role){
-			
-			if($role==3 || $role==4) {
-			//$Neutral_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
-			//$Neutral_lastweek->where('survey_answered.answeredby_person','!=','');
-			}
 
-			
-		})
-		
 		->get();
 		
 		
@@ -403,7 +358,7 @@ $Promoters_lastweek=$uniqueCollection4->count();
 					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
 					
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					$q_departments=QuestionOptions::whereIn('department_id',$user_mapped_departments)->get()->pluck('id');
+					
 					
 					$Detractors_lastweek->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
 					
@@ -426,18 +381,6 @@ $Promoters_lastweek=$uniqueCollection4->count();
 		
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 
-		
-		->where(function($Detractors_lastweek) use ($QuestionOptions,$role){
-			
-		if($role==3 || $role==4) {
-			
-		//$Detractors_lastweek->whereIn('survey_answered.answerid',$QuestionOptions);		
-		//$Detractors_lastweek->where('survey_answered.answeredby_person','!=','');
-		
-			}
-			
-		})
-		
 			->where(function($Detractors) use ($Question){   
             if($Question){       
                 $Detractors_lastweek->where('survey_answered.survey_id','=',$Question);                

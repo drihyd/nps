@@ -20,23 +20,15 @@
 </li>
 
 
-<li class="{{ (request()->is(Config::get('constants.admin').'/responses')) ? 'active' : '' }}">
-<a href="{{url(Config::get('constants.admin').'/responses')}}">
-<i class="dripicons-article"></i><span>View Responses</span><i class="feather"></i>
-</a>
-</li>
+
  
 <li>
 <a href="javaScript:void();">
-<img src="{{URL::to('assets/images/svg-icon/chart.svg')}}" class="img-fluid" alt="widgets"><span>Action List</span><i class="feather icon-chevron-right pull-right"></i>
+<img src="{{URL::to('assets/images/svg-icon/chart.svg')}}" class="img-fluid" alt="widgets"><span>Download Reports</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
-<!-- <li class="{{ (request()->is(Config::get('constants.admin').'/responses')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses')}}">New Cases</a></li>
-<li class=""><a href="">Assigned Cases</a></li>
-<li class=""><a href="">Transferred Cases</a></li>
-<li class=""><a href="">Closed Cases</a></li>
-<li class=""><a href="">Process Closure</a></li> -->
-<!-- <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=all')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=all')}}">Detractors Reports</a></li> -->
+
+<li class="{{ (request()->is(Config::get('constants.admin').'/responses/')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses')}}">All Responses</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=new-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=new-cases')}}">New Cases</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=assigned-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=assigned-cases')}}">Assigned Cases</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=transferred-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=transferred-cases')}}">Transferred Cases</a></li>
@@ -54,7 +46,7 @@
 
 <li>
 <a href="javaScript:void();">
-<i class="dripicons-graph-pie"></i><span>Graphs</span><i class="feather icon-chevron-right pull-right"></i>
+<i class="dripicons-graph-pie"></i><span>Graphical Reports</span><i class="feather icon-chevron-right pull-right"></i>
 </a>
 <ul class="vertical-submenu">
 <li class="{{ (request()->is(Config::get('constants.admin').'/nps-graph')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/nps-graph')}}">NPS Graph</a></li>
