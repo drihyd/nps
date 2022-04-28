@@ -65,9 +65,9 @@
          <!--<li>&#128528;</li>-->
          <!--<li>&#128516;</li>-->
          <!--<li>&#128512;</li>-->
-         <li><img src="{{env('APP_URL')}}/assets/img/smileys/sad.jpeg" class="img-fluid sad-img"></li>
-         <li><img src="{{env('APP_URL')}}/assets/img/smileys/neutral.jpeg" class="img-fluid neutral-img"></li>
-         <li><img src="{{env('APP_URL')}}/assets/img/smileys/happy.jpeg" class="img-fluid happy-img"></li>
+         <li><img src="{{env('APP_URL')}}/assets/icons/sad.svg" class="img-fluid sad-img" style="width:45px"></li>
+         <li><img src="{{env('APP_URL')}}/assets/icons/moderate.svg" class="img-fluid neutral-img" style="width:45px"></li>
+         <li><img src="{{env('APP_URL')}}/assets/icons/happy.svg" class="img-fluid happy-img" style="width:45px"></li>
      </ul>
  </div>
 </div>
