@@ -1,0 +1,1 @@
+@include('admin.common_pages.response_card_view',['Data'=>$Data,'is_action_enabled'=>'yes'])
