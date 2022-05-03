@@ -60,7 +60,7 @@ function startRecording() {
 		audioContext = new AudioContext();
 
 		//update the format 
-		document.getElementById("formats").innerHTML="<p class='text text-success'>Recording 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz </p>"
+		//document.getElementById("formats").innerHTML="<p class='text text-success'>Recording 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz </p>"
 
 		/*  assign to gumStream for later use  */
 		gumStream = stream;
@@ -96,7 +96,7 @@ function pauseRecording(){
 	}else{
 		//resume
 		rec.record()
-		pauseButton.innerHTML="Pause";
+		pauseButton.innerHTML="<i class='fa fa-pause'></i>";
 
 	}
 }

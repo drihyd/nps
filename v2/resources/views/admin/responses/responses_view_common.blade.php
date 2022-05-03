@@ -7,9 +7,9 @@
 
 <div class="kanban-tag">
 
-@if($person_responses_data[0]->rating<=6)
+@if(isset($person_responses_data[0]) && $person_responses_data[0]->rating<=6)
 <span class="badge badge-primary-inverse font-20"><h4>Ticket Number {{$person_data->ticker_final_number??''}}</h4></span>
-@elseif($person_responses_data[0]->rating>6 && $person_responses_data[0]->rating<=8)
+@elseif(isset($person_responses_data[0]) && $person_responses_data[0]->rating>6 && $person_responses_data[0]->rating<=8)
 <span class="badge badge-primary-inverse font-20"><h4>Ticket Number {{$person_data->ticker_final_number??''}}</h4></span>
 @else
 <span class="badge badge-primary-inverse font-20"><h4>Feedback</h4></span>
@@ -41,9 +41,9 @@
 
 
 
-@if($person_responses_data[0]->rating<=6)
+@if(isset($person_responses_data[0]) && $person_responses_data[0]->rating<=6)
 <h4><span class="badge badge-danger-inverse font-14">Areas of Improvement</span></h4>
-@elseif($person_responses_data[0]->rating>6 && $person_responses_data[0]->rating<=8)
+@elseif(isset($person_responses_data[0]) && $person_responses_data[0]->rating>6 && $person_responses_data[0]->rating<=8)
 <h4><span class="badge badge-danger-inverse font-14">Areas of Improvement</span></h4>
 @else
 <h4><span class="badge badge-success-inverse font-14">Doing Well</span></h4>

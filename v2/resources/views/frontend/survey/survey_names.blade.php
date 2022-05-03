@@ -10,7 +10,7 @@
        
 			
 			
-<div class="formify_right_fullwidth align-items-center justify-content-center">
+<div class="formify_right_fullwidth align-items-center ">
 
 <!-- <a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
 <img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
@@ -38,9 +38,9 @@
 
 <div class="container">
 <div class="row-fluid">
-<div class="col-xs-12 mt-5">
+<div class="col-xs-12 mt-5 text-center">
 
-<h5>Please select questionnaire to proceed feedback</h5>
+<h5>Choose questionnaire</h5>
 
 	<div class="mt-5">
 		<div class="background-white">           

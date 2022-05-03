@@ -54,13 +54,13 @@
 
 @if(auth()->user())
 	@if(auth()->user()->role==2 || auth()->user()->role==1)
-	<a href="{{url(Config::get('constants.admin').'/responses')}}">
+	<a href="{{url(Config::get('constants.admin').'/responses_reports?ticket_status=all')}}">
 	@elseif(auth()->user()->role==3)
-	<a href="{{url(Config::get('constants.hod').'/responses')}}">
+	<a href="{{url(Config::get('constants.hod').'/responses_reports?ticket_status=all')}}">
 	@elseif(auth()->user()->role==7)
-	<a href="{{url(Config::get('constants.support').'/responses')}}">
+	<a href="{{url(Config::get('constants.support').'/responses_reports?ticket_status=all')}}">
 	@else
-	<a href="{{url(Config::get('constants.user').'/responses')}}">
+	<a href="{{url(Config::get('constants.user').'/responses_reports?ticket_status=all')}}">
 	@endif
 @else
 	<a href="#">
@@ -86,13 +86,13 @@
 <div class="col-lg-4 col-xl-4">
 @if(auth()->user())
 @if(auth()->user()->role==2 || auth()->user()->role==1)
-<a href="{{url(Config::get('constants.admin').'/responses')}}">
+<a href="{{url(Config::get('constants.admin').'/responses_reports?ticket_status=all')}}">
 @elseif(auth()->user()->role==3)
-<a href="{{url(Config::get('constants.hod').'/responses')}}">
+<a href="{{url(Config::get('constants.hod').'/responses_reports?ticket_status=all')}}">
 @elseif(auth()->user()->role==7)
-<a href="{{url(Config::get('constants.support').'/responses')}}">
+<a href="{{url(Config::get('constants.support').'/responses_reports?ticket_status=all')}}">
 @else
-<a href="{{url(Config::get('constants.user').'/responses')}}">
+<a href="{{url(Config::get('constants.user').'/responses_reports?ticket_status=all')}}">
 @endif
 @else
 <a href="#">

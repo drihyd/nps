@@ -28,7 +28,9 @@
 </a>
 <ul class="vertical-submenu">
 
-<li class="{{ (request()->is(Config::get('constants.admin').'/responses/')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses')}}">All Responses</a></li>
+<!--<li class="{{ (request()->is(Config::get('constants.admin').'/responses/')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses')}}">All Responses</a></li>-->
+
+<li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=new-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=all')}}">All Cases</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=new-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=new-cases')}}">New Cases</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=assigned-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=assigned-cases')}}">Assigned Cases</a></li>
 <li class="{{ (request()->is(Config::get('constants.admin').'/responses_reports/?ticket_status=transferred-cases')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/responses_reports/?ticket_status=transferred-cases')}}">Transferred Cases</a></li>

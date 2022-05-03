@@ -80,7 +80,7 @@
 
 
 
-<button type="submit" class="btn thm_btn next_tab text-transform-inherit mt-5"><i class="fa fa-microphone"></i>Take Voice Conversation</button>
+<button type="submit" class="btn thm_btn next_tab text-transform-inherit mt-5"><i class="fa fa-microphone"></i> Record Feedback</button>
 
 
 

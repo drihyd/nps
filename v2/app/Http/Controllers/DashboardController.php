@@ -79,7 +79,7 @@ class DashboardController extends Controller
 		
 
 		$nps_score= new NetPromoterScore();
-		$npsscore=$nps_score->nps_score_factor_count();
+		$npsscore=$nps_score->nps_score_factor_count($request);
 		$final_score = json_decode($npsscore);
 		$pageTitle = 'Dashboard';
 		$all_organizations = Organizations::get()->count();

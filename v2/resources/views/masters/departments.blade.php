@@ -9,11 +9,23 @@ if($department){
 else{
 	$department=[0];
 }
+if($isoption){
+	$isoption=$isoption;
+}
+else{
+	$isoption="";;
+}
 ?>	
 
-<label><b>Team</b><span style="color: red;">(Optional)</span></label>
+
+
+
+@if($isoption)
+<label><b>Team/Department</b><span style="color: red;">(Optional)</span></label>
+@else
+@endif
 <select class="form-control"  id="department" {{$is_required??''}} @if($multiple=="yes") multiple="multiple" name="department[]" @else  name="department" @endif>
-<option value="">-- Select --</option>
+<option value="">-- Departments --</option>
 
 
 	@foreach($Departments as $usertype)

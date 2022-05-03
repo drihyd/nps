@@ -1,30 +1,45 @@
 @extends('frontend.template_v1')
 @section('title', $Pagetitle)
 @section('content')
+
+<style>
+    
+    
+    ol li {
+	 list-style-type: none;
+     }
+     
+     .recordingsList {
+         
+         margin-left:-45px;
+     }
+</style>
 <div class="formify_right_fullwidth align-items-center justify-content-center">
 @include('frontend.common_pages.nav')
+
+
 <div class="formify_box_checkbox background-white">
+    
+    
 @include('frontend.common_pages.survey_description')
+
+<p>Recorded for Quality & Improvement</p>  
 <div class="tab-content" id="myTabContent">
+        
+    
 <div class="box_info">
-    <h3>{{$Pagetitle}}</h3>  
+
   
 <div id="controls">
-<button id="recordButton" class="btn btn-outline-danger  mt-3">Start Record</button>
-<button id="pauseButton" disabled class="btn btn-outline-danger  mt-3">Pause</button>
-<button id="stopButton" disabled class="btn btn-outline-danger  mt-3">Stop</button>
+<button id="recordButton" class="btn btn-outline-danger  mt-3"><i class="fa fa-play"></i></button>
+<button id="pauseButton" disabled class="btn btn-outline-danger  mt-3"><i class="fa fa-pause"></i></button>
+<button id="stopButton" disabled class="btn btn-outline-danger  mt-3"><i class="fa fa-stop"></i></button>
 </div>
-<div id="formats">Format: start recording to see sample rate</div>
-<p><strong>Recordings:</strong></p>
-<ol id="recordingsList">
-</ol>
-   
- 
- 
- 
+<div id="formats"></div>
+<ol id="recordingsList" class="recordingsList"></ol>
 <div class="row">
 <div class="col-md-12">
-<a href="{{route('choosedepartment')}}" class="btn btn-outline-danger  mt-3">Proceed to next step</a>	
+<a href="{{route('choosedepartment')}}" class="btn btn-outline-danger  mt-3">Proceed to next</a>	
 
 </div>
 </div>

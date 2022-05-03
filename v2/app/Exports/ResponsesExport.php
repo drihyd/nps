@@ -143,7 +143,7 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		
 		->where(function($Detractors) use ($status){
 			if($status=='all'){		
-				$Detractors->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
+				//$Detractors->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
 			}elseif($status=='new-cases'){		
 				$Detractors->where('survey_answered.ticket_status','opened');
 			}elseif($status == 'assigned-cases'){

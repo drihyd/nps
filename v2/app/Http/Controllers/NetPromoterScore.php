@@ -32,38 +32,38 @@ use Illuminate\Support\Collection;
 
 class NetPromoterScore extends Controller
 {
-    public function nps_score_factor_count()
+    public function nps_score_factor_count($request=false)
     {
-		
-		
-		//dd(Session::get('companyID'));
-		
+	
 		try{
 		
-			$role=auth()->user()->role??0;
-			
+		$role=auth()->user()->role??0;		
+		if(isset($request->department)) {					
+		$selected_department=$request->department;			
+		}		
+		else{
+		$selected_department='';		
+		}			
 		
-			if(isset($request->team)) {					
-				$QuestionOptions=QuestionOptions::where('option_value',$request->team)
-				->pluck('id');				
-				}		
-				else{
-					$QuestionOptions=QuestionOptions::pluck('id');
-				
-				
-				}
-				
-				
-				if(isset($request->question_id)) {                    
-                $Question=$request->question_id;
+		if(isset($request->question_id)){                    
+		$survey_id=$request->question_id;			
+		}       
+		else{
+		$survey_id='';              
+		}
 			
-                }       
-                else{
-                $Question='';
-                
-              
-                }
-				
+
+
+	if($request->from_date &&  $request->to_date) {
+	$from_date = $request->from_date;
+	$to_date = $request->to_date;			
+	}		
+	else{
+
+	$from_date = date('Y-m-01');
+	$to_date = date('Y-m-t');
+
+	}			
 		
 
 
@@ -71,51 +71,43 @@ class NetPromoterScore extends Controller
 	$Detractors = SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 	->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 	->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
+	->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])		
+	->where(function($Detractors) use ($role){
+	if($role==2 || $role==1){			
+	$Detractors->where('survey_answered.department_name_id','0');
+	}	
+	elseif($role==3){				
+	$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
+	$Detractors->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
+	}		
+	elseif($role==7){		
+		$Detractors->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
+	}	
+	else{			
+		$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);			
+	}	
+	})	
 
+	->where(function($Detractors) use ($from_date,$to_date){	
+	if($from_date &&  $to_date){		
+		$Detractors->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+		$Detractors->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+	}		
+	})	
 	
-	->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
+	->where(function($Detractors) use ($selected_department){	
+	if($selected_department){		
+		$Detractors->where('survey_answered.department_name_id', $selected_department);
+	}		
+	})
 	
-		->where(function($Detractors) use ($role){	
-		
-		
-		
+		->where(function($Detractors) use ($survey_id){   
+if($survey_id){       
+$Detractors->where('survey_answered.survey_id','=',$survey_id);                
+}
+})	
 	
-		if($role==2 || $role==1){
-			
-			$Detractors->where('survey_answered.department_name_id','0');
-		}
-		
-	
-		elseif($role==3){		
-				
-					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-					
-					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-
-					
-				
-					$Detractors->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
-				
-		}
-		
-		elseif($role==7){		
-			$Detractors->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
-		}
-		
-		
-		else{			
-			$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);			
-		
-		}	
-		
-		
-		
-		})
-		
-
-		
-
-		->get();
+	->get();
 
 
 
@@ -132,40 +124,42 @@ class NetPromoterScore extends Controller
 	$Neutral= SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-			
-
-			
-			
-			
-			->whereIn('survey_answered.rating',[7,8])
-	
-		
+			->whereIn('survey_answered.rating',[7,8])		
 		->where(function($Neutral) use ($role){	
 		if($role==2 || $role==1){	
 			$Neutral->where('survey_answered.department_name_id','0');
 		}
-		elseif($role==3){	
-		
-		
-					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-					
-					
+		elseif($role==3){					
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					
 					$Neutral->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
-					
-
-		}
-		
+		}		
 		elseif($role==7){		
 			$Neutral->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
-		}
-		
+		}		
 		else{
 		$Neutral->where('survey_answered.logged_user_id',auth()->user()->id??0);
 		}	
 		})
+		
+		
+		->where(function($Neutral) use ($from_date,$to_date){	
+		if($from_date &&  $to_date){		
+		$Neutral->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+		$Neutral->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+		}		
+		})
 
+	->where(function($Neutral) use ($selected_department){	
+	if($selected_department){		
+		$Neutral->where('survey_answered.department_name_id', $selected_department);
+	}		
+	})
+	
+	->where(function($Neutral) use ($survey_id){   
+if($survey_id){       
+$Neutral->where('survey_answered.survey_id','=',$survey_id);                
+}
+})	
 
 		->get();
 
@@ -178,42 +172,43 @@ class NetPromoterScore extends Controller
 		$Promoters= SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-			
-			
-
-			
-			
-			->whereIn('survey_answered.rating',[9,10])
-				
+			->whereIn('survey_answered.rating',[9,10])				
 		->where(function($Promoters) use ($role){	
 		if($role==2 || $role==1){
 			$Promoters->where('survey_answered.department_name_id','0');
 		}
 		elseif($role==3){	
-		
-		
-					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					
-					
 					$Promoters->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
-			
-
-		}
-		
-		
+		}		
 		elseif($role==7){		
 			$Promoters->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
-		}
-		
+		}		
 		else{
 		$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
 		}	
 		})
+		->where(function($Promoters) use ($from_date,$to_date){	
+		if($from_date &&  $to_date){		
+		$Promoters->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+		$Promoters->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+		}		
+		})	
 		
+->where(function($Promoters) use ($selected_department){	
+if($selected_department){		
+$Promoters->where('survey_answered.department_name_id', $selected_department);
+}		
+})
 
 
-	
+->where(function($Promoters) use ($survey_id){   
+if($survey_id){       
+$Promoters->where('survey_answered.survey_id','=',$survey_id);                
+}
+})	
+		
+		
 		->get();
 		
 
@@ -233,39 +228,18 @@ class NetPromoterScore extends Controller
 	$Promoters_lastweek= SurveyAnswered::select('survey_persons.*','survey_answered.rating as rating','survey_answered.rating as answer','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 	->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 	->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
-	
-
-	
-	
-	
-	
-	->whereIn('survey_answered.rating',[9,10])
-	
+	->whereIn('survey_answered.rating',[9,10])	
 		->where(function($Promoters_lastweek) use ($role){	
-		if($role==2 || $role==1){
-			
+		if($role==2 || $role==1){			
 		$Promoters_lastweek->where('survey_answered.department_name_id','0');
-		
-
 		}
 		elseif($role==3){	
-		
-		
-					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-					
-					
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					
 					$Promoters_lastweek->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
-				
-
-		}
-		
+		}		
 		elseif($role==7){		
 			$Promoters_lastweek->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
-		}
-		
-		
+		}		
 		else{
 		$Promoters_lastweek->where('survey_answered.logged_user_id',auth()->user()->id??0);
 		}	
@@ -273,6 +247,19 @@ class NetPromoterScore extends Controller
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 		->whereIn('survey_persons.rating',[9,10])
 
+->where(function($Promoters_lastweek) use ($selected_department){	
+if($selected_department){		
+$Promoters_lastweek->where('survey_answered.department_name_id', $selected_department);
+}		
+})
+
+
+
+->where(function($Promoters_lastweek) use ($survey_id){   
+if($survey_id){       
+$Promoters_lastweek->where('survey_answered.survey_id','=',$survey_id);                
+}
+})	
 		
 		->get();
 		
@@ -298,20 +285,9 @@ $Promoters_lastweek=$uniqueCollection4->count();
 			$Neutral_lastweek->where('survey_answered.department_name_id','0');
 		}
 		elseif($role==3){	
-		
-		
-	
-					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-					
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					
-					
-					
 					$Neutral_lastweek->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
-					
-
-		}
-		
+		}		
 		elseif($role==7){		
 		$Neutral_lastweek->where('survey_persons.assigned_ticket',auth()->user()->id??0);	
 		}
@@ -322,6 +298,18 @@ $Promoters_lastweek=$uniqueCollection4->count();
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 
 
+
+->where(function($Neutral_lastweek) use ($selected_department){	
+if($selected_department){		
+$Neutral_lastweek->where('survey_answered.department_name_id', $selected_department);
+}		
+})
+
+	->where(function($Neutral_lastweek) use ($survey_id){   
+	if($survey_id){       
+	$Neutral_lastweek->where('survey_answered.survey_id','=',$survey_id);                
+	}
+	})
 		->get();
 		
 		
@@ -353,16 +341,8 @@ $Promoters_lastweek=$uniqueCollection4->count();
 		$Detractors_lastweek->where('survey_answered.department_name_id','0');	
 		}
 		elseif($role==3){	
-		
-			
-					//$q_departments=QuestionOptions::where('department_id',auth()->user()->department??00)->get()->pluck('id');
-					
 					$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
-					
-					
 					$Detractors_lastweek->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
-					
-
 		}
 		else if($role==4){			
 			$Detractors_lastweek->where('survey_persons.logged_user_id',auth()->user()->id??0);
@@ -381,11 +361,21 @@ $Promoters_lastweek=$uniqueCollection4->count();
 		
 		->whereDate('survey_answered.created_at', '>=',Carbon::now()->subDays(7))
 
-			->where(function($Detractors) use ($Question){   
-            if($Question){       
-                $Detractors_lastweek->where('survey_answered.survey_id','=',$Question);                
-            }
-            })
+
+			
+			
+->where(function($Detractors_lastweek) use ($selected_department){	
+if($selected_department){		
+$Detractors_lastweek->where('survey_answered.department_name_id', $selected_department);
+}		
+})
+
+->where(function($Detractors_lastweek) use ($survey_id){   
+if($survey_id){       
+$Detractors_lastweek->where('survey_answered.survey_id','=',$survey_id);                
+}
+})		
+			
 		->get();
 		
 		
@@ -428,6 +418,8 @@ $Promoters_lastweek=$uniqueCollection4->count();
 		}
 		
 catch (\Exception $exception){	
+
+
 	abort(401);
 
 }
@@ -435,6 +427,8 @@ catch (\Exception $exception){
 
 
     }
+	
+
 
     public function nps_login()
     {

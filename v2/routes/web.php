@@ -685,6 +685,8 @@ Route::get('feedback_confirmation', [NetPromoterScore::class,'feedbackconfirmati
 Route::get('takevoiceconversation', [NetPromoterScore::class,'take_voice_messaage'])->name('take.voice.conversation');	
 Route::any('post.voice.message.file', [NetPromoterScore::class,'post_voice_message_file'])->name('post.voice.message.file');
 
+Route::get('filter.dashboard', [DashboardController::class,'dashboard_lists'])->name('filter.dashboard');
+
 /** End **/
 
 

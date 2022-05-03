@@ -23,7 +23,7 @@ $survey_slug=$Surveys[0]->slug??'';
 <div class="formify_box_checkbox background-white">
 @include('frontend.common_pages.survey_description')
 
-<div class="tab-content" id="myTabContent">
+<div class="" id="">
 
 @if($Surveys->count()>0)
 
@@ -33,10 +33,10 @@ $survey_slug=$Surveys[0]->slug??'';
 
 @csrf
  
-<div class="box_info">
+<div class="">
 
 
-<div class="container">
+<div class="">
 <div>
 <div>
 

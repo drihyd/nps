@@ -39,33 +39,7 @@ class Reports extends Controller
 
 		$role=auth()->user()->role??0;
 		$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
-		
-	
-		
-	
-	/*
-        $responses_data=SurveyPerson::where('organization_id',Auth::user()->organization_id)		
-		->where('survey_persons.logged_user_id',auth()->user()->id??0)
-		->get();
-
-
-        foreach ($responses_data as $key => $value) {
-        $responses_data[$key]->qoptions = SurveyAnswered::select('question_options.option_value as answer','survey_answered.updated_at as last_status_updated_at')
-         ->leftJoin('question_options','question_options.id', '=', 'survey_answered.answerid')
-         ->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
-        ->where('survey_persons.organization_id',Auth::user()->organization_id)      
-		->whereIn('survey_answered.question_id',[1,11])
-       ->where('survey_answered.person_id',$value->id)
-        ->orderBy('survey_persons.created_at','DESC')
-        ->get();   
-        }
-
-*/
-      
-		$responses_data="";
-		
-		
-		
+    	$responses_data="";
 		if($request->from_date &&  $request->to_date) {
 			$from_date = $request->from_date;
 			$to_date = $request->to_date;			
@@ -79,25 +53,25 @@ class Reports extends Controller
 		
 		
 		
-		
-				if($request->team) {					
-				$QuestionOptions=QuestionOptions::where('option_value',$request->team)
-				->pluck('id');				
-				}		
-				else{
-					$QuestionOptions=QuestionOptions::pluck('id');				
-				
-				}
-		
-		if($request->question_id) {                    
-                $Question=$request->question_id;
-			
-                }       
-                else{
-                $Question='';
-                
-              
-                }
+    
+    if($request->team) {					
+    $QuestionOptions=QuestionOptions::where('option_value',$request->team)
+    ->pluck('id');				
+    }		
+    else{
+     $QuestionOptions=QuestionOptions::pluck('id');				
+    
+    }
+    
+    if($request->question_id) {                    
+      $Question=$request->question_id;
+    
+    }       
+    else{
+    $Question='';
+    
+    
+    }
 		
 		
 		
@@ -152,7 +126,7 @@ class Reports extends Controller
 
 			
             if($status=='all'){		
-				$Detractors->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
+				//$Detractors->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
 			}elseif($status=='new-cases'){		
 				$Detractors->where('survey_answered.ticket_status','opened');
 			}elseif($status == 'assigned-cases'){
@@ -248,7 +222,7 @@ class Reports extends Controller
 
 			
             if($status=='all'){		
-				$Passives->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
+				//$Passives->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
 			}elseif($status=='new-cases'){		
 				$Passives->where('survey_answered.ticket_status','opened');
 			}elseif($status == 'assigned-cases'){
@@ -339,7 +313,7 @@ class Reports extends Controller
 
 			
             if($status=='all'){		
-				$Promoters->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
+				//$Promoters->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
 			}elseif($status=='new-cases'){		
 				$Promoters->where('survey_answered.ticket_status','opened');
 			}elseif($status == 'assigned-cases'){
@@ -386,13 +360,35 @@ class Reports extends Controller
 	$uniqueCollection = $myCollection->unique('id');
 	$uniqueCollection->all();
 	$Promoters=$uniqueCollection;
-		
 	
+	
+
+	
+	
+$Detractors= collect($Detractors);
+$merged_array = $Detractors->merge($Passives);
+$twomrged=$merged_array->all();
+$promoters_array= collect($twomrged);
+$merged_array_three = $promoters_array->merge($Promoters);
+$Detractors=$merged_array_three->all();
+
+
+
+	$myCollection = collect($Detractors);
+	$uniqueCollection = $myCollection->unique('id');
+	$uniqueCollection->all();
+	$Detractors=$uniqueCollection;
+
+
+
+
 		
         $pageTitle="Responses";  
 		$pickteam=$request->team??'';	
 		$quetion=$request->question_id??'';	
 		$status=$request->ticket_status??'';
+
+
 
 
 		
