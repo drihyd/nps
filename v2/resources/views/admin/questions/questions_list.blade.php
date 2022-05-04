@@ -45,7 +45,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>S.No</th>
-                        <!-- <th>Questionnaire</th> -->
+                         <th>Questionnaire</th> 
                         <th>Label</th>
                         <th>Is Active?</th>
                         <th>Actions</th>
@@ -57,7 +57,7 @@
                           <tr>
                               
                               <td>{{$loop->iteration}}</td>
-                              <!-- <td>{{Str::title($question->survey_title??'')}}</td> -->
+                              <td>{{$question->survey_title??''}}</td>
                               <td>{{$question->label??''}}</td>
                               <td>{{$question->active??''}}</td>
                               
