@@ -28,6 +28,7 @@ use App\Models\Departments;
 use App\Models\Departments_Users;
 use Log;
 use Illuminate\Support\Collection;
+use App\Models\Departments_Survey;
 
 
 class NetPromoterScore extends Controller
@@ -904,7 +905,14 @@ $Questions[$key]->qoptions = QuestionOptions::select('question_options.option_va
 }		
 $page=false;	
 
-$departments = Departments::orderBy('sorting','asc')->orderBy('department_name','asc')->get();
+
+
+$departments = Departments_Survey::select('departments.id as id','departments.department_name as department_name')
+->leftJoin('departments','departments.id', '=', 'mapping_depatemnts_to_survey.department_id')
+->where('mapping_depatemnts_to_survey.survey_id',Session::get('survey_id')??0)
+->orderBy('departments.department_name','asc')
+->get();
+
 return view('frontend.survey.choosedepartment',compact('departments','Questions'));
 
 	}
