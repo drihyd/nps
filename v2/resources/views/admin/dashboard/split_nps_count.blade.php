@@ -2,30 +2,8 @@
 use App\Models\Departments;
 use App\Models\QuestionOptions;
 use App\Models\SurveyAnswered;
-use App\Models\Departments_Users;
+
 $role=auth()->user()->role??0;
-
-
-$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
-
-
-$Departments=Departments::select()
-->where(function($Departments) use ($role,$user_mapped_departments){	
-if($role==2){
-}
-else if($role==3){	
-$Departments->whereIn('id',$user_mapped_departments??0);
-}	
-else if($role==4){	
-}
-else{	
-}
-})
-->Orderby('department_name','asc')
-->get();
-
-
-
 
 @endphp
 
@@ -46,6 +24,7 @@ else{
                             <div class="card-body text-center">
 							
 							
+					
 							
 							@if($Departments)
 								
@@ -55,43 +34,11 @@ else{
 							
 							
 							@php
-							
-							
-	
-if(isset($request->team)) {					
-$QuestionOptions=QuestionOptions::where('option_value',$request->team)
-->pluck('id');				
-}		
-else{
-$QuestionOptions=QuestionOptions::pluck('id');				
-
-}
-							
-				
-
 		
 		
 
 
 $Promoters=SurveyAnswered::select('id')
-->join('departments', 'departments.id', '=', 'survey_answered.department_name_id')
-->where(function($Promoters) use ($role,$user_mapped_departments){	
-if($role==2){
-}
-else if($role==3){
-$Promoters->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
-}	
-else if($role==4){				
-	$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
-}
-else if($role==1){				
-	
-}
-else{
-	$Promoters->where('survey_answered.logged_user_id',auth()->user()->id??0);
-}
-	
-})
 ->whereIn('survey_answered.rating',[9,10])
 ->where('survey_answered.department_name_id',$item->id)
 ->count();
@@ -101,48 +48,12 @@ else{
 
 
 $Passives=SurveyAnswered::select('id')
-->join('departments', 'departments.id', '=', 'survey_answered.department_name_id')
-->where(function($Passives) use ($role,$user_mapped_departments){	
-if($role==2){	
-
-}
-else if($role==3){
-	$Passives->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
-}	
-else if($role==4){				
-	$Passives->where('survey_answered.logged_user_id',auth()->user()->id??0);
-}
-else if($role==1){				
-	
-}
-
-else{
-	$Passives->where('survey_answered.logged_user_id',auth()->user()->id??0);
-}	
-})
 ->whereIn('survey_answered.rating',[7,8])
 ->where('survey_answered.department_name_id',$item->id)
 ->count();
 
 
 $Detractors=SurveyAnswered::select('id')
-->join('departments', 'departments.id', '=', 'survey_answered.department_name_id')
-->where(function($Detractors) use ($role,$user_mapped_departments){	
-if($role==2){	
-}
-else if($role==3){
-	$Detractors->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
-}	
-else if($role==1){				
-}
-else if($role==4){				
-	$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);
-}
-
-else{
-	$Detractors->where('survey_answered.logged_user_id',auth()->user()->id??0);
-}	
-})
 ->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])
 ->where('survey_answered.department_name_id',$item->id)
 ->count();

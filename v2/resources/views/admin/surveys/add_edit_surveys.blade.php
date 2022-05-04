@@ -56,13 +56,53 @@
         <input type="radio" class="rdbtn" name="isopen" value="no" required="required"    {{ old('isopen',$surveys_data->isopen??'') == 'no'?'checked':''}}/>
         <label>No</label>
       </div>
+	  
+	  
+<!---- Map Department -->
+<div class="row">
+	<div class="col-md-12">
+		@if(isset($Departments) && $Departments->count()>0)
+			@foreach($Departments as $item)
+		<div class="form-group">
+				<label class="mr-2"><input type="checkbox" @if (in_array($item->id??0,$Departments_Survey??[])) checked @else @endif name="department_id[]" value="{{$item->id??''}}"> {{Str::title($item->department_name??'')}}</label>
+			</div>  
+			@endforeach
+			@else
+			<p class="text text-danger">No departments are found.</p>
+		@endif
+	</div>                
+</div> 
+<!--- End -->
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
       <a href="{{url(Config::get('constants.admin').'/questionnaire')}}" class="btn btn-default btn-sm">Back</a>
 
         </div>
         <div class="col-md-5">
           
-        </div> 
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
         </form> 
 
 

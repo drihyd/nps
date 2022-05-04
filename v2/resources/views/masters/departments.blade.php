@@ -3,23 +3,23 @@ use App\Models\Departments;
 $Departments=Departments::orderBy('department_name', 'ASC')->get();
 $multiple=$multipleselect??'';
 $department=$department??"";
-if($department){
+if(isset($department)){
 	$department=$department;
 }
 else{
 	$department=[0];
 }
-if($isoption){
+if(isset($isoption)){
 	$isoption=$isoption;
 }
 else{
-	$isoption="";;
+	$isoption="";
 }
 ?>	
 
 
 
-
+<div class="form-group mb-2">
 @if($isoption)
 <label><b>Team/Department</b><span style="color: red;">(Optional)</span></label>
 @else
@@ -32,7 +32,7 @@ else{
 	<option value="{{$usertype->id??''}}"
 	
 	
-	@if(isset($department))
+	@if(isset($department) &!empty($department))
 	@if(in_array($usertype->id,$department))
 		selected
 	@else
@@ -45,3 +45,4 @@ else{
 	@endforeach
 
 </select>
+</div>

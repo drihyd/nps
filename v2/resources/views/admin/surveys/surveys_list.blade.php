@@ -1,3 +1,7 @@
+@php
+use App\Models\Departments_Survey;
+@endphp
+
 @extends('admin.template_v1')
 @section('title', 'Questionnaire')
 @section('content')
@@ -19,6 +23,7 @@
                         <th>S.No</th>
                         <th>Title</th>
                         <th>Description</th>
+                        <th>Mapped Departments</th>
                         <th>Is Active?</th>
                         <th>Actions</th>
                     </tr>
@@ -31,11 +36,21 @@
                               <td>{{$loop->iteration}}</td>
                               <td>{{$survey->title??''}}</td>
                               <td width="50%">{{$survey->description??''}}</td>
-                              <td><input data-id="{{$survey->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $survey->isopen =='yes'?'checked' : '' }}></td>
+                              <td>
+						@php
+							$Departments_Survey=Departments_Survey::select(DB::raw('group_concat(departments.department_name) as department_name'))
+							 ->leftjoin('departments','departments.id','=','mapping_depatemnts_to_survey.department_id')
+							->where("survey_id",$survey->id)
+							->groupBy('mapping_depatemnts_to_survey.survey_id')
+							->get()->first();
+						@endphp
+						{{$Departments_Survey->department_name??''}}
+						
+                              </td>
+							  <td><input data-id="{{$survey->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $survey->isopen =='yes'?'checked' : '' }}></td>
                               <td>
 							  <a href="{{url(Config::get('constants.admin').'/questionnaire/edit/'.Crypt::encryptString($survey->id))}}" class="edit mr-2" title="Edit" ><i class="feather icon-edit-2"></i></a>
-                                <a href="{{url(Config::get('constants.admin').'/questionnaire/delete/'.Crypt::encryptString($survey->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
-								
+                              <a href="{{url(Config::get('constants.admin').'/questionnaire/delete/'.Crypt::encryptString($survey->id))}}" class="delete text-danger" title="Delete" onclick="return confirm('Are you sure to delete this?')" ><i class="feather icon-trash"></i></a>
                               </td>
                           </tr>
                           @endforeach

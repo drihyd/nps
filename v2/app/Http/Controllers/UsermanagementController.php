@@ -353,7 +353,7 @@ class UsermanagementController extends Controller
 	$isexistemail = User::select('id')->where('email',$request->admin_email)->get();
 	if($isexistemail->count()==0){
 		
-        $userdata=User::insert([
+        $userdata_id=User::insertGetId(
             [
                 "organization_id"=>$request->company_name??0,
                 // "designation_id"=>$request->designation_id,
@@ -372,10 +372,10 @@ class UsermanagementController extends Controller
                 'is_active_status' =>$request->is_active_status??0, 
                 'ip' =>request()->ip()??0,
             ]  
-        ]); 
+        ); 
 
 
-	$LastInserID=$userdata->id??0;
+	$LastInserID=$userdata_id??0;
 	$DepartmentSelected=$request->department;
 	if($LastInserID){
 	$this->mapping_departments_users($DepartmentSelected,$LastInserID);
@@ -559,8 +559,9 @@ try{
     public function department_delete_user($id)
     {
         $user_id=Crypt::decryptString($id);    
-        $data=User::where('id',$user_id)->delete();   
-        return redirect()->back()->with('success','Success! Details are deleted successfully');   
+        $data=User::where('id',$user_id)->delete(); 
+		$remove_data=Departments_Users::where('user_id',$user_id)->delete();		
+        return redirect()->back()->with('success','User&Mapped Departments are deleted');   
          
     }
 }

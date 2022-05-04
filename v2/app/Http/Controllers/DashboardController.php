@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use App\Scopes\ActiveOrgaization;
 use DB;
 use Session;
+use App\Models\Departments_Users;
 
 class DashboardController extends Controller
 {
@@ -76,8 +77,6 @@ class DashboardController extends Controller
 	public function dashboard_lists(Request $request)
     {
 		
-		
-
 		$nps_score= new NetPromoterScore();
 		$npsscore=$nps_score->nps_score_factor_count($request);
 		$final_score = json_decode($npsscore);
@@ -100,9 +99,84 @@ class DashboardController extends Controller
 		}
 		
 		
+		$role=auth()->user()->role??0;
 		
 		
-        return view('admin.dashboard.show',compact('pageTitle','all_organizations','all_group','all_single','all_admin_departments','all_admin_users','all_admin_surveys','final_score','organizations_data'));
+		
+	if($request->from_date &&  $request->to_date) {
+	$from_date = $request->from_date;
+	$to_date = $request->to_date;			
+	}		
+	else{
+
+	$from_date = date('Y-m-01');
+	$to_date = date('Y-m-t');
+
+	}
+		
+		
+		$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
+		
+		
+		
+		if(isset($request->department)) {					
+		$selected_department=$request->department;			
+		}		
+		else{
+		$selected_department='';		
+		}			
+
+		if(isset($request->question_id)){                    
+		$survey_id=$request->question_id;			
+		}       
+		else{
+		$survey_id='';              
+		}
+		
+		$Departments=Departments::select('departments.department_name','departments.id')
+		->leftjoin('survey_answered','department_name_id', '=', 'departments.id')
+		->where(function($Departments) use ($role,$user_mapped_departments){	
+		if($role==2){
+		}
+		else if($role==3){	
+			$Departments->whereIn('id',$user_mapped_departments??0);
+		}	
+		else if($role==4){	
+		}
+		else{	
+		}
+		})
+		
+		->where(function($Departments) use ($selected_department){	
+		if($selected_department){		
+		$Departments->where('departments.id', $selected_department);
+		}		
+		})
+
+		->where(function($Departments) use ($survey_id){   
+		if($survey_id){       
+			$Departments->where('survey_answered.survey_id','=',$survey_id);                
+		}
+		})	
+		
+		
+				->where(function($Departments) use ($from_date,$to_date){	
+		if($from_date &&  $to_date){		
+			$Departments->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+			$Departments->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+		}		
+		})	
+		
+		->groupby(['departments.department_name','departments.id'])
+		->Orderby('department_name','asc')
+		->get();
+
+		
+
+		
+
+		
+        return view('admin.dashboard.show',compact('pageTitle','all_organizations','all_group','all_single','all_admin_departments','all_admin_users','all_admin_surveys','final_score','organizations_data','Departments','user_mapped_departments','request'));
     }
 
     public function dashboard_user_lists()
