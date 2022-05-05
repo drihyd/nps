@@ -141,7 +141,7 @@ class DashboardController extends Controller
 		if($role==2){
 		}
 		else if($role==3){	
-			$Departments->whereIn('id',$user_mapped_departments??0);
+			$Departments->whereIn('survey_answered.department_name_id',$user_mapped_departments??0);
 		}	
 		else if($role==4){	
 		}
@@ -162,7 +162,7 @@ class DashboardController extends Controller
 		})	
 		
 		
-				->where(function($Departments) use ($from_date,$to_date){	
+		->where(function($Departments) use ($from_date,$to_date){	
 		if($from_date &&  $to_date){		
 			$Departments->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
 			$Departments->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");

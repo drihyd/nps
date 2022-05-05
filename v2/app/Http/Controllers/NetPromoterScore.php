@@ -75,7 +75,6 @@ class NetPromoterScore extends Controller
 	->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])		
 	->where(function($Detractors) use ($role){
 	if($role==2 || $role==1){			
-	//$Detractors->where('survey_answered.department_name_id','0');
 	}	
 	elseif($role==3){				
 	$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');									
