@@ -77,6 +77,8 @@ class DashboardController extends Controller
 	public function dashboard_lists(Request $request)
     {
 		
+		try {
+		
 		$nps_score= new NetPromoterScore();
 		$npsscore=$nps_score->nps_score_factor_count($request);
 		$final_score = json_decode($npsscore);
@@ -169,30 +171,113 @@ class DashboardController extends Controller
 		
 		->groupby(['departments.department_name','departments.id'])
 		->Orderby('department_name','asc')
-		->get();
-
-		
-
-		
-
+		->get();	
 		
         return view('admin.dashboard.show',compact('pageTitle','all_organizations','all_group','all_single','all_admin_departments','all_admin_users','all_admin_surveys','final_score','organizations_data','Departments','user_mapped_departments','request'));
+		}
+		
+		catch (RequestException $exception) {		
+			// Catch all 4XX errors 
+			// To catch exactly error 400 use 
+			if ($exception->hasResponse()){
+			if ($exception->getResponse()->getStatusCode() == '400') {
+			}			
+		}			
+			// You can check for whatever error status code you need 
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+		}
+		catch (\Exception $exception) {		
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??''); 
+		}
     }
 
-    public function dashboard_user_lists()
+    public function dashboard_user_lists(Request $request)
     {
 
+	try {
 
-            $nps_score= new NetPromoterScore();
-            $npsscore=$nps_score->nps_score_factor_count();
+	$nps_score= new NetPromoterScore();
+	$npsscore=$nps_score->nps_score_factor_count($request);
+	$final_score = json_decode($npsscore);
+	$pageTitle = 'Dashboard';        
+	$all_admin_surveys = SurveyPerson::where('logged_user_id',Auth::user()->id)->get()->count(); 
 
-            $final_score = json_decode($npsscore);
 
-        $pageTitle = 'Dashboard';
-        
-        $all_admin_surveys = SurveyPerson::where('logged_user_id',Auth::user()->id)->get()->count();
-  
-        return view('admin.dashboard.show',compact('pageTitle','all_admin_surveys','final_score'));
+
+
+		$role=auth()->user()->role??0;
+		
+		
+		
+	if($request->from_date &&  $request->to_date) {
+	$from_date = $request->from_date;
+	$to_date = $request->to_date;			
+	}		
+	else{
+
+	$from_date = date('Y-m-01');
+	$to_date = date('Y-m-t');
+
+	}
+		
+		
+		$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
+		
+		
+
+		if(isset($request->question_id)){                    
+		$survey_id=$request->question_id;			
+		}       
+		else{
+		$survey_id='';              
+		}
+		
+		$Departments=Departments::select('departments.department_name','departments.id')
+		->leftjoin('survey_answered','department_name_id', '=', 'departments.id')
+		->where(function($Departments) use ($role,$user_mapped_departments){	
+		if($role==2){
+		}
+		else if($role==3){	
+			$Departments->whereIn('survey_answered.department_name_id',$user_mapped_departments??0);
+		}	
+		else if($role==4){	
+		}
+		else{	
+		}
+		})
+		->where(function($Departments) use ($survey_id){   
+		if($survey_id){       
+			$Departments->where('survey_answered.survey_id','=',$survey_id);                
+		}
+		})		
+		->where(function($Departments) use ($from_date,$to_date){	
+		if($from_date &&  $to_date){		
+			$Departments->whereDate('survey_answered.created_at', '>=', "$from_date 00:00:00");
+			$Departments->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
+		}		
+		})		
+		->groupby(['departments.department_name','departments.id'])
+		->Orderby('department_name','asc')
+		->get();
+	
+	return view('admin.dashboard.show',compact('pageTitle','all_admin_surveys','final_score','Departments'));
+	}
+	
+			catch (RequestException $exception) {		
+			// Catch all 4XX errors 
+			// To catch exactly error 400 use 
+			if ($exception->hasResponse()){
+			if ($exception->getResponse()->getStatusCode() == '400') {
+			}			
+		}			
+			// You can check for whatever error status code you need 
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??'');
+		}
+		catch (\Exception $exception) {	
+		
+			return redirect()->back()->with('error', "Something went wrong.". $exception->getMessage()??''); 
+		}
+		
     }
     public function doubtnutchart()
     {
