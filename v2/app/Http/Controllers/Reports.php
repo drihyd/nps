@@ -36,6 +36,8 @@ class Reports extends Controller
 	  }
     public function reports_response_list(Request $request)
     {   
+	
+
 
 		$role=auth()->user()->role??0;
 		$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
@@ -68,21 +70,21 @@ class Reports extends Controller
     
     }       
     else{
-    $Question='';
-    
-    
+    $Question='';   
     }
 		
-		
-		
-			if($request->ticket_status) {                    
-			$status=$request->ticket_status;
-
-			}       
-			else{
-			$status='';                
-
-			}
+	if($request->ticket_status) {                    
+		$status=$request->ticket_status;
+	}       
+	else{
+		$status='';
+	}	
+	if($request->ticketing_status) {                    
+		$ticketing_status=$request->ticketing_status;
+	}       
+	else{
+		$ticketing_status='';
+	}
 			
 			$Detractors = SurveyAnswered::select('users.firstname as assigned_user','survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.person_id')
 			->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
@@ -90,8 +92,7 @@ class Reports extends Controller
 			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')
 			->whereIn('survey_answered.rating',[0,1,2,3,4,5,6])	
 			->where(function($Detractors) use ($role,$user_mapped_departments){	
-			if($role==2){
-					//$Detractors->where('survey_answered.department_name_id','0');					
+			if($role==2){			
 			}
 			else if($role==3){			
 					$Detractors->whereIn('survey_answered.department_name_id',$user_mapped_departments);	
@@ -119,32 +120,21 @@ class Reports extends Controller
             }
             })
 			
-			
-			
-			
-			 ->where(function($Detractors) use ($status){  
-
-			
-            if($status=='all'){		
-				//$Detractors->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
+		 ->where(function($Detractors) use ($status){			
+            if($status=='all'){			
 			}elseif($status=='new-cases'){		
 				$Detractors->where('survey_answered.ticket_status','opened');
 			}elseif($status == 'assigned-cases'){
             	$Detractors->whereIn('survey_answered.ticket_status',['assigned']);
             }elseif($status == 'closed-cases'){
             	$Detractors->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied']);
-            }
-			
+            }			
 			elseif($status == 'end-action-comments'){
             	$Detractors->where('survey_answered.ticket_status','!=','opened');
-            }
-			
-			
-			elseif($status == 'patient-process-closer-cases'){	
-			
+			}			
+			elseif($status == 'patient-process-closer-cases'){				
             	$Detractors->wherein('survey_answered.department_status',['patient_level_closure','process_level_closure']);				
-            }
-			
+            }			
 			elseif($status == 'transferred-cases'){			
             	$Detractors->wherein('survey_answered.ticket_status',['transferred']);	
             }		
@@ -152,21 +142,33 @@ class Reports extends Controller
             	$Detractors->wherein('survey_answered.department_status',['process_level_closure']);	
             }	
 			elseif($status == 'process-pending'){	
-
-	
             	$Detractors->wherein('survey_answered.department_status',['process_closure_req']);	
-            }
-			
-			else{
-				
+            }			
+			else{				
 				$Detractors->where('survey_answered.ticket_status','=',$status);
-			}
+			}			
 			
+            })	 
+			->where(function($Detractors) use ($ticketing_status){			
+           		
+			if($ticketing_status == 'process_level_closure'){			
+            	$Detractors->wherein('survey_answered.department_status',['process_level_closure']);	
+            }	
+			elseif($ticketing_status == 'process-pending'){	
+            	$Detractors->wherein('survey_answered.department_status',['process_closure_req']);	
+            }			
+			elseif($ticketing_status == 'patient_level_closure'){	
+            	$Detractors->wherein('survey_answered.department_status',['patient_level_closure']);	
+            }			
+			else{		
+				if($ticketing_status){
+					$Detractors->where('survey_answered.ticket_status','=',$ticketing_status);
+				}
+			}			
 			
-            })
+            })	
 			
-			->orderBy('survey_persons.created_at','DESC')
-			
+			->orderBy('survey_persons.created_at','DESC')			
 			->get();
 			
 			
@@ -186,10 +188,7 @@ class Reports extends Controller
 			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')			
 			->whereIn('survey_answered.rating',[7,8])		
 			->where(function($Passives) use ($role,$user_mapped_departments){
-
-			if($role==2){
-
-				//$Passives->where('survey_answered.department_name_id','0');				
+			if($role==2){			
 			}
 			else if($role==3){	
 				$Passives->whereIn('survey_answered.department_name_id',$user_mapped_departments);				
@@ -197,10 +196,8 @@ class Reports extends Controller
 			else if($role==4){				
 				$Passives->where('survey_persons.logged_user_id',auth()->user()->id??0);
 			}
-			else{
-				
+			else{				
 			}	
-
 			
 			})			
 			->where(function($Passives) use ($from_date,$to_date){	
@@ -222,46 +219,52 @@ class Reports extends Controller
 
 			
             if($status=='all'){		
-				//$Passives->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
+				
 			}elseif($status=='new-cases'){		
 				$Passives->where('survey_answered.ticket_status','opened');
 			}elseif($status == 'assigned-cases'){
             	$Passives->whereIn('survey_answered.ticket_status',['phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back']);
             }elseif($status == 'closed-cases'){
             	$Passives->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied']);
-            }
-			
+            }			
 			elseif($status == 'end-action-comments'){
             	$Passives->where('survey_answered.ticket_status','!=','opened');
-            }
-			
-			
-			elseif($status == 'patient-process-closer-cases'){	
-			
+            }			
+			elseif($status == 'patient-process-closer-cases'){			
             	$Passives->wherein('survey_answered.ticket_status',['patient_level_closure','process_level_closure']);				
-            }
-			
-			elseif($status == 'transferred-cases'){	
-			
+            }			
+			elseif($status == 'transferred-cases'){				
             	$Passives->wherein('survey_answered.ticket_status',['transferred']);				
             }
-	elseif($status == 'process-pending'){	
-
-	
+			elseif($status == 'process-pending'){	
             	$Passives->wherein('survey_answered.department_status',['process_closure_req']);	
-            }
-			
-			else{
-				
+            }			
+			else{				
 				$Passives->where('survey_answered.ticket_status','=',$status);
-			}
+			}			
+            })	
+
+			->where(function($Passives) use ($ticketing_status){			
+           		
+			if($ticketing_status == 'process_level_closure'){			
+            	$Passives->wherein('survey_answered.department_status',['process_level_closure']);	
+            }	
+			elseif($ticketing_status == 'process-pending'){	
+            	$Passives->wherein('survey_answered.department_status',['process_closure_req']);	
+            }			
+			elseif($ticketing_status == 'patient_level_closure'){	
+            	$Passives->wherein('survey_answered.department_status',['patient_level_closure']);	
+            }			
+			else{		
+				if($ticketing_status){			
+						$Passives->where('survey_answered.ticket_status','=',$ticketing_status);
+				}
+			}			
 			
+            })	
+
 			
-            })
-			
-			
-			->orderBy('survey_persons.created_at','DESC')
-			
+			->orderBy('survey_persons.created_at','DESC')			
 			->get(); 
 			
 			
@@ -277,11 +280,8 @@ class Reports extends Controller
 			->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
 			->leftJoin('users','survey_persons.assigned_ticket', '=', 'users.id')			
 			->whereIn('survey_answered.rating',[9,10])			
-			->where(function($Promoters) use ($role,$user_mapped_departments){	
-			
-			if($role==2){
-
-				//$Promoters->where('survey_answered.department_name_id','0');				
+			->where(function($Promoters) use ($role,$user_mapped_departments){			
+			if($role==2){							
 			}
 			else if($role==3){					
 				$Promoters->whereIn('survey_answered.department_name_id',$user_mapped_departments);				
@@ -289,12 +289,8 @@ class Reports extends Controller
 			else if($role==4){				
 				$Promoters->where('survey_persons.logged_user_id',auth()->user()->id??0);
 			}
-			else{
-				
-			}	
-			
-			
-			
+			else{				
+			}			
 			})		
 			->where(function($Promoters) use ($from_date,$to_date){	
 			if($from_date &&  $to_date){		
@@ -302,54 +298,58 @@ class Reports extends Controller
 				$Promoters->whereDate('survey_answered.created_at', '<=',"$to_date 23:59:59");
 			}		
 			})
-
 			->where(function($Promoters) use ($Question){   
             if($Question){       
                 $Promoters->where('survey_answered.survey_id','=',$Question);                
             }
-            })
-			
-			 ->where(function($Promoters) use ($status){  
-
-			
+            })			
+			 ->where(function($Promoters) use ($status){			
             if($status=='all'){		
-				//$Promoters->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
+				
 			}elseif($status=='new-cases'){		
 				$Promoters->where('survey_answered.ticket_status','opened');
 			}elseif($status == 'assigned-cases'){
             	$Promoters->whereIn('survey_answered.ticket_status',['phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back']);
             }elseif($status == 'closed-cases'){
             	$Promoters->whereIn('survey_answered.ticket_status',['closed_satisfied','closed_unsatisfied']);
-            }
-			
+            }			
 			elseif($status == 'end-action-comments'){
             	$Promoters->where('survey_answered.ticket_status','!=','opened');
-            }
-			
-			
-			elseif($status == 'patient-process-closer-cases'){	
-			
+            }			
+			elseif($status == 'patient-process-closer-cases'){			
             	$Promoters->wherein('survey_answered.ticket_status',['patient_level_closure','process_closure_req','process_closure_notreq']);				
-            }
-			
-			elseif($status == 'transferred-cases'){	
-			
+            }			
+			elseif($status == 'transferred-cases'){				
             	$Promoters->wherein('survey_answered.ticket_status',['transferred']);				
             }
-	elseif($status == 'process-pending'){	
-
-	
+			elseif($status == 'process-pending'){	
             	$Promoters->wherein('survey_answered.department_status',['process_closure_req']);	
-            }
-			
-			else{
-				
+            }			
+			else{				
 				$Promoters->where('survey_answered.ticket_status','=',$status);
-			}
+			}			
+            })		
 			
+			->where(function($Promoters) use ($ticketing_status){			
+           		
+				
+			if($ticketing_status == 'process_level_closure'){			
+            	$Promoters->wherein('survey_answered.department_status',['process_level_closure']);	
+            }	
+			elseif($ticketing_status == 'process-pending'){	
+            	$Promoters->wherein('survey_answered.department_status',['process_closure_req']);	
+            }			
+			elseif($ticketing_status == 'patient_level_closure'){	
+            	$Promoters->wherein('survey_answered.department_status',['patient_level_closure']);	
+            }			
+			else{	
+
+				if($ticketing_status){
+				$Promoters->where('survey_answered.ticket_status','=',$ticketing_status);
+				}
+			}			
 			
-            })
-			
+            })	
 			
 			->orderBy('survey_persons.created_at','DESC')
 			->get();
@@ -392,7 +392,7 @@ $Detractors=$merged_array_three->all();
 
 
 		
-        return view('admin.reports.responses_reports_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam','quetion','status'))
+        return view('admin.reports.responses_reports_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam','quetion','status','ticketing_status'))
         ->withInput('i', (request()->input('page', 1) - 1) * 5);  
     }
 

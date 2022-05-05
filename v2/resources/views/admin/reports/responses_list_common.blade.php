@@ -12,29 +12,21 @@
 @csrf
 
 @include('admin.common_pages.dates_input')
-
-&nbsp;
-
 @if(isset(auth()->user()->role) && auth()->user()->role==3)
 
-<!--@include('admin.common_pages.ticket_status')-->
 @else
 @include('admin.common_pages.teams',['pickteam'=>$pickteam??''])
+&nbsp;
 @include('admin.common_pages.surveys',['quetion'=>$quetion??''])
 @endif
-
-
-
+@if($status=="all")
+&nbsp;
+@include('admin.common_pages.ticket_status',['ticket_status'=>$ticketing_status??''])
+@endif
 &nbsp;
 @include('admin.common_pages.action_button')
 &nbsp;
-
-
-
 <a class="btn btn-warning btn-sm mb-2" href="{{route('data.export')}}?ticket_status={{$status??'all'}}">Export Data</a>
-
-
-
 <input type="hidden" name="ticket_status" value="{{$status??'all'}}"/>
 </form>
 @include('admin.reports.table_lists',['Data'=>$Detractors,'is_action_enabled'=>'yes'])
