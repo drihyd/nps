@@ -20,6 +20,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use App\Models\RatingOfDepartment;
+use App\Models\Departments_Users;
 
 class NABHExport implements FromCollection,WithMapping, WithHeadings
 {
@@ -42,31 +44,15 @@ class NABHExport implements FromCollection,WithMapping, WithHeadings
         return $final_heading;
     }
 	
-	public function collection(Request $request)
+	public function collection()
     {
 		
 		$PageTitle="NABH Reports";
+		$from_date=$to_date='';
 $role=auth()->user()->role??0;	
 $user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
 
-if(isset($request->team)) {					
-$QuestionOptions=QuestionOptions::select()
-->where('option_value',$request->team)
-->pluck('id');				
-}		
-else{
-$QuestionOptions=QuestionOptions::pluck('id');				
-}
-
-
-if($request->from_date &&  $request->to_date) {
-$from_date = $request->from_date;
-$to_date = $request->to_date;			
-}		
-else{
-$from_date = date('Y-01-01');
-$to_date = date('Y-12-t');
-}			
+		
 $ViewAttendance = RatingOfDepartment::select("rating_of_departments.department_name as departmentname",
 DB::raw('count(IF(rating_of_departments.rating between 0 and 8, 1, NULL)) as Total_Detractors'),
 DB::raw('count(IF(rating_of_departments.rating between 9 and 10, 1, NULL)) as Total_Promoters'),
@@ -114,7 +100,7 @@ return $ViewAttendance;
 		
 
 
-$Total_Promoters=$feedback_data->->Total_Promoters??0;
+$Total_Promoters=$feedback_data->Total_Promoters??0;
 $Total_Detractors=$feedback_data->Total_Detractors??0;
 
 return [
