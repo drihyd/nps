@@ -40,6 +40,10 @@ class NABHExport implements FromCollection,WithMapping, WithHeadings
 		$final_heading=[		
 			'Department',
 			'Total Feedback',
+			'Negative Feedback',
+			'%',
+			'Positive Feedback',
+			'%',
 		];
         return $final_heading;
     }
@@ -99,15 +103,34 @@ return $ViewAttendance;
 	
 		
 
-
+if($feedback_data->Total_Promoters>0){
 $Total_Promoters=$feedback_data->Total_Promoters??0;
+
+}
+else{
+	$Total_Promoters=0;
+}
+
+if($feedback_data->Total_Detractors>0){
 $Total_Detractors=$feedback_data->Total_Detractors??0;
+}
+else{
+	$Total_Detractors=0;
+}
+
+$Total=$feedback_data->Total_Promoters+$feedback_data->Total_Detractors;
+
+
 
 return [
 		
 
-		Str::title($orgname->departmentname??''),
-		Str::title($Total_Detractors+$Total_Promoters),
+		Str::title($feedback_data->departmentname??''),
+		Str::title($Total),
+		Str::title($feedback_data->Total_Detractors??0),
+		Str::title(round(($Total_Detractors/$Total)*100)),
+		Str::title($feedback_data->Total_Promoters??0),
+		Str::title(round(($Total_Promoters/$Total)*100)),
 		
 	
 		];
