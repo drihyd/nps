@@ -25,6 +25,7 @@ use App\Exports\PerformitorExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Departments;
 use App\Models\Departments_Users;
+use App\Models\RatingOfDepartment;
 
 
 class Reports extends Controller
@@ -470,10 +471,68 @@ public function _performitor_export(Request $request)
 }
 	
 public function _escalation_matrix(Request $request) 
-{
-	
+{	
 	$data=['requests'=>$request];
 	return Excel::download(new EscalationMatrixExport(), 'escalation_matrix.xlsx');
+}
+public function _nabh_report(Request $request) 
+{
+	
+$PageTitle="NABH Reports";
+$role=auth()->user()->role??0;	
+$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
+
+if(isset($request->team)) {					
+$QuestionOptions=QuestionOptions::select()
+->where('option_value',$request->team)
+->pluck('id');				
+}		
+else{
+$QuestionOptions=QuestionOptions::pluck('id');				
+}
+
+
+if($request->from_date &&  $request->to_date) {
+$from_date = $request->from_date;
+$to_date = $request->to_date;			
+}		
+else{
+$from_date = date('Y-01-01');
+$to_date = date('Y-12-t');
+}			
+$ViewAttendance = RatingOfDepartment::select("rating_of_departments.department_name as departmentname",
+DB::raw('count(IF(rating_of_departments.rating between 0 and 8, 1, NULL)) as Total_Detractors'),
+DB::raw('count(IF(rating_of_departments.rating between 9 and 10, 1, NULL)) as Total_Promoters'),
+)
+->where(function($ViewAttendance) use ($from_date,$to_date){	
+if($from_date &&  $to_date){	
+$ViewAttendance->whereDate('rating_of_departments.created_at', '>=', "$from_date 00:00:00");
+$ViewAttendance->whereDate('rating_of_departments.created_at', '<=',"$to_date 23:59:59");
+}		
+})
+
+
+->where(function($ViewAttendance) use ($role,$user_mapped_departments){				
+if($role==2){
+
+}
+
+else if($role==3){	
+	$ViewAttendance->whereIn('rating_of_departments.department_id',$user_mapped_departments);	
+}			
+else if($role==4){				
+	$ViewAttendance->where('rating_of_departments.logged_user_id',auth()->user()->id??0);
+}
+else{
+
+}
+
+})
+->orderBy("rating_of_departments.department_name","asc")
+->groupBy("rating_of_departments.department_name")
+->get();
+$Restul_Data=$ViewAttendance;
+return view('admin.reports.nabh_reports', compact('PageTitle','Restul_Data'));  
 }
 
 
