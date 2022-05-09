@@ -9,13 +9,13 @@
 </div>
 <div class="card-body">
 
-<form class="table-filter mb-4 form-inline" action="{{route('filter.performitor_reports')}}" method="post">
+<form class="table-filter mb-4 form-inline" action="{{route('filter.nabhreport')}}" method="post">
 @csrf
 @include('admin.common_pages.dates_input')
 &nbsp;
 @include('admin.common_pages.action_button')
 &nbsp;
-<a class="btn btn-warning btn-sm mb-2" href="{{ route('performitor.export') }}">Export Data</a>
+<a class="btn btn-warning btn-sm mb-2" href="{{ route('nabhreport.export') }}">Export Data</a>
 &nbsp;
 </form>
 

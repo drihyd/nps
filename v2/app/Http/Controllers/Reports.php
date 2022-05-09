@@ -22,6 +22,7 @@ use App\Exports\EscalationMatrixExport;
 use App\Exports\ResponsesExport;
 use App\Imports\ResponsesImport;
 use App\Exports\PerformitorExport;
+use App\Exports\NABHExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Departments;
 use App\Models\Departments_Users;
@@ -468,6 +469,11 @@ return view('admin.reports.performitor_reports_list', compact('responses_data','
 public function _performitor_export(Request $request) 
 {
 	return Excel::download(new PerformitorExport, 'performitor_report.xlsx');
+}
+
+public function _nabhreport_export(Request $request) 
+{
+	return Excel::download(new NABHExport, 'nabh_report.xlsx');
 }
 	
 public function _escalation_matrix(Request $request) 

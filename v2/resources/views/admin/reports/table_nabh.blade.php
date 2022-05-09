@@ -1,8 +1,6 @@
-<div class="table-responsive">
 @if(isset($responses_data) && $responses_data->count()>0)
-<section class="pt-5 pb-5">
+<section class="pb-5">
   <div class="container">
-    <h1 class="mb-4">NABH Report</h1>
 	
 	<!--
     <p class="mb-0"><b>Unit :</b> Omni Kukatpally</p>
@@ -51,14 +49,14 @@
 
 				
 					if($Detractors>0){
-						$Total_Percentage_Detractors=($Detractors/$Total_Count)*1;
+						$Total_Percentage_Detractors=($Detractors/$Total_Count)*100;
 					}
 					else{
 						$Total_Percentage_Detractors=0;
 					}
 					
 					if($Promoters>0){
-						$Total_Percentage_Promoters=($Promoters/$Total_Count)*1;	
+						$Total_Percentage_Promoters=($Promoters/$Total_Count)*100;	
 					}	
 					else{
 						$Total_Percentage_Promoters=0;
@@ -89,4 +87,3 @@
 </section>
 @else
 @endif
-</div>

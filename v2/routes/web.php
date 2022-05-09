@@ -79,6 +79,8 @@ Route::any('filter.performitor_reports', [Reports::class,'show_performitor_repor
 Route::any('escalation_matrix', [Reports::class,'_escalation_matrix'])->name('escalation_matrix');
 Route::any('nabhreport', [Reports::class,'_nabh_report'])->name('nabhreport');
 
+Route::any('filter.nabhreport', [Reports::class,'_nabh_report'])->name('filter.nabhreport');
+
 
 
 
@@ -531,7 +533,7 @@ Route::get('admin/responses/delete/{per_id}', [ResponsesController::class,'delet
 
 Route::get('admin/performitor_reports', [Reports::class,'show_performitor_reports']);
 	Route::get('admin/performitor.export', [Reports::class, '_performitor_export'])->name('performitor.export');
-
+	Route::get('admin/nabhreport.export', [Reports::class, '_nabhreport_export'])->name('nabhreport.export');
 
 	/*Admin Process*/
 
