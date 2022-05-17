@@ -888,13 +888,13 @@ public function takepostrating(Request $request)
 
 
 public function choosedepartment(Request $request){
-	try{
-		
-	
-	
+	try{	
+	$exist_voice_records=DB::table('persons_voice_message')->where('person_id',Session::get('person_id'))->get()->count();
+	if($exist_voice_records==0){		
+		return redirect()->back()->with('warning', 'Please complete voice record.');
+	}
+	else{
 	$nex_qustiong=$this->set_next_question(Session::get('rating'));
-	
-		
 $Questions=Questions::select('questions.organization_id as qorgid','questions.id as qid','questions.survey_id as qsurvey_id','questions.label as qlabel','questions.sublabel as qsublabel','questions.input_type as qinput_type')->where('sequence_order',$nex_qustiong)->where('survey_id',Session::get('survey_id'))->get();		 
 foreach ($Questions as $key => $value) {
 $Questions[$key]->qoptions = QuestionOptions::select('question_options.option_value as qpvalue','question_options.id as qoptionid')
@@ -903,16 +903,13 @@ $Questions[$key]->qoptions = QuestionOptions::select('question_options.option_va
 ->get();	
 }		
 $page=false;	
-
-
-
 $departments = Departments_Survey::select('departments.id as id','departments.department_name as department_name')
 ->leftJoin('departments','departments.id', '=', 'mapping_depatemnts_to_survey.department_id')
 ->where('mapping_depatemnts_to_survey.survey_id',Session::get('survey_id')??0)
 ->orderBy('departments.department_name','asc')
 ->get();
-
 return view('frontend.survey.choosedepartment',compact('departments','Questions'));
+}
 
 	}
 	catch (\Exception $exception){

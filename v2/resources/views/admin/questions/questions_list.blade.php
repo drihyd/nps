@@ -1,5 +1,5 @@
 @extends('admin.template_v1')
-@section('title', 'Questions')
+@section('title', Str::title(Config::get('constants.questionnaire_prefix')) ??'')
 @section('content')
 <div class="row">
     <!-- Start col -->

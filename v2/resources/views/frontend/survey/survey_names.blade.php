@@ -40,7 +40,7 @@
 <div class="row-fluid">
 <div class="col-xs-12 mt-5 text-center">
 
-<h5>Choose questionnaire</h5>
+<h5>Choose {{Str::title(Config::get('constants.questionnaire_prefix')) ??''}}</h5>
 
 	<div class="mt-5">
 		<div class="background-white">           

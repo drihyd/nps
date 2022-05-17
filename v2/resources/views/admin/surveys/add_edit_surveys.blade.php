@@ -1,8 +1,8 @@
 @extends('admin.template_v1')
 @if(isset($surveys_data->id))
-@section('title', 'Edit Questionnaire')
+@section('title', 'Edit '.Str::title(Config::get('constants.questionnaire_prefix')) ??'')
 @else
-@section('title', 'Add Questionnaire')
+@section('title', 'Add '.Str::title(Config::get('constants.questionnaire_prefix')) ??'')
 @endif
 @section('content')
   <div class="row">

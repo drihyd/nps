@@ -81,7 +81,7 @@
 <li class="{{ (request()->is(Config::get('constants.admin').'/activities')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/activities')}}">All Activities</a></li>
 
 
-<li class="{{ (request()->is(Config::get('constants.admin').'/questionnaire')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questionnaire')}}">Questionnaire</a></li>
+<li class="{{ (request()->is(Config::get('constants.admin').'/questionnaire')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/questionnaire')}}">{{Str::title(Config::get('constants.questionnaire_prefix')) ??''}}</a></li>
 
 
 <li class="{{ (request()->is(Config::get('constants.admin').'/process')) ? 'active' : '' }}"><a href="{{url(Config::get('constants.admin').'/process')}}">Process</a></li>
