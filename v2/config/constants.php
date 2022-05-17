@@ -24,6 +24,7 @@ return [
 	'Process'=>"Process Closure",
 	'Process-color'=>"#0594BE",
 	'Patient-color'=>"#119460",
+	'questionnaire_prefix'=>"Interview type",
 	
 	
 

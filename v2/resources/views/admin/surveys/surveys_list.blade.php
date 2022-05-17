@@ -3,7 +3,7 @@ use App\Models\Departments_Survey;
 @endphp
 
 @extends('admin.template_v1')
-@section('title', 'Questionnaire')
+@section('title', Str::title(Config::get('constants.questionnaire_prefix')) ??'')
 @section('content')
 <div class="row">
     <!-- Start col -->

@@ -7,7 +7,7 @@ $surveys_data=DB::table('surveys')->where('id',Session::get('selected_survey_id'
 
 <div class="formify_header">
 <h5 class="form_title" style="font-size:18px;">
-Questionnaire: {{$surveys_data->title??''}}
+{{ Str::title(Config::get('constants.questionnaire_prefix')) ??''}}: {{$surveys_data->title??''}}
 </h5>
 <div class="border ml-0"></div>
 </div>

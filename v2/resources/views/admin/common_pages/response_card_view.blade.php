@@ -105,7 +105,7 @@
 						</a>
 						
 						<br>
-						<span>Questionnaire: {{$response->survey_title??''}}</span><br>
+						<span>{{Str::title(Config::get('constants.questionnaire_prefix')) ??''}}: {{$response->survey_title??''}}</span><br>
 						<span>UHID No: {{Str::title($response->uhid??'')}}</span><br>
 						<span>Bed No: {{Str::title($response->bed_name??'')}}</span><br>
 						<span><a href="mailto:{{$response->email??''}}" title="{{$response->email??''}}"><i class="fa fa-envelope "></i></a></span>

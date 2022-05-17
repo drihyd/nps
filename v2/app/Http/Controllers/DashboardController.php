@@ -149,6 +149,8 @@ class DashboardController extends Controller
 		
 		try {
 		
+		
+		
 		$nps_score= new NetPromoterScore();
 		$npsscore=$nps_score->nps_score_factor_count($request);
 		$final_score = json_decode($npsscore);
@@ -187,6 +189,7 @@ class DashboardController extends Controller
 	}
 		
 		
+		
 		$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
 		
 		
@@ -204,6 +207,8 @@ class DashboardController extends Controller
 		else{
 		$survey_id='';              
 		}
+		
+		
 		
 		$Departments=Departments::select('departments.department_name','departments.id')
 		->leftjoin('survey_answered','department_name_id', '=', 'departments.id')
@@ -242,6 +247,8 @@ class DashboardController extends Controller
 		->groupby(['departments.department_name','departments.id'])
 		->Orderby('department_name','asc')
 		->get();	
+		
+		
 		
         return view('admin.dashboard.show',compact('pageTitle','all_organizations','all_group','all_single','all_admin_departments','all_admin_users','all_admin_surveys','final_score','organizations_data','Departments','user_mapped_departments','request'));
 		}
