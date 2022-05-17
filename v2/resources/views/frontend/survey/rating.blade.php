@@ -52,7 +52,8 @@
 
 
 <div class="box_info">
-<input type="range" list="tickmarks" min="0" max="10" name="first_questin_range">
+    <img src="{{env('APP_URL')}}/assets/icons/moderate.svg" alt="manage smile" class="slider_smile text-center pb-3">
+<input type="range" list="tickmarks" min="0" max="10" name="first_questin_range" value="" class="slider" id="myRange">
 <input type="hidden"  name="is_pick_slider" value="1">
 <datalist id="tickmarks">
 @foreach($Questions[0]->qoptions as $key=>$value)
@@ -61,14 +62,12 @@
 @endforeach
 </datalist>
  <div class="smiley-emojis">
-     <ul class="list-inline">
-         <!--<li>&#128528;</li>-->
-         <!--<li>&#128516;</li>-->
-         <!--<li>&#128512;</li>-->
+     <!-- <ul class="list-inline">
+         
          <li><img src="{{env('APP_URL')}}/assets/icons/sad.svg" class="img-fluid sad-img" style="width:45px"></li>
          <li><img src="{{env('APP_URL')}}/assets/icons/moderate.svg" class="img-fluid neutral-img" style="width:45px"></li>
          <li><img src="{{env('APP_URL')}}/assets/icons/happy.svg" class="img-fluid happy-img" style="width:45px"></li>
-     </ul>
+     </ul> -->
  </div>
 </div>
 
@@ -115,7 +114,39 @@
 
 @push('scripts')
 
-
+<script type="text/javascript">
+    var slider = document.getElementById("myRange");
+var output = $('.slider_smile');
+//range slider
+slider.oninput = function(){
+    if(this.value == 1){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg');
+    } else if(this.value == 2){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg'); 
+    } else if(this.value == 3){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg'); 
+    } else if(this.value == 4){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg'); 
+    } else if(this.value == 5){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg'); 
+    }
+    else if(this.value == 6){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg'); 
+    }
+    else if(this.value == 7){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/moderate.svg'); 
+    }
+    else if(this.value == 8){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/moderate.svg'); 
+    }
+    else if(this.value == 9){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/happy.svg'); 
+    }
+    else if(this.value == 10){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/happy.svg'); 
+    }
+}
+</script>
 
 
 
