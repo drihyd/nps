@@ -35325,7 +35325,7 @@ div.dataTables_wrapper {
 /*Datatable TH CSS ENDS*/
 
 .table-filter{
-    background: #F2F5FA;
+    background: #fff;
     padding: 20px;
     border-radius: 4px;
 }
@@ -35498,3 +35498,15 @@ table.dataTable tbody tr:hover td{
   background-color: #F3F9EC;
 }
 
+.border-1{
+  border: 1px solid #A9A9A9;
+  background-color: #eeeeee;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  border-radius: 3px;
+  margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+}

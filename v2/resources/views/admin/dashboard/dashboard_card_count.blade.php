@@ -4,7 +4,7 @@
 @if(auth()->user())
 	@if(auth()->user()->role==2 || auth()->user()->role==1)
 		<a href="{{url(Config::get('constants.admin').'/departments')}}">
-		<div class="card m-b-30">
+		<div class="card m-b-30 mb-sm-0">
 		<div class="card-body">
 		<div class="media">
 		<span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="feather icon-folder"></i></span>
@@ -18,7 +18,7 @@
 		</a>
 		@elseif(auth()->user()->role==3)		
 		<a href="#">
-		<div class="card m-b-30">
+		<div class="card m-b-30 mb-sm-0">
 		<div class="card-body">
 		<div class="media">
 		<span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="fa fa-bar-chart"></i></span>
@@ -32,7 +32,7 @@
 		</a>
 	@else		
 		<a href="#">
-		<div class="card m-b-30">
+		<div class="card m-b-30 mb-sm-0">
 		<div class="card-body">
 		<div class="media">
 		<span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="fa fa-bar-chart"></i></span>
@@ -67,7 +67,7 @@
 @endif
 
 
-<div class="card m-b-30">
+<div class="card m-b-30 mb-sm-0">
 <div class="card-body">
 <div class="media">
 <span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="fa fa-sticky-note-o"></i></span>
@@ -100,7 +100,7 @@
 			
 			
 		
-			<div class="card m-b-30">
+			<div class="card m-b-30 mb-sm-0">
 			<div class="card-body">
 			<div class="media">
 			<span class="align-self-center mr-3 action-icon badge badge-secondary-inverse"><i class="fa fa-sticky-note-o"></i></span>

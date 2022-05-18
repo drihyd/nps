@@ -1,5 +1,5 @@
 <!-- Start row -->
-<div class="row">
+<div class="rows">
 @include('admin.dashboard.dashboard_card_count')
 </div>
 <div class="row"> 

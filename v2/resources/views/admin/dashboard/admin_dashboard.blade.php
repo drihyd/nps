@@ -1,15 +1,15 @@
 <!-- Start row -->
-<div class="row">
+<div class="row border-1">
 @include('admin.dashboard.dashboard_card_count')
-<div class="clearfix"></div>
+</div>
 
-
+<div class="row border-1">
 
 @if(isset(auth()->user()->role) && auth()->user()->role==2)
 <!-- Start col -->
 <div class="col-lg-12">
-<div class="card m-b-30">
-<div class="card-body">
+<!-- <div class="card m-b-30"> -->
+<!-- <div class="card-body"> -->
 <form class="table-filter mb-4 form-inline" action="{{route('filter.dashboard')}}" method="get">
 @csrf
 
@@ -58,8 +58,8 @@ Period to
 &nbsp;
 @include('admin.common_pages.action_button')
 </form>
-</div>
-</div>
+<!-- </div> -->
+<!-- </div> -->
 </div>
 
 

@@ -52,7 +52,7 @@
 
 
 <div class="box_info">
-    <img src="{{env('APP_URL')}}/assets/icons/moderate.svg" alt="manage smile" class="slider_smile text-center pb-3">
+    <img src="{{env('APP_URL')}}/assets/icons/sad.svg" alt="manage smile" class="slider_smile text-center pb-3">
 <input type="range" list="tickmarks" min="0" max="10" name="first_questin_range" value="" class="slider" id="myRange">
 <input type="hidden"  name="is_pick_slider" value="1">
 <datalist id="tickmarks">
