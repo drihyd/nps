@@ -56,7 +56,6 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 			'Comments',
 			'Reasons for NPS',
 			'Known about OMNI Hospitals',
-			'Suggestions',
 			'Feedback was given by',
 			'Completed Date',
 			'Filled By',
@@ -69,6 +68,8 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 	
 	public function collection()
     {
+
+$addition_params=$this->data; 
 
 
 
@@ -98,7 +99,9 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		$category_id=$addition_params['category_id']??'';
 		$from_date=$addition_params['fd']??'';
 		$to_date=$addition_params['td']??'';
-		$status=$addition_params['ticket_status']??'';		
+		$status=$addition_params['ticket_status']??'';	
+
+		
 		$Detractors = SurveyAnswered::select('wards.name as w_name','doctors.doctor_name as doctor_name','users.firstname as assigned_user','users.firstname as feedbackby','survey_persons.*','survey_answered.rating as rating','survey_answered.ticket_status as ticket_status','survey_answered.updated_at as last_action_date','surveys.title as survey_title','survey_answered.ticket_remarks as s_ticket_remarks')
 		->leftJoin('survey_persons','survey_persons.id', '=', 'survey_answered.person_id')
 		->leftJoin('surveys','surveys.id', '=', 'survey_answered.survey_id')
@@ -216,7 +219,6 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 		Str::title($feedback_data->s_ticket_remarks),
 		"",
 		Str::title($this->howtoknowhospital($feedback_data->know_about_hospital)),
-		"",		
 		Str::title($feedback_data->feedback_was_givenby),
 	
 		"",

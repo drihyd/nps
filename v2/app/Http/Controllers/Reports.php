@@ -39,21 +39,50 @@ class Reports extends Controller
     public function reports_response_list(Request $request)
     {   
 	
+	
 
 
 		$role=auth()->user()->role??0;
 		$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
     	$responses_data="";
+
+
+
+
+
+			$select_period=$request->select_period??'thismonth';
+	
+	
+	if($select_period=="thismonth"){
+		$from_date = date('Y-m-01');
+		$to_date = date('Y-m-t');		
+	}	
+	else if($select_period=="lastthreemonth")
+	{
+		
+				
+		$dateS = Carbon::now()->startOfMonth()->subMonth(3);		
+		$lastthmonthsdate=date('Y-m-d', strtotime($dateS));
+		$from_date = $lastthmonthsdate;
+		$to_date = date('Y-m-t');
+		
+	}
+	
+	else{
+		
 		if($request->from_date &&  $request->to_date) {
-			$from_date = $request->from_date;
-			$to_date = $request->to_date;			
+		$from_date = $request->from_date;
+		$to_date = $request->to_date;			
 		}		
 		else{
-			
-			$from_date = date('Y-m-01');
-			$to_date = date('Y-m-t');
-			
+
+		$from_date = date('Y-m-01');
+		$to_date = date('Y-m-t');
+
 		}
+	
+	}
+
 		
 		
 		
@@ -394,7 +423,7 @@ $Detractors=$merged_array_three->all();
 
 
 		
-        return view('admin.reports.responses_reports_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam','quetion','status','ticketing_status'))
+        return view('admin.reports.responses_reports_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam','quetion','status','ticketing_status','request'))
         ->withInput('i', (request()->input('page', 1) - 1) * 5);  
     }
 

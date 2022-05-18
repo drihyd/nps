@@ -17,7 +17,7 @@
 <select class="form-control form-control-sm" name="select_period" id="select_period" onchange = "select_period_dates(this.value)">
 <option value="thismonth" {{ $request->select_period == "thismonth" ? 'selected':''}}>This Month</option>
 <option value="lastthreemonth" {{ $request->select_period == "lastthreemonth" ? 'selected':''}}>Latest three Months</option>
-<option value="selectaperiod" {{ $request->select_period == "selectaperiod" ? 'selected':''}}>Select a period</option>
+<option value="selectaperiod" {{ $request->select_period== "selectaperiod" ? 'selected':''}}>Select a period</option>
 </select>
 </div>
 
@@ -32,11 +32,8 @@ Period from
 @else 
 <input type="date" class="form-control form-control-sm" id="from_date"  name="from_date" value="">	
 @endif
-
 </div>
 </div>
-
-
 <div class="col-lg-6">
 <div class="form-group mb-2">
 Period to
@@ -47,7 +44,6 @@ Period to
 @endif
 </div>
 </div>
-
 </div>
 
 
