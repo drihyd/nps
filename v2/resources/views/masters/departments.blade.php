@@ -24,7 +24,7 @@ else{
 <label><b>Team/Department</b><span style="color: red;">(Optional)</span></label>
 @else
 @endif
-<select class="form-control"  id="department" {{$is_required??''}} @if($multiple=="yes") multiple="multiple" name="department[]" @else  name="department" @endif>
+<select class="form-control form-control-sm"  id="department" {{$is_required??''}} @if($multiple=="yes") multiple="multiple" name="department[]" @else  name="department" @endif>
 <option value="">-- Departments --</option>
 
 

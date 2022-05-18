@@ -14,6 +14,7 @@ use App\Scopes\ActiveOrgaization;
 use DB;
 use Session;
 use App\Models\Departments_Users;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -149,8 +150,6 @@ class DashboardController extends Controller
 		
 		try {
 		
-		
-		
 		$nps_score= new NetPromoterScore();
 		$npsscore=$nps_score->nps_score_factor_count($request);
 		$final_score = json_decode($npsscore);
@@ -175,25 +174,40 @@ class DashboardController extends Controller
 		
 		$role=auth()->user()->role??0;
 		
+	$select_period=$request->select_period??'thismonth';
+	
+	
+	if($select_period=="thismonth"){
+		$from_date = date('Y-m-01');
+		$to_date = date('Y-m-t');		
+	}	
+	else if($select_period=="lastthreemonth")
+	{
 		
+				
+		$dateS = Carbon::now()->startOfMonth()->subMonth(3);		
+		$lastthmonthsdate=date('Y-m-d', strtotime($dateS));
+		$from_date = $lastthmonthsdate;
+		$to_date = date('Y-m-t');
 		
-	if($request->from_date &&  $request->to_date) {
-	$from_date = $request->from_date;
-	$to_date = $request->to_date;			
-	}		
-	else{
-
-	$from_date = date('Y-m-01');
-	$to_date = date('Y-m-t');
-
 	}
+	
+	else{
 		
-		
-		
+		if($request->from_date &&  $request->to_date) {
+		$from_date = $request->from_date;
+		$to_date = $request->to_date;			
+		}		
+		else{
+
+		$from_date = date('Y-m-01');
+		$to_date = date('Y-m-t');
+
+		}
+	
+	}
 		$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
-		
-		
-		
+
 		if(isset($request->department)) {					
 		$selected_department=$request->department;			
 		}		

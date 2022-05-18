@@ -209,9 +209,13 @@ $('#rchars_option').text(textlen);
 });
 	
 </script>
-  
-  
-  
-  
-
-  
+<script type="text/javascript">
+    function select_period_dates(val) {
+		if (val == "selectaperiod") {			
+				$(".hide_selectaperiod").show();			  
+            }
+			else {				
+				$(".hide_selectaperiod").hide();
+            }		
+    }	
+</script>
