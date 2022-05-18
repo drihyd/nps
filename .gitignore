@@ -1,3 +1,4 @@
 
 v2/.env
 *.log
+v2/storage/logs/laravel.log
