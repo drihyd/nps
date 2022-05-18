@@ -69,28 +69,27 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
     {
 
 $addition_params=$this->data; 
-
+$department=$addition_params['department']??'';
+$interviewtype=$addition_params['interviewtype']??'';
 
 
 		$role=auth()->user()->role??0;
 		
 		
-				if(isset($request->team)) {					
-					$QuestionOptions=QuestionOptions::select()
-					->where('option_value',$request->team)
-					->pluck('id');				
-				}		
+				if(isset($department)) {					
+				$selected_department=$department;
+				}
 				else{
-					$QuestionOptions=QuestionOptions::pluck('id');				
+				$selected_department="";				
 				}
 				
 				
-				if(isset($request->question_id)) {                    
-				$Question=$request->question_id;
+				if(isset($interviewtype)) {                    
+				$interviewtype=$interviewtype;
 
 				}       
 				else{
-				$Question='';              
+				$interviewtype='';              
 				}
 		
 
@@ -134,18 +133,12 @@ $addition_params=$this->data;
 				
 			}	
 			
-			
-			
-			
-			
-			
-			
 			})
 		
 		
 		->where(function($Detractors) use ($status){
 			if($status=='all'){		
-				//$Detractors->whereIn('survey_answered.ticket_status',['opened','phone_ringing_no_response','connected_refused_to_talk','connected_asked_for_call_back','closed_satisfied','closed_unsatisfied']);
+				
 			}elseif($status=='new-cases'){		
 				$Detractors->where('survey_answered.ticket_status','opened');
 			}elseif($status == 'assigned-cases'){
@@ -167,23 +160,24 @@ $addition_params=$this->data;
 			})
 			
 			
-				->where(function($Detractors) use ($QuestionOptions){	
-			
-				$Detractors->whereIn('survey_answered.answerid',$QuestionOptions);				
-				$Detractors->where('survey_answered.answeredby_person','!=','');				
-		
-			
+				->where(function($Detractors) use ($selected_department){			
+			if($selected_department){
+				$Detractors->where('survey_answered.department_name_id', $selected_department);	
+			}			
 			})
 			
 			
-				->where(function($Detractors) use ($Question){   
-            if($Question){       
-                $Detractors->where('survey_answered.survey_id','=',$Question);                
+				->where(function($Detractors) use ($interviewtype){   
+            if($interviewtype){       
+                $Detractors->where('survey_answered.survey_id','=',$interviewtype);                
             }
             })
 			
 		->orderBy('survey_persons.created_at','DESC')
 		->get();
+		
+		
+		
 		
 			$myCollection = collect($Detractors);
 			$uniqueCollection = $myCollection->unique('id');
