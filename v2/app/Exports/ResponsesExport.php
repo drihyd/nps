@@ -45,9 +45,9 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 			'Name',
 			'Email',
 			'Phone',
-			'Process',	
+			'Interview type',	
 			'Doctor',
-			'Bed Name',
+			'Bed Number',
 			'Ward Name',
 			'UHID',
 			'IP#',
@@ -59,7 +59,6 @@ class ResponsesExport implements FromCollection,WithMapping, WithHeadings
 			'Feedback was given by',
 			'Completed Date',
 			'Filled By',
-			'History/log',
 			'Final Action',
 			'Assigned',
 		];
@@ -219,14 +218,11 @@ $addition_params=$this->data;
 		Str::title($feedback_data->s_ticket_remarks),
 		"",
 		Str::title($this->howtoknowhospital($feedback_data->know_about_hospital)),
-		Str::title($feedback_data->feedback_was_givenby),
-	
+		Str::title($feedback_data->feedback_was_givenby),	
 		"",
 		"",
 		"",
-		"",
-		Str::title($feedback_data->assigned_user),
-		
+		Str::title($feedback_data->assigned_user),		
 		];
 
 	
