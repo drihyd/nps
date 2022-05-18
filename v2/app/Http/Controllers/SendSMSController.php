@@ -27,19 +27,10 @@ $DReports="Y"; //Delivery Reports
 $apiURL="http://sms.adstogether.com/app/smsapipost/index.php";
 
 $client = new \GuzzleHttp\Client();
-$response = $client->request('POST', $apiURL, 
-[
+$response = $client->request(
+'POST', 
+"http://sms.adstogether.com/app/smsapi/index.php?key=61e6a3c7a3de0&type=text&contacts=9052691535&senderid=KPOMNI&peid=1201160613278000476&templateid=1207165025919707553&msg=Billing%20new%20ticket%20%2301%20has%20a%20negative%20feedback.%20Cust%3AVenkat%20%20Mob%3A%209052691535.%20OMNI%20CONNECT%27"
 
-'key' => '61e6a3c7a3de0',
-'type' => 'text',
-'contacts' => '9052691535',
-'senderid' => 'KPOMNI',
-'peid' => '1201160613278000476',
-'templateid' => '1207165025919707553',
-'msg' => 'Billing new ticket #01 has a negative feedback. Cust:Venkat  Mob: 9052691535. OMNI CONNECT',
-
-
-]
 );
 
 
@@ -47,7 +38,7 @@ $response = $client->request('POST', $apiURL,
 $statusCode = $response->getStatusCode();
 $responseBody = json_decode($response->getBody(), true);
 
- dd($statusCode);
+ dd($responseBody);
 
 		
     }
@@ -57,6 +48,10 @@ $responseBody = json_decode($response->getBody(), true);
 	
 public function Send_SMS_First_Interview($params=false)
 {	
+
+$msg=$params['which_department'].' new ticket '.$params['which_ticket'].' has a negative feedback. Cust:'.$params['patient_Name'].' Mob: '.$params['patient_Contact'].'. OMNI CONNECT';
+$msg=rawurlencode($msg);
+
 //Please Enter Your Details
 $user=env('SMS_CNTRY_UN'); //your username
 $password=env('SMS_CNTRY_PWD'); //your password
@@ -71,17 +66,8 @@ $DReports="Y"; //Delivery Reports
 $apiURL="http://sms.adstogether.com/app/smsapipost/index.php";
 
 $client = new \GuzzleHttp\Client();
-$response = $client->request('POST', $apiURL, 
-[
-
-'key' => '61e6a3c7a3de0',
-'type' => 'text',
-'contacts' =>$params['hod_Contact'],
-'senderid' => 'KPOMNI',
-'peid' => '1201160613278000476',
-'templateid' => '1207165025919707553',
-'msg' => $params['which_department'].' new ticket #'.$params['which_ticket'].' has a negative feedback. Cust:'.$params['patient_Name'].'  Mob: '.$params['patient_Contact'].'. OMNI CONNECT',
-]
+$response = $client->request('POST', 
+$apiURL."?key=61e6a3c7a3de0&type=text&contacts=".$params['hod_Contact']."&senderid=KPOMNI&peid=1201160613278000476&templateid=1207165025919707553&msg=".$msg
 );
 
 
@@ -89,7 +75,6 @@ $response = $client->request('POST', $apiURL,
 $statusCode = $response->getStatusCode();
 $responseBody = json_decode($response->getBody(), true);
 
- dd($statusCode);
 
 		
     }
