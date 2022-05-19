@@ -31,7 +31,11 @@
   	 <button id="stopButton" disabled class="btn btn-outline-danger  mt-3">Stop</button>
     </div>
 	
+
+
 <div id="formats"></div>
+
+
 <ol id="recordingsList" class="recordingsList"></ol>
 <div class="row">
 <div class="col-md-12">

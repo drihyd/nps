@@ -63,16 +63,38 @@ class ResponsesController extends Controller
 		
 		
 		
+	$select_period=$request->select_period??'thismonth';
+	
+	
+	if($select_period=="thismonth"){
+		$from_date = date('Y-m-01');
+		$to_date = date('Y-m-t');		
+	}	
+	else if($select_period=="lastthreemonth")
+	{
+		
+				
+		$dateS = Carbon::now()->startOfMonth()->subMonth(3);		
+		$lastthmonthsdate=date('Y-m-d', strtotime($dateS));
+		$from_date = $lastthmonthsdate;
+		$to_date = date('Y-m-t');
+		
+	}
+	
+	else{
+		
 		if($request->from_date &&  $request->to_date) {
-			$from_date = $request->from_date;
-			$to_date = $request->to_date;			
+		$from_date = $request->from_date;
+		$to_date = $request->to_date;			
 		}		
 		else{
-			
-			$from_date = date('Y-m-01');
-			$to_date = date('Y-m-t');
-			
+
+		$from_date = date('Y-m-01');
+		$to_date = date('Y-m-t');
+
 		}
+	
+	}
 		
 		
 		
@@ -320,7 +342,7 @@ class ResponsesController extends Controller
         $pageTitle="Responses";  
 		$pickteam=$request->team??'';	
 		$quetion=$request->question_id??'';	
-        return view('admin.responses.responses_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam','quetion'))
+        return view('admin.responses.responses_list', compact('pageTitle','responses_data','Detractors','Passives','Promoters','pickteam','quetion','request'))
         ->withInput('i', (request()->input('page', 1) - 1) * 5);  
     }
     public function response_view($per_id)

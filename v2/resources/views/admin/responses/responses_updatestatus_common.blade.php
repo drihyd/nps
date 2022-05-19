@@ -88,7 +88,7 @@ Remarks
 <option value="process_closure_req" >Process closure required</option>
 <option value="process_closure_notreq">Process closure not required</option>
 <option value="assigned">Assign Ticket</option>
-<option value="transferred">Transferred</option>
+<!--<option value="transferred">Transferred</option>-->
 
 
 

@@ -300,17 +300,38 @@ class DashboardController extends Controller
 		
 		
 		
-	if($request->from_date &&  $request->to_date) {
-	$from_date = $request->from_date;
-	$to_date = $request->to_date;			
-	}		
-	else{
-
-	$from_date = date('Y-m-01');
-	$to_date = date('Y-m-t');
-
-	}
+	$select_period=$request->select_period??'thismonth';
+	
+	
+	if($select_period=="thismonth"){
+		$from_date = date('Y-m-01');
+		$to_date = date('Y-m-t');		
+	}	
+	else if($select_period=="lastthreemonth")
+	{
 		
+				
+		$dateS = Carbon::now()->startOfMonth()->subMonth(3);		
+		$lastthmonthsdate=date('Y-m-d', strtotime($dateS));
+		$from_date = $lastthmonthsdate;
+		$to_date = date('Y-m-t');
+		
+	}
+	
+	else{
+		
+		if($request->from_date &&  $request->to_date) {
+		$from_date = $request->from_date;
+		$to_date = $request->to_date;			
+		}		
+		else{
+
+		$from_date = date('Y-m-01');
+		$to_date = date('Y-m-t');
+
+		}
+	
+	}
 		
 		$user_mapped_departments=Departments_Users::where('user_id',auth()->user()->id??0)->get()->pluck('department_id');
 		
@@ -351,7 +372,7 @@ class DashboardController extends Controller
 		->Orderby('department_name','asc')
 		->get();
 	
-	return view('admin.dashboard.show',compact('pageTitle','all_admin_surveys','final_score','Departments'));
+	return view('admin.dashboard.show',compact('pageTitle','all_admin_surveys','final_score','Departments','request'));
 	}
 	
 			catch (RequestException $exception) {		
