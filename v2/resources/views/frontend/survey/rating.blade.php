@@ -39,7 +39,7 @@
 <div class="box_info">
 <p class="page-header">{{str_replace("*companyname*",Session::get('comapny_name'),$Questions[0]->qlabel??'')}}</p>
 
-<div class="container pl-sm-0">
+<div class="container pl-sm-0 pt-sm-5">
 
 
 
@@ -119,31 +119,54 @@
 var output = $('.slider_smile');
 //range slider
 slider.oninput = function(){
-    if(this.value == 1){
+    if(this.value == 0){
         output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg');
+        output.css('left', '0%');
+    }
+    else if(this.value == 1){
+        output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg');
+        output.css('left', '7%');
     } else if(this.value == 2){
         output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg'); 
+        output.css('left', '17%');
+
     } else if(this.value == 3){
         output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg'); 
+        output.css('left', '27%');
+
     } else if(this.value == 4){
         output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg'); 
+        output.css('left', '37%');
+
     } else if(this.value == 5){
         output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg'); 
+        output.css('left', '47%');
+
     }
     else if(this.value == 6){
         output.attr('src','{{env("APP_URL")}}/assets/icons/sad.svg'); 
+        output.css('left', '57%');
+
     }
     else if(this.value == 7){
         output.attr('src','{{env("APP_URL")}}/assets/icons/moderate.svg'); 
+        output.css('left', '67%');
+
     }
     else if(this.value == 8){
         output.attr('src','{{env("APP_URL")}}/assets/icons/moderate.svg'); 
+        output.css('left', '77%');
+
     }
     else if(this.value == 9){
         output.attr('src','{{env("APP_URL")}}/assets/icons/happy.svg'); 
+        output.css('left', '87%');
+
     }
     else if(this.value == 10){
         output.attr('src','{{env("APP_URL")}}/assets/icons/happy.svg'); 
+        output.css('left', '97%');
+
     }
 }
 </script>

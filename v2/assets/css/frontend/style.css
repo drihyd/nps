@@ -1228,6 +1228,7 @@ button:focus {
 }
 
 .box_info {
+  position: relative;
   display: grid;
   grid-template-columns: auto auto;
   max-width: 5450px;
@@ -1602,7 +1603,7 @@ datalist {
   display: flex;
   justify-content: space-between;
   color: #000000;
-  width: 100%;
+  width: 102%;
   font-size: 25px!important;
 }
 
@@ -1943,6 +1944,14 @@ label {
 }
 
 .slider_smile {
+  position: absolute;
   width: 7% !important;
-    margin: auto;
+    /*margin: auto;*/
+    top: -55px;
+}
+
+@media(max-width: 480px){
+  .slider_smile {
+    top: -25px;
+  }
 }
