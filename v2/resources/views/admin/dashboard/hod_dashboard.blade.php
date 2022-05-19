@@ -1,15 +1,14 @@
 <!-- Start row -->
-<div class="row">
+<div class="row border-1">
 @include('admin.dashboard.dashboard_card_count')
 </div>
-<div class="row"> 
-<div class="clearfix"></div>
+<div class="row border-1"> 
 
 <!-- Start col -->
 <div class="col-lg-12">
 <div class="card m-b-30">
 <div class="card-body">
-<form class="table-filter mb-4 form-inline" action="{{route('filter.dashboard')}}" method="get">
+<form class="table-filter form-inline" action="{{route('filter.dashboard')}}" method="get">
 @csrf
 
 
