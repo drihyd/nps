@@ -9,14 +9,6 @@ $survey_slug=$Surveys[0]->slug??'';
 	
 
 <div class="formify_right_fullwidth align-items-center justify-content-center">
-
-<!-- <a href="{{route('session.logout')}}" class="pull-right" style="margin-left:20px;">
-<img src="{{URL::to('assets/images/svg-icon/logout.svg')}}" class="img-fluid" alt="apps"><span>Logout</span><i class="feather "></i>
-</a> -->
-
-
-
-
 @include('frontend.common_pages.nav')
 
 
@@ -66,15 +58,26 @@ $survey_slug=$Surveys[0]->slug??'';
                 <input type="number" name="phone" id="title" class="form-control" value="{{old('phone',$users_data->phone??'')}}" required="required" data-parsley-minlength="10" data-parsley-maxlength="10" required="required">
           </div>  
 		  
+		  
+		  @if($survey_slug=="opd")
+			  
+			 <input type="hidden" name="bed_name" id="bed_name" value=""> 
+			 <input type="hidden" name="ward" id="ward" value=""> 
+			 
+		  @else
+			  
 		  <div class="form-group">
                 <label><b>Bed Number</b></label>
                 <input type="text" name="bed_name" id="bed_name" class="form-control" value="{{old('bed_name',$users_data->bed_name??'')}}" >
-          </div>  
+          </div>  		  
+		   @include('masters.wards',['is_required'=>"is_required"])
+		   
+		  @endif
           
-           @include('masters.wards',['is_required'=>"is_required"])
+          
           
 		  <div class="form-group">
-                <label><b>UHID Number</b><span class="text text-danger">*</span></label>
+                <label><b>UHID/Reference Number</b><span class="text text-danger">*</span></label>
                 <input type="text" name="uhid" id="uhid" class="form-control" value="{{old('uhid',$users_data->uhid??'')}}" required>
           </div>		 
 
@@ -95,7 +98,7 @@ $survey_slug=$Surveys[0]->slug??'';
                 <label><b>
 @if($survey_slug=="opd")
 
-Consultant Date
+Consultation Date
 
 @else
 Discharge Date
@@ -134,6 +137,10 @@ Discharge Date
 		<td width="10"></td>
         <td><input @if(old($custom_field->input_name)=='female')  checked @else @endif type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="female" required></td>
         <td>Female</td>
+		
+		<td width="10"></td>
+        <td><input @if(old($custom_field->input_name)=='other')  checked @else @endif type="{{$custom_field->input_type??''}}" class="form-control" style="width: 11px;height: 11px;" name="{{$custom_field->input_name??''}}" id="{{$custom_field->input_name??''}}" value="other" required></td>
+        <td>Other</td>
 
       </tr>
     </tbody>

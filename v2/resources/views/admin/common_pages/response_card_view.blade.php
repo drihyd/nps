@@ -138,6 +138,12 @@
 	
 	@else
 		
+	<div class="card">
+		<div class="card-body p-0">
+	<p>No data found.</p>
+	</div>
+	</div>
+		
 	@endif
 
 </div>

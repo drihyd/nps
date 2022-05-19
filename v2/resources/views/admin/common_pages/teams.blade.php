@@ -6,12 +6,12 @@ $teams=Departments::orderBy('department_name','asc')->get();
 
 @if(isset(auth()->user()->role) && auth()->user()->role==3)
 <div class="form-group mb-2">
-<label for="Teams" class="sr-only">Teams</label>
+<label for="Teams" class="sr-only">Departments</label>
 <select  class="form-control form-control-sm" name="team" id="team">
-<option value="">--Teams--</option>
+<option value="">--Departments--</option>
 @foreach($teams as $department)
 @if(auth()->user()->department==$department->id)
-<option selected value="{{$department->department_name}}" {{ $pickteam == $department->department_name ? 'selected':''}}>{{$department->department_name??''}}</option>
+<option selected value="{{$department->id}}" {{ $pickteam == $department->id ? 'selected':''}}>{{$department->department_name??''}}</option>
 @endif
 
 @endforeach
@@ -22,11 +22,11 @@ $teams=Departments::orderBy('department_name','asc')->get();
 @else
 
 <div class="form-group mb-2">
-<label for="Teams" class="sr-only">Teams</label>
+<label for="Teams" class="sr-only">Departments</label>
 <select  class="form-control form-control-sm" name="team" id="team">
-<option value="">--Teams--</option>
+<option value="">--Departments--</option>
 @foreach($teams as $department)
-<option value="{{$department->department_name}}" {{ $pickteam == $department->department_name ? 'selected':''}}>{{$department->department_name??''}}</option>
+<option value="{{$department->id}}" {{ $pickteam == $department->id ? 'selected':''}}>{{$department->department_name??''}}</option>
 @endforeach
 </select>
 </div>

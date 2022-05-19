@@ -87,15 +87,18 @@ class Reports extends Controller
 		
 		
     
-    if($request->team) {					
-    $QuestionOptions=QuestionOptions::where('option_value',$request->team)
-    ->pluck('id');				
-    }		
-    else{
-     $QuestionOptions=QuestionOptions::pluck('id');				
+if(isset($request->team)) {					
+$selected_department=$request->team;
+}
+else{
+$selected_department="";				
+}
     
-    }
-    
+	
+	
+	
+	
+	
     if($request->question_id) {                    
       $Question=$request->question_id;
     
@@ -199,6 +202,13 @@ class Reports extends Controller
 			
             })	
 			
+			
+			->where(function($Detractors) use ($selected_department){			
+			if($selected_department){
+				$Detractors->where('survey_answered.department_name_id', $selected_department);	
+			}			
+			})
+			
 			->orderBy('survey_persons.created_at','DESC')			
 			->get();
 			
@@ -293,6 +303,12 @@ class Reports extends Controller
 			}			
 			
             })	
+			
+			->where(function($Passives) use ($selected_department){			
+			if($selected_department){
+				$Passives->where('survey_answered.department_name_id', $selected_department);	
+			}			
+			})
 
 			
 			->orderBy('survey_persons.created_at','DESC')			
@@ -382,6 +398,14 @@ class Reports extends Controller
 			
             })	
 			
+			
+			
+			->where(function($Promoters) use ($selected_department){			
+			if($selected_department){
+				$Promoters->where('survey_answered.department_name_id', $selected_department);	
+			}			
+			})
+			
 			->orderBy('survey_persons.created_at','DESC')
 			->get();
 			
@@ -430,7 +454,7 @@ $Detractors=$merged_array_three->all();
 
 public function export(Request $request) 
 { 
-	$data=['ticket_status'=>$request->ticket_status];		
+	$data=['ticket_status'=>$request->ticket_status,'department'=>$request->team,'interviewtype'=>$request->question_id];		
 	return Excel::download(new ResponsesExport($data), $request->ticket_status.'-tickets.xlsx');
 }
 	

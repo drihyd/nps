@@ -29,7 +29,7 @@ use App\Models\Departments_Users;
 use Log;
 use Illuminate\Support\Collection;
 use App\Models\Departments_Survey;
-
+use App\Http\Controllers\SendSMSController;
 
 class NetPromoterScore extends Controller
 {
@@ -1997,7 +1997,7 @@ $get_dep=Departments::select('id','department_name')->where("organization_id",$o
 
 if($get_dep){
 	
-	$reporting_hod_dep=User::select('users.email as email')                 
+	$reporting_hod_dep=User::select('users.email as email','users.phone as phone')                 
 	->where('users.department',$get_dep->id??0)       
 	->where('users.organization_id',$organization_id??0)					       
 	->where('users.role',3)					       
@@ -2030,6 +2030,23 @@ if($get_dep){
 				'ticket_number' =>$person_data->ticker_final_number??'',
 				];
 								
+
+
+						
+				$sms_params = [
+				'which_department' =>Str::title($Final_Feedback_Data[$key]['department_name']??''),
+				'which_ticket' =>$person_data->ticker_final_number??'',
+				'hod_Contact' =>$recipient->phone??'',
+				'patient_Contact' =>$person_data->mobile??'',
+				'patient_Name' =>Str::title($person_data->firstname??''),
+	
+				
+				];
+				$sms_controller = new SendSMSController;				
+				$sms_controller->Send_SMS_First_Interview($sms_params);
+				
+				
+				
 				Mail::to($recipient->email)->send(new HodMails($mail_params));
 				
 				}catch (\Exception $exception) {

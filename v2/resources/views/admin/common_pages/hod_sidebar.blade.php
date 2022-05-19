@@ -9,7 +9,7 @@
 <ul class="vertical-menu">
 <li class="{{ (request()->is(Config::get('constants.hod').'/dashboard')) ? 'active' : '' }}">
 <a href="{{url(Config::get('constants.hod').'/dashboard')}}">
-<img src="{{URL::to('assets/images/svg-icon/dashboard.svg')}}" class="img-fluid" alt="widgets"><span>HOD Dashboard</span><!--<span class="badge badge-success pull-right">New</span>-->
+<img src="{{URL::to('assets/images/svg-icon/dashboard.svg')}}" class="img-fluid" alt="widgets"><span>Dashboard</span><!--<span class="badge badge-success pull-right">New</span>-->
 </a>
 </li> 
 
