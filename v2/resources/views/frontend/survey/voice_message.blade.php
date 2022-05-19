@@ -27,7 +27,7 @@
   
     <div id="controls">
   	 <button id="recordButton" class="btn btn-outline-danger  mt-3">Start Record</button>
-  	 <button id="pauseButton" disabled class="btn btn-outline-danger  mt-3">Pause</button>
+  	 <!--<button id="pauseButton" disabled class="btn btn-outline-danger  mt-3">Pause</button>-->
   	 <button id="stopButton" disabled class="btn btn-outline-danger  mt-3">Stop</button>
     </div>
 	
